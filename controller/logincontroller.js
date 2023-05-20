@@ -5,36 +5,37 @@ const logincontroller = {
     // for redirecting login and signup
     getLogin: function(req, res) {
         //render login (it will check the routes for the login step)
-        res.render('login');
+        res.render('login', {loginPrompt: ""});
     },
 
     // for redirecting to home page
     checkLogin: function(req, res) {
-        User.findOne({ email: req.body.email }, function (err, docs) {
-            if (err){
-                console.log(err);
-            }
-            // if docs has no result = wrong login
-            else if (docs == null){ 
-                res.render('login', {loginPrompt: "Wrong email/password"})
-                console.log("No email found");
-            } 
-            else{
-                // use compareSync to compare plaintext to hashed text
-                if(bcrypt.compareSync( req.body.password, docs.password)){
-                    console.log("Logged in successfully.");
-                    req.session.isAuth = true;
-                    req.session.userName = docs.userName;
-                    req.session.id = docs.id;
-                    req.session.dp = docs.profileImg;
-                    res.redirect('/home');
-                    console.log(req.session.userName);
-                } else{ 
-                    res.render('login', {loginPrompt: "Wrong email/password"})
-                    console.log("Wrong password");
+        console.log(req.body.userName)
+        User.findOne({ userName: req.body.userName, password: req.body.password }).then( docs => {
+                if (docs == null){ 
+                    res.render('login', {loginPrompt: "Wrong username/password"})
+                    console.log("No user found");
                 } 
-            }
-        });
+                else{
+                    res.render('login', {loginPrompt: "Matching user found"})
+                    console.log(docs)
+                    // DISREGARD CODES THAT ARE COMMENTED OUT FOR NOW
+                    // bcrypt encryption will be implemented last
+                    // // use compareSync to compare plaintext to hashed text
+                    // if(bcrypt.compareSync( req.body.password, docs.password)){
+                    //     // console.log("Logged in successfully.");
+                    //     // req.session.isAuth = true;
+                    //     // req.session.userName = docs.userName;
+                    //     // req.session.id = docs.id;
+                    //     // res.redirect('/home');
+                    //     // console.log(req.session.userName);
+                    // } else{
+                    //     res.render('login', {loginPrompt: "Wrong username/password"})
+                    //     console.log("Wrong password");
+                    // } 
+                }
+            }       
+        )
     },
 
     // getRegister: function(req, res) {

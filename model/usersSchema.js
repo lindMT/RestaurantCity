@@ -23,8 +23,8 @@ const usersSchema = new Schema( {
         required: true
     },
 
-    positionId: {
-        type: Number,
+    position: {
+        type: String,
         required: true
     }
 });
