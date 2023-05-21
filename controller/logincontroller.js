@@ -17,6 +17,7 @@ const logincontroller = {
                     console.log("No user found");
                 } 
                 else{
+                    req.session.userName = req.body.userName
                     res.redirect('/home');
                     console.log(docs);
                 }
