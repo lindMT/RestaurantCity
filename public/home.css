@@ -27,6 +27,23 @@ body {
 
 }
 
+.card {
+  min-height: 25em;
+  margin: 10px;
+  padding: 20px;
+}
+
+.card-holder {
+  display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+h1{
+  padding-top: 30px;
+}
+
 /* The sidebar menu */
 .sidebar {
     height: 100%; /* 100% Full-height */
@@ -38,7 +55,7 @@ body {
     background-color: #111; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+    transition: 0.35s; /* 0.5 second transition effect to slide in the sidebar */
   }
   
   /* The sidebar links */
@@ -81,7 +98,8 @@ body {
   
   /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
   #main {
-    transition: margin-left .5s; /* If you want a transition effect */
+    transition: margin-left 0.35s; /* If you want a transition effect */
+    text-align: center;
   }
   
   /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

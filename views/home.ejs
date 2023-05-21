@@ -23,14 +23,15 @@
 
         <div id="mySidebar" class="sidebar">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="#">Add User</a>
             <a href="#">View Inventory</a>
             <a href="#">View Dishes</a>
             <a href="#">View Sales Report</a>
-            <a href="#">Order Form</a>
+            <a href="#">Order Terminal</a>
+            <a href="#">Add User</a>
         </div>
 
         <div id="main">
+
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <a class="navbar-brand" onclick="openNav()">
                     <i class="fa-solid fa-bars fa-2xl"></i>
@@ -42,7 +43,7 @@
             
                 <div class="current-user">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+                        <ul class="navbar-nav mr-auto">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Logged in as: <%- session.userName %>
@@ -56,18 +57,60 @@
                 </div>
             </nav>
 
-            Text
+            
+            <h1>Welcome!</h1>
+            
+            <div class="card-holder">
 
-            <i class="fa-solid fa-hotdog fa-spin fa-2xl"></i>
-            
-            
-        
-            
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="/images/czeska bicep.png" alt="Card image cap">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">View Inventory</h5>
+                        <p class="card-text">Manage stocks and track inventory levels.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Manage</a>
+                    </div>
+                </div>    
+                
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="/images/czeska bicep.png" alt="Card image cap">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">View Dishes</h5>
+                        <p class="card-text">Show current menu offerings.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Show</a>
+                    </div>
+                </div>    
+                
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="/images/czeska bicep.png" alt="Card image cap">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">View Sales Report</h5>
+                        <p class="card-text">Analyze and generate reports on sales and inventory data.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Analyze</a>
+                    </div>
+                </div>    
+                
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="/images/czeska bicep.png" alt="Card image cap">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Order Terminal</h5>
+                        <p class="card-text">Input new customer orders and generate receipts.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Input Order</a>
+                    </div>
+                </div>    
+                
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="/images/czeska bicep.png" alt="Card image cap">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Add User</h5>
+                        <p class="card-text">Create new user accounts.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Create</a>
+                    </div>
+                </div>
+                
 
+            </div>
+            
         </div>
-        
-                  
-
     </body>
 </html>
 
