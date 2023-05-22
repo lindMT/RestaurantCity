@@ -1,10 +1,9 @@
 const User = require('../model/usersSchema.js');
 const bcrypt = require("bcrypt");
 
-const logincontroller = {
+const loginController = {
     // for redirecting login and signup
     getLogin: function(req, res) {
-        //render login (it will check the routes for the login step)
         res.render('login', {loginStatus: ""});
     },
 
@@ -31,4 +30,4 @@ const logincontroller = {
     }
 }
 
-module.exports = logincontroller;
+module.exports = loginController;
