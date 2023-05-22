@@ -1,8 +1,4 @@
 /***************** LOGIN CSS *****************/
-body > h1 {
-    color: blue;
-}
-
 .login-bg {
     height: 100%;
     padding: 0%;
@@ -31,16 +27,10 @@ body > h1 {
     text-align: center;
 }
 
-/***************** HOME CSS *****************/
+/***************** TEMPLATE PAGE CSS *****************/
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-}
-  
-.navbar {
-    background-color: #333;
-    min-height: 70px;
-    font-size: larger;
 }
 
 .current-user {
@@ -48,7 +38,16 @@ body {
     margin-right: 0;
 }
 
+/* For Top NavBar */
+.navbar {
+    background-color: #333;
+    min-height: 70px;
+    font-size: larger;
+}
+
+
 .fa-bars {
+    margin: 1rem;
     color: #E7EEEC;
 }
 
@@ -57,87 +56,82 @@ body {
 }
 
 .nav-link {
-  color: #E7EEEC;
-
+    color: #E7EEEC;
 }
 
-.card {
-  min-height: 25em;
-  margin: 10px;
-  padding: 20px;
-}
-
-.card-holder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-}
-
-h1{
-  padding-top: 30px;
-}
-
-/* The sidebar menu */
+/* For Side NavBar */
 .sidebar {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
-  top: 0;
-  left: 0;
-  background-color: #111; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.35s; /* 0.5 second transition effect to slide in the sidebar */
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.35s; /* 0.5 second transition effect to slide in the sidebar */
 }
   
-  /* The sidebar links */
 .sidebar a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
 }
   
-/* When you mouse over the navigation links, change their color */
-.sidebar a:hover {
-  color: #f1f1f1;
+.sidebar a:hover { 
+    color: #f1f1f1;
 }
 
-/* Position and style the close button (top right corner) */
 .sidebar .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
 }
 
-/* The button used to open the sidebar */
 .openbtn {
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
 }
 
 .openbtn:hover {
-  background-color: #444;
+    background-color: #444;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+@media screen and (max-height: 450px) { 
+
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+}
+
+/* For Main Page Holder */
 #main {
-  transition: margin-left 0.35s; /* If you want a transition effect */
-  text-align: center;
+    transition: margin-left 0.35s;
+    text-align: center;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-  .sidebar {padding-top: 15px;}
-  .sidebar a {font-size: 18px;}
+/* FOR HOMEPAGE CSS */
+.card {
+    min-height: 25em;
+    margin: 10px;
+    padding: 20px;
+}
+
+.card-holder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1{
+    padding-top: 30px;
 }
