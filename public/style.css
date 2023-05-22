@@ -181,8 +181,10 @@ h1{
     background-color: #E7EEEC;
 }
 
-.card-holder-dish {
+.viewdish-header{
     display: flex;
-    align-items: center;
     justify-content: center;
+    font-size: x-large;
+    font-weight: bold;
+    margin-top: 0.5em;
 }
