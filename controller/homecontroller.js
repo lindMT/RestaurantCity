@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const logincontroller = {
     // for redirecting login and signup
     getHome: function(req, res) {
-        //render login (it will check the routes for the login step)
         res.render('home');
     },
 

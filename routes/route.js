@@ -1,17 +1,21 @@
 const express = require("express");
 const { model } = require("mongoose");
 
-const logincontroller = require('../controller/logincontroller.js');
-const homecontroller = require('../controller/homecontroller.js');
+const loginController = require('../controller/loginController.js');
+const homeController = require('../controller/homeController.js');
+const userController = require('../controller/userController.js');
 const app = express();
 
 // Login
-app.get("/", logincontroller.getLogin);
-app.post("/login", logincontroller.checkLogin);
-app.get("/logout", logincontroller.getLogout);
+app.get("/", loginController.getLogin);
+app.post("/login", loginController.checkLogin);
+app.get("/logout", loginController.getLogout);
 
 // Home
-app.get("/home", homecontroller.getHome)
+app.get("/home", homeController.getHome)
+
+// User
+app.get("/userLanding", userController.getUserLanding)
 
 
 module.exports = app;
