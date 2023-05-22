@@ -37,6 +37,7 @@
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: #E7EEEC;
 }
 
 .current-user {
@@ -150,3 +151,39 @@ body {
 h1{
     padding-top: 30px;
 }
+
+/***************** VIEW SALES PAGE CSS *****************/
+.sales-header{
+    display: flex;
+    justify-content: center;
+    font-size: x-large;
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+
+.sales-date{
+    display: inline-flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.table{
+    text-align: center;
+}
+
+.form-group{
+    display: inline-flex;
+}
+
+
+.datepicker .datepicker-days tr td.active ~ td,
+.datepicker .datepicker-days tr td.active{
+    color: #af1623 !important;
+    background: transparent !important;
+} 
+
+.datepicker .datepicker-days tr:hover td{
+    color: #000;
+    background: #e5e2e3;
+    border-radius: 0;
+} 
