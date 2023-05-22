@@ -8,7 +8,7 @@ const mongoDBSession = require('connect-mongodb-session')(session);
 // npm install ejs express express-session body-parser mongoose  
 // eto mga wala pa: connect-mongodb-session path fs
 
-mongoose.connect("mongodb://127.0.0.1:27017/restaurantCity", {
+mongoose.connect("mongodb://localhost:27017/restaurantCity", {
     useNewUrlParser: true
 })
 .then((res) => {
@@ -16,7 +16,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/restaurantCity", {
 });
 
 const store = new mongoDBSession({
-    uri: "mongodb://127.0.0.1:27017/restaurantCity",
+    uri: "mongodb://localhost:27017/restaurantCity",
     collection: "mySessions"
 })
 
