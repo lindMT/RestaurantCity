@@ -4,7 +4,7 @@ const { model } = require("mongoose");
 const loginController = require('../controller/loginController.js');
 const homeController = require('../controller/homeController.js');
 const userController = require('../controller/userController.js');
-const salescontroller = require("../controller/salescontroller.js");
+const salescontroller = require("../controller/salesController.js");
 const app = express();
 
 // Login
