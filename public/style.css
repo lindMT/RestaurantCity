@@ -26,6 +26,7 @@
     width: 50%;
 }
 
+.password-confirm,
 .login-box .btn.btn-primary {
     margin-top: 0.7rem;
     text-align: center;
@@ -103,10 +104,6 @@ body {
     color: #f1f1f1;
 }
 
-#homeButton {
-    margin-top: auto;
-}
-
 .sidebar .closebtn {
     position: absolute;
     top: 0;
@@ -142,7 +139,7 @@ body {
 
 /****************** FOR CARDLAYOUT CSS ******************/
 .card {
-    min-height: 20vw;
+    min-height: 18vw;
     margin: 10px;
     padding: 20px;
     transition: box-shadow .3s;
@@ -217,4 +214,10 @@ h1 {
 
 .order-card-options {
     min-width: 68vw;
+}
+
+/***************** CHANGE PASSWORD PAGE CSS *****************/
+
+.password-form-group {
+    text-align: left;
 }

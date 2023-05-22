@@ -10,14 +10,18 @@ const app = express();
 
 // Login
 app.get("/", loginController.getLogin);
+app.get("/login", loginController.getLogin);
 app.post("/login", loginController.checkLogin);
 app.get("/logout", loginController.getLogout);
 
 // Home
 app.get("/home", homeController.getHome)
 
-// User
+// User Account Management
 app.get("/userLanding", userController.getUserLanding)
+app.get("/changePassword", userController.getChangePassword)
+app.post("/changePassword", userController.confirmChangePassword)
+
 
 // View Sales Report
 app.get("/viewSales", salesController.getSales)
