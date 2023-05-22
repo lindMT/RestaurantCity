@@ -127,15 +127,24 @@ body {
 
 /* FOR HOMEPAGE CSS */
 .card {
-    min-height: 25em;
+    min-height: 20rem;
     margin: 10px;
     padding: 20px;
+    transition: box-shadow .3s;
+}
+
+.card:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2); 
 }
 
 .card-holder {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.card-holder a {
+    text-decoration: none;
 }
 
 h1{
