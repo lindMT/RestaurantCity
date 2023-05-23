@@ -20,7 +20,7 @@
                 <td>Shawarma Rice</td>
                 <td>Main Dish</td>
                 <td>₱ 250.00</td>
-                <td><button type="button" class="btn">...</button></td>
+                <td><button type="button" class="btn" data-toggle="modal" data-target="#ShawarmaModal">...</button></td>
                 <td><button type="button" class="btn">Delete</button></td>
             </tr>
             <tr>
@@ -55,3 +55,55 @@
         </table>
     </div>
 </div>
+
+  
+  <!-- SHAWARMA MODAL -->
+  <div class="modal fade" id="ShawarmaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="dishName"><p contenteditable="true">Shawarma Rice</p></h4>
+          
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h5 class="modal-body" id="dishCategory">Main Dish</h5>
+          <h6 class="modal-body" id="dishPrice">₱<input type="text" id="dishPrice" name="dishPrice" maxlength="6" size="5"></h6>
+           <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Ingredients</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit</th>
+            
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Beef</td>
+                <td>1</td>
+                <td>500g</td>
+            </tr>
+            <tr>
+                <td>Lettuce</td>
+                <td>1</td>
+                <td>350g</td>
+            </tr>
+            <tr>
+                <td>Garlic Sauce</td>
+                <td>1</td>
+                <td>200g</td>
+            </tr>
+            </tbody>
+           </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary">Add Ingredient</button>
+          <button type="button" class="btn btn-secondary">Remove Ingredient</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
