@@ -21,6 +21,8 @@ app.get("/home", homeController.getHome)
 app.get("/userLanding", userController.getUserLanding)
 app.get("/changePassword", userController.getChangePassword)
 app.post("/changePassword", userController.confirmChangePassword)
+app.get("/createUser", userController.getCreateUser)
+app.get("/manageUser", userController.getManageUser)
 
 
 // View Sales Report

@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const loginController = {
     // for redirecting login and signup
     getLogin: function(req, res) {
-        res.render('login', {loginStatus: ""});
+        res.render('login', {loginPrompt: ""});
     },
 
     // for redirecting to home page
@@ -12,7 +12,7 @@ const loginController = {
         console.log(req.body.userName)
         User.findOne({ userName: req.body.userName, password: req.body.password }).then( docs => {
                 if (docs == null){ 
-                    res.render('login', {loginStatus: "Wrong"});
+                    res.render('login', {loginPrompt: "Wrong Credentials. Please contact the owner if needed."});
                     console.log("No user found");
                 } 
                 else{
@@ -27,7 +27,7 @@ const loginController = {
 
     getLogout: function(req, res) {
         req.session.destroy();
-        res.render('login', {loginStatus: ""});
+        res.render('login', {loginPrompt: ""});
     }
 }
 

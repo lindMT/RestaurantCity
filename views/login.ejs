@@ -20,17 +20,13 @@
                     </div>
                                         
                     <button class="btn btn-primary" type="submit" data-toggle="modal" data-target="#exampleModal">Login</button>
+                    
+                    <div class="text-center" style="padding-top: 0.7rem;">
+                        <%=loginPrompt%>
+                    </div>
                 </form> 
             </div>
         </div>
     </body>   
 
 </html>
-
-<% if(loginStatus == "Wrong") { %>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            alert("Wrong Credentials");
-        });
-    </script>
-<% } %>
