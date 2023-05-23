@@ -26,6 +26,7 @@
             <a href="#">View Sales Report</a>
             <a href="#">Order Terminal</a>
             <a href="#">Manage Users</a>
+            <a class="mt-auto" href="/home">Back to Home</a>
         </div>
 
         <div id="main">
@@ -47,9 +48,7 @@
                                     Logged in as: <%- session.userName %>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Change Username</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Change Password</a>
+                                    <a class="dropdown-item" href="/changePassword">Change Password</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/logout">Logout</a>
                                 </div>
