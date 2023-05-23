@@ -207,7 +207,20 @@ h1 {
     font-size: x-large;
     font-weight: bold;
     margin-top: 0.5em;
+}
 
+  #dish-remove-btn{
+    transition: all 0.2s;
+    background-color: transparent;
+  }
+
+  #dish-remove-btn:hover{
+    color: rgb(235, 0, 0);
+  }
+
+  td {
+    vertical-align: middle;
+  }
 /***************** ORDER TERMINAL PAGE CSS *****************/
 
 .order-card {
@@ -222,6 +235,7 @@ h1 {
     min-width: 68vw;
 }
 
+  
 /***************** CHANGE PASSWORD PAGE CSS *****************/
 
 .password-form-group {
