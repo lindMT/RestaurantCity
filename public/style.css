@@ -25,7 +25,7 @@
     width: 50%;
 }
 
-.password-confirm,
+.user-confirm,
 .login-box .btn.btn-primary {
     margin-top: 0.7rem;
     text-align: center;
@@ -141,6 +141,10 @@ body {
     padding: 20px;
 }
 
+.card-body h5{
+    font-weight: bold;
+}
+
 .card-holder {
     display: flex;
     flex-wrap: wrap;
@@ -207,6 +211,7 @@ h1 {
     font-size: x-large;
     font-weight: bold;
     margin-top: 0.5em;
+}
 
 /***************** ORDER TERMINAL PAGE CSS *****************/
 
@@ -222,8 +227,26 @@ h1 {
     min-width: 68vw;
 }
 
-/***************** CHANGE PASSWORD PAGE CSS *****************/
+/***************** USER ACCOUNT MANAGEMENT CSS *****************/
 
-.password-form-group {
+#content-title {
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.form-align-left {
     text-align: left;
+}
+
+.form-align-left a {
+    text-decoration: none;
+    color: #818181;
+}
+
+th, td {
+    vertical-align: middle;
+}
+
+td i {
+    margin: 1rem;
 }

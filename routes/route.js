@@ -19,10 +19,13 @@ app.get("/logout", loginController.getLogout);
 app.get("/home", homeController.getHome)
 
 // User Account Management
+app.get("/adminConfirmation", userController.getAdminConfirmation)
+app.post("/adminConfirmation", userController.adminConfirmation)
 app.get("/userLanding", userController.getUserLanding)
 app.get("/changePassword", userController.getChangePassword)
-app.post("/changePassword", userController.confirmChangePassword)
+app.post("/changePassword", userController.changePassword)
 app.get("/createUser", userController.getCreateUser)
+app.post("/createUser", userController.createUser)
 app.get("/manageUser", userController.getManageUser)
 
 // View Dishes

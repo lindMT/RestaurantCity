@@ -1,0 +1,33 @@
+<%- include("partials/header") -%>
+    <div class="card-holder">
+        <div class="card d-flex flex-column text-left" style="min-width: 25vw; min-height: 10vw;">
+                
+            <form class="user-form" action="/adminConfirmation" method="POST" >
+                <div class="form-align-left"  style="color: #818181;">
+                    <a href="/home">
+                        <i class="fa-solid fa-arrow-left fa-lg" style="color: #818181;"></i>
+                        Back
+                    </a>
+                </div>
+
+                <h1 id="content-title">Confirm Identity</h1>
+                <hr>
+
+                <div class="form-group form-align-left">
+                    Password
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+
+                <hr>
+
+                <div class="user-confirm">
+                    <button class="btn btn-primary w-100" type="submit" data-toggle="modal" data-target="#exampleModal">Confirm</button>
+                </div>           
+            </form>
+
+            <%=adminConfirmationPrompt%>
+
+        </div>    
+    </div>
+
+<%- include("partials/footer") -%>

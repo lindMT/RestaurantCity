@@ -1,20 +1,57 @@
 <%- include("partials/header") -%>
     <div class="card-holder">
-        <div class="card d-flex flex-column text-left" style="width: 25vw; min-height: 10vw;">
+        <div class="card d-flex flex-column text-left" style="min-width: 25vw; min-height: 10vw;">
                 
-            <form action="/createUser" method="POST" >
-                <h1>User Creation Form</h1>
-                <div class="form-group password-form-group">
+            <form class="user-form" action="/createUser" method="POST" >
+                <div class="form-align-left"  style="color: #818181;">
+                    <a href="/userLanding">
+                        <i class="fa-solid fa-arrow-left fa-lg" style="color: #818181;"></i>
+                        Back
+                    </a>
+                </div>
+
+                <h1 id="content-title">User Creation Form</h1>
+                <hr>
+
+                <div class="form-group form-align-left">
                     First Name
-                    <input type="text" class="form-control" name="firstName" >
+                    <input type="text" class="form-control" name="firstName" required>
                 </div>
 
-                <div class="form-group password-form-group">
+                <div class="form-group form-align-left">
                     Last Name
-                    <input type="text" class="form-control" name="lastName" >
+                    <input type="text" class="form-control" name="lastName" required>
                 </div>
 
-                <div class="password-confirm">
+                <div class="form-group form-align-left">
+                    Position
+                    <select class="form-control" name="position" required>
+                        <option hidden disabled selected value></option>
+                        <option value="owner">Owner</option>
+                        <option value="stockController">Stock Controller</option>
+                        <option value="chef">Chef</option>
+                        <option value="cashier">Cashier</option>
+                    </select>
+                </div>       
+
+                <div class="form-group form-align-left">
+                    User Name
+                    <input type="text" class="form-control" name="userName" required>
+                </div>
+                
+                <div class="form-group form-align-left">
+                    Password
+                    <input type="password" class="form-control" name="password1" required>
+                </div>
+
+                <div class="form-group form-align-left">
+                    Confirm Password
+                    <input type="password" class="form-control" name="password2" required>
+                </div>
+
+                <hr>
+
+                <div class="user-confirm">
                     <button class="btn btn-primary w-100" type="submit" data-toggle="modal" data-target="#exampleModal">Create User</button>
                 </div>           
             </form>
