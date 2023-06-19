@@ -80,6 +80,13 @@ body {
 .sidenav a:hover {
     color: #f1f1f1;
 }
+
+
+.sidenav .logout-button{
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+}
   
 
 .main {
