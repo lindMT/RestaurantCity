@@ -36,7 +36,8 @@ const loginController = {
     getLogout: function(req, res) {
         req.session.destroy();
         res.render('login', {loginPrompt: ""});
-    }
+    },
+    
 }
 
 module.exports = loginController;

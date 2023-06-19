@@ -36,6 +36,6 @@ app.get("/viewDishes", viewDishesController.getViewDishes)
 app.get("/viewSales", salesController.getSales)
 
 // Order Terminal
-app.get("/orderTerminal", orderController.getOrders)
+app.get("/viewOrderTerminal", orderController.getOrders)
 
 module.exports = app;

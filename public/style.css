@@ -44,94 +44,46 @@ body {
     margin-right: 0;
 }
 
-/* For Top NavBar */
-.navbar {
-    background-color: #333;
-    min-height: 70px;
-    font-size: larger;
-}
-
-.fa-bars {
-    margin: 1rem;
-    color: #E7EEEC;
-}
-
-.fa-bars:hover {
-    color: #818181;
-}
-
-.nav-link {
-    color: #E7EEEC;
-}
-
-.nav-link.dropdown-toggle {
-    margin-right: 1rem;
-}
-
-.dropdown-item {
-    text-align: center;
-}
-
-/* For Side NavBar */
-.sidebar {
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0;
+/* For SideBar */
+.sidenav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 15vw; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 999; /* Stay on top */
+    top: 0; /* Stay at the top */
     left: 0;
-    background-color: #111; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.35s; /* 0.5 second transition effect to slide in the sidebar */
-    display: flex;
-    flex-direction: column;
+    background-color: #292F36;
+    overflow-x: hidden;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
 }
   
-.sidebar a {
-    padding: 8px 8px 8px 32px;
+.sidenav a {
+    padding: 6px 8px 6px 16px;
     text-decoration: none;
     font-size: 25px;
     color: #818181;
     display: block;
-    transition: 0.3s;
 }
-  
-.sidebar a:hover { 
+
+.sidenav img {
+    margin: auto;
+    display: block;
+}
+
+.sidenav h1 {
+    padding: 6px 8px 6px 16px;
+    color: #f1f1f1;
+    display: block;
+}
+
+.sidenav a:hover {
     color: #f1f1f1;
 }
+  
 
-.sidebar .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-.openbtn {
-    font-size: 20px;
-    cursor: pointer;
-    background-color: #111;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-}
-
-.openbtn:hover {
-    background-color: #444;
-}
-
-@media screen and (max-height: 450px) { 
-
-    .sidebar {padding-top: 15px;}
-    .sidebar a {font-size: 18px;}
-}
-
-/* For Main Page Holder */
-#main {
-    transition: margin-left 0.35s;
-    text-align: center;
+.main {
+    margin-left: 15vw;
 }
 
 /****************** FOR CARDLAYOUT CSS ******************/
@@ -231,6 +183,7 @@ h1 {
 
 #content-title {
     font-weight: bold;
+    text-align: center;
     margin-top: 1rem;
 }
 
@@ -249,4 +202,8 @@ th, td {
 
 td i {
     margin: 1rem;
+}
+
+.btn.btn-secondary{
+    color: wheat;
 }

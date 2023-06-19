@@ -14,7 +14,7 @@ const userController = {
         User.findOne({ userName: req.session.userName }).then( docs => {
                 if (docs != null) { 
                     if (bcrypt.compareSync( password, docs.password)) {
-                        res.redirect('/userLanding');
+                        res.redirect('/manageUser');
                     } else {
                         res.render('adminConfirmation', {adminConfirmationPrompt: "Wrong Credentials."});
                     }
