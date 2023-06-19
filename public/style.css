@@ -47,7 +47,7 @@ body {
 /* For SideBar */
 .sidenav {
     height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 15vw; /* Set the width of the sidebar */
+    width: 16vw; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 999; /* Stay on top */
     top: 0; /* Stay at the top */
@@ -65,7 +65,7 @@ body {
 .sidenav a {
     padding-left: 0.9vw;
     padding-right: 0.25vw;
-    padding-top: 0.25vw;
+    padding-top: 0.9vw;
     padding-bottom: 0.25vw;
 
     text-decoration: none;
@@ -74,7 +74,8 @@ body {
 }
 
 .sidenav img {
-    padding: 6px 8px 6px 16px;
+    padding-left: 0.9vw;
+    padding-right: 0.9vw;
 }
 
 .sidenav h1 {
@@ -107,7 +108,7 @@ body {
 }
 
 .main {
-    margin-left: 15vw;
+    margin-left: 16vw;
     padding: 2vw;
 }
 
