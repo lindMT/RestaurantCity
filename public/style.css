@@ -56,25 +56,34 @@ body {
     overflow-x: hidden;
     padding-top: 1vw;
     padding-bottom: 1vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
   
 .sidenav a {
-    padding: 6px 8px 6px 16px;
+    padding-left: 0.9vw;
+    padding-right: 0.25vw;
+    padding-top: 0.25vw;
+    padding-bottom: 0.25vw;
+
     text-decoration: none;
-    font-size: 25px;
+    font-size: 1.5em;
     color: #818181;
-    display: block;
 }
 
 .sidenav img {
-    margin: auto;
-    display: block;
+    padding: 6px 8px 6px 16px;
 }
 
 .sidenav h1 {
-    padding: 6px 8px 6px 16px;
+    padding-left: 0.9vw;
+    padding-right: 0.25vw;
+    padding-top: 0.9vw;
+    padding-bottom: 0.25vw;
+
     color: #f1f1f1;
-    display: block;
 }
 
 .sidenav a:hover {
@@ -83,14 +92,29 @@ body {
 
 
 .sidenav .logout-button{
-    position: absolute;
-    bottom: 0; 
-    left: 0;
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    margin-top: auto; /* Added */
 }
-  
+
+.sidenav hr{
+    color: #FFFFFF; 
+    margin-left: 0.9vw;
+    margin-right: 0.9vw;
+}
 
 .main {
     margin-left: 15vw;
+    padding: 2vw;
+}
+
+h1 {
+    padding-top: 10vm;
+    font-size: 2em;
+    font-weight: bold;
 }
 
 /****************** FOR CARDLAYOUT CSS ******************/
@@ -98,10 +122,6 @@ body {
     min-height: 18vw;
     margin: 10px;
     padding: 20px;
-}
-
-.card-body h5{
-    font-weight: bold;
 }
 
 .card-holder {
@@ -114,10 +134,6 @@ body {
   
 .card-holder a {
     text-decoration: none;
-}
-
-h1 {
-    padding-top: 10vm;
 }
 
 /***************** VIEW SALES PAGE CSS *****************/
