@@ -34,7 +34,8 @@
 /***************** TEMPLATE PAGE CSS *****************/
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Poppins", sans-serif;
+    /* font-family: 'Barlow Semi Condensed', sans-serif; */
     background-color: #E7EEEC;
     display: inline;
 }
@@ -300,4 +301,76 @@ td i {
 
 .order-category:hover {
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+/***************** VIEW STOCK CSS *****************/
+.stock-header {
+    display: flex;
+    justify-content:space-between;
+}
+
+.stock-header div {
+    margin-left:57rem;
+}
+
+.stock-header i {
+    margin-top:0.5rem;
+}
+
+.stock-analytics-holder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;  
+    overflow:auto;
+    justify-content: space-evenly;
+    margin: 2rem;
+}
+
+.stock-analytics {
+    text-align: center;
+    width: max-content;
+    flex-basis: 20%;
+    flex-grow: 0;
+    height: 30%;
+
+    /* to align items to center */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    align-items: center;
+
+    box-shadow: 8px 5px 10px rgb(0 0 0 / 0.2);
+}
+
+.instock {
+    background-color: rgb(186, 226, 195);
+    color: rgb(4, 73, 27);
+}
+
+.lowstock {
+    background-color: rgb(255, 228, 170);
+    color: rgb(205, 146, 17);
+}
+
+.outofstock {
+    background-color: rgb(193, 137, 146);
+    color: rgb(130, 7, 7);
+}
+
+.missingstock {
+    background-color: rgb(255, 171, 108);
+    color: rgb(141, 67, 35);
+}
+
+.table-success, .table-warning, .table-danger{
+    font-weight: bold;
+}
+
+.btn-filterstock {
+    border-color: #000;
+    margin-right: 0.3rem;
+}
+
+.btn-filterstock:hover {
+    border-color: #000;
 }
