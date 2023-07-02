@@ -1,5 +1,5 @@
 <%- include("partials/header") -%>
-
+<script src="js/orderTerminal.js"></script>
 <!-- <div class="card-holder ">
     <div class="card d-flex flex-column text-left" style="min-width: 80vw; min-height: 40vw;">
         <div class="card-body d-flex flex-column">
@@ -19,48 +19,11 @@
         <!-- INPUT CARD -->
         <div class="order-item-holder">
 
-            <div class="card order-item">
-                <h5>Pita Shawarma</h5>
-                <h6>Php 50.00</h6>
+            <div class="card order-item" id="dish-item">
+                <h5 name="dish-name">Pita Shawarma</h5>
+                <h6 name="dish-price">Php 50.00</h6>
+                <input type="hidden" name="dish-id" value="wawawa">
             </div>
-
-            <div class="card order-item">
-                <h5>Shawarma Rice</h5>
-                <h6>Php 60.00</h6>
-            </div>
-
-            <div class="card order-item">
-                <h5>Shawarma Rice All Meat</h5>
-                <h6>Php 70.00</h6>
-            </div>
-
-            <div class="card order-item">
-                <h5>Extra Meat</h5>
-                <h6>Php 15.00</h6>
-            </div>
-
-            <div class="card order-item">
-                <h5>Extra Rice</h5>
-                <h6>Php 15.00</h6>
-            </div>
-
-            <div class="card order-item">
-                <h5>Scramble (S)</h5>
-                <h6>Php 25.00</h6>
-            </div>
-
-            <div class="card order-item">
-                <h5>Scramble (M)</h5>
-                <h6>Php 35.00</h6>
-            </div>
-
-            <div class="card order-item">
-                <h5>Scramble (L)</h5>
-                <h6>Php 45.00</h6>
-            </div>
-
-
-            <div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div>
 
         </div>
 
@@ -81,52 +44,42 @@
         <h1 id="content-title">Current Order</h1>
         <hr>
         
-        <table class="table table-striped">
+        <table id="order-terminal-table" class="table table-striped order-terminal-table">
             <thead>
                 <tr>
-                    <th>Dish</th>
+                    <th style="text-align: left;">Dish</th>
                     <th>Quantity</th>
                     <th>Price</th>
                 </tr>
             </thead>
 
             <tbody>
+
                 <tr>
                     <td style="text-align: left;">Shawarma Rice</td>
-                    <td style="text-align: center;">3</td>
+                    <td style="text-align: center;"><input type="number" style="
+                        width: 4em;
+                        text-align:center;
+                        padding-left:10px;"></td>
                     <td style="text-align: right;">₱ 180.00</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: left;">Pita Shawarma</td>
-                    <td style="text-align: center;">3</td>
-                    <td style="text-align: right;">₱ 150.00</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: left;">Extra Rice</td>
-                    <td style="text-align: center;">9</td>
-                    <td style="text-align: right;">₱ 135.00</td>
                 </tr>
 
             </tbody>
         </table>
 
-        <div style="
-        position: absolute; 
-        bottom: 20px; 
-        width: 80%;
-        align-self: center;
-        text-align: center;
-        ">
+        <div class="order-terminal-bottom">
             
             <h1>TOTAL: Php 465.00</h1>
             <hr>
 
-            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #63A375;">Confirm</button>
-            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #B56576;">Cancel</button>
-            
+            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #63A375;">
+                Confirm
+            </button>
 
+            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #B56576;">
+                Cancel
+            </button>
+            
         </div>
 
     </div>

@@ -320,6 +320,23 @@ td i {
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
+.order-terminal-bottom {
+    position: absolute; 
+    bottom: 20px; 
+    width: 80%;
+    align-self: center;
+    text-align: center;
+}
+
+.order-terminal-table {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;  
+    overflow: auto;
+    max-height: 60%;
+    justify-content: space-evenly;
+}
+
 /***************** VIEW STOCK CSS *****************/
 .stock-header {
     display: flex;
@@ -473,3 +490,4 @@ input[type='number']{
     margin-top: 1rem;
     font-weight: bold;
 }
+
