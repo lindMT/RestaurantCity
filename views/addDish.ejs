@@ -1,0 +1,75 @@
+<%- include("partials/header") -%>
+<div class="addDish-card-holder">
+    <div class="card shadow" style="width: 90rem;">
+        <div class="addDish-header">
+            Dishes - Add Dish
+
+            <button id="saveDish" type="button" class="btn btn-success" style="margin-left: 7in; margin-right: 1px;">
+                Save Changes</button>
+            <button id="discardDish" type="button" class="btn btn-secondary" style="margin-left: 10px;">
+                Discard</button>
+        </div>
+        <hr>
+        <p>Fill out input fields for the details of the dish.</p>
+            <br>
+        <form>
+            <!-- Dish Name Input -->
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="inputdishName">Dish Name</label>
+                <input type="text" class="form-control" id="inputdishName" placeholder="e.g. Shawarma Rice">
+              </div>
+              <!-- Ingredient Input -->
+              <div class="form-ingredients" style="margin-left: 15%; width: 20%;">
+                <label for="ingredients">Ingredients</label>
+                <select class="form-select" id="ingredients" aria-label="Default select example">
+                <option selected>Choose One</option>
+                <option value="1">Milk</option>
+                <option value="2">Kangkong</option>
+                <option value="3">Chicken</option>
+              </select>
+              </div>
+              <!-- Amount Input -->
+              <div class="form-group col-md-3" style="margin-left: 1%; width: 10%;">
+                <label for="inputdishName">Amount</label>
+                <input type="number" class="form-control" id="inputdishName" placeholder="1" min="1">
+              </div>
+              <!-- Unit Imput -->
+              <div class="form-unit" style="margin-left: 1%; width: 10%;">
+                <label for="ingredients">Unit</label>
+                <select class="form-select" id="ingredients" aria-label="Default select example">
+                <option selected>Unit</option>
+                <option value="1">g</option>
+                <option value="2">Kg</option>
+                <option value="3">mL</option>
+                <option value="3">Chicken</option>
+              </select>
+              </div>
+              <!-- Add Button -->
+              <button class="btn btn-light w-20 h-20" id="addIngredientBtn"  style="margin: 5px;"> + </button>
+            </div>
+     
+            <br>
+            <!-- Category Input -->
+            <div class="form-category" style="width: 25%">
+                <label for="addDishCategory">Category</label>
+                <select class="form-select" id="addDishCategory">
+                <option selected>Choose One</option>
+                <option value="categoryMainDish">Main Dish</option>
+                <option value="categoryAppetizers">Appetizers</option>
+                <option value="categorySideDish">Side Dish</option>
+                <option value="categoryDrinks">Drinks</option>
+                <option value="categoryDesserts">Desserts</option>
+              </select>
+            </div>
+            <!-- Price Input -->
+            <div class="form-group col-md-3">
+                <label for="inputPrice">Price</label>
+                <div class="input-group">
+                    <span class="input-group-text">Php</span>
+                    <input type="text" class="form-control" id="inputPrice" placeholder="e.g. 150.00">
+                </div>
+            </div>
+        </form>
+  
+        

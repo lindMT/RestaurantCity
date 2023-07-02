@@ -5,7 +5,12 @@ const loginController = require('../controller/loginController.js');
 const homeController = require('../controller/homeController.js');
 const userController = require('../controller/userController.js');
 const viewDishesController = require('../controller/viewDishesController.js');
+<<<<<<< Updated upstream
 const viewStockController = require('../controller/viewStockController.js');
+=======
+const addDishController = require('../controller/addDishController.js');
+const salesController = require("../controller/salesController.js");
+>>>>>>> Stashed changes
 const orderController = require("../controller/orderController.js");
 const app = express();
 
@@ -31,6 +36,8 @@ app.get("/manageUser", userController.getManageUser)
 // View Dishes
 app.get("/viewDishes", viewDishesController.getViewDishes)
 
+// Add Dish
+app.get("/addDish", addDishController.getaddDish)
 
 // View Stock Report
 app.get("/viewStockReport", viewStockController.getStock)

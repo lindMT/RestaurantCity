@@ -194,7 +194,24 @@ h1 {
     margin-top: 0.5em;
 }
 
-
+/***************** ADD DISH PAGE CSS *****************/
+.addDish-card-holder {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+.addDish-header{
+    display:inline;
+    justify-content: left;
+    font-size: x-large;
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+.form-row {
+    display: flex;
+  }
 /***************** ORDER TERMINAL PAGE CSS *****************/
 
 .order-card {
