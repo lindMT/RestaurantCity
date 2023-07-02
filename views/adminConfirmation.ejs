@@ -1,6 +1,6 @@
 <%- include("partials/header") -%>
     <div class="card-holder">
-        <div class="card d-flex flex-column text-left" style="min-width: 25vw; min-height: 10vw;">
+        <div class="card shadow d-flex flex-column text-left" style="min-width: 25vw; min-height: 10vw;">
                 
             <form class="user-form" action="/adminConfirmation" method="POST" >
                 <div class="form-align-left"  style="color: #818181;">
@@ -22,7 +22,7 @@
 
                 <div class="user-confirm">
                     <button class="btn btn-primary w-100" type="submit" data-toggle="modal" data-target="#exampleModal">Confirm</button>
-                </div>           
+                </div>
             </form>
 
             <%=adminConfirmationPrompt%>

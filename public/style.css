@@ -120,7 +120,6 @@ h1 {
 
 /****************** FOR CARDLAYOUT CSS ******************/
 .card {
-    min-height: 18vw;
     margin: 10px;
     padding: 20px;
 }
@@ -135,6 +134,10 @@ h1 {
   
 .card-holder a {
     text-decoration: none;
+}
+
+.shadow {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
 /***************** VIEW SALES PAGE CSS *****************/
@@ -230,4 +233,69 @@ td i {
 
 .btn.btn-secondary{
     color: wheat;
+}
+
+/***************** ORDER TERMINAL CSS *****************/
+
+.terminal-card-holder{
+    display: flex;
+    flex-direction: row;
+    width: 80vw; 
+    height: 40vw;
+}
+
+ .terminal-input-card{
+    width: 70%;
+    max-height: max-content;
+    overflow:auto;
+}
+
+.terminal-output-card{
+    width: 30%;
+}
+
+.order-item-holder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;  
+    overflow:auto;
+    height: 90%;
+    justify-content: space-evenly;
+}
+
+.order-item {
+    text-align: center;
+    width: max-content;
+    flex-basis: 20%;
+    flex-grow: 0;
+    height: 25%;
+
+    /* to align items to center */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-item:hover {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.order-category-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.order-category {
+    text-align: center;
+    border-color: #d2d2d2;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+    border-style: solid;
+    flex-basis: 20%;
+}
+
+.order-category:hover {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }

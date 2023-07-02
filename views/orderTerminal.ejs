@@ -1,12 +1,136 @@
 <%- include("partials/header") -%>
-<div class="card-holder">
-    <div class="order-card order-card-transaction card">
-        Logged in as: <%- session.userName %>
+
+<!-- <div class="card-holder ">
+    <div class="card d-flex flex-column text-left" style="min-width: 80vw; min-height: 40vw;">
+        <div class="card-body d-flex flex-column">
+            
+            <h1>DASHBOARD</h1> 
+            
+        </div>        
+    </div>        
+</div> -->
+
+<div class="terminal-card-holder">
+    <div class="card terminal-input-card">
+        
+        <h1 id="content-title">Order Terminal</h1>
+        <hr>
+
+        <!-- INPUT CARD -->
+        <div class="order-item-holder">
+
+            <div class="card order-item">
+                <h5>Pita Shawarma</h5>
+                <h6>Php 50.00</h6>
+            </div>
+
+            <div class="card order-item">
+                <h5>Shawarma Rice</h5>
+                <h6>Php 60.00</h6>
+            </div>
+
+            <div class="card order-item">
+                <h5>Shawarma Rice All Meat</h5>
+                <h6>Php 70.00</h6>
+            </div>
+
+            <div class="card order-item">
+                <h5>Extra Meat</h5>
+                <h6>Php 15.00</h6>
+            </div>
+
+            <div class="card order-item">
+                <h5>Extra Rice</h5>
+                <h6>Php 15.00</h6>
+            </div>
+
+            <div class="card order-item">
+                <h5>Scramble (S)</h5>
+                <h6>Php 25.00</h6>
+            </div>
+
+            <div class="card order-item">
+                <h5>Scramble (M)</h5>
+                <h6>Php 35.00</h6>
+            </div>
+
+            <div class="card order-item">
+                <h5>Scramble (L)</h5>
+                <h6>Php 45.00</h6>
+            </div>
+
+
+            <div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div><div class="card order-item"><h5>Scramble (L)</h5><h6>Php 45.00</h6></div>
+
+        </div>
+
+        <div class="order-category-holder">
+            
+            <div class="order-category">Main Dishes</div>
+            <div class="order-category">Side Dishes</div>
+            <div class="order-category">Drinks</div>
+            <div class="order-category">Dessert</div>
+            
+        </div>
+        
     </div>
-    <div class="order-card order-card-options card">
-        Logged in as: <%- session.userName %>
+
+    <!-- OUTPUT CARD -->
+    <div class="card terminal-output-card" >
+
+        <h1 id="content-title">Current Order</h1>
+        <hr>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Dish</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td style="text-align: left;">Shawarma Rice</td>
+                    <td style="text-align: center;">3</td>
+                    <td style="text-align: right;">₱ 180.00</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: left;">Pita Shawarma</td>
+                    <td style="text-align: center;">3</td>
+                    <td style="text-align: right;">₱ 150.00</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: left;">Extra Rice</td>
+                    <td style="text-align: center;">9</td>
+                    <td style="text-align: right;">₱ 135.00</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div style="
+        position: absolute; 
+        bottom: 20px; 
+        width: 80%;
+        align-self: center;
+        text-align: center;
+        ">
+            
+            <h1>TOTAL: Php 465.00</h1>
+            <hr>
+
+            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #63A375;">Confirm</button>
+            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #B56576;">Cancel</button>
+            
+
+        </div>
+
     </div>
-</div>
-    
+            
+</div> 
 
 <%- include("partials/footer") -%>
