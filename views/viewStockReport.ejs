@@ -3,11 +3,10 @@
     <div class="stock-header">
         <h1>Analytics Overview</h1>
         <div id="current_date"></div>
-            <script>
-                date = new Date().toDateString();;
-                document.write(date);
-            </script>
-        <i class="fa-solid fa-bell fa-xl"></i>
+        <script>
+            date = new Date().toDateString();;
+            document.write(date);
+        </script>
     </div>
 
     <div class="stock-analytics-holder">
@@ -32,24 +31,21 @@
 <div class="card shadow">
     <div class="stock-header">
         <h1> Products Stock List</h1>
-        
-        <div class="dropdown">
-           
-            <button class="btn dropdown-toggle btn-filterstock" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Filter by...
-            </button>
-            <i class="fa-solid fa-filter fa-xl"></i>
-            <div class="dropdown-menu dropdown-menu-right">
-            <button class="dropdown-item" type="button">In stock</button>
-            <button class="dropdown-item" type="button">Low stock</button>
-            <button class="dropdown-item" type="button">Out of stock</button>
+        <div class="form-group">
+            <div class="col-15">
+            <select id="filterTypeId" class="form-select form-select-sm" aria-label="Filter selection" name="filterType">
+                    <option selected>All</option>
+                    <option value="1">In stock</option>
+                    <option value="2">Low stock</option>
+                    <option value="3">Out of stock</option>
+            </select>                    
             </div>
         </div>
+        <i class="fa-solid fa-filter fa-xl"></i> 
     </div>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">Ingredient ID</th>
             <th scope="col">Name</th>
             <th scope="col">Stock Status</th>
             <th scope="col">Amount</th>
@@ -60,7 +56,6 @@
         </thead>
         <tbody>
         <tr> 
-            <td>100000</td>
             <td>Oil</td>
             <td class="table-success">In stock</td>
             <td>10</td>
@@ -69,7 +64,6 @@
             <td>0</td>
         </tr>
         <tr> 
-            <td>100001</td>
             <td>Milk</td>
             <td class="table-warning">Low stock</td>
             <td>2</td>
@@ -78,7 +72,6 @@
             <td>0</td>
         </tr>
         <tr> 
-            <td>100002</td>
             <td>Butter</td>
             <td class="table-danger">Out of stock</td>
             <td>0</td>

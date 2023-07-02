@@ -347,7 +347,7 @@ td i {
 }
 
 .stock-header i {
-    margin-top:0.5rem;
+    margin-top:1rem;
     margin-left: 0.5rem;
 }
 
@@ -398,15 +398,6 @@ td i {
 
 .table-success, .table-warning, .table-danger{
     font-weight: bold;
-}
-
-.btn-filterstock {
-    border-color: #000;
-    margin-right: 0.3rem;
-}
-
-.btn-filterstock:hover {
-    border-color: #000;
 }
 
 /***************** INPUT PHYSICAL COUNT CSS *****************/
