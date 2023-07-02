@@ -10,6 +10,7 @@ const viewStockController = require('../controller/viewStockController.js');
 
 const addDishController = require('../controller/addDishController.js');
 
+const inputPhysicalController = require('../controller/inputPhysicalController.js');
 const orderController = require("../controller/orderController.js");
 const app = express();
 
@@ -40,6 +41,9 @@ app.get("/addDish", addDishController.getaddDish)
 
 // View Stock Report
 app.get("/viewStockReport", viewStockController.getStock)
+
+// Input Physical Count
+app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
 
 // Order Terminal
 app.get("/viewOrderTerminal", orderController.getOrders)
