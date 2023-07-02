@@ -31,19 +31,17 @@
 <div class="card shadow">
     <div class="stock-header">
         <h1> Products Stock List</h1>
-        
-        <div class="dropdown">
-           
-            <button class="btn dropdown-toggle btn-filterstock" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Filter by...
-            </button>
-            <i class="fa-solid fa-filter fa-xl"></i>
-            <div class="dropdown-menu dropdown-menu-right">
-            <button class="dropdown-item" type="button">In stock</button>
-            <button class="dropdown-item" type="button">Low stock</button>
-            <button class="dropdown-item" type="button">Out of stock</button>
+        <div class="form-group">
+            <div class="col-15">
+            <select id="filterTypeId" class="form-select form-select-sm" aria-label="Filter selection" name="filterType">
+                    <option selected>All</option>
+                    <option value="1">In stock</option>
+                    <option value="2">Low stock</option>
+                    <option value="3">Out of stock</option>
+            </select>                    
             </div>
         </div>
+        <i class="fa-solid fa-filter fa-xl"></i> 
     </div>
     <table class="table table-striped">
         <thead>
