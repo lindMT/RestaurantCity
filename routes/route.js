@@ -6,6 +6,7 @@ const homeController = require('../controller/homeController.js');
 const userController = require('../controller/userController.js');
 const viewDishesController = require('../controller/viewDishesController.js');
 const viewStockController = require('../controller/viewStockController.js');
+const inputPhysicalController = require('../controller/inputPhysicalController.js');
 const orderController = require("../controller/orderController.js");
 const app = express();
 
@@ -34,6 +35,9 @@ app.get("/viewDishes", viewDishesController.getViewDishes)
 
 // View Stock Report
 app.get("/viewStockReport", viewStockController.getStock)
+
+// Input Physical Count
+app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
 
 // Order Terminal
 app.get("/viewOrderTerminal", orderController.getOrders)
