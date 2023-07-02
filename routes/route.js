@@ -5,7 +5,7 @@ const loginController = require('../controller/loginController.js');
 const homeController = require('../controller/homeController.js');
 const userController = require('../controller/userController.js');
 const viewDishesController = require('../controller/viewDishesController.js');
-const salesController = require("../controller/salesController.js");
+const viewStockController = require('../controller/viewStockController.js');
 const orderController = require("../controller/orderController.js");
 const app = express();
 
@@ -32,8 +32,8 @@ app.get("/manageUser", userController.getManageUser)
 app.get("/viewDishes", viewDishesController.getViewDishes)
 
 
-// View Sales Report
-app.get("/viewSales", salesController.getSales)
+// View Stock Report
+app.get("/viewStockReport", viewStockController.getStock)
 
 // Order Terminal
 app.get("/viewOrderTerminal", orderController.getOrders)

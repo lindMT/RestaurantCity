@@ -1,0 +1,92 @@
+<%- include("partials/header") -%>
+<div class="card shadow">
+    <div class="stock-header">
+        <h1>Analytics Overview</h1>
+        <div id="current_date"></div>
+            <script>
+                date = new Date().toDateString();;
+                document.write(date);
+            </script>
+        <i class="fa-solid fa-bell fa-xl"></i>
+    </div>
+
+    <div class="stock-analytics-holder">
+        <div class="card stock-analytics instock">
+            <h3>In Stock</h3>
+            <h1>3</h1>
+        </div>
+        <div class="card stock-analytics lowstock">
+            <h3>Low Stock</h3>
+            <h1>2</h1>
+        </div>
+        <div class="card stock-analytics outofstock">
+            <h3>Out of Stock</h3>
+            <h1>3</h1>
+        </div>
+        <div class="card stock-analytics missingstock">
+            <h3>Missing</h3>
+            <h1>6</h1>
+        </div>
+    </div>
+</div>
+<div class="card shadow">
+    <div class="stock-header">
+        <h1> Products Stock List</h1>
+        
+        <div class="dropdown">
+           
+            <button class="btn dropdown-toggle btn-filterstock" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter by...
+            </button>
+            <i class="fa-solid fa-filter fa-xl"></i>
+            <div class="dropdown-menu dropdown-menu-right">
+            <button class="dropdown-item" type="button">In stock</button>
+            <button class="dropdown-item" type="button">Low stock</button>
+            <button class="dropdown-item" type="button">Out of stock</button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Ingredient ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Stock Status</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Unit</th>
+            <th scope="col">Reorder Point</th>
+            <th scope="col">Missing</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr> 
+            <td>100000</td>
+            <td>Oil</td>
+            <td class="table-success">In stock</td>
+            <td>10</td>
+            <td>L</td>
+            <td>10</td>
+            <td>0</td>
+        </tr>
+        <tr> 
+            <td>100001</td>
+            <td>Milk</td>
+            <td class="table-warning">Low stock</td>
+            <td>2</td>
+            <td>L</td>
+            <td>2</td>
+            <td>0</td>
+        </tr>
+        <tr> 
+            <td>100002</td>
+            <td>Butter</td>
+            <td class="table-danger">Out of stock</td>
+            <td>0</td>
+            <td>g</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<%- include("partials/footer") -%>
