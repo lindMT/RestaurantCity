@@ -36,11 +36,13 @@ function addDishItem(clickedDish){
         //cell 4 
 
         cell1.innerHTML = dishName;
-        cell2.innerHTML = "<input type='number' value='1' min='1'>";
+        cell2.innerHTML = "<input type='number' value='1' min='1' onchange='calculateTotalPrice()'>";
         cell3.innerHTML = dishPrice;
         cell4.innerHTML = "<i onclick='removeDishItem(\"" + newDishId + "\")' class='fa-solid fa-x fa-xs' style='color: #000000;'></i>";
         cell5.innerHTML = "<input type='hidden' value='" + newDishId + "'>";
-    }     
+    } 
+
+    calculateTotalPrice()
 }
 
 
@@ -55,6 +57,47 @@ function removeDishItem(removeDishId){
         if (rowDishId == removeDishId){ // dish found
             table.deleteRow(r);
             break;
+        }
+    }
+
+    calculateTotalPrice()
+}
+
+function calculateTotalPrice(){
+    var table = document.getElementById("order-terminal-table");
+    var n = table.rows.length;
+    var totalPrice = 0.00;
+
+    // no dishes
+    if(n<=1){
+        document.getElementById("totalPrice").innerHTML = "Php 0.00"
+    }
+    
+    // get running total
+    for (var r = 1; r < n; r++) {
+        var rawQty = table.rows[r].cells[1].querySelector("input[type='number']");
+        var parsedQty = rawQty.value;
+
+        var rawDishPrice = table.rows[r].cells[2].innerHTML;
+        var parsedDishPrice = parseFloat(rawDishPrice.split(" ")[1]).toFixed(2);
+        totalPrice += (parsedQty * parsedDishPrice);
+    }
+
+    document.getElementById("totalPrice").innerHTML = "Php " + totalPrice.toFixed(2);
+}
+
+
+function filterDishes(clickedCategory) {
+    var category = clickedCategory.innerHTML.trim();
+    var dishList = document.getElementById("order-item-holder");
+
+    var orderItems = dishList.getElementsByClassName("order-item");
+    for (var i = 0; i < orderItems.length; i++) {
+        var dishCategory = orderItems[i].querySelector("[name='dish-category']").value;
+        if (dishCategory == category ||  category == "All") {
+            orderItems[i].style.display = "block";
+        } else {
+            orderItems[i].style.display = "none";
         }
     }
 }

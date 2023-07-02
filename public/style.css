@@ -303,17 +303,25 @@ td i {
 .order-category-holder {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 .order-category {
+    align-items: center;
     text-align: center;
     border-color: #d2d2d2;
     border-radius: 10px;
     padding: 15px;
     margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
     border-style: solid;
     flex-basis: 20%;
+
+    /* to align items to center */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .order-category:hover {
