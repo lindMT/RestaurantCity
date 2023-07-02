@@ -328,13 +328,12 @@ td i {
     text-align: center;
 }
 
-.order-terminal-table {
+.order-terminal-table-holder {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;  
+    flex-wrap: wrap;
     overflow: auto;
     max-height: 60%;
-    justify-content: space-evenly;
 }
 
 /***************** VIEW STOCK CSS *****************/
@@ -344,11 +343,12 @@ td i {
 }
 
 .stock-header div {
-    margin-left:57rem;
+    margin-left:auto;
 }
 
 .stock-header i {
     margin-top:0.5rem;
+    margin-left: 0.5rem;
 }
 
 .stock-analytics-holder {
@@ -489,4 +489,3 @@ input[type='number']{
     margin-top: 1rem;
     font-weight: bold;
 }
-
