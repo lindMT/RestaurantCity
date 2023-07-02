@@ -5,11 +5,9 @@ const loginController = require('../controller/loginController.js');
 const homeController = require('../controller/homeController.js');
 const userController = require('../controller/userController.js');
 const viewDishesController = require('../controller/viewDishesController.js');
-
 const viewStockController = require('../controller/viewStockController.js');
-
 const addDishController = require('../controller/addDishController.js');
-
+const addCategoryController = require('../controller/addCategoryController.js');
 const inputPhysicalController = require('../controller/inputPhysicalController.js');
 const orderController = require("../controller/orderController.js");
 const app = express();
@@ -38,6 +36,9 @@ app.get("/viewDishes", viewDishesController.getViewDishes)
 
 // Add Dish
 app.get("/addDish", addDishController.getaddDish)
+
+// Add Category
+app.get("/addCategory", addCategoryController.getAddCategory)
 
 // View Stock Report
 app.get("/viewStockReport", viewStockController.getStock)
