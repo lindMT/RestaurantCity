@@ -1,55 +1,130 @@
 <%- include("partials/header") -%>
-<div class="card-holder">
+<div class="viewdish-card-holder">
     <div class="card shadow" style="width: 90rem;">
         <div class="viewdish-header">
-            View Dishes
+            Dishes
+                <button id="addDish" type="button" class="btn btn-success" style="margin-left: 8in; margin-right: 1px;">
+                    Add Dish</button>
+                <button id="removeDish" type="button" class="btn btn-secondary" style="margin-left: 10px;">
+                    Remove Dish</button>
         </div>
-        </br>
+        <hr>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">Dish</th>
+                <th scope="col">Dish Name</th>
                 <th scope="col">Category</th>
                 <th scope="col">Price</th>
-                <th scope="col">More</th>
-                <th scope="col">Remove Dish</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Shawarma Rice</td>
-                <td>Main Dish</td>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName1">
+                    <label class="form-check-label" for="foodName1">
+                      Shawarma Rice
+                    </label></td>
+                <td>Main</td>
                 <td>₱ 250.00</td>
-                <td><button type="button" class="btn" data-toggle="modal" data-target="#ShawarmaModal">...</button></td>
-                <td><button type="button" class="btn">Delete</button></td>
             </tr>
             <tr>
-                <td>Honey Garlic Salmon</td>
-                <td>Main Dish</td>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName2">
+                    <label class="form-check-label" for="foodName2">
+                      Honey Garlic Salmon
+                    </label></td>
+                <td>Main</td>
                 <td>₱ 450.00</td>
-                <td><button type="button" class="btn">...</button></td>
-                <td><button type="button" class="btn">Delete</button></td>
             </tr>
             <tr>
-                <td>Margherita Pizza</td>
-                <td>Side Dish</td>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName3">
+                    <label class="form-check-label" for="foodName3">
+                      Mozzarella Sticks
+                    </label></td>
+                <td>Appetizers</td>
                 <td>₱ 120.00</td>
-                <td><button type="button" class="btn">...</button></td>
-                <td><button type="button" class="btn">Delete</button></td>
             </tr>
             <tr>
-                <td>Mango Shake</td>
-                <td>Drinks</td>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName4">
+                    <label class="form-check-label" for="foodName4">
+                      Grilled Steak
+                    </label></td>
+                <td>Main</td>
                 <td>₱ 75.00</td>
-                <td><button type="button" class="btn">...</button></td>
-                <td><button type="button" class="btn">Delete</button></td>
             </tr>
             <tr>
-                <td>Blueberry Cheesecake</td>
-                <td>Dessert</td>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName5">
+                    <label class="form-check-label" for="foodName5">
+                      Shrimp Cocktail
+                    </label></td>
+                <td>Appetizers</td>
                 <td>₱ 130.00</td>
-                <td><button type="button" class="btn">...</button></td>
-                <td><button type="button" class="btn">Delete</button></td>
+            </tr>
+            <tr>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName6">
+                    <label class="form-check-label" for="foodName6">
+                      BBQ Ribs
+                    </label></td>
+                <td>Appetizers</td>
+                <td>₱ 120.00</td>
+            </tr>
+            <tr>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName7">
+                    <label class="form-check-label" for="foodName7">
+                      Butter Chicken
+                    </label></td>
+                <td>Main</td>
+                <td>₱ 450.00</td>
+            </tr>
+            <tr>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName8">
+                    <label class="form-check-label" for="foodName8">
+                      Suhsi Rolls
+                    </label></td>
+                <td>Appetizers</td>
+                <td>₱ 50.00</td>
+            </tr>
+            <tr>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName9">
+                    <label class="form-check-label" for="foodName9">
+                      Shrimp Scampi
+                    </label></td>
+                <td>Main</td>
+                <td>₱ 60.00</td>
+            </tr>
+            <tr>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName10">
+                    <label class="form-check-label" for="foodName10">
+                      Chicken Wings
+                    </label></td>
+                <td>Appetizers</td>
+                <td>₱ 130.00</td>
+            </tr>
+            <tr>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName11">
+                    <label class="form-check-label" for="foodName11">
+                      Spicy Shrimp Tacos
+                    </label></td>
+                <td>Main</td>
+                <td>₱ 500.00</td>
+            </tr>
+            <tr>
+                <td><div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="foodName12">
+                    <label class="form-check-label" for="foodName12">
+                      Caprese Skewers
+                    </label></td>
+                <td>Appetizers</td>
+                <td>₱ 140.00</td>
             </tr>
             </tbody>
         </table>
@@ -57,8 +132,8 @@
 </div>
 
   
-  <!-- SHAWARMA MODAL -->
-  <div class="modal fade" id="ShawarmaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <!--MODAL MAKER -->
+  <!-- <div class="modal fade" id="ShawarmaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -107,4 +182,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->

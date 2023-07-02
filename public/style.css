@@ -177,20 +177,22 @@ h1 {
 } 
 
 /***************** VIEW DISH PAGE CSS *****************/
-.card-dish {
-    min-height: 25em;
-    margin: 10px;
-    padding: 20px;
-    background-color: #E7EEEC;
+.viewdish-card-holder {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
 }
 
 .viewdish-header{
     display: flex;
-    justify-content: center;
+    justify-content: left;
     font-size: x-large;
     font-weight: bold;
     margin-top: 0.5em;
 }
+
 
 /***************** ORDER TERMINAL PAGE CSS *****************/
 
