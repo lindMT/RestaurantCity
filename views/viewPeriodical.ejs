@@ -1,0 +1,82 @@
+<%- include("partials/header") -%>
+
+<!-- dont forget to add back to view stock report -->
+<div class="card shadow">
+    
+    <form>
+    <div class="stock-header">
+        <h1>Periodical Report</h1>
+        <div id="current_date"></div>
+    </div>
+    <div class="stock-header2">
+        <h5>Report Type:</h5>
+        <div class="form-group">
+            <div class="col-20">
+            <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required>
+                    <option selected>-Choose One-</option>
+                    <option value="1">Daily</option>
+                    <option value="2">Weekly</option>
+                    <option value="3">Monthly</option>
+                    <option value="3">Annually</option>
+            </select>                    
+            </div>
+        </div>
+    </div>
+    <div class="stock-header2">
+        <h5>Calendar:</h5>
+        <div class="col-sm-8">
+        <span class="icon-block ">
+            <input type="text" class="form-control" id="weekpicker" readonly required>
+            <span class="icon-date"></span>
+            
+        </span>
+        </div>
+    </div>
+    <hr>
+    <button type="button" class="btn btn-submit-count" style="display:inline-block;margin-right: auto;">SUBMIT</button>
+    </form>
+</div>
+<div class="card shadow">
+    <div class="stock-title">
+        <h3><b> Stock Report for </b></h3>
+        <i>Generated on</i>  
+        <p id="date_generated"></p>
+    </div>
+    <div class="stock-header">
+        <div class="form-group">
+            <div class="col-15">
+            <select id="filterTypeId" class="form-select form-select-sm" aria-label="Filter selection" name="filterType">
+                    <option selected>All</option>
+                    <option value="1">In stock</option>
+                    <option value="2">Low stock</option>
+                    <option value="3">Out of stock</option>
+            </select>                    
+            </div>
+        </div>
+        <i class="fa-solid fa-filter fa-xl"></i> 
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Ingredient</th>
+            <th scope="col">Purchased</th>
+            <th scope="col">Consumed</th>
+            <th scope="col">Lost</th>
+            <th scope="col">Remaining Stock</th>
+            <th scope="col">Unit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr> 
+            <td>Milk</td>
+            <td>1,500</td>
+            <td>4,466</td>
+            <td>34</td>
+            <td>0</td>
+            <td>L</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="js/calendar.js"></script>
+<%- include("partials/footer") -%>
