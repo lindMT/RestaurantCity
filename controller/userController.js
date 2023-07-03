@@ -71,7 +71,12 @@ const userController = {
     },
 
     getCreateUser: function(req, res) {
-        res.render('createUser', {createUserPrompt: ""});
+        res.render('createUser', {  createUserPrompt: "",
+                                    firstName: "",
+                                    lastName: "",
+                                    position: "",
+                                    userName: ""
+                                });
     },
 
     createUser: function(req, res) {
@@ -97,15 +102,27 @@ const userController = {
             });
 
             user.save().then(docs => {
-                res.render('createUser', { createUserPrompt: "Added user successfully." });
+                res.render('createUser', {  createUserPrompt: "Added user successfully.",
+                                            firstName: "",
+                                            lastName: "",
+                                            position: "",
+                                            userName: "" });
             })
             .catch(error => {
                 if (error.code === 11000) {
                     // Duplicate user error
-                    res.render('createUser', { createUserPrompt: "User already exists." });
+                    res.render('createUser', {  createUserPrompt: "User already exists.",
+                                                firstName: firstName,
+                                                lastName: lastName,
+                                                position: position,
+                                                userName: "" });
                 } else {
                     console.log(error);
-                    res.render('createUser', { createUserPrompt: "Error adding user." });
+                    res.render('createUser', {  createUserPrompt: "Error adding user.",
+                                                firstName: "",
+                                                lastName: "",
+                                                position: "",
+                                                userName: ""  });
                 }
             });
 

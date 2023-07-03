@@ -3,12 +3,6 @@
         <div class="card shadow d-flex flex-column text-left" style="min-width: 25vw; min-height: 10vw;">
                 
             <form class="user-form" action="/adminConfirmation" method="POST" >
-                <div class="form-align-left"  style="color: #818181;">
-                    <a href="/home">
-                        <i class="fa-solid fa-arrow-left fa-lg" style="color: #818181;"></i>
-                        Back
-                    </a>
-                </div>
 
                 <h1 id="content-title">Confirm Identity</h1>
                 <hr>
@@ -25,7 +19,9 @@
                 </div>
             </form>
 
-            <%=adminConfirmationPrompt%>
+            <div class="centered-prompt">
+                <h6 id="prompt"><%=adminConfirmationPrompt%></h6>
+            </div>
 
         </div>    
     </div>

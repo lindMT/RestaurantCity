@@ -16,22 +16,55 @@
 
                 <div class="form-group form-align-left">
                     First Name
-                    <input type="text" class="form-control" name="firstName" required>
+                    <input type="text" class="form-control" name="firstName" value="<%=firstName%>" required>
                 </div>
 
                 <div class="form-group form-align-left">
                     Last Name
-                    <input type="text" class="form-control" name="lastName" required>
+                    <input type="text" class="form-control" name="lastName" value="<%=lastName%>" required>
                 </div>
 
                 <div class="form-group form-align-left">
                     Position
                     <select class="form-control" name="position" required>
-                        <option hidden disabled selected value></option>
+                        
+                        <!-- <option hidden disabled selected></option>
                         <option value="owner">Owner</option>
                         <option value="stockController">Stock Controller</option>
                         <option value="chef">Chef</option>
-                        <option value="cashier">Cashier</option>
+                        <option value="cashier">Cashier</option> -->
+
+                        <option hidden disabled 
+                            <% if (position == "") { %>
+                                selected
+                            <% } %>
+                        ></option>
+
+                        <option value="owner"
+                            <% if (position == "owner") { %>
+                                selected
+                            <% } %>
+                        >Owner</option>
+
+                        <option value="stockController"
+                            <% if (position == "stockController") { %>
+                                selected
+                            <% } %>
+                        >Stock Controller</option>
+
+                        <option value="chef"
+                            <% if (position == "chef") { %>
+                                selected
+                            <% } %>
+                        >Chef</option>
+
+                        <option value="cashier"
+                            <% if (position == "cashier") { %>
+                                selected
+                            <% } %>
+                        >Cashier</option>
+
+
                     </select>
                 </div>       
 
@@ -58,7 +91,7 @@
             </form>
 
             <div class="centered-prompt">
-                <h5 id="prompt"><%=createUserPrompt%></h5>
+                <h6 id="prompt"><%=createUserPrompt%></h6>
             </div>
             
         </div>    
