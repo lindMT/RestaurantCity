@@ -1,4 +1,5 @@
 <%- include("partials/header") -%>
+
     <div class="card-holder">
         <div class="card shadow d-flex flex-column text-left" style="min-width: 25vw; min-height: 10vw;">
                 
@@ -39,12 +40,12 @@
                     <input type="text" class="form-control" name="userName" required>
                 </div>
                 
-                <div class="form-group form-align-left">
+                <div class="form-group form-align-left" id="pw1">
                     Password
                     <input type="password" class="form-control" name="password1" required>
                 </div>
 
-                <div class="form-group form-align-left">
+                <div class="form-group form-align-left" id="pw2">
                     Confirm Password
                     <input type="password" class="form-control" name="password2" required>
                 </div>
@@ -56,14 +57,13 @@
                 </div>           
             </form>
 
-            
-
             <div class="centered-prompt">
-                <h5 id="prompt">1234</h5>
+                <h5 id="prompt"><%=createUserPrompt%></h5>
             </div>
-            <%=createUserPrompt%>
-
+            
         </div>    
     </div>
 
+    <script src="js/createUser.js"></script>
+    
 <%- include("partials/footer") -%>

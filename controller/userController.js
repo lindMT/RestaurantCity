@@ -83,8 +83,7 @@ const userController = {
         const password2 = req.body.password2
         
         if (password1 != password2){
-            // res.render('createUser', {createUserPrompt: "Please match the passwords"});
-            document.getElementById("prompt").innerHTML = "please match them pw bro ";
+            res.render('createUser', {createUserPrompt: "Please match the passwords"});
         }
         else {
             var hashedPw = bcrypt.hashSync(password1, 10);
@@ -97,14 +96,20 @@ const userController = {
                 password: hashedPw
             });
 
-            user.save().then(docs =>{
-                    if (!docs){
-                        res.render('createUser', {createUserPrompt: "Error adding user."});
-                    } else{
-                        res.render('createUser', {createUserPrompt: "Added user successfully."});
-                    }
+            user.save().then(docs => {
+                res.render('createUser', { createUserPrompt: "Added user successfully." });
+            })
+            .catch(error => {
+                if (error.code === 11000) {
+                    // Duplicate user error
+                    res.render('createUser', { createUserPrompt: "User already exists." });
+                } else {
+                    console.log(error);
+                    res.render('createUser', { createUserPrompt: "Error adding user." });
                 }
-            )
+            });
+
+
 
         }
     },
