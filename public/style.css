@@ -356,6 +356,12 @@ td i {
     justify-content:space-between;
 }
 
+.stock-header2 {
+    display: inline-flex;
+    gap: 1rem;
+    margin: 1rem;
+}
+
 .stock-header div {
     margin-left:auto;
 }
