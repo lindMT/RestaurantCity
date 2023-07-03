@@ -56,6 +56,12 @@ app.get("/addCategory", addCategoryController.getAddCategory)
 // View Stock Report
 app.get("/viewStockReport", viewStockController.getStock)
 
+// View Periodical Report
+app.get("/viewPeriodical", viewStockController.getPeriodical)
+
+// View Custom Report   
+app.get("/viewCustom", viewStockController.getCustom)
+
 // Input Physical Count
 app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
 

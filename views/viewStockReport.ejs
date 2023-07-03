@@ -1,97 +1,43 @@
 <%- include("partials/header") -%>
 <div class="card shadow">
     <div class="stock-header">
-        <h1>Periodical Report</h1>
+        <h1>Analytics Overview</h1>
         <div id="current_date"></div>
-        <script>
-            date = new Date().toDateString();
-            document.write(date);
-        </script>
     </div>
-    <div class="stock-header2">
-        <h5>Report Type:</h5>
-        <div class="form-group">
-            <div class="col-20">
-            <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required>
-                    <option selected>-Choose One-</option>
-                    <option value="1">Daily</option>
-                    <option value="2">Weekly</option>
-                    <option value="3">Monthly</option>
-                    <option value="3">Annually</option>
-            </select>                    
-            </div>
+
+    <div class="stock-analytics-holder">
+        <div class="card stock-analytics instock">
+            <h3>In Stock</h3>
+            <h1>3</h1>
+        </div>
+        <div class="card stock-analytics lowstock">
+            <h3>Low Stock</h3>
+            <h1>2</h1>
+        </div>
+        <div class="card stock-analytics outofstock">
+            <h3>Out of Stock</h3>
+            <h1>3</h1>
+        </div>
+        <div class="card stock-analytics missingstock">
+            <h3>Missing</h3>
+            <h1>6</h1>
         </div>
     </div>
-    <div class="stock-header2">
-        <h5>Calendar:</h5>
-        <div class="col-sm-3" style="margin-left:1.5rem;">
-        <span class="icon-block ">
-            <input type="text" class="form-control" id="weekpicker" readonly required>
-            <span class="icon-date"></span>
-            
-        </span>
-    </div>
 </div>
-</div>
-<div class="card shadow">
-    <div class="stock-header">
-        <h3> Stock Report for </h3>
-        <h5 id="date_generated"></h5>
-        
-        <script>
-            date = new Date();
-            document.write(date);
-        </script>
-        <div class="form-group">
-            <div class="col-15">
-            <select id="filterTypeId" class="form-select form-select-sm" aria-label="Filter selection" name="filterType">
-                    <option selected>All</option>
-                    <option value="1">In stock</option>
-                    <option value="2">Low stock</option>
-                    <option value="3">Out of stock</option>
-            </select>                    
-            </div>
+<div class="order-item-holder">
+    <a href="/viewPeriodical" class="no-decor">
+        <div class="card report-button">
+            <h3>View Periodical Report</h3>
+            <i class="fa-solid fa-file-lines fa-4x"></i>
         </div>
-        <i class="fa-solid fa-filter fa-xl"></i> 
-    </div>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Stock Status</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Unit</th>
-            <th scope="col">Reorder Point</th>
-            <th scope="col">Missing</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr> 
-            <td>Oil</td>
-            <td class="table-success">In stock</td>
-            <td>10</td>
-            <td>L</td>
-            <td>10</td>
-            <td>0</td>
-        </tr>
-        <tr> 
-            <td>Milk</td>
-            <td class="table-warning">Low stock</td>
-            <td>2</td>
-            <td>L</td>
-            <td>2</td>
-            <td>0</td>
-        </tr>
-        <tr> 
-            <td>Butter</td>
-            <td class="table-danger">Out of stock</td>
-            <td>0</td>
-            <td>g</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
-        </tbody>
-    </table>
+    </a>
+    <a href="/viewCustom" class="no-decor">
+        <div class="card report-button">
+            <h3>View Custom Report</h3>
+            <i class="fa-solid fa-file-pen fa-4x"></i>
+        </div>
+    </a>
 </div>
+
 <script src="js/calendar.js"></script>
 <%- include("partials/footer") -%>

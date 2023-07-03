@@ -1,6 +1,6 @@
+<!-- TO-DO: dont forget to add back to view stock report -->
 <%- include("partials/header") -%>
 
-<!-- dont forget to add back to view stock report -->
 <div class="card shadow">
     
     <form>
@@ -12,12 +12,12 @@
         <h5>Report Type:</h5>
         <div class="form-group">
             <div class="col-20">
-            <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required>
+            <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required onchange="reportType(this.value)">
                     <option selected>-Choose One-</option>
                     <option value="1">Daily</option>
                     <option value="2">Weekly</option>
                     <option value="3">Monthly</option>
-                    <option value="3">Annually</option>
+                    <option value="4">Annually</option>
             </select>                    
             </div>
         </div>
@@ -25,11 +25,7 @@
     <div class="stock-header2">
         <h5>Calendar:</h5>
         <div class="col-sm-8">
-        <span class="icon-block ">
-            <input type="text" class="form-control" id="weekpicker" readonly required>
-            <span class="icon-date"></span>
-            
-        </span>
+            <input type="text" class="form-control" id="calendar" required readonly>
         </div>
     </div>
     <hr>
@@ -41,19 +37,6 @@
         <h3><b> Stock Report for </b></h3>
         <i>Generated on</i>  
         <p id="date_generated"></p>
-    </div>
-    <div class="stock-header">
-        <div class="form-group">
-            <div class="col-15">
-            <select id="filterTypeId" class="form-select form-select-sm" aria-label="Filter selection" name="filterType">
-                    <option selected>All</option>
-                    <option value="1">In stock</option>
-                    <option value="2">Low stock</option>
-                    <option value="3">Out of stock</option>
-            </select>                    
-            </div>
-        </div>
-        <i class="fa-solid fa-filter fa-xl"></i> 
     </div>
     <table class="table table-striped">
         <thead>
