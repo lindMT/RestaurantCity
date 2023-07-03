@@ -255,7 +255,7 @@ td i {
     color: wheat;
 }
 
-.centered-prompt {
+.centered {
     display: flex;
     justify-content: center;
     color: #af1623;

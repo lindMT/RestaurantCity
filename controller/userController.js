@@ -132,9 +132,35 @@ const userController = {
     },
 
     getManageUser: function(req, res) {
-        res.render('manageUser', {manageUserPrompt: ""});
+
+        User.find({}).then(docs => {
+            console.log(docs);
+            res.render('manageUser', { users: docs });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+        
     },
 
+    resetPassword: function(req, res) {
+        var userName = req.params.userName;
+        var unhashedPassword = req.body.password1;
+        var hashedPassword = bcrypt.hashSync(unhashedPassword, 10);
+
+
+        User.updateOne(
+            { userName: userName },
+            { $set: { password: hashedPassword } }
+        )
+        .catch(err => {
+            console.log(err);
+        });
+        
+        res.redirect('/manageUser');
+
+    },
+    
 }
 
 module.exports = userController;

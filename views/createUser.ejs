@@ -14,17 +14,17 @@
                 <h1 id="content-title">User Creation Form</h1>
                 <hr>
 
-                <div class="form-group form-align-left">
+                <div class="form-group form-align-left" style="margin-top: 10px;">
                     First Name
                     <input type="text" class="form-control" name="firstName" value="<%=firstName%>" required>
                 </div>
 
-                <div class="form-group form-align-left">
+                <div class="form-group form-align-left" style="margin-top: 10px;">
                     Last Name
                     <input type="text" class="form-control" name="lastName" value="<%=lastName%>" required>
                 </div>
 
-                <div class="form-group form-align-left">
+                <div class="form-group form-align-left" style="margin-top: 10px;">
                     Position
                     <select class="form-control" name="position" required>
                         
@@ -68,17 +68,17 @@
                     </select>
                 </div>       
 
-                <div class="form-group form-align-left">
+                <div class="form-group form-align-left" style="margin-top: 10px;">
                     User Name
                     <input type="text" class="form-control" name="userName" required>
                 </div>
                 
-                <div class="form-group form-align-left" id="pw1">
+                <div class="form-group form-align-left" id="pw1" style="margin-top: 10px;">
                     Password
                     <input type="password" class="form-control" name="password1" required>
                 </div>
 
-                <div class="form-group form-align-left" id="pw2">
+                <div class="form-group form-align-left" id="pw2" style="margin-top: 10px;">
                     Confirm Password
                     <input type="password" class="form-control" name="password2" required>
                 </div>
@@ -90,13 +90,13 @@
                 </div>           
             </form>
 
-            <div class="centered-prompt">
+            <div class="centered">
                 <h6 id="prompt"><%=createUserPrompt%></h6>
             </div>
             
         </div>    
     </div>
 
-    <script src="js/createUser.js"></script>
+    <script src="js/checkPwMatch.js"></script>
     
 <%- include("partials/footer") -%>

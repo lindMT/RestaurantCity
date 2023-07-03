@@ -1,7 +1,7 @@
 <%- include("partials/header") -%>
 
     <div class="card-holder">
-        <div class="card shadow d-flex flex-column text-left" style="min-width: 30vw; min-height: 10vw;">
+        <div class="card shadow d-flex flex-column text-left" style="min-width: 50vw; min-height: 10vw;">
             <div class="card-body d-flex flex-column">
 
                 <!-- <div class="form-align-left"  style="color: #818181;">
@@ -21,54 +21,32 @@
                             <th scope="col" class="col-md-6">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Lind Tan</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="First group">
-                                    <button type="button" 
-                                            style="background-color: #CD9211 !important; color: white" 
-                                            class="btn btn-secondary"
-                                            data-toggle="modal"
-                                            data-target="#resetModal" >
-                                        Reset Password
-                                    </button>
-                                    <button type="button" 
-                                            style="background-color: #CE3737 !important; color: white" 
-                                            class="btn btn-secondary"
-                                            data-toggle="modal"
-                                            data-target="#removeModal" >
-                                        Remove
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="First group">
-                                    <button type="button" style="background-color: #CD9211 !important; color: white" class="btn btn-secondary">
-                                        Reset Password
-                                    </button>
-                                    <button type="button" style="background-color: #CE3737 !important; color: white" class="btn btn-secondary">
-                                        Remove
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Jane Doe</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="First group">
-                                    <button type="button" style="background-color: #CD9211 !important; color: white" class="btn btn-secondary">
-                                        Reset Password
-                                    </button>
-                                    <button type="button" style="background-color: #CE3737 !important; color: white" class="btn btn-secondary">
-                                        Remove
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                    <tbody>                        
+
+                        <% users.forEach(function(user){ %>
+                            <tr>
+                                <td><%= user.firstName%> <%= user.lastName%></td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="First group">
+                                        <button type="button" 
+                                                style="background-color: #CD9211 !important; color: white" 
+                                                class="btn btn-secondary"
+                                                data-toggle="modal"
+                                                data-target="#reset<%=user.userName%>" >
+                                            Reset Password
+                                        </button>
+                                        <!-- <button type="button" 
+                                                style="background-color: #CE3737 !important; color: white" 
+                                                class="btn btn-secondary"
+                                                data-toggle="modal"
+                                                data-target="#removeModal" >
+                                            Remove
+                                        </button> -->
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %> 
+
                     </tbody>
                 </table>
 
@@ -83,39 +61,54 @@
         </div>
     </div>
 
-    <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h4 class="modal-title" id="dishName"><p contenteditable="true">Lind Tan</p></h4>
-                
-                <div data-dismiss="modal">
-                    <i class="fa-solid fa-x" style="color: #000000;"></i>
-                </div>
-                
-                </div>
-                <div class="modal-body">
+
+    <% users.forEach(function(user){ %>
+        <div class="modal fade" id="reset<%=user.userName%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h4 class="modal-title" id="dishName"><p contenteditable="true"><%= user.firstName%> <%= user.lastName%></p></h4>
                     
-                    <div class="form-group form-align-left">
-                        New Password
-                        <input type="password" class="form-control" name="password1" required>
+                    <div data-dismiss="modal">
+                        <i class="fa-solid fa-x" style="color: #000000;"></i>
                     </div>
-    
-                    <div class="form-group form-align-left">
-                        Confirm New Password
-                        <input type="password" class="form-control" name="password2" required>
+                    
                     </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" style="background-color: #CD9211 !important;" class="btn btn-primary">
-                        Save changes
-                    </button>
+                    <!-- <form class="user-form" action="/tite" method="POST" > -->
+                    <form class="user-form" action="/resetPassword/<%= user.userName%>" method="POST">
+                        <div class="modal-body">
+                            
+                            <div class="form-group form-align-left">
+                                New Password
+                                <input type="password" class="form-control" name="password1" required>
+                            </div>
+            
+                            <div class="form-group form-align-left">
+                                Confirm New Password
+                                <input type="password" class="form-control" name="password2" required>
+                            </div>
+
+                        </div>
+                        
+                        <hr>
+                        <div class="centered">
+                            <button type="submit" style="background-color: #CD9211 !important;" class="btn btn-primary">
+                                Save changes
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="centered">
+                        <h6 id="prompt"></h6>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
+    <% }); %> 
 
+<!-- 
     <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -139,6 +132,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
+    </div> -->
+    <script src="js/checkPwMatch.js"></script>
 <%- include("partials/footer") -%>
