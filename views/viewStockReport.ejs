@@ -12,7 +12,7 @@
         <h5>Report Type:</h5>
         <div class="form-group">
             <div class="col-20">
-            <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType">
+            <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required>
                     <option selected>-Choose One-</option>
                     <option value="1">Daily</option>
                     <option value="2">Weekly</option>
@@ -26,7 +26,7 @@
         <h5>Calendar:</h5>
         <div class="col-sm-3" style="margin-left:1.5rem;">
         <span class="icon-block ">
-            <input type="text" class="form-control" id="weekpicker">
+            <input type="text" class="form-control" id="weekpicker" readonly required>
             <span class="icon-date"></span>
             
         </span>
