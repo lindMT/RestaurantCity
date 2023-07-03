@@ -255,6 +255,12 @@ td i {
     color: wheat;
 }
 
+.centered-prompt {
+    display: flex;
+    justify-content: center;
+    color: #af1623;
+}
+
 /***************** ORDER TERMINAL CSS *****************/
 
 .terminal-card-holder{

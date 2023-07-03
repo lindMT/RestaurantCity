@@ -83,7 +83,8 @@ const userController = {
         const password2 = req.body.password2
         
         if (password1 != password2){
-            res.render('createUser', {createUserPrompt: "Please match the passwords"});
+            // res.render('createUser', {createUserPrompt: "Please match the passwords"});
+            document.getElementById("prompt").innerHTML = "please match them pw bro ";
         }
         else {
             var hashedPw = bcrypt.hashSync(password1, 10);
