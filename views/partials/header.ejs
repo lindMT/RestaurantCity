@@ -6,21 +6,22 @@
 
     <body>
         <div class="sidenav">
-            <img src="images/restaurantCityLogo.png">
+            <img src="/images/restaurantCityLogo.png">
             <h1>Welcome, <%- session.userName %>!</h1>
             <hr>
 
-            <a href="home">View Dashboard</a>
-            <a href="#">View Inventory</a>
-            <a href="#">Manage Inventory</a>
-            <a href="viewDishes">View Dishes</a>
-            <a href="addCategory">Add Category</a>
-            <a href="viewStockReport">View Stock Report</a>
-            <a href="inputPhysicalCount">Input Physical Count</a>
-            <a href="viewOrderTerminal">Place Order</a>
-            <a href="adminConfirmation">Manage Users</a>
+            <a href="/home">View Dashboard</a>
+            <a href="/viewInventory">View Inventory</a>
+            <a href="/addNewIngredient">Add New Ingredient</a>
+            <a href="/recordAddtl">Record Additional Purchase</a>
+            <a href="/viewDishes">View Dishes</a>
+            <a href="/addCategory">Add Category</a>
+            <a href="/viewStockReport">View Stock Report</a>
+            <a href="/inputPhysicalCount">Input Physical Count</a>
+            <a href="/viewOrderTerminal">Place Order</a>
+            <a href="/adminConfirmation">Manage Users</a>
             
-            <a href="logout" class="logout-button">
+            <a href="/logout" class="logout-button">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 Logout
             </a>

@@ -1,0 +1,61 @@
+<%- include("partials/header") -%>
+
+<div class="card shadow">
+    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
+    <div class="stock-header">
+        <h1>Inventory - Add New Ingredient</h1>
+    </div>
+    <hr/>
+    <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
+    <div>
+        <p>Add NEW ingredients (i.e. First Purchase) to the inventory list. Fill-out ALL input fields for the details of the ingredients.</p>
+        <br/>
+    </div>
+    <!-- TODO: Backend form -->
+    <form method="post" action="#">
+        <div class="form-row">
+            <div class="form-group col-md-5">
+                <h4>Ingredient Name</h4>
+                <!-- TODO: CSS - Translate Style -->
+                <input type="text" name="ingreName" class="form-control" placeholder="E.g. Cabbage, Sesame Oil, Rice" style="width: 300px;" required>
+            </div>
+        </div>
+        <br/>
+        <div class="form-row">
+            <div class="form-group col-md-5">
+                <h4>Net Weight</h4>
+                <!-- TODO: CSS - Translate Style -->
+                <input type="number" name="ingreNetWt" class="form-control" placeholder="Minimum: 1" min="1" max="10" style="text-align: left; width: 155px;" required>
+            </div>
+        </div>
+        <br/>
+        <div class="form-row">
+            <div class="form-group col-md-5">
+                <h4>Quantity</h4>
+                <!-- TODO: CSS - Translate Style -->
+                <input type="number" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" max="10" style="text-align: left; width: 155px;" required>
+            </div>
+        </div>
+        <br/>
+        <div class="form-row">
+            <div class="form-group col-md-5">
+                <h4>Unit</h4>
+                <!-- TODO: CSS - Translate Style -->
+                <!-- TODO: Backend - Get values from Tbl_Units -->
+                <select class="form-control" name="ingreQty" style="width: 200px;" required>
+                    <option disabled selected value> -- Select a Unit -- </option>
+                    <option value="g">G (Grams)</option>
+                    <option value="kg">Kg (Kilograms)</option>
+                    <option value="ml">mL (Milliliters)</option>
+                    <option value="l">L (Liters)</option>
+                </select>
+            </div>
+        </div>
+        <br/>
+
+        <hr/>
+        <button type="submit" class="btn btn-submit-count" style="display:flex;">Add New Ingredient to Inventory</button>
+    </form>
+</div>
+
+<%- include("partials/footer") -%>

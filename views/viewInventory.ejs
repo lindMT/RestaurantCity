@@ -1,0 +1,57 @@
+<%- include("partials/header") -%>
+<div class="card shadow">
+    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
+    <div class="stock-header">
+        <h1>Inventory</h1>
+        <div class="form-group">
+            <div class="col-15">
+                <select id="filterTypeId" class="form-select form-select-sm" aria-label="Filter selection" name="filterType">
+                        <option selected>All</option>
+                        <option value="1">In stock</option>
+                        <option value="2">Low stock</option>
+                        <option value="3">Out of stock</option>
+                </select>                    
+            </div>
+        </div>
+        <i class="fa-solid fa-filter fa-xl"></i> 
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Stock Status</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reorder Point</th>
+                <th scope="col">Missing</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr> 
+                <td>Oil</td>
+                <td class="table-success">In stock</td>
+                <td>10</td>
+                <td>L</td>
+                <td>10</td>
+                <td>0</td>
+            </tr>
+            <tr> 
+                <td>Milk</td>
+                <td class="table-warning">Low stock</td>
+                <td>2</td>
+                <td>L</td>
+                <td>2</td>
+                <td>0</td>
+            </tr>
+            <tr> 
+                <td>Butter</td>
+                <td class="table-danger">Out of stock</td>
+                <td>0</td>
+                <td>g</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<%- include("partials/footer") -%>

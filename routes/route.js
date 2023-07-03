@@ -31,6 +31,15 @@ app.get("/createUser", userController.getCreateUser)
 app.post("/createUser", userController.createUser)
 app.get("/manageUser", userController.getManageUser)
 
+// View Inventory
+app.get("/viewInventory", viewInvController.getViewInventory)
+
+// Add New Ingredients
+app.get("/addNewIngredient", addIngreController.getAddIngre)
+
+// Record Addt'l Purchase
+app.get("/recordAddtl", recordAddtlController.getRecAddtl)
+
 // View Dishes
 app.get("/viewDishes", viewDishesController.getViewDishes)
 
