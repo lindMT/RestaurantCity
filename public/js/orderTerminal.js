@@ -22,7 +22,8 @@ function addDishItem(clickedDish){
 
     if(!dishIsInTable){ // dish is NOT in table
         var table = document.getElementById("order-terminal-table");
-        var row = table.insertRow();
+        var tbody = table.getElementsByTagName("tbody")[0];
+        var row = tbody.insertRow();
 
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
