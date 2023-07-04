@@ -1,22 +1,26 @@
 <%- include("partials/header") -%>
     <div class="viewdish-card-holder">
-        <div class="card shadow" style="width: 90rem;">
+        <div class="card shadow viewdish-form" style="width: 80vw;">
             <div class="viewdish-header">
-                Dishes
-                <a href="/addDish" type="button" class="btn btn-success" style="margin-left: auto; margin-right: 1px;">
-                    Add Dish</button></a>
+                <h1>Manage Dishes</h1>
+                <div style="text-align: center; margin-left: auto">
+                <a href="/addDish" type="button" class="btn btn-success">
+                    Add Dish</a>  
+                
                 <button onclick="deleteRow()" id="removeDish" type="button" class="btn btn-secondary"
                     style="margin-left: 10px; color: white;">
                     Remove Dish</button>
             </div>
+        </div>
             <hr>
             <table class="table table-striped" id="dishTable"
-                style=" width: 65%; margin-left: auto; margin-right: auto;">
+                style=" width: 100%; margin-left: auto; margin-right: auto;">
                 <thead>
                     <tr>
                         <th scope="col" style="text-align: left;">Dish Name</th>
                         <th scope="col" style="text-align: center;">Category</th>
                         <th scope="col" style="text-align: center;">Price</th>
+                        <!-- <th scope="col" style="text-align: center;">Recipe</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -215,5 +219,5 @@
             </div>
         </div>
     </div>
-<script src="js/viewDishes.js"></script>
+<script src="js/manageDishes.js"></script>
 <%- include("partials/footer") -%>

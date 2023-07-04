@@ -7,7 +7,7 @@ const userController = require('../controller/userController.js');
 const viewInvController = require('../controller/viewInvController.js');
 const addIngreController = require('../controller/addIngreController.js');
 const recordAddtlController = require('../controller/recordAddtlController.js')
-const viewDishesController = require('../controller/viewDishesController.js');
+const manageDishesController = require('../controller/manageDishesController.js');
 const viewStockController = require('../controller/viewStockController.js');
 const addDishController = require('../controller/addDishController.js');
 const addCategoryController = require('../controller/addCategoryController.js');
@@ -45,7 +45,7 @@ app.get("/addNewIngredient", addIngreController.getAddIngre)
 app.get("/recordAddtl", recordAddtlController.getRecAddtl)
 
 // View Dishes
-app.get("/viewDishes", viewDishesController.getViewDishes)
+app.get("/manageDishes", manageDishesController.getManageDishes)
 
 // Add Dish
 app.get("/addDish", addDishController.getaddDish)
