@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const dishesSchema = new Schema ( {
+const dishSchema = new Schema ( {
     dishName: {
         type: String,
         required: true
@@ -44,4 +44,4 @@ const dishesSchema = new Schema ( {
     ]
 });
 
-module.exports = mongoose.model('dishes', dishesSchema);
+module.exports = mongoose.model('dish', dishSchema);
