@@ -1,3 +1,6 @@
+// Date generated
+const date = new Date().toLocaleString();
+document.getElementById("current_date").innerHTML = date;
 
 $("#start_date").datepicker({
     autoclose: true,
