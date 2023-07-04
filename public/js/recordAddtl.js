@@ -8,18 +8,20 @@ function addInputFields(){
 
     if(selectVal == "others"){
         var netWt = document.createElement("input");
+        netWt.setAttribute('class', 'form-control');
         netWt.setAttribute('id', 'record-netwt-field');
         netWt.setAttribute('name', 'ingreNetWt');
         netWt.setAttribute('type', 'number');
         netWt.setAttribute('placeholder', 'Net Wt. (Min: 1)');
         netWt.setAttribute('min', '1');
-        netWt.setAttribute('style', 'margin-top: 10px; text-align: left; padding: 3px; width: 50%;');
+        netWt.setAttribute('style', 'margin-top: 10px; text-align: left; padding: 3px; width: 100%;');
         netWt.required = "true"
 
         var unit = document.createElement('select');
+        unit.setAttribute('class', 'form-select');
         unit.setAttribute('id', 'record-unit-field');
         unit.setAttribute('name', 'ingreUnit');
-        unit.setAttribute('style', 'margin-left: 2%; padding: 4px; width: 48%;');
+        unit.setAttribute('style', 'margin-top: 3px; padding: 4px; width: 100%;');
         unit.required = "true";
 
         // Create an array of option values and text
