@@ -2,16 +2,6 @@
 $("#submitbtn").prop("disabled", true);
 
 
-// Enable if both have value
-$("#calendar").change(function() {
-    if ($("#calendar").val() !== "") {
-        $("#submitbtn").prop("disabled", false);
-    } else {
-        $("#submitbtn").prop("disabled", true);
-    }
-});
-
-
 // Date generated
 const date = new Date().toLocaleString();
 document.getElementById("current_date").innerHTML = date;
@@ -19,6 +9,14 @@ document.getElementById("current_date2").innerHTML = date;
 
 // Report Type
 function reportType(value) {
+  // Enable if both have value
+  $("#calendar").change(function() {
+      if ($("#calendar").val() !== "") {
+          $("#submitbtn").prop("disabled", false);
+      } else {
+          $("#submitbtn").prop("disabled", true);
+      }
+  });
   switch(value) {
     case "1":
       dayRange();
