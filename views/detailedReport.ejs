@@ -15,20 +15,22 @@
             <i class="fa-solid fa-filter fa-xl" style="margin-left:end; margin-right:1rem;"></i>
             <div class="form-group">
                 <div class="col-15">
-                    <select id="filterTypeId" class="form-select form-select-sm" aria-label="Filter selection" name="filterType">
-                            <option selected>All</option>
-                            <option value="1">In stock</option>
-                            <option value="2">Low stock</option>
-                            <option value="3">Out of stock</option>
-                    </select>                    
+                    <select id="filterType" class="form-select form-select-sm" 
+                            aria-label="Filter selection" name="filterType"
+                            onchange="filterReport()">
+                            <option value="All" selected>All</option>
+                            <option value="Purchased">Purchased</option>
+                            <option value="Consumed">Consumed</option>
+                            <option value="Discarded">Discarded</option>
+                    </select>
                 </div>
             </div>
         </div>
          
-        <table class="table table-striped" style="margin-top: 1rem;">
+        <table id="report-table" class="table table-striped" style="margin-top: 1rem;">
             <thead>
-            <tr>
-                <th scope="col">Type</th>
+            <tr id="report-tr">
+                <th id="report-type" scope="col">Type</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Unit</th>
                 <th scope="col">Date</th>
@@ -36,13 +38,48 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Purchased</td>
-                <td>1,466</td>
-                <td>L</td>
-                <td>0</td>
-                <td>L</td>
-            </tr>
+                <tr>
+                    <td>Purchased</td>
+                    <td>20</td>
+                    <td>L</td>
+                    <td>07/04/23</td>
+                    <td>Lind</td>
+                </tr>   
+                <tr>
+                    <td>Purchased</td>
+                    <td>10</td>
+                    <td>L</td>
+                    <td>04/04/23</td>
+                    <td>Lind</td>
+                </tr>   
+                <tr>
+                    <td>Consumed</td>
+                    <td>5</td>
+                    <td>L</td>
+                    <td>01/04/23</td>
+                    <td>Lind</td>
+                </tr>   
+                <tr>
+                    <td>Consumed</td>
+                    <td>20</td>
+                    <td>L</td>
+                    <td>07/04/22</td>
+                    <td>Lind</td>
+                </tr>   
+                <tr>
+                    <td>Discarded</td>
+                    <td>533</td>
+                    <td>L</td>
+                    <td>01/04/19</td>
+                    <td>Lind</td>
+                </tr>   
+                <tr>
+                    <td>Discarded</td>
+                    <td>20</td>
+                    <td>L</td>
+                    <td>07/04/10</td>
+                    <td>Lind</td>
+                </tr>   
             </tbody>
         </table>
         <div class="periodical-footer">
@@ -51,7 +88,9 @@
         </div>
     </div>
 
-</div>
+</div> 
 
-<script src="js/calendarPeriodical.js"></script>
+
+<script src="/js/calendarPeriodical.js"></script>
+<script src="/js/detailedReportFilter.js"></script>
 <%- include("partials/footer") -%>
