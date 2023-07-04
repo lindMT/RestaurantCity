@@ -30,7 +30,7 @@ const dishRecipeSchema = new Schema ({
 
     chefWeight: {
         type: mongoose.Types.Decimal128,
-        required: trye
+        required: true
     },
 
     chefUnitID: [
@@ -38,7 +38,7 @@ const dishRecipeSchema = new Schema ({
             type: Schema.Types.ObjectId, ref: 'chefUnit',
             required: true
         }
-    ],
+    ]
 
 });
 
