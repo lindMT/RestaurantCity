@@ -437,6 +437,21 @@ td i {
     text-decoration: none;
 }
 
+/***************** PERIODICAL CSS *****************/
+.category-form-holder {
+    display:flex; 
+    justify-content: center; 
+    text-align: center;
+}
+
+.category-form {
+    max-width: 30vw; 
+    min-height: 50vh; 
+    display:flex; 
+    justify-content: center; 
+    text-align: center;
+}
+
 
 /***************** PERIODICAL CSS *****************/
 .periodical-header {
