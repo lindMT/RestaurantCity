@@ -1,74 +1,76 @@
 <%- include("partials/header") -%>
-<div class="addDish-card-holder">
+  <div class="addDish-card-holder">
     <div class="card shadow" style="width: 90rem;">
-        <div class="addDish-header">
-            Dishes - Add Dish
-
-            <button id="saveDish" type="button" class="btn btn-success" style="margin-left: 7in; margin-right: 1px;">
-                Save Changes</button>
-            <button id="discardDish" type="button" class="btn btn-secondary" style="margin-left: auto; color: white;">
-                Discard</button>
+      <div class="addDish-header">
+        Dishes - Add Dish
+        <button id="saveDish" type="submit" class="btn btn-success" style="margin-left: 7in; margin-right: 1px;">
+          Save Changes</button>
+        <button id="discardDish" type="" class="btn btn-secondary" style="margin-left: auto; color: white;">
+          Discard</button>
+      </div>
+      <hr>
+      <p>Fill out input fields for the details of the dish.</p>
+      <br>
+      <form method="post" action="#">
+        <!-- Dish Name Input -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputdishName">Dish Name</label>
+            <input type="text" class="form-control" id="inputdishName" placeholder="e.g. Shawarma Rice" required>
+          </div>
+          <!-- Ingredient Input -->
+          <div class="form-ingredients" style="margin-left: 15%; width: 20%;">
+            <label for="ingredients">Ingredients</label>
+            <select class="form-select" id="ingredients" aria-label="Default select example" required>
+              <option disabled selected value>Select Ingredient</option>
+              <option value="1">Milk</option>
+              <option value="2">Kangkong</option>
+              <option value="3">Chicken</option>
+            </select>
+          </div>
+          <!-- Amount Input -->
+          <div class="form-group" style="margin-left: 1%; width: 8%;">
+            <label for="inputdishName">Amount</label>
+            <input type="number" class="form-control" id="inputdishName" placeholder="1" min="1" required>
+          </div>
+          <!-- Unit Input -->
+          <div class="form-unit" style="width: 20%;">
+            <label for="ingredients">Unit</label>
+            <select class="form-select" id="ingredients" aria-label="Default select example" required>
+              <option disabled selected value>-- Unit --</option>
+              <option value="g">g (Grams)</option>
+              <option value="Kg">Kg (Kilograms)</option>
+              <option value="mL">mL (Milliliters)</option>
+              <option value="L">L (Liters)</option>
+            </select>
+          </div>
+          <!-- Add Ingredient Button -->
+          <button class="btn btn-light w-20 h-20" id="addIngredientBtn" style="margin: 23px; margin-right: 15%;"> +
+          </button>
         </div>
-        <hr>
-        <p>Fill out input fields for the details of the dish.</p>
-            <br>
-        <form>
-            <!-- Dish Name Input -->
-            <div class="form-row">
-              <div class="form-group col-md-3">
-                <label for="inputdishName">Dish Name</label>
-                <input type="text" class="form-control" id="inputdishName" placeholder="e.g. Shawarma Rice">
-              </div>
-              <!-- Ingredient Input -->
-              <div class="form-ingredients" style="margin-left: 15%; width: 20%;">
-                <label for="ingredients">Ingredients</label>
-                <select class="form-select" id="ingredients" aria-label="Default select example">
-                <option selected>Choose One</option>
-                <option value="1">Milk</option>
-                <option value="2">Kangkong</option>
-                <option value="3">Chicken</option>
-              </select>
-              </div>
-              <!-- Amount Input -->
-              <div class="form-group" style="margin-left: 1%; width: 8%;">
-                <label for="inputdishName">Amount</label>
-                <input type="number" class="form-control" id="inputdishName" placeholder="1" min="1">
-              </div>
-              <!-- Unit Imput -->
-              <div class="form-unit" style="width: 20%;">
-                <label for="ingredients">Unit</label>
-                <select class="form-select" id="ingredients" aria-label="Default select example">
-                <option selected>Unit</option>
-                <option value="g">g</option>
-                <option value="Kg">Kg</option>
-                <option value="mL">mL</option>
-                <option value="L">L</option>
-              </select>
-              </div>
-              <!-- Add Ingredient Button -->
-              <button class="btn btn-light w-20 h-20" id="addIngredientBtn"  style="margin: 23px; margin-right: 15%;"> + </button>
-            </div>
-            <!-- Category Input -->
-            <div class="form-category" style="width: 25%">
-                <label for="addDishCategory">Category</label>
-                <select class="form-select" id="addDishCategory">
-                <option selected>Choose One</option>
-                <option value="categoryMainDish">Main Dish</option>
-                <option value="categoryAppetizers">Appetizers</option>
-                <option value="categorySideDish">Side Dish</option>
-                <option value="categoryDrinks">Drinks</option>
-                <option value="categoryDesserts">Desserts</option>
-              </select>
-            </div>
-            <br>
-            <!-- Price Input -->
-            <div class="form-group col-md-3">
-                <label for="inputPrice">Price</label>
-                <div class="input-group">
-                    <span class="input-group-text">Php</span>
-                    <input type="text" class="form-control" id="inputPrice" placeholder="e.g. 150.00">
-                </div>
-            </div>
-        </form>
-  
-        
+        <!-- Category Input -->
+        <div class="form-category" style="width: 25%">
+          <label for="addDishCategory">Category</label>
+          <select class="form-select" id="addDishCategory">
+            <option disabled selected value>Food Category</option>
+            <option value="categoryMainDish">Main Dish</option>
+            <option value="categoryAppetizers">Appetizers</option>
+            <option value="categorySideDish">Side Dish</option>
+            <option value="categoryDrinks">Drinks</option>
+            <option value="categoryDesserts">Desserts</option>
+          </select>
+        </div>
+        <br>
+        <!-- Price Input -->
+        <div class="form-group col-md-3">
+          <label for="inputPrice">Price</label>
+          <div class="input-group">
+            <span class="input-group-text">Php</span>
+            <input type="number" class="form-control" id="inputPrice" min="1" placeholder="e.g. 150.00" style="text-align: left;" required>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+<script src="js/addDish.js"></script>
+<%- include("partials/footer") -%>
