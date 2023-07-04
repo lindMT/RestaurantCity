@@ -62,6 +62,10 @@ app.get("/viewPeriodical", viewStockController.getPeriodical)
 // View Custom Report   
 app.get("/viewCustom", viewStockController.getCustom)
 
+// View Detailed Report
+// To revise /Milk, will be ingredient id once may db na
+app.get("/detailedReport/Milk", viewStockController.getDetailed)
+
 // Input Physical Count
 app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
 

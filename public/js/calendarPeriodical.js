@@ -3,6 +3,7 @@
 // Date generated
 const date = new Date().toLocaleString();
 document.getElementById("current_date").innerHTML = date;
+// document.getElementsByClassName("current_date").innerHTML = date;
 
 const calendar =  document.getElementById("calendar");
 
@@ -31,7 +32,7 @@ function reportType(value) {
 
 // DAILY
 function dayRange() {
-  $('#calendar').datepicker( "destroy" );
+  $('#calendar').datepicker("destroy");
   $('#calendar').datepicker({
     autoclose: true,
     format :'mm/dd/yyyy',
@@ -41,11 +42,7 @@ function dayRange() {
 
 // WEEKLY
 function weeklyRange() {
-  calendar.type = 'text';
-  calendar.classList.add("form-control");
-
   var startDate, endDate;
-
   $('#calendar').datepicker({
     autoclose: true,
     format :'mm/dd/yyyy',
@@ -59,15 +56,15 @@ function weeklyRange() {
       $('#calendar').datepicker('update', startDate);
       $('#calendar').val((startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' +  startDate.getFullYear() + ' - ' + (endDate.getMonth() + 1) + '/' + endDate.getDate() + '/' +  endDate.getFullYear());
   });
+  
 }
 
 // MONTHLY
 function monthlyRange() {
-  $('#calendar').datepicker( "destroy" );
-  calendar.type = 'month';
-  calendar.classList.remove("form-control");
-  //   calendar.attr({
-  //     "max" : date.getFullYear+"-"+date.getMonth
-  //  });
-  calendar.removeAttribute("readonly");
+  $('#calendar').datepicker( {
+    autoclose: true,
+    format: "mm-yyyy",
+    startView: "months", 
+    minViewMode: "months"
+  });
 }

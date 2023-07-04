@@ -437,7 +437,7 @@ td i {
     text-decoration: none;
 }
 
-/***************** PERIODICAL CSS *****************/
+/***************** CATEGORY CSS *****************/
 .category-form-holder {
     display:flex; 
     justify-content: center; 
@@ -485,15 +485,33 @@ td i {
 }
 
 /***************** INPUT PHYSICAL COUNT CSS *****************/
+
+.physical-card-holder {
+    display:flex; 
+    justify-content: center; 
+}
+
+.physical-card {
+    min-width: 50vw; 
+    min-height: fit-content; 
+}
+
 .physical-header {
     display: flex;
-    justify-content:space-between;
+    flex-direction: row;
+}
+
+.physical-header h1 {
+    flex-grow: 1;
+}
+
+.physical-header button {
+    margin-left: 1rem;
 }
 
 .btn-save-progress {
     background-color: rgb(65, 161, 98);
     color:white;
-    margin-left: 48rem;
 }
 
 .btn-save-progress:hover {
@@ -563,4 +581,27 @@ input[type='number']{
     align-items: center;
     margin-top: 1rem;
     font-weight: bold;
+}
+
+/***************** DETAILED REPORT CSS *****************/
+.detailed-header {
+    display: flex;
+}
+
+.detailed-header h3 {
+    text-align: start;
+    flex-grow: 1;
+}
+
+.detailed-header #align-right, .detailed-header div {
+    text-align: end;
+    align-items: end;
+    margin-left:auto;  
+    margin-right:0px; 
+}
+
+.detailed-report-card{
+    width: 70%;
+    height: fit-content;
+    overflow:auto;
 }

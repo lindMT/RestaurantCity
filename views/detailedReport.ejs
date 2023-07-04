@@ -1,0 +1,57 @@
+<%- include("partials/header") -%>
+<div class="category-form-holder">
+    <div class="card shadow detailed-report-card">
+        <div class="detailed-header">
+            <h3><b> Detailed Report </b></h3>
+            <i id="align-right"><b>Date Range here</b></i>
+            <hr>
+        </div>
+        <div class="detailed-header">
+            <h3>for Milk</h3>
+            <i>Generated on <span id="current_date"></span></i>  
+        </div>
+        <hr>
+        <div class="detailed-header">
+            <i class="fa-solid fa-filter fa-xl" style="margin-left:end; margin-right:1rem;"></i>
+            <div class="form-group">
+                <div class="col-15">
+                    <select id="filterTypeId" class="form-select form-select-sm" aria-label="Filter selection" name="filterType">
+                            <option selected>All</option>
+                            <option value="1">In stock</option>
+                            <option value="2">Low stock</option>
+                            <option value="3">Out of stock</option>
+                    </select>                    
+                </div>
+            </div>
+        </div>
+         
+        <table class="table table-striped" style="margin-top: 1rem;">
+            <thead>
+            <tr>
+                <th scope="col">Type</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Date</th>
+                <th scope="col">Done By</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Purchased</td>
+                <td>1,466</td>
+                <td>L</td>
+                <td>0</td>
+                <td>L</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="periodical-footer">
+            <hr>
+            <h5><b>-END OF REPORT-</b></h5>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/calendarPeriodical.js"></script>
+<%- include("partials/footer") -%>
