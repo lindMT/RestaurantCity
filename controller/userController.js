@@ -98,7 +98,8 @@ const userController = {
                 lastName: lastName,
                 position: position,
                 userName: userName,
-                password: hashedPw
+                password: hashedPw,
+                status: "active"
             });
 
             user.save().then(docs => {
@@ -144,22 +145,29 @@ const userController = {
     },
 
     resetPassword: function(req, res) {
-        console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOp")
         var userName = req.params.userName;
         var unhashedPassword = req.body['password1' + userName];
-        
-        console.log("username:" + userName);
-        console.log("unhashed password:" + unhashedPassword);
-
-
         var hashedPassword = bcrypt.hashSync(unhashedPassword, 10);
-        console.log("tite" + hashedPassword);
-
-
 
         User.updateOne(
             { userName: userName },
             { $set: { password: hashedPassword } }
+        )
+        .catch(err => {
+            console.log(err);
+        });
+        
+        res.redirect('/manageUser');
+
+    },
+
+    removeUser: function(req, res) {
+        var userName = req.params.userName;
+        console.log("HEY: " + userName);
+
+        User.updateOne(
+            { userName: userName },
+            { $set: { status: "inactive" } }
         )
         .catch(err => {
             console.log(err);

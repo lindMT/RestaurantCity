@@ -12,6 +12,10 @@ const viewStockController = {
 
     getCustom: function(req, res) {
         res.render('viewCustom');
+    },
+
+    getDetailed: function(req, res) {
+        res.render('detailedReport');
     }
 }
 
