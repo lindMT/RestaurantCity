@@ -1,3 +1,10 @@
+/***************** INPUT TEMPLATE CSS *****************/
+input[type='number']{
+    width: 4em;
+    text-align:center;
+    padding-left:10px;
+} 
+
 /***************** LOGIN CSS *****************/
 .login-bg {
     height: 100%;
@@ -529,12 +536,6 @@ td i {
 .center-table{
     display:flex; justify-content:center
 }
-
-input[type='number']{
-    width: 4em;
-    text-align:center;
-    padding-left:10px;
-} 
 
 .modal-centered {
     top: 50%;
