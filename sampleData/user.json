@@ -1,11 +1,12 @@
-[{
+{
   "_id": {
-    "$oid": "637f56f755c62a1ba6db571b"
+    "$oid": "64a3fc38e916ed6021b6a5f6"
   },
-  "firstName": "Lind",
-  "lastName": "Tan",
-  "userName": "lind",
-  "password": "123",
-  "position": "",
+  "firstName": "Alain",
+  "lastName": "Encarnacion",
+  "userName": "alain",
+  "password": "$2b$10$Ap2LNfBCAx4PgGBxa84Ku.4zlOKQimAZFne.N4JosLAkeTDUUd2Z2",
+  "position": "owner",
+  "status": "active",
   "__v": 0
-}]
+}
