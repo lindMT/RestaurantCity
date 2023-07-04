@@ -14,14 +14,14 @@ function addInputFields(){
         netWt.setAttribute('type', 'number');
         netWt.setAttribute('placeholder', 'Net Wt. (Min: 1)');
         netWt.setAttribute('min', '1');
-        netWt.setAttribute('style', 'margin-top: 10px; text-align: left; padding: 3px; width: 100%;');
+        netWt.setAttribute('style', 'margin-top: 10px; text-align: left; padding: 5px; width: 48%;');
         netWt.required = "true"
 
         var unit = document.createElement('select');
         unit.setAttribute('class', 'form-select');
         unit.setAttribute('id', 'record-unit-field');
         unit.setAttribute('name', 'ingreUnit');
-        unit.setAttribute('style', 'margin-top: 3px; padding: 4px; width: 100%;');
+        unit.setAttribute('style', 'margin-top: 10px; margin-left: 1%; padding: 5px; width: 51%;');
         unit.required = "true";
 
         // Create an array of option values and text
