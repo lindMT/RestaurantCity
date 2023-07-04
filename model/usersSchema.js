@@ -26,6 +26,12 @@ const usersSchema = new Schema( {
     position: {
         type: String,
         required: true
+    },
+
+    status: {
+        type: String,
+        required: true,
+        enum: ['active', 'inactive'] // Specify the enum values here
     }
 });
 

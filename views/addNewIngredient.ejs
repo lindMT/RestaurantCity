@@ -1,61 +1,64 @@
 <%- include("partials/header") -%>
 
-<div class="card shadow">
+<!-- TODO: Add later to CSS file -->
+<style>
+    #add-ni-card{
+        margin: auto;
+        width: 600px;
+    }
+</style>
+
+<div id="add-ni-card" class="card shadow">
     <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
-    <div class="stock-header">
-        <h1>Inventory - Add New Ingredient</h1>
+    <div>
+        <h1 style="text-align: center; padding: 5px;">Add New Ingredient</h1>
     </div>
     <hr/>
     <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
     <div>
-        <p>Add NEW ingredients (i.e. First Purchase) to the inventory list. Fill-out ALL input fields for the details of the ingredients.</p>
+        <p style="text-align: center;">Add a NEW ingredient (i.e. First Purchase) to the inventory list. Fill-out ALL input fields for the details of the ingredient.</p>
         <br/>
     </div>
-    <!-- TODO: Backend form -->
+
     <form method="post" action="#">
-        <div class="form-row">
-            <div class="form-group col-md-5">
-                <h4>Ingredient Name</h4>
-                <!-- TODO: CSS - Translate Style -->
-                <input type="text" name="ingreName" class="form-control" placeholder="E.g. Cabbage, Sesame Oil, Rice" style="width: 300px;" required>
-            </div>
-        </div>
-        <br/>
-        <div class="form-row">
-            <div class="form-group col-md-5">
-                <h4>Net Weight</h4>
-                <!-- TODO: CSS - Translate Style -->
-                <input type="number" name="ingreNetWt" class="form-control" placeholder="Minimum: 1" min="1" max="10" style="text-align: left; width: 155px;" required>
-            </div>
-        </div>
-        <br/>
-        <div class="form-row">
-            <div class="form-group col-md-5">
-                <!-- TODO: Backend - Will automatically compute for total net weight -->
-                <h4>Quantity</h4>
-                <!-- TODO: CSS - Translate Style -->
-                <input type="number" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" max="10" style="text-align: left; width: 155px;" required>
-            </div>
-        </div>
-        <br/>
-        <div class="form-row">
-            <div class="form-group col-md-5">
-                <h4>Unit</h4>
-                <!-- TODO: CSS - Translate Style -->
-                <!-- TODO: Backend - Get values from Tbl_Units -->
-                <select class="form-control" name="ingreUnit" style="width: 200px;" required>
-                    <option disabled selected value> -- Select a Unit -- </option>
-                    <option value="g">G (Grams)</option>
-                    <option value="kg">Kg (Kilograms)</option>
-                    <option value="ml">mL (Milliliters)</option>
-                    <option value="l">L (Liters)</option>
-                </select>
-            </div>
+        <div class="form-group form-align-left">
+            <label>Ingredient Name</label>
+            <!-- TODO: CSS - Translate Style -->
+            <input type="text" name="ingreName" class="form-control" placeholder="E.g. Cabbage, Sesame Oil, Rice" required>
         </div>
         <br/>
 
+        <div class="form-group form-align-left">
+            <label>Net Weight</label>
+            <!-- TODO: CSS - Translate Style -->
+            <input type="number" name="ingreNetWt" placeholder="Minimum: 1" min="1" max="10" class="form-control" style="padding: 5px; text-align: left; width: 100%;" required>
+        </div>
+        <br/>
+
+        <div class="form-group form-align-left">
+            <label>Unit</label>
+            <!-- TODO: CSS - Translate Style -->
+            <!-- TODO: Backend - Get values from Tbl_Units -->
+            <select name="ingreUnit" class="form-select form-select-md" style="padding: 5px; width: 100%;" required>
+                <option disabled selected value> -- Select a Unit -- </option>
+                <option value="g">g (Grams)</option>
+                <option value="kg">Kg (Kilograms)</option>
+                <option value="ml">mL (Milliliters)</option>
+                <option value="l">L (Liters)</option>
+            </select>
+        </div>
+        <br/>
+
+        <div class="form-group form-align-left">
+            <!-- TODO: Backend - Will automatically compute for total net weight -->
+            <label>Quantity</label>
+            <!-- TODO: CSS - Translate Style -->
+            <input type="number" name="ingreQty" placeholder="Minimum: 1" min="1" max="10" class="form-control" style="padding: 5px; text-align: left; width: 100%;" required>
+        </div>
+        <br/>
+        
         <hr/>
-        <button type="submit" class="btn btn-submit-count" style="display:flex;">Add New Ingredient to Inventory</button>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Add to Inventory</button>
     </form>
 </div>
 

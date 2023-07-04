@@ -16,12 +16,12 @@
 
                 <div class="form-group form-align-left" style="margin-top: 10px;">
                     First Name
-                    <input type="text" class="form-control" name="firstName" value="<%=firstName%>" required>
+                    <input type="text" class="form-control" name="firstName" value="<%=firstName%>" placeholder="ex. Juan" required>
                 </div>
 
                 <div class="form-group form-align-left" style="margin-top: 10px;">
                     Last Name
-                    <input type="text" class="form-control" name="lastName" value="<%=lastName%>" required>
+                    <input type="text" class="form-control" name="lastName" value="<%=lastName%>" placeholder="ex. Dela Cruz" required>
                 </div>
 
                 <div class="form-group form-align-left" style="margin-top: 10px;">
@@ -38,7 +38,7 @@
                             <% if (position == "") { %>
                                 selected
                             <% } %>
-                        ></option>
+                        > -- Select a Position --</option>
 
                         <option value="owner"
                             <% if (position == "owner") { %>
@@ -70,7 +70,7 @@
 
                 <div class="form-group form-align-left" style="margin-top: 10px;">
                     User Name
-                    <input type="text" class="form-control" name="userName" required>
+                    <input type="text" class="form-control" name="userName" placeholder="ex. JDelaCruz01" required>
                 </div>
                 
                 <div class="form-group form-align-left" id="pw1" style="margin-top: 10px;">
