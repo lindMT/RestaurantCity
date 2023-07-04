@@ -21,7 +21,7 @@
 
     <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
     <div>
-        <p style="text-align: center;">Update the quantity of an ingredient in the inventory list. Select an ingredient and put the number of quantity bought.</p>
+        <p style="text-align: center;">Update the quantity of an ingredient in the inventory list. Select an ingredient from the inventory and put the net weight, unit, and quantity bought.</p>
         <br/>
     </div>
 
@@ -32,6 +32,7 @@
             <!-- TODO: Translate Style to CCS -->
             <select name="ingreName" class="form-select form-select-md" style="width: 100%; padding: 5px;" required>
                 <option disabled selected value> -- Select an Ingredient -- </option>
+                <!-- TODO: Backend -->
                 <option value="oil">Oil</option>
                 <option value="milk">Milk</option>
                 <option value="butter">Butter</option>
@@ -44,6 +45,7 @@
             <!-- TODO: Translate Style to CCS -->
             <select id="record-select-nu-input" name="ingreNetUnit" class="form-select form-select-md" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
                 <option disabled selected value> -- Select Net Wt. & Unit -- </option>
+                <!-- TODO: Backend -->
                 <option value="500g">500 g (Grams)</option>
                 <option value="20kg">20 kg (Kilograms)</option>
                 <option value="500ml">500 mL (Milliliters)</option>
