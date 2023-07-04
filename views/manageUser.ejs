@@ -24,27 +24,29 @@
                     <tbody>                        
 
                         <% users.forEach(function(user){ %>
-                            <tr>
-                                <td><%= user.firstName%> <%= user.lastName%></td>
-                                <td>
-                                    <div class="btn-group" role="group" aria-label="First group">
-                                        <button type="button" 
-                                                style="background-color: #CD9211 !important; color: white" 
-                                                class="btn btn-secondary"
-                                                data-toggle="modal"
-                                                data-target="#reset<%=user.userName%>" >
-                                            Reset Password
-                                        </button>
-                                        <!-- <button type="button" 
-                                                style="background-color: #CE3737 !important; color: white" 
-                                                class="btn btn-secondary"
-                                                data-toggle="modal"
-                                                data-target="#removeModal" >
-                                            Remove
-                                        </button> -->
-                                    </div>
-                                </td>
-                            </tr>
+                            <% if(user.status == "active") { %>
+                                <tr>
+                                    <td><%= user.firstName%> <%= user.lastName%></td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="First group">
+                                            <button type="button" 
+                                                    style="background-color: #CD9211 !important; color: white" 
+                                                    class="btn btn-secondary"
+                                                    data-toggle="modal"
+                                                    data-target="#reset<%=user.userName%>" >
+                                                Reset Password
+                                            </button>
+                                            <button type="button" 
+                                                    style="background-color: #CE3737 !important; color: white" 
+                                                    class="btn btn-secondary"
+                                                    data-toggle="modal"
+                                                    data-target="#remove<%=user.userName%>" >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% } %>
                         <% }); %> 
 
                     </tbody>
@@ -67,7 +69,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h4 class="modal-title" id="dishName"><p contenteditable="true"><%= user.firstName%> <%= user.lastName%></p></h4>
+                    <h4 class="modal-title" id="dishName"><%= user.firstName%> <%= user.lastName%></h4>
                     
                     <div data-dismiss="modal">
                         <i class="fa-solid fa-x" style="color: #000000;"></i>
@@ -100,13 +102,42 @@
                     </form>
 
                     <div class="centered">
-                        <h6 id="<%=user.userName%>"></h6>
+                        <h6 id="prompt<%=user.userName%>"></h6>
                     </div>
 
                 </div>
             </div>
         </div>
         
+        <div class="modal fade" id="remove<%=user.userName%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h4 class="modal-title" id="dishName"><%= user.firstName%> <%= user.lastName%></h4>
+                    
+                    <div data-dismiss="modal">
+                        <i class="fa-solid fa-x" style="color: #000000;"></i>
+                    </div>
+    
+                    </div>
+    
+                    <div class="modal-body">
+                        Are you sure you want to remove this user? 
+                    </div>
+                    
+    
+                    <form action="/removeUser/<%= user.userName%>" method="POST">
+                        <div class="modal-footer centered">
+                            <button type="submit" style="background-color: #CE3737 !important;" class="btn btn-primary">
+                                Confirm
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
         <script>
             document.querySelectorAll('.user-form').forEach(function(form) {
                 form.addEventListener('submit', function(event) {
@@ -116,11 +147,11 @@
                     var password2Input = form.querySelector("input[type='password'][name='password2<%=user.userName%>']");
                 
                     if (password1Input.value !== password2Input.value) {
-                        document.getElementById("<%=user.userName%>").textContent = "Passwords do not match!";
+                        document.getElementById("prompt<%=user.userName%>").textContent = "Passwords do not match!";
                         password1Input.value = ""; // Clear the password inputs
                         password2Input.value = "";
                     } else {
-                        document.getElementById("<%=user.userName%>").textContent = ""; // Clear the prompt if passwords match
+                        document.getElementById("prompt<%=user.userName%>").textContent = ""; // Clear the prompt if passwords match
                         this.submit(); // submit
                     }
                 });
@@ -128,29 +159,4 @@
         </script>
     <% }); %> 
 
-<!-- 
-    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h4 class="modal-title" id="dishName"><p contenteditable="true">Lind Tan</p></h4>
-                
-                <div data-dismiss="modal">
-                    <i class="fa-solid fa-x" style="color: #000000;"></i>
-                </div>
-
-                </div>
-
-                <div class="modal-body">
-                    Are you sure you want to remove this user? 
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" style="background-color: #CE3737 !important;" class="btn btn-primary">
-                        Confirm
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div> -->
 <%- include("partials/footer") -%>

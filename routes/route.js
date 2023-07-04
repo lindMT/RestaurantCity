@@ -34,6 +34,7 @@ app.get("/createUser", userController.getCreateUser)
 app.post("/createUser", userController.createUser)
 app.get("/manageUser", userController.getManageUser)
 app.post("/resetPassword/:userName", userController.resetPassword);
+app.post("/removeUser/:userName", userController.removeUser);
 
 // View Inventory
 app.get("/viewInventory", viewInvController.getViewInventory)
