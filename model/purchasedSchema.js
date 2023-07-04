@@ -22,7 +22,7 @@ const purchasedSchema = new Schema( {
       ],
 
     qty: {
-        type: Int,
+        type: Number,
         required: true
     },
 

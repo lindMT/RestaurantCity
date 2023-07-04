@@ -22,7 +22,7 @@ const discardedSchema = new Schema( {
       ],
 
     qty: {
-        type: Int,
+        type: Number,
         required: true
     },
 

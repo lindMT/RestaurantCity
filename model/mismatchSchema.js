@@ -22,7 +22,7 @@ const mismatchSchema = new Schema( {
       ],
 
     difference: {
-        type: Int,
+        type: mongoose.Types.Decimal128,
         required: true
     },
 
