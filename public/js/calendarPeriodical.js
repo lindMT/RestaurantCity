@@ -3,13 +3,12 @@
 // Date generated
 const date = new Date().toLocaleString();
 document.getElementById("current_date").innerHTML = date;
-document.getElementById("current_date2").innerHTML = "jejlkfslkdfjds";
+document.getElementById("current_date2").innerHTML = date;
 // document.getElementByClassName("current_date").innerHTML = date;
 
 
 // Report Type
 function reportType(value) {
-  alert(value);
   switch(value) {
     case "1":
       dayRange();
@@ -31,7 +30,7 @@ function reportType(value) {
 
 // DAILY
 function dayRange() {
-  $('#calendar').datepicker("destroy");
+  $('#calendar').off("changeDate");
   $('#calendar').datepicker({
     autoclose: true,
     format :'mm/dd/yyyy',
@@ -55,7 +54,6 @@ function weeklyRange() {
       $('#calendar').datepicker('update', startDate);
       $('#calendar').val((startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' +  startDate.getFullYear() + ' - ' + (endDate.getMonth() + 1) + '/' + endDate.getDate() + '/' +  endDate.getFullYear());
   });
-  
 }
 
 // MONTHLY
