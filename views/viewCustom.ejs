@@ -8,14 +8,14 @@
         </div>
         <div class="stock-header2 ">
             <h5>From:</h5>
-            <input type="text" id="start_date">
+            <input type="date" id="start_date">
         </div>
         <div class="stock-header2">
             <h5>To:</h5>
-            <input type="text" id="end_date" data-date-end-date="0d">
+            <input type="date" id="end_date"></input>
         </div>
         <hr>
-        <button type="button" class="btn btn-submit-count w-100">SUBMIT</button>
+        <button type="button" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
         </form>
     </div>
     <div class="card shadow periodical-report-card">
@@ -38,7 +38,10 @@
             </thead>
             <tbody>
             <tr> 
-                <td>Milk</td>
+                <!-- Pag may DB na, revise to calling based on id -->
+                <td name="ingredient-name">
+                    <a href="/detailedReport/Milk">Milk</a>
+                </td>
                 <td>1,500</td>
                 <td>4,466</td>
                 <td>34</td>
@@ -55,5 +58,5 @@
 
 </div>
 
-<script src="js/calendarCustom.js"></script>
+<script src="/js/calendarCustom.js"></script>
 <%- include("partials/footer") -%>

@@ -10,7 +10,7 @@
                 <h5>Report Type:</h5>
                 <div class="form-group col-md-8">
                     <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required onchange="reportType(this.value)">
-                            <option selected>-Choose One-</option>
+                            <option disabled selected>-Choose One-</option>
                             <option value="1">Daily</option>
                             <option value="2">Weekly</option>
                             <option value="3">Monthly</option>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <hr>
-            <button type="button" class="btn btn-submit-count w-100">Submit</button>
+            <button type="button" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
         </form>
     </div>
     <div class="card shadow periodical-report-card">
@@ -33,7 +33,6 @@
             <h3><b> Stock Report for </b></h3>
             <i>Generated on <span id="current_date"></span></i>  
             <hr>
-            
         </div>
         <table class="table table-striped" style="margin-top: 1rem;">
             <thead>
@@ -68,5 +67,5 @@
 
 </div>
 
-<script src="js/calendarPeriodical.js"></script>
+<script src="/js/calendarPeriodical.js"></script>
 <%- include("partials/footer") -%>
