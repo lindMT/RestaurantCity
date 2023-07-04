@@ -3,9 +3,8 @@
 // Date generated
 const date = new Date().toLocaleString();
 document.getElementById("current_date").innerHTML = date;
-// document.getElementsByClassName("current_date").innerHTML = date;
-
-const calendar =  document.getElementById("calendar");
+document.getElementById("current_date2").innerHTML = "jejlkfslkdfjds";
+// document.getElementByClassName("current_date").innerHTML = date;
 
 
 // Report Type
