@@ -21,25 +21,25 @@
     </div>
 
     <form method="post" action="#">
-        <div>
+        <div class="form-group form-align-left">
             <label>Ingredient Name</label>
             <!-- TODO: CSS - Translate Style -->
-            <input type="text" name="ingreName" placeholder="E.g. Cabbage, Sesame Oil, Rice" style="padding: 5px; width: 100%;" required>
+            <input type="text" name="ingreName" class="form-control" placeholder="E.g. Cabbage, Sesame Oil, Rice" required>
         </div>
         <br/>
 
-        <div>
+        <div class="form-group form-align-left">
             <label>Net Weight</label>
             <!-- TODO: CSS - Translate Style -->
-            <input type="number" name="ingreNetWt" placeholder="Minimum: 1" min="1" max="10" style="padding: 5px; text-align: left; width: 100%;" required>
+            <input type="number" name="ingreNetWt" placeholder="Minimum: 1" min="1" max="10" class="form-control" style="padding: 5px; text-align: left; width: 100%;" required>
         </div>
         <br/>
 
-        <div>
+        <div class="form-group form-align-left">
             <label>Unit</label>
             <!-- TODO: CSS - Translate Style -->
             <!-- TODO: Backend - Get values from Tbl_Units -->
-            <select name="ingreUnit" style="padding: 5px; width: 100%;" required>
+            <select name="ingreUnit" class="form-select form-select-md" style="padding: 5px; width: 100%;" required>
                 <option disabled selected value> -- Select a Unit -- </option>
                 <option value="g">g (Grams)</option>
                 <option value="kg">Kg (Kilograms)</option>
@@ -49,16 +49,16 @@
         </div>
         <br/>
 
-        <div>
+        <div class="form-group form-align-left">
             <!-- TODO: Backend - Will automatically compute for total net weight -->
             <label>Quantity</label>
             <!-- TODO: CSS - Translate Style -->
-            <input type="number" name="ingreQty" placeholder="Minimum: 1" min="1" max="10" style="padding: 5px; text-align: left; width: 100%;" required>
+            <input type="number" name="ingreQty" placeholder="Minimum: 1" min="1" max="10" class="form-control" style="padding: 5px; text-align: left; width: 100%;" required>
         </div>
         <br/>
         
         <hr/>
-        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Add New Ingredient to Inventory</button>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Add to Inventory</button>
     </form>
 </div>
 
