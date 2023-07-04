@@ -138,7 +138,7 @@
 
         <h1 id="content-title">Current Order</h1>
         <hr>
-        
+        <form action="/processOrder" method="POST" style="min-height: 100%;"><!-- Form closing tag on Line 210  -->
         <div class="order-terminal-table-holder">
             <table id="order-terminal-table" class="table table-striped" style="table-layout: auto;">
                 <thead>
@@ -202,8 +202,6 @@
                 Are you sure you want to process this order? 
             </div>
             
-
-            <form action="/processOrder" method="POST">
                 <div class="modal-footer centered">
                     <button type="submit" style="background-color: #63A375 !important;" class="btn btn-primary">
                         Confirm
@@ -232,7 +230,7 @@
             </div>
             
 
-            <form action="/resetOrder" method="GET">
+            <form action="/viewOrderTerminal" method="GET">
                 <div class="modal-footer centered">
                     <button type="submit" style="background-color: #B56576 !important;" class="btn btn-primary">
                         Confirm

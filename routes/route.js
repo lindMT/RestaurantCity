@@ -73,6 +73,5 @@ app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
 // Order Terminal
 app.get("/viewOrderTerminal", orderController.getOrder)
 app.post("/processOrder", orderController.processOrder);
-app.get("/resetOrder", orderController.getOrder);
 
 module.exports = app;
