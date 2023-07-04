@@ -1,11 +1,8 @@
 // TO-DO: Error-check clickable until user date only.
 
-// Current date (Top right, readable format)
-const date = new Date().toDateString();
-document.getElementById("current_date").innerHTML = date;
 // Date generated
-const date2 = new Date().toLocaleString();
-document.getElementById("date_generated").innerHTML = date2;
+const date = new Date().toLocaleString();
+document.getElementById("current_date").innerHTML = date;
 
 const calendar =  document.getElementById("calendar");
 
@@ -15,7 +12,7 @@ function reportType(value) {
   alert(value);
   switch(value) {
     case "1":
-      // code block
+      dayRange();
       break;
     case "2":
       weeklyRange();
@@ -33,10 +30,17 @@ function reportType(value) {
 }
 
 // DAILY
+function dayRange() {
+  $('#calendar').datepicker( "destroy" );
+  $('#calendar').datepicker({
+    autoclose: true,
+    format :'mm/dd/yyyy',
+    forceParse :false
+  })
+}
 
 // WEEKLY
 function weeklyRange() {
-
   calendar.type = 'text';
   calendar.classList.add("form-control");
 
@@ -59,8 +63,11 @@ function weeklyRange() {
 
 // MONTHLY
 function monthlyRange() {
-  $('#calendar').datepicker( "destroy" )
+  $('#calendar').datepicker( "destroy" );
   calendar.type = 'month';
   calendar.classList.remove("form-control");
+  //   calendar.attr({
+  //     "max" : date.getFullYear+"-"+date.getMonth
+  //  });
   calendar.removeAttribute("readonly");
 }

@@ -357,24 +357,12 @@ td i {
 }
 
 .stock-header2 {
-    display: inline-flex;
-    gap: 1rem;
-    margin: 1rem;
-}
-
-.stock-header div {
-    margin-left:auto;
-}
-
-.stock-header i {
-    margin-top:1rem;
-    margin-left: 0.5rem;
-}
-
-.stock-title {
-    display:inline;
-    justify-content: center;
-    text-align: center;
+    /* display: inline-flex;
+    gap: 1rem; */
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content:space-between;
 }
 
 .stock-analytics-holder {
@@ -432,17 +420,12 @@ td i {
     flex-basis: 20%;
     flex-grow: 0;
     height: 25%;
-
-    /* to align items to center */
     display: flex;
     justify-content: center;
     align-items: center;
-
     border-width: 5px;
-
     background-color: rgb(0, 145, 207);
     color: #E7EEEC;
-
     justify-content: space-around;
 }
 
@@ -452,6 +435,38 @@ td i {
 
 .no-decor {
     text-decoration: none;
+}
+
+
+/***************** PERIODICAL CSS *****************/
+.periodical-header {
+    display: inline;
+    justify-content:center;
+    text-align: center;
+}
+
+.periodical-footer {
+    display: inline;
+    justify-content:center;
+    text-align: center;
+}
+
+.periodical-card-holder{
+    display: flex;
+    flex-direction: row;
+    width: 80vw; 
+    height: 40vw;
+}
+
+.periodical-report-card{
+    width: 70%;
+    height: fit-content;
+    overflow:auto;
+}
+
+.periodical-select-card{
+    width: 30%;
+    height: fit-content;
 }
 
 /***************** INPUT PHYSICAL COUNT CSS *****************/
