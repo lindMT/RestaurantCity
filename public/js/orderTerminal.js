@@ -37,10 +37,10 @@ function addDishItem(clickedDish){
         //cell 4 
 
         cell1.innerHTML = dishName;
-        cell2.innerHTML = "<input type='number' value='1' min='1' onchange='calculateTotalPrice()'>";
+        cell2.innerHTML = "<input type='number' value='1' min='1' name='quantity[]' onchange='calculateTotalPrice()'>";
         cell3.innerHTML = dishPrice;
         cell4.innerHTML = "<i onclick='removeDishItem(\"" + newDishId + "\")' class='fa-solid fa-x fa-xs' style='color: #000000;'></i>";
-        cell5.innerHTML = "<input type='hidden' value='" + newDishId + "'>";
+        cell5.innerHTML = "<input type='hidden' value='" + newDishId + "' name='dishId[]'>";
     } 
 
     calculateTotalPrice()

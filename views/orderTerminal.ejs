@@ -160,16 +160,22 @@
 
             <div style="display: flex; flex-direction: row;">
                 <h5 style="margin-left: 0px; margin-right: auto; margin-bottom: 0px;">Total:</h5>
-                <h1 id="totalPrice" style="margin-left: auto; margin-right: 0px;">Php 0.00</h1>
+                <h1 id="totalPrice" name="totalPrice" style="margin-left: auto; margin-right: 0px;">Php 0.00</h1>
             </div>
 
             <hr>
 
-            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #63A375;">
+            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #63A375;"
+                    class="btn btn-secondary"
+                    data-toggle="modal"
+                    data-target="#processOrder">
                 Confirm
             </button>
 
-            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #B56576;">
+            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #B56576;"
+                    class="btn btn-secondary"
+                    data-toggle="modal"
+                    data-target="#resetOrder">
                 Cancel
             </button>
             
@@ -177,7 +183,66 @@
 
     </div>
             
-</div> 
+</div>
+
+
+<div class="modal fade" id="processOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">Confirm Order</h4>
+            
+            <div data-dismiss="modal">
+                <i class="fa-solid fa-x" style="color: #000000;"></i>
+            </div>
+
+            </div>
+
+            <div class="modal-body">
+                Are you sure you want to process this order? 
+            </div>
+            
+
+            <form action="/processOrder" method="POST">
+                <div class="modal-footer centered">
+                    <button type="submit" style="background-color: #63A375 !important;" class="btn btn-primary">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resetOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">Confirm Reset Order</h4>
+            
+            <div data-dismiss="modal">
+                <i class="fa-solid fa-x" style="color: #000000;"></i>
+            </div>
+
+            </div>
+
+            <div class="modal-body">
+                Are you sure you want to reset this order? 
+            </div>
+            
+
+            <form action="/resetOrder" method="GET">
+                <div class="modal-footer centered">
+                    <button type="submit" style="background-color: #B56576 !important;" class="btn btn-primary">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
 
 <script src="/js/orderTerminal.js"></script>
 
