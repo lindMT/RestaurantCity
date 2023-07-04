@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema( {
     totalPrice: { 
-        type: Float32Array, 
+        type: mongoose.Types.Decimal128, 
         required: true,
     },
 
