@@ -594,12 +594,21 @@ td i {
     display: flex;
 }
 
+.detailed-header2 {
+    display: flex;
+    flex-direction: row;
+    text-align: end;
+    align-items: end;
+    margin-left:auto;  
+    margin-right:0px;
+}
+
 .detailed-header h3 {
     text-align: start;
     flex-grow: 1;
 }
 
-.detailed-header #align-right, .detailed-header div {
+.detailed-header #align-right, .detailed-header div  {
     text-align: end;
     align-items: end;
     margin-left:auto;  
