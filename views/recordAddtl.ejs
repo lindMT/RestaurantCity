@@ -1,57 +1,64 @@
 <%- include("partials/header") -%>
 
-<div class="card shadow">
+<!-- TODO: Add later to CSS file -->
+<style>
+    #record-card{
+        margin: auto;
+        width: 600px;
+    }
+</style>    
+
+<div id="record-card" class="card shadow">
     <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
-    <div class="stock-header">
-        <h1>Inventory - Record Additional Purchase</h1>
+    <div>
+        <h1 style="text-align: center; padding: 5px;">Record Additional Purchase</h1>
     </div>
     <hr/>
+
     <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
     <div>
-        <p>Update the quantity of an ingredient in the inventory list. Select an ingredient and put the number of quantity bought.</p>
+        <p style="text-align: center;">Update the quantity of an ingredient in the inventory list. Select an ingredient and put the number of quantity bought.</p>
         <br/>
     </div>
+
     <!-- TODO: Backend form -->
     <form method="post" action="#">
-        <div class="form-row">
-            <div class="form-group col-md-5">
-                <h4>Ingredient Name</h4>
-                <!-- TODO: CSS - Translate Style -->
-                <select class="form-control" name="ingreName" style="width: 250px;" required>
-                    <option disabled selected value> -- Select an Ingredient -- </option>
-                    <option value="Cabbage">Cabbage</option>
-                    <option value="Sesame Oil">Sesame Oil</option>
-                    <option value="Rice">Rice</option>
-                </select></div>
+        <div>
+            <label>Ingredient Name</label>
+            <!-- TODO: Translate Style to CCS -->
+            <select name="ingreName" style="width: 100%; padding: 5px;" required>
+                <option disabled selected value> -- Select an Ingredient -- </option>
+                <option value="Cabbage">Cabbage</option>
+                <option value="Sesame Oil">Sesame Oil</option>
+                <option value="Rice">Rice</option>
+            </select>
         </div>
         <br/>
-        <div class="form-row">
-            <div class="form-group col-md-5">
-                <h4>Net Weight & Unit</h4>
-                <!-- TODO: CSS - Translate Style -->
-                <!-- TODO: Backend - Values will change in accordance to SELECTED INGREDIENT [?] -->
-                <select id="ingreSelectNetUnit" class="form-control" name="ingreNetUnit" style="width: 250px;" onchange="addInputFields()" required>
-                    <option disabled selected value> -- Select Net Wt. & Unit -- </option>
-                    <option value="500g">500 G (Grams)</option>
-                    <option value="20kg">20 Kg (Kilograms)</option>
-                    <option value="500ml">500 mL (Milliliters)</option>
-                    <option value="1l">1 L (Liters)</option>
-                    <option value="others">Others... (Specify)</option>
-                </select> 
-            </div>
+
+        <div>
+            <label>Net Weight & Unit</label>
+            <!-- TODO: Translate Style to CCS -->
+            <select id="record-select-nu-input" name="ingreNetUnit" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
+                <option disabled selected value> -- Select Net Wt. & Unit -- </option>
+                <option value="500g">500 g (Grams)</option>
+                <option value="20kg">20 kg (Kilograms)</option>
+                <option value="500ml">500 mL (Milliliters)</option>
+                <option value="1l">1 L (Liters)</option>
+                <option value="others">Others... (Specify)</option>
+            </select> 
         </div>
+        <div id="record-others-field"></div>
         <br/>
-        <div class="form-row">
-            <div class="form-group col-md-5">
-                <h4>Quantity</h4>
-                <!-- TODO: CSS - Translate Style -->
-                <input type="number" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" max="10" style="text-align: left; width: 155px;" required>
-            </div>
+
+        <div>
+            <label>Quantity</label>
+            <!-- TODO: CSS - Translate Style -->
+            <input type="number" name="ingreQty" placeholder="Minimum: 1" min="1" max="10" style="text-align: left; width: 100%; padding: 5px;" required>
         </div>
         <br/>
 
         <hr/>
-        <button type="submit" class="btn btn-submit-count" style="display:flex;">Update Inventory</button>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Update Inventory</button>
     </form>
 </div>
 

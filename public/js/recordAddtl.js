@@ -1,22 +1,62 @@
 function addInputFields(){
-    // var select = document.querySelector("#ingreSelectNetUnit")
-    // var value = select.value
-    // console.log(value);
+    var divId = document.getElementById("record-others-field");
 
-    // var selected = document.querySelector("[name='dish-name']").innerHTML;
+    var selectId = document.getElementById("record-select-nu-input");
+    var selectVal = selectId.value;
 
-    // var selectId = document.getElementById("ingreSelectNetUnit");
-    // var selectVal = selectId.value;
+    console.log(selectVal)
 
-    // console.log(selectVal)
+    if(selectVal == "others"){
+        var netWt = document.createElement("input");
+        netWt.setAttribute('id', 'record-netwt-field');
+        netWt.setAttribute('name', 'ingreNetWt');
+        netWt.setAttribute('type', 'number');
+        netWt.setAttribute('placeholder', 'Net Wt. (Min: 1)');
+        netWt.setAttribute('min', '1');
+        netWt.setAttribute('style', 'margin-top: 10px; text-align: left; padding: 3px; width: 50%;');
+        netWt.required = "true"
 
-    // if(selectVal == "others"){
-    //     var netWt = document.createElement("input");
-    //     netWt.type="number";
-    //     netWt.className="form-control";
-    //     netWt.placeholder="Minimum: 1";
+        var unit = document.createElement('select');
+        unit.setAttribute('id', 'record-unit-field');
+        unit.setAttribute('name', 'ingreUnit');
+        unit.setAttribute('style', 'margin-left: 2%; padding: 4px; width: 48%;');
+        unit.required = "true";
 
-    //     document.body.appendChild(netWt)
-    //     // input type="number" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" max="10" style="text-align: left; width: 155px;" required>
-    // }
+        // Create an array of option values and text
+        var options = [
+            { value: '', text: '-- Select a Unit --' },
+            { value: 'g', text: 'g (Grams)' },
+            { value: 'kg', text: 'kg (Kilograms)' },
+            { value: 'mL', text: 'mL (Milliliters)' },
+            { value: 'L', text: 'L (Liters)' },
+        ];
+
+        // grams, kilograms, milliliters, liters, ounces, pounds, fluid ounces
+
+        // Create and append the option elements
+        for (var i = 0; i < options.length; i++) {
+            var unitOption = document.createElement('option');
+
+            if (i === 0) {
+                unitOption.disabled = true;
+                unitOption.selected = true;
+            }
+
+            unitOption.value = options[i].value;
+            unitOption.text = options[i].text;
+            unit.appendChild(unitOption);
+        }
+
+        divId.appendChild(netWt);
+        divId.appendChild(unit);
+        // input type="number" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" max="10" style="text-align: left; width: 155px;" required>
+    }else{
+        var netWtFieldId = document.getElementById("record-netwt-field");
+        var unitFieldId = document.getElementById("record-unit-field");
+
+        if(netWtFieldId !== null && unitFieldId !== null){
+            netWtFieldId.remove();
+            unitFieldId.remove();
+        }
+    }
 }
