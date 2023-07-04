@@ -81,12 +81,12 @@
                             
                             <div class="form-group form-align-left" style="margin-top: 10px;">
                                 New Password
-                                <input type="password" class="form-control" name="password1" required>
+                                <input type="password" class="form-control" name="password1<%=user.userName%>" required>
                             </div>
             
                             <div class="form-group form-align-left" style="margin-top: 10px;">
                                 Confirm New Password
-                                <input type="password" class="form-control" name="password2" required>
+                                <input type="password" class="form-control" name="password2<%=user.userName%>" required>
                             </div>
 
                         </div>
@@ -100,12 +100,32 @@
                     </form>
 
                     <div class="centered">
-                        <h6 id="prompt"></h6>
+                        <h6 id="<%=user.userName%>"></h6>
                     </div>
 
                 </div>
             </div>
         </div>
+        
+        <script>
+            document.querySelectorAll('.user-form').forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent form submission
+                
+                    var password1Input = form.querySelector("input[type='password'][name='password1<%=user.userName%>']");
+                    var password2Input = form.querySelector("input[type='password'][name='password2<%=user.userName%>']");
+                
+                    if (password1Input.value !== password2Input.value) {
+                        document.getElementById("<%=user.userName%>").textContent = "Passwords do not match!";
+                        password1Input.value = ""; // Clear the password inputs
+                        password2Input.value = "";
+                    } else {
+                        document.getElementById("<%=user.userName%>").textContent = ""; // Clear the prompt if passwords match
+                        this.submit(); // submit
+                    }
+                });
+            });
+        </script>
     <% }); %> 
 
 <!-- 
@@ -133,5 +153,4 @@
             </div>
         </div>
     </div> -->
-    <script src="js/checkPwMatch.js"></script>
 <%- include("partials/footer") -%>

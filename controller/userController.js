@@ -144,9 +144,17 @@ const userController = {
     },
 
     resetPassword: function(req, res) {
+        console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOp")
         var userName = req.params.userName;
-        var unhashedPassword = req.body.password1;
+        var unhashedPassword = req.body['password1' + userName];
+        
+        console.log("username:" + userName);
+        console.log("unhashed password:" + unhashedPassword);
+
+
         var hashedPassword = bcrypt.hashSync(unhashedPassword, 10);
+        console.log("tite" + hashedPassword);
+
 
 
         User.updateOne(
