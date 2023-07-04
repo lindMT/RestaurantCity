@@ -1,11 +1,21 @@
-// TO-DO: Error-check clickable until user date only.
+// Disable submit button
+$("#submitbtn").prop("disabled", true);
+
+
+// Enable if both have value
+$("#calendar").change(function() {
+    if ($("#calendar").val() !== "") {
+        $("#submitbtn").prop("disabled", false);
+    } else {
+        $("#submitbtn").prop("disabled", true);
+    }
+});
+
 
 // Date generated
 const date = new Date().toLocaleString();
 document.getElementById("current_date").innerHTML = date;
 document.getElementById("current_date2").innerHTML = date;
-// document.getElementByClassName("current_date").innerHTML = date;
-
 
 // Report Type
 function reportType(value) {
@@ -20,17 +30,16 @@ function reportType(value) {
       monthlyRange();
       break;
     case "4":
-      // code block
+      yearlyRange();
       break;
     default:
-      // code block
   }
-  // calendar.setAttribute("onclick='reportType("+value+")'");
 }
 
 // DAILY
 function dayRange() {
   $('#calendar').off("changeDate");
+  $('#calendar').datepicker("destroy");
   $('#calendar').datepicker({
     autoclose: true,
     format :'mm/dd/yyyy',
@@ -40,6 +49,7 @@ function dayRange() {
 
 // WEEKLY
 function weeklyRange() {
+  $('#calendar').datepicker("destroy");
   var startDate, endDate;
   $('#calendar').datepicker({
     autoclose: true,
@@ -58,10 +68,26 @@ function weeklyRange() {
 
 // MONTHLY
 function monthlyRange() {
+  $('#calendar').datepicker("destroy");
   $('#calendar').datepicker( {
     autoclose: true,
     format: "mm-yyyy",
     startView: "months", 
     minViewMode: "months"
+  });
+}
+
+// ANNUALLY
+function yearlyRange() {
+  $('#calendar').datepicker("destroy");
+  $('#calendar').datepicker( {
+    autoclose: true,
+    formatDate: "yyyy",
+    startView: "years", 
+    minViewMode: "years"
+  }).on("changeDate", function(e) {
+    var date = e.date;
+    var dateYear = date.getFullYear();
+    $('#calendar').innerHTML = dateYear;
   });
 }
