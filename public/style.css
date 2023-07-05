@@ -206,6 +206,11 @@ h1 {
     margin-top: 0.5em;
 }
 
+button.viewRecipeBtn { 
+    background:none; 
+    border:none; 
+}
+
 /***************** ADD DISH PAGE CSS *****************/
 .addDish-card-holder {
     display: flex;
@@ -215,15 +220,38 @@ h1 {
     align-items: center;
 }
 .addDish-header{
-    display:inline;
+    display: flex;
     justify-content: left;
-    font-size: x-large;
-    font-weight: bold;
     margin-top: 0.5em;
 }
+
+.addDish-header button{
+        margin-left: 29vw;  
+        height: 38px;
+}
+
+
 .form-row {
     display: flex;
+    align-items: center;
+    margin-bottom: 10px;
   }
+
+  #form-row-content {
+    flex: 1;
+    display: flex;
+  }
+  
+  .form-row-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  
+  .form-row-buttons button {
+    margin-left: 10px;
+  }
+
 /***************** ORDER TERMINAL PAGE CSS *****************/
 
 .order-card {
