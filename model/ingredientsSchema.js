@@ -26,4 +26,6 @@ const ingredientsSchema = new Schema({
     }
 });
 
+
+// const Ingredient = mongoose.model('ingredients', ingredientsSchema);
 module.exports = mongoose.model('ingredients', ingredientsSchema);
