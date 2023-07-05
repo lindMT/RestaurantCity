@@ -25,4 +25,12 @@ function duplicateForm() {
 
 }
 
+function removeForm(button) {
+    // Find the parent form row element
+    const formRow = button.closest('.form-row');
+  
+    // Remove the form row element
+    formRow.remove();
+  }
+
 

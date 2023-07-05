@@ -19,7 +19,7 @@
             <!-- Dish Name -->
             <div class="form-group col-md-10">
               <label for="inputdishName">Dish Name</label>
-              <input type="text" class="form-control" id="inputdishName" placeholder="e.g. Shawarma Rice" required>
+              <input type="text" class="form-control" name="inputDishName" id="inputdishName" placeholder="e.g. Shawarma Rice" required>
             </div>
             <br>
             <!-- Category -->
@@ -27,6 +27,7 @@
               <label for="addDishCategory">Category</label>
               <select class="form-select" id="addDishCategory">
                 <option disabled selected value>Food Category</option>
+                <!-- TODO: Backend -->
                 <option value="categoryMainDish">Main Dish</option>
                 <option value="categoryAppetizers">Appetizers</option>
                 <option value="categorySideDish">Side Dish</option>
@@ -41,7 +42,7 @@
               <label for="inputPrice">Price</label>
               <div class="input-group">
                 <span class="input-group-text">Php</span>
-                <input type="number" class="form-control" id="inputPrice" min="1" placeholder="e.g. 150.00" style="text-align: left;" required>
+                <input type="number" class="form-control" name="inputPrice" id="inputPrice" min="1" placeholder="e.g. 150.00" style="text-align: left;" required>
               </div>
             </div>
 
@@ -52,9 +53,10 @@
                 <div id="form-row">
                   <div id="form-row-content" style="display: flex;">
                               <div class="form-ingredients">
-                                <label for="ingredients">Ingredients</label>
-                                <select class="form-select" id="ingredients" aria-label="Default select example" required>
+                                <label for="ingredient">Ingredients</label>
+                                <select class="form-select" name="selectIngredient" id="ingredient" aria-label="Default select example" required>
                                   <option disabled selected value>Select Ingredient</option>
+                                  <!-- TODO: Backend -->
                                   <option value="1">Milk</option>
                                   <option value="2">Kangkong</option>
                                   <option value="3">Chicken</option>
@@ -64,16 +66,17 @@
 
 
                               <div class="form-group" style="margin-left: 13px;">
-                                <label for="inputAmount">Amount</label>
-                                <input type="number" class="form-control" id="inputAmount" placeholder="1" min="1" required>
+                                <label for="inputAmt">Amount</label>
+                                <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1" required>
                               </div>
 
 
 
                               <div class="form-unit" style="margin-left: 10px;">
-                                <label for="ingredientUnits">Unit</label>
-                                <select class="form-select" id="ingredientUnits" aria-label="Default select example" required>
-                                  <option disabled selected value>-- Unit --</option>
+                                <label for="ingreUnits">Unit</label>
+                                <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example" required>
+                                  <option disabled selected value>Select Unit</option>
+                                  <!-- TODO: Backend -->
                                   <option value="g">g (Grams)</option>
                                   <option value="Kg">Kg (Kilograms)</option>
                                   <option value="mL">mL (Milliliters)</option>
@@ -83,7 +86,7 @@
                               <!-- Div Button -->
                               <div class="form-row-buttons" style="align-items: last baseline;">
                                 <!-- Remove Ingredient Button -->
-                                <button class="btn btn-danger" onclick="deleteForm(this.parentNode.parentNode);" id="removeIngredientBtn"> x </button>
+                                <button class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
                                 <!-- Add Ingredient Button -->
                                 <button class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
                                 
