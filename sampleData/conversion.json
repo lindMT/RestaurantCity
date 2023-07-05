@@ -8,7 +8,6 @@
   "convertedUnitId": {
     "$oid": "64a540a3a792248175d204ce"
   },
-  "conversionFactor": "Kilogram to Gram",
   "conversionFactor": 1000
 },
 {
@@ -21,7 +20,6 @@
   "convertedUnitId": {
     "$oid": "64a540a3a792248175d204ce"
   },
-  "conversionFactor": "Milligram to Gram",
   "conversionFactor": 0.001
 },
 {
@@ -34,7 +32,6 @@
   "convertedUnitId": {
     "$oid": "64a540a3a792248175d204ce"
   },
-  "conversionFactor": "Ounce to Gram",
   "conversionFactor": 28.35
 },
 {
@@ -47,7 +44,6 @@
   "convertedUnitId": {
     "$oid": "64a540a3a792248175d204ce"
   },
-  "conversionFactor": "Pound to Gram",
   "conversionFactor": 453.6
 },
 {
@@ -60,6 +56,5 @@
   "convertedUnitId": {
     "$oid": "64a540b5a792248175d204d5"
   },
-  "conversionFactor": "Milliliter to Liter",
   "conversionFactor": 0.001
 }]

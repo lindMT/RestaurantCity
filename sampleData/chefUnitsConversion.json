@@ -8,7 +8,6 @@
   "convertedUnitId": {
     "$oid": "64a540a3a792248175d204ce"
   },
-  "conversionFactor": "Cup to Gram",
   "conversionFactor": 237.44
 },
 {
@@ -21,7 +20,6 @@
   "convertedUnitId": {
     "$oid": "64a540b5a792248175d204d5"
   },
-  "conversionFactor": "Cup to Liter",
   "conversionFactor": 0.237
 },
 {
@@ -34,7 +32,6 @@
   "convertedUnitId": {
     "$oid": "64a540a3a792248175d204ce"
   },
-  "conversionFactor": "Tablespoon to Gram",
   "conversionFactor": 14.786
 },
 {
@@ -47,7 +44,6 @@
   "convertedUnitId": {
     "$oid": "64a540b5a792248175d204d5"
   },
-  "conversionFactor": "Tablespoon to Liter",
   "conversionFactor": 0.014786
 },
 {
@@ -60,7 +56,6 @@
   "convertedUnitId": {
     "$oid": "64a540a3a792248175d204ce"
   },
-  "conversionFactor": "Teaspoon to Gram",
   "conversionFactor": 4.9289
 },
 {
@@ -73,6 +68,5 @@
   "convertedUnitId": {
     "$oid": "64a540b5a792248175d204d5"
   },
-  "conversionFactor": "Teaspoon to Liter",
   "conversionFactor": 0.0049289
 }]

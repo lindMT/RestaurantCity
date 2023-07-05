@@ -18,4 +18,12 @@ const conversionSchema = new Schema({
     }
 });
 
+/* Sample Data (conversion.json) order:
+    - Kilogram to Gram
+    - Milligram to Gram
+    - Ounce to Gram
+    - Pound to Gram
+    - Milliliter to Liter
+*/
+
 module.exports = mongoose.model('conversion', conversionSchema);

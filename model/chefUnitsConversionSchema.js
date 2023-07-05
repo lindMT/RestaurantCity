@@ -18,4 +18,13 @@ const chefUnitsConversionSchema = new Schema({
     }
 });
 
+/* Sample Data (chefUnitsConversion.json) order:
+    - Cup to Gram
+    - Cup to Liter
+    - Tablespoon to Gram
+    - Tablesppon to Liter
+    - Teaspoon to Gram
+    - Teaspoon to Liter
+*/
+
 module.exports = mongoose.model('chefUnitsConversion', chefUnitsConversionSchema);
