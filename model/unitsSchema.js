@@ -15,7 +15,7 @@ const unitsSchema = new Schema({
         type: String,
         enum: ["wet", "dry"],
         required: true,
-    },
+    }
 });
 
 module.exports = mongoose.model('units', unitsSchema);

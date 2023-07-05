@@ -23,7 +23,7 @@ const dishRecipeSchema = new Schema ({
 
     metricUnitID: [
         {
-            type: Schema.Types.ObjectId, ref: 'metricUnit',
+            type: Schema.Types.ObjectId, ref: 'units',
             required: true
         }
     ],
@@ -35,7 +35,7 @@ const dishRecipeSchema = new Schema ({
 
     chefUnitID: [
         {
-            type: Schema.Types.ObjectId, ref: 'chefUnit',
+            type: Schema.Types.ObjectId, ref: 'chefUnits',
             required: true
         }
     ]

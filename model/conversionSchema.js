@@ -13,9 +13,17 @@ const conversionSchema = new Schema({
         required: true
     },
     conversionFactor: {
-        type: mongoose.Types.Decimal128,
+        type: Number, //can store Double also
         required: true,
     }
 });
+
+/* Sample Data (conversion.json) order:
+    - Kilogram to Gram
+    - Milligram to Gram
+    - Ounce to Gram
+    - Pound to Gram
+    - Milliliter to Liter
+*/
 
 module.exports = mongoose.model('conversion', conversionSchema);

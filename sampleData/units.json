@@ -1,0 +1,56 @@
+[{
+  "_id": {
+    "$oid": "64a540a3a792248175d204ce"
+  },
+  "unitName": "Gram",
+  "unitSymbol": "g",
+  "category": "dry"
+},
+{
+  "_id": {
+    "$oid": "64a540b5a792248175d204d1"
+  },
+  "unitName": "Kilogram",
+  "unitSymbol": "kg",
+  "category": "dry"
+},
+{
+  "_id": {
+    "$oid": "64a540b5a792248175d204d2"
+  },
+  "unitName": "Milligram",
+  "unitSymbol": "mg",
+  "category": "dry"
+},
+{
+  "_id": {
+    "$oid": "64a540b5a792248175d204d3"
+  },
+  "unitName": "Ounce",
+  "unitSymbol": "oz",
+  "category": "dry"
+},
+{
+  "_id": {
+    "$oid": "64a540b5a792248175d204d4"
+  },
+  "unitName": "Pound",
+  "unitSymbol": "lb",
+  "category": "dry"
+},
+{
+  "_id": {
+    "$oid": "64a540b5a792248175d204d5"
+  },
+  "unitName": "Liter",
+  "unitSymbol": "L",
+  "category": "wet"
+},
+{
+  "_id": {
+    "$oid": "64a540b5a792248175d204d6"
+  },
+  "unitName": "Milliliter",
+  "unitSymbol": "mL",
+  "category": "wet"
+}]
