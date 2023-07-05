@@ -1,109 +1,114 @@
 <%- include("partials/header") -%>
-<div class="addDish-card-holder">
+  <div class="addDish-card-holder">
     <div class="card shadow addDish-card">
-        <div class="addDish-header">
-            <h1>Add Dishes</h1>
-            <button type="button" class="btn btn-save-progress">Submit</button>
-            <button id="cancelBtn" type="button" class="btn btn-secondary"
-                    style="margin-left: 10px; color: white;">
-                    Discard</button>
+      <div class="addDish-header">
+        <h1>Add Dishes</h1>
+        <!-- TODO: Backend when Add Dish is created-->
+        <button type="button" class="btn btn-save-progress">Submit</button>
+        <button id="cancelBtn" type="button" class="btn btn-secondary" style="margin-left: 10px; color: white;">
+          Discard</button>
+      </div>
+      <hr>
+
+
+      <div style="display: flex; flex-direction: row;">
+
+
+        <div style="width: 30%;">
+
+          <!-- Dish Name -->
+          <div class="form-group col-md-10">
+            <label for="inputdishName">Dish Name</label>
+            <input type="text" class="form-control" name="inputDishName" id="inputdishName"
+              placeholder="e.g. Shawarma Rice" required>
+          </div>
+          <br>
+          <!-- Category -->
+          <div class="form-category" style="width: 84%">
+            <label for="addDishCategory">Category</label>
+            <select class="form-select" id="addDishCategory">
+              <option disabled selected value>Food Category</option>
+              <!-- TODO: Backend -->
+              <option value="categoryMainDish">Main Dish</option>
+              <option value="categoryAppetizers">Appetizers</option>
+              <option value="categorySideDish">Side Dish</option>
+              <option value="categoryDrinks">Drinks</option>
+              <option value="categoryDesserts">Desserts</option>
+            </select>
+          </div>
+          <br>
+
+          <!-- Price Input -->
+          <div class="form-group col-md-10">
+            <label for="inputPrice">Price</label>
+            <div class="input-group">
+              <span class="input-group-text">Php</span>
+              <input type="number" class="form-control" name="inputPrice" id="inputPrice" min="1"
+                placeholder="e.g. 150.00" style="text-align: left;" required>
+            </div>
+          </div>
+
         </div>
-        <hr>
 
-        
-        <div style="display: flex; flex-direction: row;">
-          
+        <div style="width: 70%;">
 
-          <div style="width: 30%;">
-
-            <!-- Dish Name -->
-            <div class="form-group col-md-10">
-              <label for="inputdishName">Dish Name</label>
-              <input type="text" class="form-control" name="inputDishName" id="inputdishName" placeholder="e.g. Shawarma Rice" required>
-            </div>
-            <br>
-            <!-- Category -->
-            <div class="form-category" style="width: 84%">
-              <label for="addDishCategory">Category</label>
-              <select class="form-select" id="addDishCategory">
-                <option disabled selected value>Food Category</option>
-                <!-- TODO: Backend -->
-                <option value="categoryMainDish">Main Dish</option>
-                <option value="categoryAppetizers">Appetizers</option>
-                <option value="categorySideDish">Side Dish</option>
-                <option value="categoryDrinks">Drinks</option>
-                <option value="categoryDesserts">Desserts</option>
-              </select>
-            </div>
-            <br>
-
-            <!-- Price Input -->
-            <div class="form-group col-md-10">
-              <label for="inputPrice">Price</label>
-              <div class="input-group">
-                <span class="input-group-text">Php</span>
-                <input type="number" class="form-control" name="inputPrice" id="inputPrice" min="1" placeholder="e.g. 150.00" style="text-align: left;" required>
+          <div id="form-row">
+            <div id="form-row-content" style="display: flex;">
+              <div class="form-ingredients">
+                <label for="ingredient">Ingredients</label>
+                <select class="form-select" name="selectIngredient" id="ingredient" aria-label="Default select example"
+                  required>
+                  <option disabled selected value>Select Ingredient</option>
+                  <!-- TODO: Backend -->
+                  <option value="1">Milk</option>
+                  <option value="2">Kangkong</option>
+                  <option value="3">Chicken</option>
+                </select>
               </div>
+
+
+
+              <div class="form-group" style="margin-left: 13px;">
+                <label for="inputAmt">Amount</label>
+                <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1"
+                  required>
+              </div>
+
+
+
+              <div class="form-unit" style="margin-left: 10px;">
+                <label for="ingreUnits">Unit</label>
+                <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example"
+                  required>
+                  <option disabled selected value>Select Unit</option>
+                  <!-- TODO: Backend -->
+                  <option value="g">g (Grams)</option>
+                  <option value="Kg">Kg (Kilograms)</option>
+                  <option value="mL">mL (Milliliters)</option>
+                  <option value="L">L (Liters)</option>
+                </select>
+              </div>
+              <!-- Div Button -->
+              <div class="form-row-buttons" style="align-items: last baseline;">
+                <!-- Remove Ingredient Button -->
+                <button class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+                <!-- Add Ingredient Button -->
+                <button class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
+
+              </div>
+
             </div>
-
-          </div> 
-
-          <div style="width: 70%;">
-
-                <div id="form-row">
-                  <div id="form-row-content" style="display: flex;">
-                              <div class="form-ingredients">
-                                <label for="ingredient">Ingredients</label>
-                                <select class="form-select" name="selectIngredient" id="ingredient" aria-label="Default select example" required>
-                                  <option disabled selected value>Select Ingredient</option>
-                                  <!-- TODO: Backend -->
-                                  <option value="1">Milk</option>
-                                  <option value="2">Kangkong</option>
-                                  <option value="3">Chicken</option>
-                                </select>
-                              </div>
-
-
-
-                              <div class="form-group" style="margin-left: 13px;">
-                                <label for="inputAmt">Amount</label>
-                                <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1" required>
-                              </div>
-
-
-
-                              <div class="form-unit" style="margin-left: 10px;">
-                                <label for="ingreUnits">Unit</label>
-                                <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example" required>
-                                  <option disabled selected value>Select Unit</option>
-                                  <!-- TODO: Backend -->
-                                  <option value="g">g (Grams)</option>
-                                  <option value="Kg">Kg (Kilograms)</option>
-                                  <option value="mL">mL (Milliliters)</option>
-                                  <option value="L">L (Liters)</option>
-                                </select>
-                              </div>
-                              <!-- Div Button -->
-                              <div class="form-row-buttons" style="align-items: last baseline;">
-                                <!-- Remove Ingredient Button -->
-                                <button class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
-                                <!-- Add Ingredient Button -->
-                                <button class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
-                                
-                              </div>
-                              
-                </div>
-              </div> <!--ending tag for form row  -->
-                
-            </div>
+          </div> <!--ending tag for form row  -->
 
         </div>
 
-        </div>
-            
-        </div>
-        
+      </div>
+
     </div>
-</div>
-<script src="/js/addDish.js"></script>
-<%- include("partials/footer") -%>
+
+  </div>
+
+  </div>
+  </div>
+  <script src="/js/addDish.js"></script>
+  <%- include("partials/footer") -%>

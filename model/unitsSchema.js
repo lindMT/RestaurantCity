@@ -18,4 +18,5 @@ const unitsSchema = new Schema({
     }
 });
 
+const Unit = mongoose.model('units', unitsSchema);
 module.exports = mongoose.model('units', unitsSchema);

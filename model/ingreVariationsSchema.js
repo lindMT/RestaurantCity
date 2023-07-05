@@ -6,7 +6,6 @@ const ingreVariationsSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'ingredients',
         required: true
-
     },
     unitID: {
         type: Schema.Types.ObjectId,
