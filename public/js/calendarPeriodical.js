@@ -57,6 +57,7 @@ function dayRange() {
 
 // WEEKLY
 function weeklyRange() {
+  $('#calendar').off("changeDate");
   $('#calendar').datepicker("destroy");
   var startDate, endDate;
   $('#calendar').datepicker({
@@ -76,6 +77,7 @@ function weeklyRange() {
 
 // MONTHLY
 function monthlyRange() {
+  $('#calendar').off("changeDate");
   $('#calendar').datepicker("destroy");
   $('#calendar').datepicker( {
     autoclose: true,
@@ -87,6 +89,7 @@ function monthlyRange() {
 
 // ANNUALLY
 function yearlyRange() {
+  $('#calendar').off("changeDate");
   $('#calendar').datepicker("destroy");
   $('#calendar').datepicker( {
     autoclose: true,
