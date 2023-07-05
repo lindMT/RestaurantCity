@@ -9,7 +9,7 @@ const ingredientsSchema = new Schema({
     category: {
         type: String,
         enum: ["wet", "dry"],
-        required: true
+        // required: true
     },
     unitID: {
         type: Schema.Types.ObjectId,
@@ -26,4 +26,6 @@ const ingredientsSchema = new Schema({
     }
 });
 
+
+// const Ingredient = mongoose.model('ingredients', ingredientsSchema);
 module.exports = mongoose.model('ingredients', ingredientsSchema);

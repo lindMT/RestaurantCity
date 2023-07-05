@@ -1,7 +1,7 @@
 const User = require('../model/usersSchema.js');
 const bcrypt = require("bcrypt");
 
-const viewStockController = {
+const viewReportController = {
     getStock: function(req, res) {
         res.render('viewStockReport');
     },
@@ -19,4 +19,4 @@ const viewStockController = {
     }
 }
 
-module.exports = viewStockController;
+module.exports = viewReportController;
