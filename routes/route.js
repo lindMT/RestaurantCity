@@ -8,7 +8,7 @@ const viewInvController = require('../controller/viewInvController.js');
 const addIngreController = require('../controller/addIngreController.js');
 const recordAddtlController = require('../controller/recordAddtlController.js')
 const manageDishesController = require('../controller/manageDishesController.js');
-const viewStockController = require('../controller/viewStockController.js');
+const viewReportController = require('../controller/viewReportController.js');
 const addDishController = require('../controller/addDishController.js');
 const addCategoryController = require('../controller/addCategoryController.js');
 const inputPhysicalController = require('../controller/inputPhysicalController.js');
@@ -55,17 +55,17 @@ app.get("/addDish", addDishController.getaddDish)
 app.get("/addCategory", addCategoryController.getAddCategory)
 
 // View Stock Report
-app.get("/viewStockReport", viewStockController.getStock)
+app.get("/viewStockReport", viewReportController.getStock)
 
 // View Periodical Report
-app.get("/viewPeriodical", viewStockController.getPeriodical)
+app.get("/viewPeriodical", viewReportController.getPeriodical)
 
 // View Custom Report   
-app.get("/viewCustom", viewStockController.getCustom)
+app.get("/viewCustom", viewReportController.getCustom)
 
 // View Detailed Report
 // To revise /Milk, will be ingredient id once may db na
-app.get("/detailedReport/Milk", viewStockController.getDetailed)
+app.get("/detailedReport/Milk", viewReportController.getDetailed)
 
 // Input Physical Count
 app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
