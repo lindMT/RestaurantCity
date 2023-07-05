@@ -1,4 +1,6 @@
 const User = require('../model/usersSchema.js');
+const Unit = require("../model/unitsSchema.js");
+const Ingredient = require("../model/ingredientsSchema.js");
 const bcrypt = require("bcrypt");
 
 const recordAddtlController = {

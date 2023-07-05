@@ -21,7 +21,7 @@ const addIngreController = {
 
         const ingredient = new Ingredient({
             name: req.body.ingreName,
-            category: req.body.ingreCategory,
+            // category: req.body.ingreCategory,
             unitID: unit._id,
             totalNetWeight: totalNetWeight,
             reorderPoint: 0

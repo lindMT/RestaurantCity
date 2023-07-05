@@ -9,7 +9,7 @@ const ingredientsSchema = new Schema({
     category: {
         type: String,
         enum: ["wet", "dry"],
-        required: true
+        // required: true
     },
     unitID: {
         type: Schema.Types.ObjectId,
