@@ -11,6 +11,8 @@
             </div>
         </div>
             <hr>
+            <!-- TODO: For Loop with modal -->
+            <!-- TODO: Change Value, id, and name for each dishes -->
             <table class="table table-striped" id="dishTable"
                 style=" width: 100%; margin-left: auto; margin-right: auto;">
                 <thead>
@@ -25,7 +27,7 @@
                     <tr>
                         <td style="text-align: left;">
                             <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName1">
+                                <input class="form-check-input select" type="checkbox"  value="" id="foodName1">
                                 <label class="form-check-label" for="foodName1">
                                     Shawarma Rice
                                 </label>
@@ -39,8 +41,7 @@
                         <td style="text-align: left;">
                             <div class="form-check">
                                 <input class="form-check-input select" type="checkbox" value="" id="foodName2">
-                                <label class="form-check-label" for="foodName2" data-toggle="modal"
-                                        data-target="#dishDetailsModal">
+                                <label class="form-check-label" for="foodName2">
                                     Honey Garlic Salmon
                                 </label>
                         </td>
@@ -53,8 +54,7 @@
                         <td style="text-align: left;">
                             <div class="form-check">
                                 <input class="form-check-input select" type="checkbox" value="" id="foodName3">
-                                <label class="form-check-label" for="foodName3" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
+                                <label class="form-check-label" for="foodName3">
                                     Mozzarella Sticks
                                 </label>
                         </td>
@@ -67,125 +67,12 @@
                         <td style="text-align: left;">
                             <div class="form-check">
                                 <input class="form-check-input select" type="checkbox" value="" id="foodName4">
-                                <label class="form-check-label" for="foodName4" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
+                                <label class="form-check-label" for="foodName4">
                                     Grilled Steak
                                 </label>
                         </td>
                         <td>Main</td>
                         <td>₱ 75.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName5">
-                                <label class="form-check-label" for="foodName5" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
-                                    Shrimp Cocktail
-                                </label>
-                        </td>
-                        <td>Appetizers</td>
-                        <td>₱ 130.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName6">
-                                <label class="form-check-label" for="foodName6" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
-                                    BBQ Ribs
-                                </label>
-                        </td>
-                        <td>Appetizers</td>
-                        <td>₱ 120.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName7">
-                                <label class="form-check-label" for="foodName7" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
-                                    Butter Chicken
-                                </label>
-                        </td>
-                        <td>Main</td>
-                        <td>₱ 450.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName8">
-                                <label class="form-check-label" for="foodName8" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
-                                    Suhsi Rolls
-                                </label>
-                        </td>
-                        <td>Appetizers</td>
-                        <td>₱ 50.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName9">
-                                <label class="form-check-label" for="foodName9" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
-                                    Shrimp Scampi
-                                </label>
-                        </td>
-                        <td>Main</td>
-                        <td>₱ 60.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName10">
-                                <label class="form-check-label" for="foodName10" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
-                                    Chicken Wings
-                                </label>
-                        </td>
-                        <td>Appetizers</td>
-                        <td>₱ 130.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName11">
-                                <label class="form-check-label" for="foodName11" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
-                                    Spicy Shrimp Tacos
-                                </label>
-                        </td>
-                        <td>Main</td>
-                        <td>₱ 500.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName12">
-                                <label class="form-check-label" for="foodName12" data-toggle="modal"
-                                    data-target="#dishDetailsModal">
-                                    Caprese Skewers
-                                </label>
-                        </td>
-                        <td>Appetizers</td>
-                        <td>₱ 140.00</td>
                         <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
                             View Recipe</button></td>
                     </tr>
@@ -201,13 +88,15 @@
 
         </div>
     </div>
+
     <!--MODAL MAKER -->
+    <!-- TODO: Backend -->
     <div class="modal fade" id="dishDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="dishName" style="padding: auto;">Dish Name</h4>
+                    <h4 class="modal-title" id="dishCategory" style="padding: auto;">Dish Category</h4>
 
                     <div data-dismiss="modal">
                         <i class="fa-solid fa-x" style="color: #000000;"></i>
@@ -215,7 +104,7 @@
 
                 </div>
                 <div class="modal-body">
-                    <h2 class="modal-body" id="dishCategory" style="text-align: center;">Dish Category</h2>
+                    <h2 class="modal-body" id="dishName" style="text-align: center;">Dish Name</h2>
                     <table class="table table-striped">
                         <thead>
                             <tr>
