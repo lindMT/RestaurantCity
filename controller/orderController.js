@@ -23,7 +23,7 @@ const orderController = {
         // console.log(one)
         // TODO (Lind):
         //  - screen to show order success / order unfilfilled (display lacking ingredients/dish)
-        res.render('orderTerminal');
+        res.render('orderProcessingLanding');
     }
 }
 

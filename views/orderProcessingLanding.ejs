@@ -1,0 +1,38 @@
+<%- include("partials/header") -%>
+
+<!-- TODO: Add later to CSS file -->
+<style>
+    #add-ni-card{
+        margin: auto;
+        width: 600px;
+    }
+</style>
+
+<div id="add-ni-card" class="card shadow">
+    <div>
+        <h1 style="text-align: center; padding: 5px;">Order Fulfillment Status</h1>
+    </div>
+    <hr/>
+    <div>
+
+        <p style="text-align: center;">
+            We regret to inform you that your order could not be fulfilled at this time. Please find below the list of insufficient ingredients required for the dishes you requested.            
+            
+            <br/>
+            - Milk 
+            <br/>
+            - Chicken 
+            <br/>
+            - Beef 
+
+        </p>
+
+    </div>
+
+    <form method="GET" action="/viewOrderTerminal">
+        <hr/>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Back to Order Terminal</button>
+    </form>
+</div>
+
+<%- include("partials/footer") -%>

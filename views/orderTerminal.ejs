@@ -138,8 +138,9 @@
 
         <h1 id="content-title">Current Order</h1>
         <hr>
-        <form action="/processOrder" method="POST" style="min-height: 100%;"><!-- Form closing tag on Line 210  -->
         <div class="order-terminal-table-holder">
+            <form action="/processOrder" method="POST" style="min-width: 100%;"><!-- Form closing tag on Line 210  -->
+
             <table id="order-terminal-table" class="table table-striped" style="table-layout: auto;">
                 <thead>
                     <tr>
@@ -150,6 +151,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    
                     <!-- Rows here to be added via JS  -->
                 </tbody>
             </table>
@@ -166,6 +168,7 @@
             <hr>
 
             <button class="btn btn-primary w-100" style="margin: 5px; background-color: #63A375;"
+                    type="button"
                     class="btn btn-secondary"
                     data-toggle="modal"
                     data-target="#processOrder">
@@ -173,6 +176,7 @@
             </button>
 
             <button class="btn btn-primary w-100" style="margin: 5px; background-color: #B56576;"
+                    type="button"
                     class="btn btn-secondary"
                     data-toggle="modal"
                     data-target="#resetOrder">
@@ -201,7 +205,6 @@
             <div class="modal-body">
                 Are you sure you want to process this order? 
             </div>
-            
                 <div class="modal-footer centered">
                     <button type="submit" style="background-color: #63A375 !important;" class="btn btn-primary">
                         Confirm
