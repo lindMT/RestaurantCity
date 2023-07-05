@@ -4,7 +4,7 @@
   },
   "unitName": "Gram",
   "unitSymbol": "g",
-  "category": "Dry"
+  "category": "dry"
 },
 {
   "_id": {
@@ -12,7 +12,7 @@
   },
   "unitName": "Kilogram",
   "unitSymbol": "kg",
-  "category": "Dry"
+  "category": "dry"
 },
 {
   "_id": {
@@ -20,7 +20,7 @@
   },
   "unitName": "Milligram",
   "unitSymbol": "mg",
-  "category": "Dry"
+  "category": "dry"
 },
 {
   "_id": {
@@ -28,7 +28,7 @@
   },
   "unitName": "Ounce",
   "unitSymbol": "oz",
-  "category": "Dry"
+  "category": "dry"
 },
 {
   "_id": {
@@ -36,7 +36,7 @@
   },
   "unitName": "Pound",
   "unitSymbol": "lb",
-  "category": "Dry"
+  "category": "dry"
 },
 {
   "_id": {
@@ -44,7 +44,7 @@
   },
   "unitName": "Liter",
   "unitSymbol": "L",
-  "category": "Wet"
+  "category": "wet"
 },
 {
   "_id": {
@@ -52,5 +52,5 @@
   },
   "unitName": "Milliliter",
   "unitSymbol": "mL",
-  "category": "Wet"
+  "category": "wet"
 }]

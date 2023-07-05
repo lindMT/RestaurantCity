@@ -1,0 +1,78 @@
+[{
+  "_id": {
+    "$oid": "64a54de0a322e0e1f90fc035"
+  },
+  "initialUnitId": {
+    "$oid": "64a451bb9a494ecb0fd7216b"
+  },
+  "convertedUnitId": {
+    "$oid": "64a540a3a792248175d204ce"
+  },
+  "conversionFactor": "Cup to Gram",
+  "conversionFactor": 237.44
+},
+{
+  "_id": {
+    "$oid": "64a54ed1a322e0e1f90fc036"
+  },
+  "initialUnitId": {
+    "$oid": "64a451bb9a494ecb0fd7216b"
+  },
+  "convertedUnitId": {
+    "$oid": "64a540b5a792248175d204d5"
+  },
+  "conversionFactor": "Cup to Liter",
+  "conversionFactor": 0.237
+},
+{
+  "_id": {
+    "$oid": "64a55017a322e0e1f90fc039"
+  },
+  "initialUnitId": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "convertedUnitId": {
+    "$oid": "64a540a3a792248175d204ce"
+  },
+  "conversionFactor": "Tablespoon to Gram",
+  "conversionFactor": 14.786
+},
+{
+  "_id": {
+    "$oid": "64a5502da322e0e1f90fc03a"
+  },
+  "initialUnitId": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "convertedUnitId": {
+    "$oid": "64a540b5a792248175d204d5"
+  },
+  "conversionFactor": "Tablespoon to Liter",
+  "conversionFactor": 0.014786
+},
+{
+  "_id": {
+    "$oid": "64a55044a322e0e1f90fc03b"
+  },
+  "initialUnitId": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "convertedUnitId": {
+    "$oid": "64a540a3a792248175d204ce"
+  },
+  "conversionFactor": "Teaspoon to Gram",
+  "conversionFactor": 4.9289
+},
+{
+  "_id": {
+    "$oid": "64a5505ba322e0e1f90fc03c"
+  },
+  "initialUnitId": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "convertedUnitId": {
+    "$oid": "64a540b5a792248175d204d5"
+  },
+  "conversionFactor": "Teaspoon to Liter",
+  "conversionFactor": 0.0049289
+}]

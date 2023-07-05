@@ -13,7 +13,7 @@ const chefUnitsConversionSchema = new Schema({
         required: true
     },
     conversionFactor: {
-        type: mongoose.Types.Decimal128,
+        type: Number,
         required: true,
     }
 });
