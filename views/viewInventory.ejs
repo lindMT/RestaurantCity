@@ -1,11 +1,11 @@
 <%- include("partials/header") -%>
-<div class="card shadow">
-    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
-    <div>
-        <h1>Inventory</h1>
-    </div>
+    <div class="card shadow">
+        <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
+        <div>
+            <h1>Inventory</h1>
+        </div>
 
-    <!-- <div class="stock-header">
+        <!-- <div class="stock-header">
         <h1>Inventory</h1>
         <div class="form-group">
             <div class="col-15">
@@ -19,47 +19,45 @@
         </div>
         <i class="fa-solid fa-filter fa-xl"></i> 
     </div> -->
-    <hr/>
+        <hr/>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Stock Status</th>
-                <th scope="col">Running Total (Net Weight)</th>
-                <th scope="col">Unit</th>
-                <th scope="col">Reorder Point</th>
-                <th scope="col">Missing</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- TODO: For-Loop with Ingredients -->
-            <tr> 
-                <td>Oil</td>
-                <td class="table-success">In stock</td>
-                <td>10</td>
-                <td>L</td>
-                <td>10</td>
-                <td>0</td>
-            </tr>
-            <tr> 
-                <td>Milk</td>
-                <td class="table-warning">Low stock</td>
-                <td>2</td>
-                <td>L</td>
-                <td>2</td>
-                <td>0</td>
-            </tr>
-            <tr> 
-                <td>Butter</td>
-                <td class="table-danger">Out of stock</td>
-                <td>0</td>
-                <td>g</td>
-                <td>0</td>
-                <td>0</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Stock Status</th>
+                    <th scope="col">Running Total (Net Weight)</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Reorder Point</th>
+                    <th scope="col">Missing</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- TODO: For-Loop with Ingredients -->
+                <% ingredients.forEach(function(ingredient) { %>
+                    <tr>
+                        <td>
+                            <%= ingredient.name %>
+                        </td>
+                        <td class="table-success">
+                            In stock
+                        </td>
+                        <td>
+                            <%= ingredient.totalNetWeight %>
+                        </td>
+                        <td>
+                            <%= ingredient.unitSymbol %>
+                        </td>
+                        <td>
+                            <%= ingredient.reorderPoint %>
+                        </td>
+                        <td>
+                            0
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
 
-<%- include("partials/footer") -%>
+    <%- include("partials/footer") -%>

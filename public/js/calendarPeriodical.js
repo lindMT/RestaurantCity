@@ -1,13 +1,9 @@
 // Disable submit button
 $("#submitbtn").prop("disabled", true);
 
-
-
-
 // Date generated
 const date = new Date().toLocaleString();
 document.getElementById("current_date").innerHTML = date;
-document.getElementById("current_date2").innerHTML = date;
 
 // Report Type
 function reportType(value) {
@@ -51,7 +47,9 @@ function dayRange() {
   $('#calendar').datepicker({
     autoclose: true,
     format :'mm/dd/yyyy',
-    forceParse :false
+    forceParse :false,
+    // DB Implementation: starting date should be up until oldest record only then insert here (distinct years + 1)
+    startDate: "-3y"
   })
 }
 
@@ -63,7 +61,9 @@ function weeklyRange() {
   $('#calendar').datepicker({
     autoclose: true,
     format :'mm/dd/yyyy',
-    forceParse :false
+    forceParse :false,
+    // DB Implementation: starting date should be up until oldest record only then insert here (distinct years + 1)
+    startDate: "-3y"
   }).on("changeDate", function(e) {
       //console.log(e.date);
       var date = e.date;
@@ -83,7 +83,9 @@ function monthlyRange() {
     autoclose: true,
     format: "mm-yyyy",
     startView: "months", 
-    minViewMode: "months"
+    minViewMode: "months",
+    // DB Implementation: starting date should be up until oldest record only then insert here (distinct years + 1)
+    startDate: "-3y"
   });
 }
 
@@ -93,12 +95,38 @@ function yearlyRange() {
   $('#calendar').datepicker("destroy");
   $('#calendar').datepicker( {
     autoclose: true,
-    formatDate: "yyyy",
+    format: "mm-yyyy",
     startView: "years", 
-    minViewMode: "years"
+    minViewMode: "years",
+    // DB Implementation: starting date should be up until oldest record only then insert here (distinct years + 1)
+    startDate: "-3y"
   }).on("changeDate", function(e) {
     var date = e.date;
     var dateYear = date.getFullYear();
     $('#calendar').innerHTML = dateYear;
   });
+
+  // Work-around for showing year only: drop-down
+
+//   const parentDiv = document.getElementById('calendar-div');
+//   const form = document.getElementById('calendar');
+//   form.remove();
+//   let yearForm = document.createElement('select');
+//   yearForm.setAttribute('id', 'calendar');
+//   yearForm.classList.add('form-select');
+//   yearForm.classList.add('form-select-md');
+
+//   parentDiv.appendChild(yearForm);
+
+// // value & text will be the existing, distinct years in the db
+//   var years = [{value: '1', text: '2021'},
+//                {value: '2', text: '2022'},
+//                {value: '3', text: '2023'}];
+
+//   years.forEach(function (year) {
+//   var optionElement = document.createElement('option');
+//   optionElement.appendChild(document.createTextNode(year.text));
+//   optionElement.setAttribute('value', year.value);
+//   yearForm.appendChild(optionElement);
+// });
 }
