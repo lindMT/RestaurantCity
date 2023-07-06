@@ -21,12 +21,15 @@
 
     <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
     <div>
-        <p style="text-align: center;">Update the quantity of an ingredient in the inventory list. Select an ingredient from the inventory and put the net weight, unit, and quantity bought.</p>
+        <p style="text-align: center;">Fill-out all of the fields by inputting the net weight, unit, and quantity bought for the selected ingredient.</p>
         <br/>
     </div>
 
     <!-- TODO: Backend form -->
     <form method="post" action="#">
+        <!-- TODO: PASS TO JS -->
+        <input name="ingreCategory" type="hidden" value="<%= ingredient.category %>"/>
+
         <div class="form-group">
             <label>Net Weight & Unit</label>
             <!-- TODO: Translate Style to CCS -->
@@ -34,10 +37,16 @@
                 <option disabled selected value> -- Select Net Wt. & Unit -- </option>
                 <!-- TODO: Backend (ingreVariants)-->
                 <!-- TODO: Selected ingredient MUST be basis -->
+
                 <% if(variants.length > 0) {%>
-                    <% console.log('Logging message from EJS') %>
                     <% variants.forEach(variant => { %> 
-                        <option value="<%= variant._id %>">lol <%= variant._id %></option>
+                        <% units.forEach(unit => { %>
+                            <% if (unit._id.equals(variant.unitID)) {%>
+                                <option value="<%= variant._id %>"><%= variant.netWeight%> <%= unit.unitSymbol %> (<%= unit.unitName %>)</option>
+                            <% }%> 
+                        <% })%> 
+                        
+                        
                     <% }) %> 
                 <% } %>
                 <option value="others">Others... (Specify)</option>
@@ -58,6 +67,6 @@
     </form>
 </div>
 
-<script src="js/recordAddtl.js"></script>
+<script src="/js/recordAddtl.js"></script>
 
 <%- include("partials/footer") -%>

@@ -15,26 +15,17 @@ const recordAddtlController = {
     },
 
     postRecAddtl1: async (req, res) => {
-        // const foundVariants = await IngreVariation.find({ingreID: req.body.ingreId});
-        
-        // await res.render('recordAddtlP2', {
-        //     variants: foundVariants,
-        // })
+        // TODO: Search for INGREDIENT
+        // TODO: Search for UNITS
+        const foundVariants = await IngreVariation.find({ingreID: req.body.ingreId});
+        const foundIngredient = await Ingredient.find({ingreID: req.body.ingreId});
+        const foundUnits = await Unit.find();
 
-        console.log(req.body.ingreId)
-
-        await IngreVariation.find({ingreID: req.body.ingreId})
-            .then((foundVariants) =>{
-                console.log(foundVariants)
-
-                res.render('recordAddtlP2', {
-                    variants: foundVariants,
-                })
-            })
-            .catch((err) =>{
-                console.log(err);
-            })
-
+        await res.render('recordAddtlP2', {
+            variants: foundVariants,
+            ingredient: foundIngredient, // for identifying dry/wet ingredients?
+            units: foundUnits
+        })
     },
 
     // TODO: Add POST (Wait till DB is finalized)

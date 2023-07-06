@@ -5,6 +5,8 @@ function addInputFields(){
     var selectVal = selectId.value;
 
     if(selectVal == "others"){
+        console.log(selectId.value)
+
         var netWt = document.createElement("input");
         netWt.setAttribute('class', 'form-control');
         netWt.setAttribute('id', 'record-netwt-field');
