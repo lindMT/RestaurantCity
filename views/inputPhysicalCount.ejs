@@ -21,26 +21,17 @@
                     <td>Olive Oil</td>
                     <td>500</td>
                     <td>mL</td>
-                    <td><input type="number" name="qty" min="0"></td>
-                </tr>
-                <tr> 
-                    <td>Milk</td>
-                    <td>1</td>
-                    <td>L</td>
-                    <td><input type="number" name="qty" min="0"></td>
-                </tr>
-                <tr> 
-                    <td>Cabbage</td>
-                    <td>1</td>
-                    <td>Kg</td>
-                    <td><input type="number" name="qty" min="0"></td>
+                    <td>
+                        <!-- TODO: Name Attrib. MUST be UNIQUE -->
+                        <input type="number" name="ingreQty" placeholder="1" min="1" class="form-control" style="margin: auto;" required>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     
         <!-- Modal -->
-        <div class="modal modal-centered fade" id="submitCountError" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- <div class="modal modal-centered fade" id="submitCountError" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -67,7 +58,7 @@
                 </div>
             </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 

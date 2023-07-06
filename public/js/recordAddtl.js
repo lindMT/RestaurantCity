@@ -4,8 +4,6 @@ function addInputFields(){
     var selectId = document.getElementById("record-select-nu-input");
     var selectVal = selectId.value;
 
-    console.log(selectVal)
-
     if(selectVal == "others"){
         var netWt = document.createElement("input");
         netWt.setAttribute('class', 'form-control');

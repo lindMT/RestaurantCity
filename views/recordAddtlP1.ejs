@@ -1,0 +1,50 @@
+<%- include("partials/header") -%>
+
+<!-- TODO: Add later to CSS file -->
+<style>
+    #record-card{
+        margin: auto;
+        width: 600px;
+    }
+
+    #record-others-field{
+        display: flex;
+    }
+</style>    
+
+<div id="record-card" class="card shadow">
+    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
+    <div>
+        <h1 style="text-align: center; padding: 5px;">Record Additional Purchase</h1>
+    </div>
+    <hr/>
+
+    <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
+    <div>
+        <p style="text-align: center;">Before you record your purchase, you must first select the ingredient which you have bought (MUST exist in the inventory list; Otherwise, add it first via <a href="/addNewIngredient">Add New Ingredient</a> module).</p>
+        <br/>
+    </div>
+
+    <!-- TODO: Backend form -->
+    <form method="post" action="/recordAddtl/p2">
+        <div class="form-group">
+            <label>Ingredient Name</label>
+            <!-- TODO: Translate Style to CCS -->
+            <select name="ingreId" class="form-select form-select-md" style="width: 100%; padding: 5px;" required>
+                <option disabled selected value> -- Select an Ingredient -- </option>
+                <!-- Iterate through each available ingredient -->
+                <% if(ingredients.length > 0) {%>
+                    <% ingredients.forEach(ing => { %> 
+                        <option value="<%= ing._id %>"><%= ing.name %></option>
+                    <% }) %> 
+                <% } %>
+            </select>
+        </div>
+        <br/>
+
+        <hr/>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Proceed to Record Additional Purchases</button>
+    </form>
+</div>
+
+<%- include("partials/footer") -%>
