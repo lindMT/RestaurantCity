@@ -1,0 +1,57 @@
+[{
+  "_id": {
+    "$oid": "64a69baeb61352c05b39b2ea"
+  },
+  "ingreID": [
+    {
+      "$oid": "64a69baeb61352c05b39b2e5"
+    }
+  ],
+  "date": "Thu Jul 06 2023 18:47:10 GMT+0800 (Philippine Standard Time)",
+  "varID": [
+    {
+      "$oid": "64a69baeb61352c05b39b2e8"
+    }
+  ],
+  "qty": 2,
+  "doneBy": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64a69c02b61352c05b39b2f3"
+  },
+  "ingreID": [
+    {
+      "$oid": "64a69c02b61352c05b39b2ee"
+    }
+  ],
+  "date": "Thu Jul 06 2023 18:48:34 GMT+0800 (Philippine Standard Time)",
+  "varID": [
+    {
+      "$oid": "64a69c02b61352c05b39b2f1"
+    }
+  ],
+  "qty": 1,
+  "doneBy": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64a69c4cb61352c05b39b2fc"
+  },
+  "ingreID": [
+    {
+      "$oid": "64a69c4cb61352c05b39b2f7"
+    }
+  ],
+  "date": "Thu Jul 06 2023 18:49:48 GMT+0800 (Philippine Standard Time)",
+  "varID": [
+    {
+      "$oid": "64a69c4cb61352c05b39b2fa"
+    }
+  ],
+  "qty": 1,
+  "doneBy": [],
+  "__v": 0
+}]
