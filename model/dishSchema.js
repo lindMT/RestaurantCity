@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const dishSchema = new Schema ( {
-    dishName: {
+    name: {
         type: String,
         required: true
     },
@@ -14,7 +14,8 @@ const dishSchema = new Schema ( {
 
     categoryID: [
         {
-            type: Schema.Types.ObjectId, ref: 'dishCategory',
+            type: Schema.Types.ObjectId, 
+            ref: 'dishCategory',
             required: true
         }
     ],
@@ -32,13 +33,14 @@ const dishSchema = new Schema ( {
     },
 
     lastModified: {
-        type: String,
+        type: Date,
         required: true
     },
 
     addedBy: [
         {
-            type: Schema.Types.ObjectId, ref: 'users',
+            type: Schema.Types.ObjectId, 
+            ref: 'users',
             required: true
         }
     ]
