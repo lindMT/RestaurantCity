@@ -28,6 +28,18 @@
             <br/>
 
             <div class="form-group form-align-left">
+                <label>Category</label>
+                <!-- TODO: CSS - Translate Style -->
+                <!-- TODO: Backend - Get values from Tbl_Units -->
+                <select id="add-ni-category" name="ingreCategory" onchange="changeOptions()" class="form-select form-select-md" style="padding: 5px; width: 100%;" required>
+                    <option disabled selected value> -- Select a category -- </option>
+                    <option value="wet">Wet Ingredient</option>
+                    <option value="dry">Dry Ingredient</option>
+                </select>
+            </div>
+            <br/>
+
+            <div class="form-group form-align-left">
                 <label>Net Weight</label>
                 <!-- TODO: CSS - Translate Style -->
                 <input type="number" name="ingreNetWt" placeholder="Minimum: 1" min="1" max="10" class="form-control" style="padding: 5px; text-align: left; width: 100%;" required>
@@ -38,13 +50,13 @@
                 <label>Unit</label>
                 <!-- TODO: CSS - Translate Style -->
                 <!-- TODO: Backend - Get values from Tbl_Units -->
-                <select name="ingreUnit" class="form-select form-select-md" style="padding: 5px; width: 100%;" required>
-                <option disabled selected value> -- Select a Unit -- </option>
-                <option value="g">g (Grams)</option>
-                <option value="kg">kg (Kilograms)</option>
-                <option value="ml">mL (Milliliters)</option>
-                <option value="l">L (Liters)</option>
-            </select>
+                <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="padding: 5px; width: 100%;" required>
+                    <option disabled selected value> -- Select a Unit -- </option>
+                    <!-- <option value="g">g (Grams)</option>
+                    <option value="kg">kg (Kilograms)</option>
+                    <option value="ml">mL (Milliliters)</option>
+                    <option value="l">L (Liters)</option> -->
+                </select>
             </div>
             <br/>
 
@@ -60,5 +72,7 @@
             <button type="submit" class="btn btn-submit-count" style="width: 100%;">Add to Inventory</button>
         </form>
     </div>
+
+    <script src="js/addNewIngredient.js"></script>
 
     <%- include("partials/footer") -%>
