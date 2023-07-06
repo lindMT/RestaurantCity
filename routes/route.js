@@ -40,8 +40,9 @@ app.post("/removeUser/:userName", userController.removeUser);
 app.get("/viewInventory", viewInvController.getViewInventory)
 
 // Add New Ingredients
-app.get("/addNewIngredient", addIngreController.getAddIngre)
-app.post("/addNewIngredient/process", addIngreController.postAddIngre)
+app.get("/addNewIngredient", addIngreController.getAddIngre);
+app.post("/addNewIngredient/process", addIngreController.postAddIngredientsAndVariation);
+
 
 // Record Addt'l Purchase
 app.get("/recordAddtl", recordAddtlController.getRecAddtl)
