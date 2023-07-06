@@ -2,43 +2,35 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const dishRecipeSchema = new Schema ({
-    dishID: [
-        {
+    dishID: {
             type: Schema.Types.ObjectId, ref: 'dish',
             required: true
-        }
-    ],
+    },
 
-    ingreID: [
-        {
+    ingreID: {
             type: Schema.Types.ObjectId, ref: 'ingredients',
             required: true
-        }
-    ],
+    },
 
     metricWeight: {
         type: mongoose.Types.Decimal128,
         required: true
     },
 
-    metricUnitID: [
-        {
+    metricUnitID: {
             type: Schema.Types.ObjectId, ref: 'units',
             required: true
-        }
-    ],
+    },
 
     chefWeight: {
         type: mongoose.Types.Decimal128,
         required: true
     },
 
-    chefUnitID: [
-        {
+    chefUnitID: {
             type: Schema.Types.ObjectId, ref: 'chefUnits',
             required: true
-        }
-    ]
+    }
 
 });
 
