@@ -12,13 +12,11 @@ const dishSchema = new Schema ( {
         required: true
     },
 
-    categoryID: [
-        {
+    categoryID: {
             type: Schema.Types.ObjectId, 
             ref: 'dishCategory',
             required: true
-        }
-    ],
+    },
 
     isActive: {
         type: Boolean,
@@ -37,13 +35,11 @@ const dishSchema = new Schema ( {
         required: true
     },
 
-    addedBy: [
-        {
+    addedBy: {
             type: Schema.Types.ObjectId, 
             ref: 'users',
             required: true
-        }
-    ]
+    }
 });
 
 module.exports = mongoose.model('dish', dishSchema);
