@@ -23,12 +23,7 @@ const dishSchema = new Schema ( {
         default: true,
         required: true
     },
-
-    isAvailable: {
-        type: Boolean, 
-        default: true,
-        required: true
-    },
+    
 
     lastModified: {
         type: Date,
