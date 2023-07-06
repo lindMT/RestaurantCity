@@ -9,7 +9,7 @@ const orderController = {
     processOrder: function(req, res){
 
         // toggle this to true/false to test
-        var orderIsViable = false;
+        var orderIsViable = true;
 
         const lackingIngredients = ["Olive Oil", "Milk", "Peanut", "Truffles", "Caviar"];
         const orderSuccessMessage = "Order fulfilled. Please go back to the order terminal to input more orders.";
@@ -28,6 +28,7 @@ const orderController = {
                 // CALCULATE Total Price (via quantityArray and dishIdArray)
                 // INSERT into order table
                 // INSERT into order item table
+                // UPDATE ingredients/stock
                 // SET orderIsViable to true
             // If not:
                 // POPULATE String[] of lacking ingredients
