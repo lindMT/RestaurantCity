@@ -1,0 +1,25 @@
+<%- include("partials/header") -%>
+
+<!-- TODO: Add later to CSS file -->
+<style>
+    #add-ni-card {
+        margin: auto;
+        width: 600px;
+    }
+</style>
+<div id="add-ni-card" class="card shadow">
+    <div>
+        <h1 style="text-align: center; padding: 5px;">Add New Ingredient</h1>
+    </div>
+    <hr/>
+    <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
+    <div>
+        <p style="text-align: center;">Ingredient has been successfully added to the inventory!</p>
+        <br/>
+    </div>
+
+    <a href="/addNewIngredient">
+        <button class="btn btn-submit-count" style="width: 100%;">Add Another Ingredient</button>
+    </a>
+</div>
+<%- include("partials/footer") -%>

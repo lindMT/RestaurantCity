@@ -25,6 +25,7 @@ function addInputFields(){
         unit.required = "true";
 
         // Create an array of option values and text
+        
         var options = [
             { value: '', text: '-- Select a Unit --' },
             { value: 'g', text: 'g (Grams)' },
