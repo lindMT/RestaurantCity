@@ -1,23 +1,8 @@
 [{
   "_id": {
-    "$oid": "64a69baeb61352c05b39b2e5"
+    "$oid": "64a6b7b31731ba58e9a55822"
   },
-  "name": "eggplant",
-  "category": "dry",
-  "unitID": {
-    "$oid": "64a5804ea792248175d204e8"
-  },
-  "totalNetWeight": {
-    "$numberDecimal": "2"
-  },
-  "reorderPoint": 0,
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "64a69c02b61352c05b39b2ee"
-  },
-  "name": "broccoli",
+  "name": "carrots",
   "category": "dry",
   "unitID": {
     "$oid": "64a5804ea792248175d204e8"
@@ -30,7 +15,7 @@
 },
 {
   "_id": {
-    "$oid": "64a69c4cb61352c05b39b2f7"
+    "$oid": "64a6b7d8e082fa3e67ec83eb"
   },
   "name": "olive oil",
   "category": "wet",

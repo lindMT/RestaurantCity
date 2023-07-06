@@ -55,16 +55,18 @@ const addIngreController = {
         // Get the current date
         const currentDate = new Date();
 
-        // Get the currently logged-in user (assuming you have implemented user authentication)
-        const currentUser = req.user;
+        // Find the user by their username
+        const user = await User.findOne({ userName: req.session.userName });
 
+        // Get the user ID
+        const userId = user._id;
 
         const auditIngredient = new purchasedIngre({
             ingreID: savedIngredient._id,
             date: currentDate,
             varID: ingreVariation._id,
             qty: ingreQty,
-            doneBy: currentUser,
+            doneBy: userId,
         });
 
         await auditIngredient.save();

@@ -1,24 +1,9 @@
 [{
   "_id": {
-    "$oid": "64a69baeb61352c05b39b2e8"
+    "$oid": "64a6b7b31731ba58e9a55825"
   },
   "ingreID": {
-    "$oid": "64a69baeb61352c05b39b2e5"
-  },
-  "unitID": {
-    "$oid": "64a5804ea792248175d204e8"
-  },
-  "netWeight": {
-    "$numberDecimal": "2"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "64a69c02b61352c05b39b2f1"
-  },
-  "ingreID": {
-    "$oid": "64a69c02b61352c05b39b2ee"
+    "$oid": "64a6b7b31731ba58e9a55822"
   },
   "unitID": {
     "$oid": "64a5804ea792248175d204e8"
@@ -30,10 +15,10 @@
 },
 {
   "_id": {
-    "$oid": "64a69c4cb61352c05b39b2fa"
+    "$oid": "64a6b7d8e082fa3e67ec83ee"
   },
   "ingreID": {
-    "$oid": "64a69c4cb61352c05b39b2f7"
+    "$oid": "64a6b7d8e082fa3e67ec83eb"
   },
   "unitID": {
     "$oid": "64a5804ea792248175d204ea"
