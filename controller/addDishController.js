@@ -12,6 +12,7 @@ const addDishController = {
     },
 
     postAddDish: async(req, res) => {
+        // Fetch category in (inputCategory???), where data is from category table
         // const category = await DishCategory.findOne({ category: req.body.inputCategory }); - to be coordinated
         const currentDate = Date();
 
