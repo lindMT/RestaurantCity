@@ -8,6 +8,12 @@ const orderController = {
 
     processOrder: function(req, res){
 
+        // toggle this to true/false to test
+        var orderIsViable = false;
+
+        const lackingIngredients = ["Olive Oil", "Milk", "Peanut", "Truffles", "Caviar"];
+        const orderSuccessMessage = "Order fulfilled. Please go back to the order terminal to input more orders.";
+        const orderFailMessage = "Order unfulfilled. Please find below the list of insufficient ingredients required for the dishes you requested.";
         var quantityArray = req.body.quantity;
         var dishIdArray = req.body.dishId;
         console.log("Quantity Array:");
@@ -17,14 +23,27 @@ const orderController = {
 
         //TODO:
         // 1) Check if order is feasible
+            // Check if
             // If yes: 
-                // calculate Total Price (via quantityArray and dishIdArray)
-                // insert into orders table
-                // send to order processing landing with positive prompt
+                // CALCULATE Total Price (via quantityArray and dishIdArray)
+                // INSERT into order table
+                // INSERT into order item table
+                // SET orderIsViable to true
             // If not:
-                // send to order processing landing with negative prompt + String[] of lacking ingredients
+                // POPULATE String[] of lacking ingredients
+                // SET orderIsViable to false
 
-        res.render('orderProcessingLanding');
+
+        // Hardcoded for now. Implement logic later.
+        if (orderIsViable){
+            res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
+                                                    lackingIngredients: []
+            });
+        } else{
+            res.render('orderProcessingLanding', {  orderPrompt: orderFailMessage,
+                                                    lackingIngredients: lackingIngredients
+            });
+        }
         
     }
 }
