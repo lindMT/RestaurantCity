@@ -13,21 +13,33 @@
         <h1 style="text-align: center; padding: 5px;">Order Fulfillment Status</h1>
     </div>
     <hr/>
-    <div>
+    <div style="text-align: center;">
+        <p><%= orderPrompt %></p>
+        <br/>
+    
+        <% if (lackingIngredients && lackingIngredients.length > 0) { %>
 
-        <p style="text-align: center;">
-            We regret to inform you that your order could not be fulfilled at this time. Please find below the list of insufficient ingredients required for the dishes you requested.            
-            
-            <br/>
-            - Milk 
-            <br/>
-            - Chicken 
-            <br/>
-            - Beef 
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">List of Insufficient Ingredients</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% lackingIngredients.forEach(function(ingredient) { %>
+                        <tr> 
+                            <td><%= ingredient %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } %>
 
-        </p>
+
+        
 
     </div>
+    
 
     <form method="GET" action="/viewOrderTerminal">
         <hr/>
