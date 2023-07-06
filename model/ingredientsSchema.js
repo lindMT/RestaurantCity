@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const ingredientsSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     category: {
         type: String,
         enum: ["wet", "dry"],
-        // required: true
+        required: true
     },
     unitID: {
         type: Schema.Types.ObjectId,

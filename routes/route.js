@@ -41,7 +41,7 @@ app.get("/viewInventory", viewInvController.getViewInventory)
 
 // Add New Ingredients
 app.get("/addNewIngredient", addIngreController.getAddIngre);
-app.post("/addNewIngredient/process", addIngreController.postAddIngredientsAndVariation);
+app.post("/addNewIngredient/process", addIngreController.postAddIngredientAndVariation);
 
 
 // Record Addt'l Purchase

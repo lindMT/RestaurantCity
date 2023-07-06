@@ -10,7 +10,7 @@ const addIngreController = {
         res.render('addNewIngredient');
     },
 
-    postAddIngredient: async(req, res) => {
+    postAddIngredientAndVariation: async(req, res) => {
         const ingreQty = req.body.ingreQty;
         const ingreNetWt = req.body.ingreNetWt;
         const totalNetWeight = ingreQty * ingreNetWt;
@@ -18,10 +18,18 @@ const addIngreController = {
         // Find the record of unit in the units collection based on the unit symbol (ingreUnit)
         const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
 
+        // Check if the ingredient name already exists in the database
+        const existingIngredient = await Ingredient.findOne({ name: req.body.ingreName });
+
+        if (existingIngredient) {
+            // Prompt the user to go to the "record additional purchase"
+            return res.send("Ingredient name already exists. Please record additional purchase.");
+        }
+
         // Create a new ingredient instance
         const ingredient = new Ingredient({
             name: req.body.ingreName,
-            // category: req.body.ingreCategory,
+            category: req.body.ingreCategory,
             unitID: unit._id,
             totalNetWeight: totalNetWeight,
             reorderPoint: 0
@@ -30,29 +38,12 @@ const addIngreController = {
         // Save the ingredient to the database
         await ingredient.save();
 
-        // res.send("Ingredient added successfully!");
-    },
-
-
-    postAddIngreVariation: async(req, res) => {
-        const ingreQty = req.body.ingreQty;
-        const ingreNetWt = req.body.ingreNetWt;
-        const totalNetWeight = ingreQty * ingreNetWt;
-
         // Find the ingredient by its name
-        const ingredient = await Ingredient.findOne({ name: req.body.ingreName });
-
-        // if (!ingredient) {
-        //     // Handle the case where the ingredient is not found
-        //     return res.status(400).send("Invalid ingredient");
-        // }
-
-        // Find the record of unit in the units collection based on the unit symbol (ingreUnit)
-        const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
+        const savedIngredient = await Ingredient.findOne({ name: req.body.ingreName });
 
         // Create a new ingredient variation
         const ingreVariation = new IngreVariation({
-            ingreID: ingredient._id,
+            ingreID: savedIngredient._id,
             unitID: unit._id,
             netWeight: totalNetWeight,
         });
@@ -60,16 +51,7 @@ const addIngreController = {
         // Save the ingredient variation to the database
         await ingreVariation.save();
 
-    },
-
-
-
-    postAddIngredientsAndVariation: async(req, res) => {
-        // Add the ingredient to the ingredients table
-        await addIngreController.postAddIngredient(req, res);
-
-        // Add the ingredient variation to the ingreVariations table
-        await addIngreController.postAddIngreVariation(req, res);
+        return res.send("Ingredient and variation added successfully!");
     },
 };
 
