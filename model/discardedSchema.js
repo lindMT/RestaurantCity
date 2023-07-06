@@ -2,36 +2,36 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const discardedSchema = new Schema( {
-    ingreID: [
+    ingreID: 
         {
             type: Schema.Types.ObjectId, ref: 'ingredients',
             required: true,
         }
-      ],
+      ,
 
     date: { 
         type: String, 
         required: true,
     },
 
-    varID: [
+    varID: 
         {
             type: Schema.Types.ObjectId, ref: 'ingreVariations',
             required: true,
         }
-      ],
+      ,
 
     qty: {
         type: Number,
         required: true
     },
 
-    doneBy: [
+    doneBy: 
         {
             type: Schema.Types.ObjectId, ref: 'users',
             required: true,
         }
-      ],
+      ,
 
 
 });
