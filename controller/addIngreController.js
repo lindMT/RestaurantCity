@@ -3,6 +3,7 @@ const User = require('../model/usersSchema.js');
 const Unit = require("../model/unitsSchema.js");
 const Ingredient = require("../model/ingredientsSchema.js");
 const IngreVariation = require("../model/ingreVariationsSchema.js");
+const purchasedIngre = require("../model/purchasedSchema.js");
 const bcrypt = require("bcrypt");
 
 const addIngreController = {
@@ -50,6 +51,23 @@ const addIngreController = {
 
         // Save the ingredient variation to the database
         await ingreVariation.save();
+
+        // Get the current date
+        const currentDate = new Date();
+
+        // Get the currently logged-in user (assuming you have implemented user authentication)
+        const currentUser = req.user;
+
+
+        const auditIngredient = new purchasedIngre({
+            ingreID: savedIngredient._id,
+            date: currentDate,
+            varID: ingreVariation._id,
+            qty: ingreQty,
+            doneBy: currentUser,
+        });
+
+        await auditIngredient.save();
 
         return res.send("Ingredient and variation added successfully!");
     },
