@@ -51,7 +51,8 @@ app.get("/recordAddtl", recordAddtlController.getRecAddtl)
 app.get("/manageDishes", manageDishesController.getManageDishes)
 
 // Add Dish
-app.get("/addDish", addDishController.getaddDish)
+app.get("/addDish", addDishController.getAddDish)
+app.post("/addDish/process", addDishController.postAddDish)
 
 // Add Category
 app.get("/addCategory", addCategoryController.getAddCategory)
