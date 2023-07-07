@@ -1,63 +1,44 @@
 <%- include("partials/header") -%>
-    <div class="card shadow">
-        <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
-        <div>
-            <h1>Inventory</h1>
-        </div>
 
-        <!-- <div class="stock-header">
+<div class="card shadow">
+    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
+    <div>
         <h1>Inventory</h1>
-        <div class="form-group">
-            <div class="col-15">
-                <select id="filterTypeId" class="form-select form-select-sm" aria-label="Filter selection" name="filterType">
-                        <option selected>All</option>
-                        <option value="1">In stock</option>
-                        <option value="2">Low stock</option>
-                        <option value="3">Out of stock</option>
-                </select>                    
-            </div>
-        </div>
-        <i class="fa-solid fa-filter fa-xl"></i> 
-    </div> -->
-        <hr/>
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Stock Status</th>
-                    <th scope="col">Running Total (Net Weight)</th>
-                    <th scope="col">Unit</th>
-                    <th scope="col">Reorder Point</th>
-                    <th scope="col">Missing</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- TODO: For-Loop with Ingredients -->
-                <% ingredients.forEach(function(ingredient) { %>
-                    <tr>
-                        <td>
-                            <%= ingredient.name %>
-                        </td>
-                        <td class="table-success">
-                            In stock
-                        </td>
-                        <td>
-                            <%= ingredient.totalNetWeight %>
-                        </td>
-                        <td>
-                            <%= ingredient.unitSymbol %>
-                        </td>
-                        <td>
-                            <%= ingredient.reorderPoint %>
-                        </td>
-                        <td>
-                            0
-                        </td>
-                    </tr>
-                    <% }) %>
-            </tbody>
-        </table>
     </div>
-
-    <%- include("partials/footer") -%>
+    <hr/>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Stock Status</th>
+                <th scope="col">Running Total (Net Weight)</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Reorder Point</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- TODO: For-Loop with Ingredients -->
+            <% ingredients.forEach(function(ingredient) { %>
+                <tr>
+                    <td>
+                        <%= ingredient.name %>
+                    </td>
+                    <td class="table-success">
+                        <!-- To be replaced with actual data -->
+                        In stock
+                    </td>
+                    <td>
+                        <%= ingredient.totalNetWeight %>
+                    </td>
+                    <td>
+                        <%= ingredient.unitSymbol %>
+                    </td>
+                    <td>
+                        <%= ingredient.reorderPoint %>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+</div>
+<%- include("partials/footer") -%>

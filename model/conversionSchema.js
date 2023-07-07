@@ -48,6 +48,25 @@ const conversionSchema = new Schema({
     - Pound to Ounce
         - 16
 
+    *** WET INGREDIENTS ***
+    ADDED:
+    - None
+
+    NOT YET ADDED:
+    - Milliliter to Liter
+        - 0.001
+    - Milliliter to Fluid Ounce
+        - 0.0034
+
+    - Liter to Milliliter
+        - 1000
+    - Liter to Fluid Ounce
+        - 33.81
+
+    - Fluid Ounce to Milliliter
+        - 29.57
+    - Fluid Ounce to Liter
+        - 0.030
 */
 
 module.exports = mongoose.model('conversion', conversionSchema);
