@@ -24,7 +24,7 @@ const addIngreController = {
 
         if (existingIngredient) {
             // Prompt the user to go to the "record additional purchase"
-            return res.render('errorPage', { errorMessage: 'Ingredient already exists. Please use the record additional purchase module.' });
+            return res.render('addNewIngredientError', { message: 'The ingredient you added ALREADY EXISTS. Please use the Record Additional Purchase module.' });
         }
 
         // Create a new ingredient instance
