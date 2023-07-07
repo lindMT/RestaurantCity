@@ -1,21 +1,82 @@
+const { default: mongoose } = require('mongoose');
 const User = require('../model/usersSchema.js');
 const Dish = require('../model/dishSchema.js');
+const DishCategory = require('../model/dishCategorySchema.js');
+const DishRecipe = require('../model/dishRecipeSchema.js');
+const Ingredients = require('../model/ingredientsSchema.js');
+const ChefUnits = require('../model/chefUnitsSchema.js');
 const bcrypt = require("bcrypt");
 
 const manageDishesController = {
     // for redirecting login and signup
-    getManageDishes: function(req, res) {
-        res.render('manageDishes');
+    getManageDishes: async function(req, res) {
+        try {
+            // Retrieve all dishes available
+            const dishes = await Dish.find({ isActive: true});
+            
+            // Retrieve categories from DishCatego
+            const categories = await DishCategory.find();
+            
+            // Map dish id with dishCategory dishID
+            const dishesWithCategory = await Promise.all(dishes.map(async dish => {
+                const category = categories.find(category => category._id.equals(dish.categoryID));
+                
+                // Fetch the recipe for the dish
+                const recipe = await DishRecipe.findOne({ dishID: dish._id }).lean();
+
+                // Retrieve ingredient names for the recipe
+                const ingredientIds = recipe ? recipe.ingredients.map(item => item.ingredient) : [];
+                const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
+
+                // Map ingredient names to the recipe items
+                const recipeWithIngredientNames = recipe ? await Promise.all(recipe.ingredients.map(async item => {
+                    const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
+
+                    // Fetch the chefUnit with unitSymbol
+                    const chefUnit = await ChefUnits.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
+
+                    return {
+                        ...item,
+                        ingredientName: ingredient ? ingredient.name : '',
+                        chefUnitSymbol: chefUnit ? chefUnit.unitSymbol : ''
+                    };
+                })) : [];
+
+                return {
+                    ...dish.toObject(),
+                    category: category ? category.category : '',
+                    recipe: recipeWithIngredientNames
+                };
+            }));
+
+            //Pass dishes to views
+            res.render('manageDishes', { dishes: dishesWithCategory });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("An error occurred while retrieving the dishes.");
+        }
     },
 
-    // postManageDishes: function(req, res) {
-    //     //TODO:
-    //     // 1) Get dish names of selected(ticked checkbox) dishes 
-    //     // 2) If "remove dish" is clicked, set "isActive" and "isAvailable" to false
-    //     // 3) Views should check "isActive" status
-    //         // If true: display
-    //         // If false: remove from display
-    // }
+    postManageDishes: async(req, res) => {
+        // Retrieves all selected dish with box checked
+        let selectedDishes = req.body.selectedDishes
+
+        if (!Array.isArray(selectedDishes)) {
+            // If only one dish is selected, convert it to an array
+            selectedDishes = [selectedDishes];
+        }
+        
+        // Sets "isActive" for all selected dish to "false"
+        Dish.updateMany({name: {$in: selectedDishes}}, {isActive: false}, (err) => {
+            if (err) {
+                console.error('Error removing dishes', err);
+                res.send('Error removing dish');
+            } else {
+                console.log('Dishes removed:', result.nModified);
+                res.render('manageDishes');
+            }
+        });
+    }
 
 }
 

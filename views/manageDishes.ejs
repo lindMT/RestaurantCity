@@ -1,7 +1,7 @@
 <%- include("partials/header") -%>
     <div class="viewdish-card-holder">
         <div class="card shadow viewdish-form" style="width: 80vw;">
-            <form method="post" action="">
+            <form method="post" action="/manageDishes/process">
                 <div class="viewdish-header">
                     <h1>Manage Dishes</h1>
 
@@ -16,6 +16,7 @@
                 <!-- TODO: For Loop with modal -->
                 <!-- TODO: Change Value, id, and name for each dishes -->
 
+                <% if (dishes.length > 0) { %>
                 <table class="table table-striped" id="dishTable"
                     style=" width: 100%; margin-left: auto; margin-right: auto;">
                     <thead>
@@ -27,61 +28,26 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <% dishes.forEach(function(dishes) { %>
                         <tr>
                             <td style="text-align: left;">
                                 <div class="form-check">
-                                    <input class="form-check-input select" type="checkbox" value="" id="foodName1">
-                                    <label for="foodName1" name="dishName">
-                                        Shawarma Rice
-                                    </label>
-                                </div>
-                            </td>
-                            <td>Main</td>
-                            <td>₱ 250.00</td>
-                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                                    View Recipe</button></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">
-                                <div class="form-check">
-                                    <input class="form-check-input select" type="checkbox" value="" name="dishName">
+                                    <input class="form-check-input select" type="checkbox" value="<%= dishes.name %>" name = "selectedDish" id="foodName1">
                                     <label>
-                                        Honey Garlic Salmon
+                                        <%= dishes.name %>
                                     </label>
                             </td>
-                            <td>Main</td>
-                            <td>₱ 450.00</td>
-                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
+                            <td><%= dishes.category %></td>
+                            <td>₱ <%= dishes.price %></td>
+                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal" type ="button">
                                     View Recipe</button></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: left;">
-                                <div class="form-check">
-                                    <input class="form-check-input select" type="checkbox" value="" >
-                                    <label>
-                                        Mozzarella Sticks
-                                    </label>
-                            </td>
-                            <td>Appetizers</td>
-                            <td>₱ 120.00</td>
-                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                                    View Recipe</button></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">
-                                <div class="form-check">
-                                    <input class="form-check-input select" type="checkbox" value="">
-                                    <label>
-                                        Grilled Steak
-                                    </label>
-                            </td>
-                            <td>Main</td>
-                            <td>₱ 75.00</td>
-                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                                    View Recipe</button></td>
-                        </tr>
+                        <% }); %>
                     </tbody>
                 </table>
+                <% } else { %>
+
+                <% } %>
 
                 <div class="form-align-left" style="color: #41A162; margin-top: 10px;">
                     <a href="/addDish" style="color: #41A162;">
@@ -94,7 +60,7 @@
     </div>
 
     <!--MODAL MAKER -->
-    <!-- TODO: Backend -->
+    <% dishes.forEach(function(dishes) { %>
     <div class="modal fade" id="dishDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -108,22 +74,24 @@
 
                 </div>
                 <div class="modal-body">
-                    <h2 class="modal-body" id="dishName" style="text-align: center;">Dish Name</h2>
+                    <h2 class="modal-body" id="dishName" style="text-align: center;"><%= dishes.name %></h2>
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">Ingredients</th>
-                                <th scope="col">Quantity</th>
+                                <th scope="col">Weight</th>
                                 <th scope="col">Unit</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <% dishes.recipe.forEach(function(item) { %>
                             <tr>
-                                <td>Beef</td>
-                                <td>1</td>
-                                <td>500g</td>
+                                <td><%= item.ingredientName %></td>
+                                <td><%= item.chefWeight %></td>
+                                <td><%= item.chefUnitSymbol %></td>
                             </tr>
-                            <tr>
+                            <% }); %>
+                            <!-- <tr>
                                 <td>Lettuce</td>
                                 <td>1</td>
                                 <td>350g</td>
@@ -132,7 +100,7 @@
                                 <td>Garlic Sauce</td>
                                 <td>1</td>
                                 <td>200g</td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -141,5 +109,6 @@
             </div>
         </div>
     </div>
+    <% }); %>
     <script src="js/manageDishes.js"></script>
     <%- include("partials/footer") -%>
