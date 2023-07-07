@@ -1,91 +1,94 @@
 <%- include("partials/header") -%>
     <div class="viewdish-card-holder">
         <div class="card shadow viewdish-form" style="width: 80vw;">
-            <div class="viewdish-header">
-                <h1>Manage Dishes</h1>
-                <div style="text-align: center; margin-left: auto">
-                
-                <button onclick="deleteRow()" id="removeDishBtn" type="button" class="btn btn-secondary"
-                    style="margin-left: 10px; color: white;" disabled> 
-                    Remove Dish</button>
-            </div>
-        </div>
-            <hr>
-            <!-- TODO: For Loop with modal -->
-            <!-- TODO: Change Value, id, and name for each dishes -->
-            <table class="table table-striped" id="dishTable"
-                style=" width: 100%; margin-left: auto; margin-right: auto;">
-                <thead>
-                    <tr>
-                        <th scope="col" style="text-align: left;">Dish Name</th>
-                        <th scope="col" style="text-align: center;">Category</th>
-                        <th scope="col" style="text-align: center;">Price</th>
-                        <th scope="col" style="text-align: center;">Recipe</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox"  value="" id="foodName1">
-                                <label class="form-check-label" for="foodName1">
-                                    Shawarma Rice
-                                </label>
-                        </td>
-                        <td>Main</td>
-                        <td>₱ 250.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName2">
-                                <label class="form-check-label" for="foodName2">
-                                    Honey Garlic Salmon
-                                </label>
-                        </td>
-                        <td>Main</td>
-                        <td>₱ 450.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName3">
-                                <label class="form-check-label" for="foodName3">
-                                    Mozzarella Sticks
-                                </label>
-                        </td>
-                        <td>Appetizers</td>
-                        <td>₱ 120.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <div class="form-check">
-                                <input class="form-check-input select" type="checkbox" value="" id="foodName4">
-                                <label class="form-check-label" for="foodName4">
-                                    Grilled Steak
-                                </label>
-                        </td>
-                        <td>Main</td>
-                        <td>₱ 75.00</td>
-                        <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
-                            View Recipe</button></td>
-                    </tr>
-                </tbody>
-            </table>
+            <form method="post" action="">
+                <div class="viewdish-header">
+                    <h1>Manage Dishes</h1>
 
-            <div class="form-align-left"  style="color: #41A162; margin-top: 10px;">
-                <a href="/addDish" style="color: #41A162;">
-                    <i class="fa-solid fa-bowl-food fa-xl" style="color: #41A162;"></i>
-                    Add Dishes
-                </a>
-            </div>
+                    <div style="text-align: center; margin-left: auto">
 
+                        <button onclick="deleteRow()" id="removeDishBtn" type="button" class="btn btn-secondary"
+                            style="margin-left: 10px; color: white;" disabled>
+                            Remove Dish</button>
+                    </div>
+                </div>
+                <hr>
+                <!-- TODO: For Loop with modal -->
+                <!-- TODO: Change Value, id, and name for each dishes -->
+
+                <table class="table table-striped" id="dishTable"
+                    style=" width: 100%; margin-left: auto; margin-right: auto;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: left;">Dish Name</th>
+                            <th scope="col" style="text-align: center;">Category</th>
+                            <th scope="col" style="text-align: center;">Price</th>
+                            <th scope="col" style="text-align: center;">Recipe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;">
+                                <div class="form-check">
+                                    <input class="form-check-input select" type="checkbox" value="" id="foodName1">
+                                    <label class="form-check-label" for="foodName1">
+                                        Shawarma Rice
+                                    </label>
+                            </td>
+                            <td>Main</td>
+                            <td>₱ 250.00</td>
+                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
+                                    View Recipe</button></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">
+                                <div class="form-check">
+                                    <input class="form-check-input select" type="checkbox" value="" id="foodName2">
+                                    <label class="form-check-label" for="foodName2">
+                                        Honey Garlic Salmon
+                                    </label>
+                            </td>
+                            <td>Main</td>
+                            <td>₱ 450.00</td>
+                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
+                                    View Recipe</button></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">
+                                <div class="form-check">
+                                    <input class="form-check-input select" type="checkbox" value="" id="foodName3">
+                                    <label class="form-check-label" for="foodName3">
+                                        Mozzarella Sticks
+                                    </label>
+                            </td>
+                            <td>Appetizers</td>
+                            <td>₱ 120.00</td>
+                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
+                                    View Recipe</button></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">
+                                <div class="form-check">
+                                    <input class="form-check-input select" type="checkbox" value="" id="foodName4">
+                                    <label class="form-check-label" for="foodName4">
+                                        Grilled Steak
+                                    </label>
+                            </td>
+                            <td>Main</td>
+                            <td>₱ 75.00</td>
+                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal">
+                                    View Recipe</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="form-align-left" style="color: #41A162; margin-top: 10px;">
+                    <a href="/addDish" style="color: #41A162;">
+                        <i class="fa-solid fa-bowl-food fa-xl" style="color: #41A162;"></i>
+                        Add Dishes
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -137,5 +140,5 @@
             </div>
         </div>
     </div>
-<script src="js/manageDishes.js"></script>
-<%- include("partials/footer") -%>
+    <script src="js/manageDishes.js"></script>
+    <%- include("partials/footer") -%>
