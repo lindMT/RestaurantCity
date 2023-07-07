@@ -1,4 +1,11 @@
 const User = require('../model/usersSchema.js');
+const Order = require('../model/orderSchema.js');
+const OrderItem = require('../model/orderItemSchema.js');
+const Ingredient = require('../model/ingredientsSchema.js');
+const IngreVariation = require('../model/ingreVariationsSchema.js');
+const Dish = require('../model/dishSchema.js')
+const { calculateTotalPrice } = require("../public/js/orderTerminal.js");
+
 const bcrypt = require("bcrypt");
 
 const orderController = {
@@ -23,13 +30,41 @@ const orderController = {
 
         //TODO:
         // 1) Check if order is feasible
-            // Check if
+        const orderController = {
+            getOrder: async function(req, res) {
+                try{
+                    //Retrieve all ingredients from the database
+                    const ingredients = await Ingredient.find()
+                    res.render()
+                }
+                catch{}
+            }
+        }
+            
             // If yes: 
                 // CALCULATE Total Price (via quantityArray and dishIdArray)
                 // INSERT into order table
                 // INSERT into order item table
                 // UPDATE ingredients/stock
                 // SET orderIsViable to true
+                const calculateTotalPrice = calculateTotalPrice(quantityArray, dishIdArray)
+               
+                const newOrder = new Order({
+                    totalPrice: calculateTotalPrice(),
+                    date: new Date(),
+                    takenBy: User.findById(userName)
+                });
+
+                Order.findById(orderID)
+                OrderItem.findById(orderItemID)
+
+                const newOrderItem = new OrderItem({
+                    orderID: Order.findById(orderID),
+                    dishID: Dish.findById(DishID)
+                });
+
+                orderIsViable = true;
+
             // If not:
                 // POPULATE String[] of lacking ingredients
                 // SET orderIsViable to false
