@@ -28,6 +28,31 @@ const viewInvController = {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the ingredients.");
         }
+    },
+
+    getDiscard: async function(req, res){
+        const foundIngredients = await Ingredient.find().sort({name: 1});
+        
+        await res.render('discardIngredientP1', {
+                ingredients: foundIngredients
+            })
+    },
+
+    postDiscard1: async function(req, res){
+        const foundVariants = await IngreVariation.find({ ingreID: req.body.ingreId });
+        const foundIngredient = await Ingredient.findById(req.body.ingreId);
+        const foundUnits = await Unit.find();
+
+        await res.render('discardIngredientP2', {
+            variants: foundVariants,
+            ingredient: foundIngredient,
+            units: foundUnits
+        })
+    },
+
+    postDiscard2: async function(req, res){
+        // Insert here
+        // Also missing -> Successfully discarded page
     }
 };
 

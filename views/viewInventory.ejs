@@ -1,9 +1,29 @@
 <%- include("partials/header") -%>
 
-<div class="card shadow">
-    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
-    <div>
+<!-- TODO: Translate to CSS -->
+<style>
+    #view-inventory-card{
+        width: 1200px;
+        margin: auto;
+    }
+
+    /* .view-inventory-header{
+        background-color: yellow;
+    } */
+
+    .view-inventory-header button, h1{
+        display: inline-block;
+    }
+
+    .view-inventory-header button{
+        float: right;
+    }
+</style>
+
+<div id="view-inventory-card" class="card shadow">
+    <div class="view-inventory-header">
         <h1>Inventory</h1>
+        <a href="/viewInventory/discard/p1"><button class="btn btn-danger">Discard Ingredients</button></a>
     </div>
     <hr/>
     <table class="table table-striped">
@@ -23,8 +43,8 @@
                     <td>
                         <%= ingredient.name %>
                     </td>
-                    <td class="table-success">
-                        <!-- To be replaced with actual data -->
+                    <!-- TODO: To be replaced with actual data -->
+                    <td class="table-success">  
                         In stock
                     </td>
                     <td>

@@ -13,20 +13,18 @@
 </style>    
 
 <div id="record-card" class="card shadow">
-    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
     <div>
-        <h1 style="text-align: center; padding: 5px;">Record Additional Purchase</h1>
+        <h1 style="text-align: center; padding: 5px;">Discard Ingredients</h1>
     </div>
     <hr/>
 
-    <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
     <div>
-        <p style="text-align: center;">Fill-out all of the fields by inputting the net weight, unit, and quantity bought for the selected ingredient.</p>
-        <p style="text-align: center;">You are recording your purchase for: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
+        <p style="text-align: center;">Fill-out all of the fields by inputting the net weight, unit, and quantity to be disposed for the selected ingredient.</p>
+        <p style="text-align: center;">Type of ingredient you will be disposing: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
         <br/>
     </div>
 
-    <form method="post" action="/recordAddtl/p2/process">
+    <form method="post" action="/discard/p2/process">
         <input id="record-select-category" name="ingreCategory" type="hidden" value="<%= ingredient.category %>"/>
         <% console.log(ingredient.category) %>
         <input name="ingreId" type="hidden" value="<%= ingredient._id %>"/>
@@ -60,7 +58,7 @@
         <br/>
 
         <hr/>
-        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Update Inventory</button>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Discard & Apply Changes</button>
     </form>
 
     <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>

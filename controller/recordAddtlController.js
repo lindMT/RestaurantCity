@@ -16,8 +16,6 @@ const recordAddtlController = {
     },
 
     postRecAddtl1: async(req, res) => {
-        // TODO: Search for INGREDIENT
-        // TODO: Search for UNITS
         const foundVariants = await IngreVariation.find({ ingreID: req.body.ingreId });
         const foundIngredient = await Ingredient.findById(req.body.ingreId);
         const foundUnits = await Unit.find();
