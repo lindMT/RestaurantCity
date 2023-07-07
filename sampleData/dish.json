@@ -1,0 +1,14 @@
+[{
+    "_id": {
+      "$oid": "64a8265685ad11ed4b260cdf"
+    },
+    "name": "Carrot Soup",
+    "price": "50",
+    "categoryID": {
+      "$oid": "64a825e585ad11ed4b260cda"
+    },
+    "isActive": true,
+    "lastModified": {
+      "$date": "2023-07-07T15:30:00.000Z"
+    }
+  }]

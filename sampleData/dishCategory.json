@@ -1,0 +1,24 @@
+[{
+    "_id": {
+      "$oid": "64a825e585ad11ed4b260cd9"
+    },
+    "category": "Mains"
+  },
+  {
+    "_id": {
+      "$oid": "64a825e585ad11ed4b260cda"
+    },
+    "category": "Sides"
+  },
+  {
+    "_id": {
+      "$oid": "64a825e585ad11ed4b260cdb"
+    },
+    "category": "Desserts"
+  },
+  {
+    "_id": {
+      "$oid": "64a825e585ad11ed4b260cdc"
+    },
+    "category": "Drinks"
+  }]
