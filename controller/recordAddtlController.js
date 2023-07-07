@@ -18,7 +18,7 @@ const recordAddtlController = {
         // TODO: Search for INGREDIENT
         // TODO: Search for UNITS
         const foundVariants = await IngreVariation.find({ingreID: req.body.ingreId});
-        const foundIngredient = await Ingredient.find({ingreID: req.body.ingreId});
+        const foundIngredient = await Ingredient.findById(req.body.ingreId);
         const foundUnits = await Unit.find();
 
         await res.render('recordAddtlP2', {

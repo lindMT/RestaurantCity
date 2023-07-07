@@ -1,11 +1,15 @@
 function addInputFields(){
     var divId = document.getElementById("record-others-field");
 
+    var categoryInputId = document.getElementById("record-select-category");
+    var categoryInputVal = categoryInputId.value;
+
     var selectId = document.getElementById("record-select-nu-input");
     var selectVal = selectId.value;
 
     if(selectVal == "others"){
         console.log(selectId.value)
+        var options;
 
         var netWt = document.createElement("input");
         netWt.setAttribute('class', 'form-control');
@@ -26,13 +30,28 @@ function addInputFields(){
 
         // Create an array of option values and text
         
-        var options = [
-            { value: '', text: '-- Select a Unit --' },
-            { value: 'g', text: 'g (Grams)' },
-            { value: 'kg', text: 'kg (Kilograms)' },
-            { value: 'mL', text: 'mL (Milliliters)' },
-            { value: 'L', text: 'L (Liters)' },
-        ];
+        console.log(categoryInputVal)
+
+        if(categoryInputVal == "wet"){
+            options = [
+                { value: '', text: '-- Select a Unit --' },
+                { value: 'mL', text: 'mL (Milliliters)' },
+                { value: 'L', text: 'L (Liters)' },
+                { value: 'fl oz', text: 'fl oz (Fluid Ounces)' },
+            ];
+
+            console.log("Wet")
+        }else{
+            options = [
+                { value: '', text: '-- Select a Unit --' },
+                { value: 'g', text: 'g (Grams)' },
+                { value: 'kg', text: 'kg (Kilograms)' },
+                { value: 'oz', text: 'oz (Ounces)' },
+                { value: 'lb', text: 'lbs (Pounds)' },
+            ];
+
+            console.log("Dry")
+        }
 
         // grams, kilograms, milliliters, liters, ounces, pounds, fluid ounces
 
