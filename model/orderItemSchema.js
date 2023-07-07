@@ -12,6 +12,10 @@ const orderItemSchema = new Schema( {
         type: Schema.Types.ObjectId,
         ref: "dishID", 
         required: true,
+    },
+    qty: { 
+        type: Number,
+        required: true,
     }
 });
 
