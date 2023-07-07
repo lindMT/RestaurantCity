@@ -28,7 +28,7 @@ const orderController = {
         console.log("Dish ID Array:");
         console.log(dishIdArray);
 
-        //TODO:
+        //TODO TEREL:
         // 1) Check if order is feasible
         const orderController = {
             getOrder: async function(req, res) {
@@ -40,38 +40,47 @@ const orderController = {
                 catch{}
             }
         }
-            
-            // If yes: 
-                // CALCULATE Total Price (via quantityArray and dishIdArray)
-                // INSERT into order table
-                // INSERT into order item table
-                // UPDATE ingredients/stock
-                // SET orderIsViable to true
-                const calculateTotalPrice = calculateTotalPrice(quantityArray, dishIdArray)
-               
-                const newOrder = new Order({
-                    totalPrice: calculateTotalPrice(),
-                    date: new Date(),
-                    takenBy: User.findById(userName)
-                });
-
-                Order.findById(orderID)
-                OrderItem.findById(orderItemID)
-
-                const newOrderItem = new OrderItem({
-                    orderID: Order.findById(orderID),
-                    dishID: Dish.findById(DishID)
-                });
-
-                orderIsViable = true;
-
-            // If not:
-                // POPULATE String[] of lacking ingredients
-                // SET orderIsViable to false
+        
 
 
-        // Hardcoded for now. Implement logic later.
+
+        // TODO LIND:
+        // If yes: 
+            // CALCULATE Total Price (via quantityArray and dishIdArray)
+            // INSERT into order table
+            // INSERT into order item table
+            // UPDATE ingredients/stock
+        // If not:
+            // POPULATE String[] of lacking ingredients
+
         if (orderIsViable){
+            // Calculate Total Price
+            var totalPrice = 99.99; // temporary * will calculate
+            
+            // Create New Order
+            var newOrder = new Order({
+                totalPrice: totalPrice,
+                date: new Date(),
+                takenBy: req.session.userName
+            });
+
+            newOrder.save().then(docs => {
+            })
+
+            // Create New Order Items
+            for (var i = 0; i < dishIdArray.length; i++){
+                var newOrderItem = new OrderItem({
+                    orderID: newOrder._id,
+                    dishID: dishIdArray[i]
+                });
+
+                newOrderItem.save().then(docs => {
+                })
+            }
+
+            // TODO:
+            // UPDATE ingredients/stock
+
             res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
                                                     lackingIngredients: []
             });
