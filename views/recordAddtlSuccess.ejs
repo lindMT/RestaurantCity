@@ -36,31 +36,19 @@
         <hr/>
         <div>
             <p style="text-align: center; font-size: 20px;">
-                <b>
-                    <%= message %>
-                </b>
+                <%= message %>
             </p>
             <br/>
         </div>
 
-
-        <% if (ingredient !== null && ingredient !== undefined) { %>
-            <div class="ingredient-details">
-                <p>
-                    <%= ingredient.totalNetWeight %>
-                        <%= unit.unitSymbol %>
-                            <%= ingredient.name %>
-                </p>
-            </div>
-            <% }%>
-                <div class="button-container">
-                    <a href="/addNewIngredient">
-                        <button class="btn btn-submit-count" style="width: 100%;">Record another purchase</button>
-                    </a>
-                    <a href="/viewInventory">
-                        <button class="btn btn-submit-count btn-view-inventory" style="width: 100%;">View Inventory</button>
-                    </a>
-                </div>
+        <div class="button-container">
+            <a href="/recordAddtl/p1">
+                <button class="btn btn-submit-count" style="width: 100%;">Record another purchase</button>
+            </a>
+            <a href="/viewInventory">
+                <button class="btn btn-submit-count btn-view-inventory" style="width: 100%;">View Inventory</button>
+            </a>
+        </div>
     </div>
 
     <%- include("partials/footer") -%>

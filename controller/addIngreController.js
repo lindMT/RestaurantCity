@@ -71,7 +71,7 @@ const addIngreController = {
 
         await auditIngredient.save();
 
-        return res.render('addNewIngredientSuccess', { message: 'New ingredient added successfully!', ingredient: ingredient, unit: unit });
+        return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: ingredient, unit: unit });
     },
 };
 

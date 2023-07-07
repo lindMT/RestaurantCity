@@ -2,7 +2,8 @@ const User = require('../model/usersSchema.js');
 const Unit = require("../model/unitsSchema.js");
 const Ingredient = require("../model/ingredientsSchema.js");
 const IngreVariation = require("../model/ingreVariationsSchema.js");
-const Conversion = require("../model/conversionSchema.js")
+const Conversion = require("../model/conversionSchema.js");
+const purchasedIngre = require("../model/purchasedSchema.js");
 const bcrypt = require("bcrypt");
 
 const recordAddtlController = {
@@ -77,8 +78,29 @@ const recordAddtlController = {
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWeight);
             await foundIngredient.save();
 
-            res.status(500).send("Total net weight updated.");
-            // TODO: Success Page
+
+            // Get the current date
+            const currentDate = new Date();
+
+            // Find the user by their username
+            const user = await User.findOne({ userName: req.session.userName });
+
+            // Get the user ID
+            const userId = user._id;
+
+            //Add ingredient to purchased audit.
+            const auditIngredient = new purchasedIngre({
+                ingreID: foundIngredient._id,
+                date: currentDate,
+                varID: foundVariant._id,
+                qty: inputQty,
+                doneBy: userId,
+            });
+
+            await auditIngredient.save();
+
+            return res.render('recordAddtlSuccess', { title: "Record Addional Purchase", message: 'New ingredient variant added successfully!' });
+
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred while updating the ingredient's running total.");
