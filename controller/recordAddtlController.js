@@ -23,10 +23,14 @@ const recordAddtlController = {
 
         await res.render('recordAddtlP2', {
             variants: foundVariants,
-            ingredient: foundIngredient, // for identifying dry/wet ingredients?
+            ingredient: foundIngredient,
             units: foundUnits
         })
     },
+
+    postRecAddtl2: async (req, res) => {
+
+    }
 
     // TODO: Add POST (Wait till DB is finalized)
 

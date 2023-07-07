@@ -45,8 +45,9 @@ app.post("/addNewIngredient/process", addIngreController.postAddIngredientAndVar
 
 
 // Record Addt'l Purchase
-app.get("/recordAddtl/p1", recordAddtlController.getRecAddtl)
-app.post("/recordAddtl/p2", recordAddtlController.postRecAddtl1)
+app.get("/recordAddtl/p1", recordAddtlController.getRecAddtl);
+app.post("/recordAddtl/p2", recordAddtlController.postRecAddtl1);
+app.post("/recordAddtl/p2/process", recordAddtlController.postRecAddtl2);
 
 // View Dishes
 app.get("/manageDishes", manageDishesController.getManageDishes)
