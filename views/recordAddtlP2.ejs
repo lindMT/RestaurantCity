@@ -22,37 +22,28 @@
     <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
     <div>
         <p style="text-align: center;">Fill-out all of the fields by inputting the net weight, unit, and quantity bought for the selected ingredient.</p>
-        <p style="text-align: center;">You are recording your purchase for the ingredient: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
+        <p style="text-align: center;">You are recording your purchase for: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
         <br/>
     </div>
 
     <!-- TODO: Backend form -->
-    <form method="post" action="#">
+    <form method="post" action="/recordAddtl/p2/process">
         <!-- TODO: PASS TO JS -->
         <input id="record-select-category" name="ingreCategory" type="hidden" value="<%= ingredient.category %>"/>
         <% console.log(ingredient.category) %>
+        <input name="ingreId" type="hidden" value="<%= ingredient._id %>"/>
+        <% console.log(ingredient._id) %>
 
         <div class="form-group">
             <label>Net Weight & Unit</label>
             <!-- TODO: Translate Style to CCS -->
             <select id="record-select-nu-input" name="ingreNetUnit" class="form-select form-select-md" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
                 <option disabled selected value> -- Select Net Wt. & Unit -- </option>
-                <!-- TODO: Backend (ingreVariants)-->
-                <!-- TODO: Selected ingredient MUST be basis -->
                 <% if(variants.length > 0) {%>
                     <% variants.forEach(variant => { %> 
                         <% units.forEach(unit => { %>
                             <% if (unit._id.equals(variant.unitID)) {%>
                                 <option value="<%= variant._id %>"><%= variant.netWeight%> <%= unit.unitSymbol %> (<%= unit.unitName %>s)</option>
-                                <!-- Steps: Backend
-                                    1. Variable for variant id
-                                    2. User variant id in finding() for exact variant
-                                    3. Extract net weight & unit (from variantId)
-                                    4. Check what is the MAIN UNIT being used in viewInventory (for that particular ingredient)
-                                    5. Compare INPUT UNIT to INVENTORY UNIT
-                                        5.1. Convert value of net weight if INPUT UNIT != INVENTORY UNIT
-                                    6. Accummulate TOTAL NET WEIGHT
-                                 -->
                             <% }%> 
                         <% })%> 
                     <% }) %> 
@@ -73,6 +64,8 @@
         <hr/>
         <button type="submit" class="btn btn-submit-count" style="width: 100%;">Update Inventory</button>
     </form>
+
+    <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
 </div>
 
 <script src="/js/recordAddtl.js"></script>

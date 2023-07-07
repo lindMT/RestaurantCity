@@ -19,11 +19,35 @@ const conversionSchema = new Schema({
 });
 
 /* Sample Data (conversion.json) order:
-    - Kilogram to Gram
-    - Milligram to Gram
+    *** DRY INGREDIENTS ***
+    ADDED:
+    - Gram to Kilogram
+        - 0.001
+    - Gram to Ounce
+        - 0.035
+    - Gram to Pound
+        - 0.0022
+    - Kilogram  to Gram
+        - 1000
+
+    NOT YET ADDED:
+    - Kilogram  to Ounce
+        - 35.27
+    - Kilogram  to Pound
+        - 2.20
+    - Ounce to Kilogram
+        - 0.028
     - Ounce to Gram
+        - 28.35
+    - Ounce to Pound
+        - 0.062
+    - Pound to Kilogram
+        - 0.45
     - Pound to Gram
-    - Milliliter to Liter
+        - 453.59
+    - Pound to Ounce
+        - 16
+
 */
 
 module.exports = mongoose.model('conversion', conversionSchema);
