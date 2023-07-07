@@ -1,0 +1,41 @@
+<%- include("partials/header") -%>
+
+    <!-- TODO: Add later to CSS file -->
+    <style>
+        #add-ni-card {
+            margin: auto;
+            width: 600px;
+        }
+        
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .btn-view-inventory {
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+        }
+    </style>
+
+    <div id="add-ni-card" class="card shadow">
+        <div>
+            <h1 style="text-align: center; padding: 5px; color: red;">Error in adding ingredient</h1>
+        </div>
+        <hr/>
+        <div>
+            <p style="text-align: center; font-size: 20px; ">
+                <%= message %>
+            </p>
+            <br/>
+        </div>
+        <div class="button-container">
+            <a href="/recordAddtl/p1">
+                <button class="btn btn-submit-count" style="width: 100%;">Record additional purchase</button>
+            </a>
+        </div>
+    </div>
+
+    <%- include("partials/footer") -%>
