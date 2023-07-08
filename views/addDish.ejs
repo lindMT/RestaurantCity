@@ -34,11 +34,11 @@
             <select class="form-select" id="inputCategory" name="category" required>
               <option disabled selected value>Food Category</option>
               <!-- TODO: Backend -->
-              <option value="mainDish">Main Dish</option>
-              <option value="appetizers">Appetizers</option>
-              <option value="sideDish">Side Dish</option>
-              <option value="drinks">Drinks</option>
-              <option value="desserts">Desserts</option>
+              <% if(categories.length > 0) {%>
+                <% categories.forEach(categories => { %> 
+                    <option style=text-transform:capitalize value="<%= categories.category %>"><%= categories.category %></option>
+                <% }) %> 
+            <% } %>
             </select>
           </div>
           <br>
@@ -65,9 +65,11 @@
                   required>
                   <option disabled selected value>Select Ingredient</option>
                   <!-- TODO: Backend -->
-                  <option value="1">Milk</option>
-                  <option value="2">Kangkong</option>
-                  <option value="3">Chicken</option>
+                  <% if(ingredients.length > 0) {%>
+                    <% ingredients.forEach(ingredients => { %> 
+                        <option style=text-transform:capitalize value="<%= ingredients.name %>"><%= ingredients.name %></option>
+                    <% }) %> 
+                <% } %>
                 </select>
               </div>
 

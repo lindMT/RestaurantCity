@@ -9,8 +9,10 @@ const bcrypt = require("bcrypt");
 
 const addDishController = {
     // for redirecting login and signup
-    getAddDish: function(req, res) {
-        res.render('addDish');
+    getAddDish: async function(req, res) {
+        var categories = await DishCategory.find({});
+        var ingredients = await Ingredients.find({});
+        res.render('addDish', {categories, ingredients});
     },
 
     postAddDish: async(req, res) => {
@@ -49,14 +51,11 @@ const addDishController = {
             addedBy: user._id
             
         })
-        //const dishName = await Dish.findOne({ dishName: req.body.inputDishName });
-        // const recipe = new DishRecipe({
-        //     dishID: dishName._id
-
-            
-        // })
-        await dish.save()
-        return res.render('manageDishes');
+       
+        if(await dish.save()){
+            return res.redirect('/manageDishes');
+        }
+       
     }
 
 }
