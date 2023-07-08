@@ -6,6 +6,7 @@ const DishRecipe = require('../model/dishRecipeSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js');
 const bcrypt = require("bcrypt");
 
+
 const addDishController = {
     // for redirecting login and signup
     getAddDish: function(req, res) {
@@ -13,6 +14,8 @@ const addDishController = {
     },
 
     postAddDish: async(req, res) => {
+        const user = await User.findOne({ user: req.session.username });
+
         //TODO
         // 1) Counter check if dish name is existing in table
             // If exists, *create pop up if user wants to change dish(???)*
@@ -25,18 +28,35 @@ const addDishController = {
         // 3) Finalize categories
 
         // Fetch category in views, where data is from category table
-        const category = await DishCategory.findOne({ category: req.body.inputCategory });
+       const trial = req.body.category
+        let category = await DishCategory.findOne({ category: trial });
+
+        if(!category){
+            console.log(trial)
+			console.log('Category does not exist');
+			  return res.redirect('/addDish');
+			 
+		}
         const currentDate = Date();
 
         //Create Dish Instance
         const dish = new Dish({
             name: req.body.inputDishName,
-            price: req.body.inputPrice,
+            price: req.body.Amount,
             categoryID: category._id,
             lastModified: currentDate,
-            // addedBy: - to be checked
+            isActive: true,
+            addedBy: user._id
             
         })
+        //const dishName = await Dish.findOne({ dishName: req.body.inputDishName });
+        // const recipe = new DishRecipe({
+        //     dishID: dishName._id
+
+            
+        // })
+        await dish.save()
+        return res.render('manageDishes');
     }
 
 }
