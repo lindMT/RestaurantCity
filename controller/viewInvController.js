@@ -2,6 +2,7 @@ const User = require('../model/usersSchema.js');
 const Unit = require("../model/unitsSchema.js");
 const Ingredient = require("../model/ingredientsSchema.js");
 const IngreVariation = require("../model/ingreVariationsSchema.js");
+const Conversion = require("../model/conversionSchema.js");
 const discardedIngre = require("../model/discardedSchema.js");
 const bcrypt = require("bcrypt");
 
@@ -63,7 +64,24 @@ const viewInvController = {
 
             // Other variables
             const foundIngredient = await Ingredient.findById(ingredientId);
-            let foundVariant = await IngreVariation.findById(variantId);
+            let foundVariant;
+
+            if (variantId === "others") {
+                const inputNetWt = req.body.ingreNetWt;
+                const inputUnit = req.body.ingreUnit;
+                const foundUnit = await Unit.findOne({ unitSymbol: inputUnit });
+
+                const newIngreVariation = new IngreVariation({
+                    ingreID: ingredientId,
+                    unitID: foundUnit._id,
+                    netWeight: inputNetWt,
+                });
+
+                foundVariant = newIngreVariation;
+            } else {
+                foundVariant = await IngreVariation.findById(variantId);
+            }
+
             const foundUnit = await Unit.findById(foundVariant.unitID);
 
             if (!foundIngredient.unitID.equals(foundUnit._id)) {
@@ -105,7 +123,7 @@ const viewInvController = {
 
                 await auditDiscard.save();
 
-                return res.render('discardIngredientSuccess', { title: "Discard Ingredient", message: 'Successfully discarded ingredient' });
+                return res.render('discardIngredientSuccess', { title: "Discard Ingredient", message: 'Successfully discarded ingredient!' });
             } else {
                 return res.render('discardIngredientError', { message: 'The quantity and net weight to be discarded exceeds the available quantity and net weight of the ingredient.' });
             }
