@@ -46,7 +46,7 @@ const addIngreController = {
         const ingreVariation = new IngreVariation({
             ingreID: savedIngredient._id,
             unitID: unit._id,
-            netWeight: totalNetWeight,
+            netWeight: ingreNetWt,
         });
 
         // Save the ingredient variation to the database
