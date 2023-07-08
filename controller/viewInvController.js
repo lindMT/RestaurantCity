@@ -10,7 +10,7 @@ const viewInvController = {
     getViewInventory: async function(req, res) {
         try {
             // Retrieve all ingredients from the database
-            const ingredients = await Ingredient.find();
+            const ingredients = await Ingredient.find().sort({name: 1});
 
             // Retrieve all units from the database
             const units = await Unit.find();
@@ -101,6 +101,9 @@ const viewInvController = {
             if (totalNetWeight <= foundIngredient.totalNetWeight) {
                 foundIngredient.totalNetWeight -= totalNetWeight;
 
+                // For prompt
+                let msgUnit = await Unit.findById(foundIngredient.unitID)
+
                 await foundIngredient.save();
 
                 // Get the current date
@@ -123,7 +126,11 @@ const viewInvController = {
 
                 await auditDiscard.save();
 
-                return res.render('discardIngredientSuccess', { title: "Discard Ingredient", message: 'Successfully discarded ingredient!' });
+                return res.render('discardIngredientSuccess', { title: "Discard Ingredient", 
+                                                                message: 'Successfully discarded ingredient!',
+                                                                ingredient: foundIngredient,
+                                                                unit: msgUnit,
+                                                                totalNet: totalNetWeight});
             } else {
                 return res.render('discardIngredientError', { message: 'The quantity and net weight to be discarded exceeds the available quantity and net weight of the ingredient.' });
             }

@@ -78,6 +78,8 @@ const recordAddtlController = {
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWeight);
             await foundIngredient.save();
 
+            // For prompt
+            let msgUnit = await Unit.findById(foundIngredient.unitID)
 
             // Get the current date
             const currentDate = new Date();
@@ -99,7 +101,12 @@ const recordAddtlController = {
 
             await auditIngredient.save();
 
-            return res.render('recordAddtlSuccess', { title: "Record Addional Purchase", message: 'New ingredient variant added successfully!' });
+            return res.render('recordAddtlSuccess', {   title: "Record Additional Purchase", 
+                                                        message: 'Your additional purchase has been recorded!',
+                                                        ingredient: foundIngredient,
+                                                        unit: msgUnit,
+                                                        totalNet: totalNetWeight
+                                                     });
 
         } catch (error) {
             console.error(error);

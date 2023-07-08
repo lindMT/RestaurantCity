@@ -34,11 +34,14 @@
             </h1>
         </div>
         <hr/>
-        <div>
-            <p style="text-align: center; font-size: 20px;">
-                <%= message %>
+
+        <div class="ingredient-details">
+            <p style="color:rgb(0, 166, 0); text-align: center; font-size: 20px;">
+                <b><%= message %></b>
             </p>
-            <br/>
+            <p>
+                <b><%= totalNet %> <%= unit.unitSymbol %> of </b><b style="text-transform: uppercase;"><%= ingredient.name %></b> removed from inventory.
+            </p>
         </div>
 
         <div class="button-container">
