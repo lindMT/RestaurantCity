@@ -13,10 +13,6 @@ const addCategoryController = {
     postAddCategory: async function(req, res){
         var input = req.body.inputDishCategory.toLowerCase()
         
-        // if(input = null){
-        //     req.flash('error_msg', 'Please choose a category')
-        //     return res.redirect('/addCategory');
-        // }
         let category = await DishCategory.findOne({ category:input});
         if(category){
             req.flash('error_msg', 'Category already exists, Please choose a different one')

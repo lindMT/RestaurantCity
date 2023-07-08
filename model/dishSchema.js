@@ -30,11 +30,11 @@ const dishSchema = new Schema ( {
         required: true
     },
 
-    // addedBy: {
-    //         type: Schema.Types.ObjectId, 
-    //         ref: 'users',
-    //         required: true
-    // }
+    addedBy: {
+            type: Schema.Types.ObjectId, 
+            ref: 'users',
+            required: true
+    }
 });
 
 module.exports = mongoose.model('dish', dishSchema);
