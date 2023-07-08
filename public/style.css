@@ -527,13 +527,8 @@ td i {
 /***************** INPUT PHYSICAL COUNT CSS *****************/
 
 .physical-card-holder {
-    display:flex; 
-    justify-content: center; 
-}
-
-.physical-card {
-    min-width: 50vw; 
-    min-height: fit-content; 
+    width: 900px;
+    margin: auto;
 }
 
 .physical-header {
@@ -580,41 +575,7 @@ td i {
 }
 
 .center-table{
-    display:flex; justify-content:center
-}
-
-.modal-centered {
-    top: 50%;
-    left: 50%;
-    transform: translate(-45%, -30%);
-    max-width: 25vw;
- }
-
-.modal-title-mismatch {
-    color:rgb(130, 7, 7);
-    font-weight:bold;
-}
-
-.modal-centeralign {
-    text-align: center;
-    justify-content: center;
-}
-
-.modal-spaced {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;  
-    overflow:auto;
-    justify-content: space-evenly;
-}
-
-.modal-centerbullets {
-    display:flex;
-    text-align: left;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
-    font-weight: bold;
+    justify-content:center;
 }
 
 /***************** DETAILED REPORT CSS *****************/

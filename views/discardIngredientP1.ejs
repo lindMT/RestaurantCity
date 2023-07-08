@@ -30,7 +30,7 @@
         <div class="form-group">
             <label>Ingredient Name</label>
             <!-- TODO: Translate Style to CCS -->
-            <select name="ingreId" class="form-select form-select-md" style="width: 100%; padding: 5px;" required>
+            <select name="ingreId" class="form-select form-select-md" style="text-transform: capitalize; width: 100%; padding: 5px;" required>
                 <option disabled selected value> -- Select an Ingredient -- </option>
                 <!-- Iterate through each available ingredient -->
                 <% if(ingredients.length > 0) {%>

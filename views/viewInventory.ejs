@@ -41,12 +41,18 @@
             <% ingredients.forEach(function(ingredient) { %>
                 <tr>
                     <td>
-                        <%= ingredient.name %>
+                        <p style="text-transform: capitalize;"><%= ingredient.name %></p>
                     </td>
                     <!-- TODO: To be replaced with actual data -->
-                    <td class="table-success">  
-                        In stock
-                    </td>
+                    <% if(ingredient.totalNetWeight > 0){ %>
+                        <td class="table-success">  
+                            In stock
+                        </td>
+                    <% } else { %>
+                        <td class="table-danger">  
+                            Out of Stock
+                        </td>
+                    <% } %>
                     <td>
                         <%= ingredient.totalNetWeight %>
                     </td>
