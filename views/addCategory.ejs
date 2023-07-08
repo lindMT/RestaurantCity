@@ -4,14 +4,21 @@
     <h1>Add Category</h1>
     <hr>
     Enter a new category for dishes. Avoid inputting a category already recognized by the system.
-    <form>
+    <form action="/addCategory/process" method="post">
       <br>
       <div class="form-group form-align-left">
           <label for="inputdishCategory">Dish Category</label>
-          <input type="text" class="form-control" id="inputdishCategory" placeholder="e.g. Appetizers">
+          <input type="text" class="form-control" id="inputdishCategory" placeholder="e.g. Appetizers" name="inputDishCategory" required>
       </div>
       <hr style="margin-top: 4rem;">
-      <button type="button" class="btn btn-submit-count w-100">Submit</button>
+      <% if(error_msg) { %>    
+        <p style="color:red; font-weight:bold"> <%= error_msg %> </p>
+      <% } %>	
+
+      <% if(success_msg) { %>    
+        <p style="color:green; font-weight:bold"> <%= success_msg %> </p>
+      <% } %>
+      <button type="submit" class="btn btn-submit-count w-100">Submit</button>
     </form>
   </div>
 </div>

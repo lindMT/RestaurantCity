@@ -61,6 +61,7 @@ app.post("/addDish/process", addDishController.postAddDish)
 
 // Add Category
 app.get("/addCategory", addCategoryController.getAddCategory)
+app.post("/addCategory/process", addCategoryController.postAddCategory)
 
 // View Stock Report
 app.get("/viewStockReport", viewReportController.getStock)
