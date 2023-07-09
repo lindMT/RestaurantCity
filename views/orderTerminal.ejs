@@ -1,13 +1,4 @@
 <%- include("partials/header") -%>
-<!-- <div class="card-holder ">
-    <div class="card d-flex flex-column text-left" style="min-width: 80vw; min-height: 40vw;">
-        <div class="card-body d-flex flex-column">
-            
-            <h1>DASHBOARD</h1> 
-            
-        </div>        
-    </div>        
-</div> -->
 
 <div class="terminal-card-holder">
     <div class="card terminal-input-card shadow">
@@ -15,120 +6,31 @@
         <h1 id="content-title">Order Terminal</h1>
         <hr>
 
-        <!-- INPUT CARD -->
-        <div id="order-item-holder" class="order-item-holder">
+        <% dishes.forEach(function(dish){ %>
+            <% if(dish.isActive) { %> 
+                <!-- ORDER ITEM -->
+                <div id="order-item-holder" class="order-item-holder">
+                    <div class="card order-item" onclick="addDishItem(this)">
+                        <h5 name="dish-name"><%= dish.name%></h5>
+                        <h6 name="dish-price">Php <%= dish.price%></h6>
+                        <input type="hidden" name="dish-id" value="<%= dish._id%>">                        
+                        <% categories.forEach(function(category){ %>
+                            <% if(dish.categoryID == category.id){ %>
+                                <input type="hidden" name="dish-category" value="<%= category.category%>">
+                            <% } %>
+                        <% }) %> 
+                    </div>
+                </div>
 
-            <!-- MAINS -->
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Pita Shawarma</h5>
-                <h6 name="dish-price">Php 50.00</h6>
-                <input type="hidden" name="dish-id" value="apsuidgfoqsdrf123412">
-                <input type="hidden" name="dish-category" value="Mains">
-            </div>
-
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Shawarma Rice</h5>
-                <h6 name="dish-price">Php 60.00</h6>
-                <input type="hidden" name="dish-id" value="o78w3erftf7856qwer3">
-                <input type="hidden" name="dish-category" value="Mains">
-            </div>
-
-            <!-- DRINKS -->
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Gulaman</h5>
-                <h6 name="dish-price">Php 30.00</h6>
-                <input type="hidden" name="dish-id" value="drink-1">
-                <input type="hidden" name="dish-category" value="Drinks">
-            </div>
-            
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Buko Juice</h5>
-                <h6 name="dish-price">Php 35.00</h6>
-                <input type="hidden" name="dish-id" value="drink-2">
-                <input type="hidden" name="dish-category" value="Drinks">
-            </div>
-            
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Mango Shake</h5>
-                <h6 name="dish-price">Php 40.00</h6>
-                <input type="hidden" name="dish-id" value="drink-3">
-                <input type="hidden" name="dish-category" value="Drinks">
-            </div>
-
-            <!-- SIDES -->
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Fries</h5>
-                <h6 name="dish-price">Php 50.00</h6>
-                <input type="hidden" name="dish-id" value="side-dish-1">
-                <input type="hidden" name="dish-category" value="Sides">
-            </div>
-            
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Kwek Kwek</h5>
-                <h6 name="dish-price">Php 55.00</h6>
-                <input type="hidden" name="dish-id" value="side-dish-2">
-                <input type="hidden" name="dish-category" value="Sides">
-            </div>
-            
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Fishballs</h5>
-                <h6 name="dish-price">Php 60.00</h6>
-                <input type="hidden" name="dish-id" value="side-dish-3">
-                <input type="hidden" name="dish-category" value="Sides">
-            </div>
-
-            <!-- DESSERTS -->
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Scramble (S)</h5>
-                <h6 name="dish-price">Php 25.00</h6>
-                <input type="hidden" name="dish-id" value="qweprg18273er123415">
-                <input type="hidden" name="dish-category" value="Desserts">
-            </div>
-
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Scramble (M)</h5>
-                <h6 name="dish-price">Php 35.00</h6>
-                <input type="hidden" name="dish-id" value="asdfqsdfqwe12341234">
-                <input type="hidden" name="dish-category" value="Desserts">
-            </div>
-
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Scramble (L)</h5>
-                <h6 name="dish-price">Php 45.00</h6>
-                <input type="hidden" name="dish-id" value="12asdfljfq3er512345">
-                <input type="hidden" name="dish-category" value="Desserts">
-            </div>           
-            
-
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Scramble (XL)</h5>
-                <h6 name="dish-price">Php 55.00</h6>
-                <input type="hidden" name="dish-id" value="12asdfl1234esdfhadgjfq3er512345">
-                <input type="hidden" name="dish-category" value="Desserts">
-            </div>       
-
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Scramble (2XL)</h5>
-                <h6 name="dish-price">Php 65.00</h6>
-                <input type="hidden" name="dish-id" value="asdf1wer123asdfqe1hjethm">
-                <input type="hidden" name="dish-category" value="Desserts">
-            </div>       
-
-            <div class="card order-item" onclick="addDishItem(this)">
-                <h5 name="dish-name">Scramble (3XL)</h5>
-                <h6 name="dish-price">Php 75.00</h6>
-                <input type="hidden" name="dish-id" value="qwer134ydfhxer512345">
-                <input type="hidden" name="dish-category" value="Desserts">
-            </div>       
-
-        </div>
+            <% } %>
+        <% }) %> 
 
         <div class="order-category-holder">
             <div class="order-category" onclick="filterDishes(this)">All</div>
-            <div class="order-category" onclick="filterDishes(this)">Mains</div>
-            <div class="order-category" onclick="filterDishes(this)">Sides</div>
-            <div class="order-category" onclick="filterDishes(this)">Drinks</div>
-            <div class="order-category" onclick="filterDishes(this)">Desserts</div>
+            <% categories.forEach(function(category){ %>
+                <!-- CATEGORY -->
+                <div class="order-category" onclick="filterDishes(this)"><%= category.category%></div>
+            <% }) %> 
         </div>
         
     </div>
@@ -167,19 +69,21 @@
 
             <hr>
 
-            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #63A375;"
+            <button class="btn btn-primary w-100" style="margin: 5px; background-color: grey;"
+                    id="order-confirm-btn"
                     type="button"
                     class="btn btn-secondary"
                     data-toggle="modal"
-                    data-target="#processOrder">
+                    data-target="#processOrder" disabled>
                 Confirm
             </button>
 
-            <button class="btn btn-primary w-100" style="margin: 5px; background-color: #B56576;"
+            <button class="btn btn-primary w-100" style="margin: 5px; background-color: grey;"
+                    id="order-reset-btn"
                     type="button"
                     class="btn btn-secondary"
                     data-toggle="modal"
-                    data-target="#resetOrder">
+                    data-target="#resetOrder" disabled>
                 Cancel
             </button>
             

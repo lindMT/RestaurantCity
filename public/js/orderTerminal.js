@@ -43,7 +43,7 @@ function addDishItem(clickedDish){
         cell5.innerHTML = "<input type='hidden' value='" + newDishId + "' name='dishId'>";
     } 
 
-    calculateTotalPrice()
+    calculateTotalPrice();
 }
 
 
@@ -61,7 +61,7 @@ function removeDishItem(removeDishId){
         }
     }
 
-    calculateTotalPrice()
+    calculateTotalPrice();
 }
 
 function calculateTotalPrice(){
@@ -85,6 +85,28 @@ function calculateTotalPrice(){
     }
 
     document.getElementById("totalPrice").innerHTML = "Php " + totalPrice.toFixed(2);
+    
+    checkOrderStatus();
+}
+
+function checkOrderStatus() {
+    var orderConfirmBtn = document.getElementById("order-confirm-btn");
+    var orderResetBtn = document.getElementById("order-reset-btn");
+    var table = document.getElementById("order-terminal-table");
+    var n = table.rows.length;
+
+    // dish selected
+    if (n > 1) {
+        orderConfirmBtn.disabled = false;
+        orderConfirmBtn.style.backgroundColor = "#63A375";
+        orderResetBtn.disabled = false;
+        orderResetBtn.style.backgroundColor = "#B56576";
+    } else {
+        orderConfirmBtn.disabled = true;
+        orderConfirmBtn.style.backgroundColor = "grey";
+        orderResetBtn.disabled = true;
+        orderResetBtn.style.backgroundColor = "grey";
+    }
 }
 
 

@@ -4,15 +4,26 @@ const OrderItem = require('../model/orderItemSchema.js');
 const Ingredient = require('../model/ingredientsSchema.js');
 const IngreVariation = require('../model/ingreVariationsSchema.js');
 const Dish = require('../model/dishSchema.js')
+const Category = require('../model/dishCategorySchema.js');
 const { calculateTotalPrice } = require("../public/js/orderTerminal.js");
 
 const bcrypt = require("bcrypt");
 
 const orderController = {
-    getOrder: function(req, res) {
-        res.render('orderTerminal');
+    getOrder: async function(req, res) {
+        try {
+            const dishes = await Dish.find({});
+            const categories = await Category.find({});
+            console.log(dishes)
+            console.log(categories)
+            res.render('orderTerminal', { dishes: dishes, categories: categories });
+        } catch (error) {
+            console.log("Error fetching Dishes and Categories (getOrder): ");
+            console.error(error);
+            res.status(500).send("An error occurred while retrieving the dishes and categories.");
+        }
     },
-
+    
     processOrder: function(req, res){
 
         // toggle this to true/false to test
@@ -29,18 +40,7 @@ const orderController = {
         console.log(dishIdArray);
 
         //TODO TEREL:
-        // 1) Check if order is feasible
-        const orderController = {
-            getOrder: async function(req, res) {
-                try{
-                    //Retrieve all ingredients from the database
-                    const ingredients = await Ingredient.find()
-                    res.render()
-                }
-                catch{}
-            }
-        }
-        
+        // 1) Check if order is feasible        
 
 
 
