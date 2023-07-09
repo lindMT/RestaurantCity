@@ -16,9 +16,9 @@ const orderController = {
             const categories = await Category.find({});
             console.log(dishes)
             console.log(categories)
-            res.render('orderTerminal', { dishes: dishes, categories: categories }); // only do this once both const are estavlishes
+            res.render('orderTerminal', { dishes: dishes, categories: categories });
         } catch (error) {
-            console.log("Error fetching Dishes and Categories: ");
+            console.log("Error fetching Dishes and Categories (getOrder): ");
             console.error(error);
             res.status(500).send("An error occurred while retrieving the dishes and categories.");
         }
