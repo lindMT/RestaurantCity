@@ -1,24 +1,8 @@
 [{
   "_id": {
-    "$oid": "64a57a7cf69797906e861642"
+    "$oid": "64aa628371aa20318299adb3"
   },
-  "totalPrice": 125,
-  "date": "07-01-2023",
-  "takenBy": "alain"
-},
-{
-  "_id": {
-    "$oid": "64a57ed9f69797906e861644"
-  },
-  "totalPrice": 170,
-  "date": "07-03-2023",
-  "takenBy": "alain"
-},
-{
-  "_id": {
-    "$oid": "64a57f8cf69797906e861645"
-  },
-  "totalPrice": 80,
-  "date": "07-05-2023",
+  "totalPrice": 50,
+  "date": "07-09-2023",
   "takenBy": "alain"
 }]

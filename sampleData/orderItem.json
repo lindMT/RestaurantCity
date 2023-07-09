@@ -1,24 +1,12 @@
 [{
   "_id": {
-    "$oid": "64a90ce24a8804fbe2aeae5b"
+    "$oid": "64aa63bf71aa20318299adb5"
   },
   "orderID": {
-    "$oid": "64a57a7cf69797906e861642"
+    "$oid": "64aa628371aa20318299adb3"
   },
   "dishID": {
-    "$oid": "64a324asd3434j34s2aeae5b"
+    "$oid": "64a8265685ad11ed4b260cdf"
   },
-  "qty":"2"
-},
-{
- "_id": {
-    "$oid": "64a90fb74a8804fbe2aeae5e"
- },
- "orderID": {
-    "$oid": "64a57f8cf69797906e861645"
- },
- "dishID": {
-    "$oid": "64a3gjskhsd34asd78s2ae5b"
- },
- "qty":"1"
+  "qty": "1"
 }]
