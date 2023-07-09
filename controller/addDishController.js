@@ -83,7 +83,7 @@ const addDishController = {
             const recipe = new DishRecipe({
                 dishID : dishID._id,
                 ingredients: ingreTable.map((ingredient) => ({
-                    ingredient: ingredient[0], // Convert ingredient to ObjectId
+                    ingredient: ingredient[0], 
                     chefWeight: ingredient[1],
                     chefUnitID: ingredient[2]
                   }))
@@ -93,7 +93,6 @@ const addDishController = {
                 console.log(ingreTable)
                 return res.redirect('/manageDishes');
             }
-            // return res.redirect('/manageDishes');
         }
        
     }
