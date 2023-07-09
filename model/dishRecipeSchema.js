@@ -34,6 +34,12 @@ const dishRecipeSchema = new Schema ({
         }
     }],
 
+    isActive: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
+
 });
 
 module.exports = mongoose.model('dishRecipe', dishRecipeSchema);
