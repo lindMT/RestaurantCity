@@ -13,15 +13,15 @@ const dishRecipeSchema = new Schema ({
                 required: true
         },
         
-        metricWeight: {
-                type: mongoose.Types.Decimal128,
-                required: true
-        },
+        // metricWeight: {
+        //         type: mongoose.Types.Decimal128,
+        //         required: true
+        // },
         
-        metricUnitID: {
-                type: Schema.Types.ObjectId, ref: 'units',
-                required: true
-        },
+        // metricUnitID: {
+        //         type: Schema.Types.ObjectId, ref: 'units',
+        //         required: true
+        // },
         
         chefWeight: {
                 type: mongoose.Types.Decimal128,

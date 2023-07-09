@@ -5,6 +5,8 @@ const DishCategory = require('../model/dishCategorySchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js');
 const bcrypt = require("bcrypt");
+const ChefUnits = require('../model/chefUnitsSchema.js');
+const ObjectId = mongoose.Types.ObjectId;
 
 
 
@@ -13,7 +15,8 @@ const addDishController = {
     getAddDish: async function(req, res) {
         var categories = await DishCategory.find({});
         var ingredients = await Ingredients.find({});
-        res.render('addDish', {categories, ingredients});
+        var units = await ChefUnits.find({});
+        res.render('addDish', {categories, ingredients, units});
     },
 
     postAddDish: async(req, res) => {
@@ -43,6 +46,8 @@ const addDishController = {
 			 
 		// }
         const currentDate = Date();
+        var ingreTable = [];
+        // ingreTable = req.body.ingredient
 
         //Create Dish Instance
         const dish = new Dish({
@@ -54,11 +59,41 @@ const addDishController = {
             addedBy: user._id
             
         })
+
        
         if(await dish.save()){
-            //alert("Yes");
-            console.log(data)
-            return res.redirect('/manageDishes');
+            let dishID = await Dish.findOne({ name: req.body.inputDishName});
+            
+            var i 
+         
+            for(i=0; i<req.body.ingredient.length; i++){
+                let ingre = await Ingredients.findOne({ name: req.body.ingredient});
+                let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit});
+                if(ingre && unit){
+                    ingreTable.push([ingre._id,req.body.inputAmount[i],unit._id]);
+                }
+                    
+                // console.log(ingre._id)
+                // //console.log(req.body.ingredient)
+                // console.log(unit._id)
+                // // console.log(req.body.selectUnit)
+                // console.log(ingreTable)
+            }
+                
+            const recipe = new DishRecipe({
+                dishID : dishID._id,
+                ingredients: ingreTable.map((ingredient) => ({
+                    ingredient: ingredient[0], // Convert ingredient to ObjectId
+                    chefWeight: ingredient[1],
+                    chefUnitID: ingredient[2]
+                  }))
+            })
+
+            if(await recipe.save()){
+                console.log(ingreTable)
+                return res.redirect('/manageDishes');
+            }
+            // return res.redirect('/manageDishes');
         }
        
     }

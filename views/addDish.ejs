@@ -62,7 +62,7 @@
             <div id="form-row-content" style="display: flex;">
               <div class="form-ingredients">
                 <label for="ingredient">Ingredients</label>
-                <select class="form-select" name="selectIngredient" id="ingredient" aria-label="Default select example"
+                <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example"
                   required>
                   <option disabled selected value>Select Ingredient</option>
                   <!-- TODO: Backend -->
@@ -89,11 +89,12 @@
                 <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example"
                   required>
                   <option disabled selected value>Select Unit</option>
+                  <% if(units.length > 0) {%>
+                    <% units.forEach(units => { %> 
+                        <option style=text-transform:capitalize value="<%= units.unitName %>"><%= units.unitName %></option>
+                    <% }) %> 
+                <% } %>
                   <!-- TODO: Backend -->
-                  <option value="g">g (Grams)</option>
-                  <option value="Kg">Kg (Kilograms)</option>
-                  <option value="mL">mL (Milliliters)</option>
-                  <option value="L">L (Liters)</option>
                 </select>
               </div>
               <!-- Div Button -->
