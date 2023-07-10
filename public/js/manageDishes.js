@@ -13,6 +13,9 @@ function deleteRow() {
 
   // Disable or enable the button based on the selection
   removeDishBtn.disabled = disableButton;
+
+  // Submit form
+  document.getElementById('removeDishForm').submit();
 }
 
 // Checks if the checkbox is selected, if there are no checkboxes, the Remove Button is DISABLED

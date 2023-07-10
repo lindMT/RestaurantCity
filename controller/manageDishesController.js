@@ -61,21 +61,23 @@ const manageDishesController = {
         // Retrieves all selected dish with box checked
         let selectedDishes = req.body.selectedDishes
 
+        console.log(selectedDishes);
+
         if (!Array.isArray(selectedDishes)) {
             // If only one dish is selected, convert it to an array
             selectedDishes = [selectedDishes];
         }
         
         // Sets "isActive" for all selected dish to "false"
-        Dish.updateMany({name: {$in: selectedDishes}}, {isActive: false}, (err) => {
-            if (err) {
-                console.error('Error removing dishes', err);
-                res.send('Error removing dish');
-            } else {
-                console.log('Dishes removed:', result.nModified);
-                res.render('manageDishes');
-            }
-        });
+        try {
+            // Sets "isActive" for all selected dishes to "false"
+            const result = await Dish.updateMany({ name: { $in: selectedDishes } }, { isActive: false });
+            console.log('Dishes removed:', result.nModified);
+            res.redirect('/manageDishes');
+        } catch (error) {
+            console.error('Error removing dishes', error);
+            res.send('Error removing dish');
+        }
     }
 
 }
