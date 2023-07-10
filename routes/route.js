@@ -52,8 +52,8 @@ app.post("/recordAddtl/p2", recordAddtlController.postRecAddtl1);
 app.post("/recordAddtl/p2/process", recordAddtlController.postRecAddtl2);
 
 // Manage Dishes
-app.get("/manageDishes", manageDishesController.getManageDishes)
-app.post("/manageDishes/process", manageDishesController.postManageDishes)
+app.get("/manageDishes", manageDishesController.getManageDishes);
+app.post("/manageDishes/process", manageDishesController.postManageDishes);
 
 // Add Dish
 app.get("/addDish", addDishController.getAddDish)

@@ -59,16 +59,15 @@ const manageDishesController = {
 
     postManageDishes: async(req, res) => {
         // Retrieves all selected dish with box checked
-        let selectedDishes = req.body.selectedDishes
+        console.log(req.body);
+        let selectedDishes = req.body.selectedDishes;
 
-        console.log(selectedDishes);
 
         if (!Array.isArray(selectedDishes)) {
             // If only one dish is selected, convert it to an array
             selectedDishes = [selectedDishes];
         }
         
-        // Sets "isActive" for all selected dish to "false"
         try {
             // Sets "isActive" for all selected dishes to "false"
             const result = await Dish.updateMany({ name: { $in: selectedDishes } }, { isActive: false });
