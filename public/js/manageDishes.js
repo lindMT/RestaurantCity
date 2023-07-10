@@ -1,23 +1,5 @@
 const removeDishBtn = document.getElementById('removeDishBtn');
 
-function deleteRow() {
-  const selectedCheckboxes = document.querySelectorAll('#dishTable .select:checked');
-  selectedCheckboxes.forEach(checkbox => {
-    const row = checkbox.closest('tr');
-    row.remove();
-  });
-
-  // Check if any checkboxes are selected
-  const checkboxes = document.querySelectorAll('#dishTable .select');
-  const disableButton = selectedCheckboxes.length === 0;
-
-  // Disable or enable the button based on the selection
-  removeDishBtn.disabled = disableButton;
-
-  // Submit form
-  document.getElementById('removeDishForm').submit();
-}
-
 // Checks if the checkbox is selected, if there are no checkboxes, the Remove Button is DISABLED
 function handleCheckboxClick() {
   const checkedCheckboxes = document.querySelectorAll('#dishTable .select:checked');
