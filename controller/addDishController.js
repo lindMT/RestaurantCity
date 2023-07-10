@@ -65,10 +65,14 @@ const addDishController = {
             let dishID = await Dish.findOne({ name: req.body.inputDishName});
             
             var i 
-         
+            var temp = req.body.ingredient
             for(i=0; i<req.body.ingredient.length; i++){
-                let ingre = await Ingredients.findOne({ name: req.body.ingredient});
-                let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit});
+                // if (i >=1 && temp != req.body.ingredient){
+                //     let ingre = await Ingredients.findOne({ name: req.body.ingredient});
+
+                // }
+                let ingre = await Ingredients.findOne({ name: req.body.ingredient[i]});
+                let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit[i]});
                 if(ingre && unit){
                     ingreTable.push([ingre._id,req.body.inputAmount[i],unit._id]);
                 }

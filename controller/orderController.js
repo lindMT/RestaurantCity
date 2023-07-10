@@ -1,9 +1,11 @@
+const { default: mongoose } = require('mongoose');
 const User = require('../model/usersSchema.js');
 const Order = require('../model/orderSchema.js');
 const OrderItem = require('../model/orderItemSchema.js');
 const Ingredient = require('../model/ingredientsSchema.js');
 const IngreVariation = require('../model/ingreVariationsSchema.js');
-const Dish = require('../model/dishSchema.js')
+const Dish = require('../model/dishSchema.js');
+const DishRecipe = require('../model/dishRecipeSchema.js');
 const Category = require('../model/dishCategorySchema.js');
 const { calculateTotalPrice } = require("../public/js/orderTerminal.js");
 
@@ -24,12 +26,13 @@ const orderController = {
         }
     },
     
-    processOrder: function(req, res){
+    processOrder: async function(req, res){
+      try{
 
         // toggle this to true/false to test
         var orderIsViable = true;
 
-        const lackingIngredients = ["Olive Oil", "Milk", "Peanut", "Truffles", "Caviar"];
+        const lackingIngredients = []; //Removed default value
         const orderSuccessMessage = "Order fulfilled. Please go back to the order terminal to input more orders.";
         const orderFailMessage = "Order unfulfilled. Please find below the list of insufficient ingredients required for the dishes you requested.";
         var quantityArray = req.body.quantity;
@@ -42,7 +45,21 @@ const orderController = {
         //TODO TEREL:
         // 1) Check if order is feasible        
 
+        for(var i = 0; i < dishIdArray.length; i++){
+          const quantity = quantityArray[i];
+          const dishId = dishIdArray[i];
+          
+          const dish = await DishRecipe.findOne({ _id: dishId });
+          
+          for (const ingredient of dish.ingredients) {
+          const ingredient = await Ingredient.findById(ingredient._id).exec();
 
+            if(ingredient.totalNetWeight < ingredient.totalNetWeight * quantity){
+                orderIsViable = false;
+                lackingIngredients.push(ingredient.name);
+            }
+          }
+        }
 
         // TODO LIND:
         // If yes: 
@@ -55,7 +72,13 @@ const orderController = {
 
         if (orderIsViable){
             // Calculate Total Price
-            var totalPrice = 99.99; // temporary * will calculate
+            var totalPrice = 0; 
+
+            for (var i = 0; i < dishIdArray.length; i++) {
+              const dishId = dishIdArray[i];
+              const dish = await Dish.findById(dishId).exec();
+              totalPrice += dish.price * quantityArray[i];
+            }
             
             // Create New Order
             var newOrder = new Order({
@@ -65,32 +88,30 @@ const orderController = {
             });
 
             newOrder.save().then(docs => {
-            })
-
-            // Create New Order Items
-            for (var i = 0; i < dishIdArray.length; i++){
+              for (var i = 0; i < dishIdArray.length; i++){
                 var newOrderItem = new OrderItem({
                     orderID: newOrder._id,
                     dishID: dishIdArray[i]
                 });
 
                 newOrderItem.save().then(docs => {
-                })
-            }
-
-            // TODO:
-            // UPDATE ingredients/stock
-
-            res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
-                                                    lackingIngredients: []
+                  // TODO:
+                  // UPDATE ingredients/stock
+                });
+              }
+              // Create New Order Items
+              res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
+                lackingIngredients: []
+              });
             });
         } else{
             res.render('orderProcessingLanding', {  orderPrompt: orderFailMessage,
                                                     lackingIngredients: lackingIngredients
             });
         }
-        
+      } catch (error) {
+      console.error(error);
     }
-}
-
+  },
+};
 module.exports = orderController;
