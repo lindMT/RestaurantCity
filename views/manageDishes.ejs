@@ -32,14 +32,14 @@
                         <tr>
                             <td style="text-align: left;">
                                 <div class="form-check">
-                                    <input class="form-check-input select" type="checkbox" value="<%= dishes.name %>" name = "selectedDish" id="foodName1">
+                                    <input class="form-check-input select" type="checkbox" value="<%= dishes.name %>" name="selectedDishes" id="foodName1">
                                     <label>
                                         <%= dishes.name %>
                                     </label>
                             </td>
                             <td><%= dishes.category %></td>
                             <td>₱ <%= dishes.price %></td>
-                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal" type ="button">
+                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal<%= dishes._id %>" type ="button">
                                     View Recipe</button></td>
                         </tr>
                         <% }); %>
@@ -61,7 +61,7 @@
 
     <!--MODAL MAKER -->
     <% dishes.forEach(function(dishes) { %>
-    <div class="modal fade" id="dishDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    <div class="modal fade" id="dishDetailsModal<%= dishes._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
