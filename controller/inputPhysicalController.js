@@ -6,25 +6,37 @@ const Conversion = require("../model/conversionSchema.js");
 const bcrypt = require("bcrypt");
 
 const inputPhysicalController = {
-    getInputPhysCount: async (req, res) => {
+    getInputPhysCount: async(req, res) => {
         try {
             // Retrieve all ingredients from the database
-            const ingredients = await Ingredient.find().sort({name: 1});
+            // const ingredients = await Ingredient.find().sort({name: 1});
 
             // Retrieve all units from the database
-            const units = await Unit.find();
+            // const units = await Unit.find();
 
             // Map the unit IDs to unit symbols in the ingredients array
             const ingredientsWithUnitSymbols = ingredients.map(ingredient => {
-                const unit = units.find(unit => unit._id.equals(ingredient.unitID));
+                const unit = units.find(unit => unit._id === ingredient.unitID);
                 return {
-                    ...ingredient.toObject(),
+                    ...ingredient,
+                    unitSymbol: unit ? unit.unitSymbol : ''
+                };
+            });
+
+            // Map ingredient variations with ingredients and units
+            const ingredientVariationsWithDetails = ingredientVariations.map(variation => {
+                const ingredient = ingredientsWithUnitSymbols.find(ingredient => ingredient._id === variation.ingreID);
+                const unit = units.find(unit => unit._id === variation.unitID);
+
+                return {
+                    ...variation,
+                    ingredientName: ingredient ? ingredient.name : '',
                     unitSymbol: unit ? unit.unitSymbol : ''
                 };
             });
 
             // Pass the ingredients data to the view
-            res.render('inputPhysicalCount', {ingredients: ingredientsWithUnitSymbols});
+            res.render('inputPhysicalCount', { ingredients: ingredientVariationsWithDetails });
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the ingredients.");
