@@ -6,24 +6,24 @@
         <h1 id="content-title">Order Terminal</h1>
         <hr>
 
-        <% dishes.forEach(function(dish){ %>
-            <% if(dish.isActive) { %> 
-                <!-- ORDER ITEM -->
-                <div id="order-item-holder" class="order-item-holder">
-                    <div class="card order-item" onclick="addDishItem(this)">
-                        <h5 name="dish-name"><%= dish.name%></h5>
-                        <h6 name="dish-price">Php <%= dish.price%></h6>
-                        <input type="hidden" name="dish-id" value="<%= dish._id%>">                        
-                        <% categories.forEach(function(category){ %>
-                            <% if(dish.categoryID == category.id){ %>
-                                <input type="hidden" name="dish-category" value="<%= category.category%>">
-                            <% } %>
-                        <% }) %> 
-                    </div>
-                </div>
+        <div id="order-item-holder" class="order-item-holder">
+            <% dishes.forEach(function(dish){ %>
+                <% if(dish.isActive) { %> 
+                    <!-- ORDER ITEM -->
+                        <div class="card order-item" onclick="addDishItem(this)">
+                            <h5 name="dish-name"><%= dish.name%></h5>
+                            <h6 name="dish-price">Php <%= dish.price%></h6>
+                            <input type="hidden" name="dish-id" value="<%= dish._id%>">                        
+                            <% categories.forEach(function(category){ %>
+                                <% if(dish.categoryID == category.id){ %>
+                                    <input type="hidden" name="dish-category" value="<%= category.category%>">
+                                <% } %>
+                            <% }) %> 
+                        </div>
 
-            <% } %>
-        <% }) %> 
+                <% } %>
+            <% }) %> 
+        </div>
 
         <div class="order-category-holder">
             <div class="order-category" onclick="filterDishes(this)">All</div>
