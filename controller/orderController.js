@@ -21,8 +21,8 @@ const orderController = {
         try {
             const dishes = await Dish.find({});
             const categories = await Category.find({});
-            console.log(dishes)
-            console.log(categories)
+            // console.log(dishes)
+            // console.log(categories)
             res.render('orderTerminal', { dishes: dishes, categories: categories });
         } catch (error) {
             console.log("Error fetching Dishes and Categories (getOrder): ");
@@ -33,7 +33,6 @@ const orderController = {
     
     processOrder: async function(req, res){
       try{
-
         // toggle this to true/false to test
         var orderIsViable = true;
 
@@ -42,39 +41,29 @@ const orderController = {
         const orderFailMessage = "Order unfulfilled. Please find below the list of insufficient ingredients required for the dishes you requested.";
         var quantityArray = req.body.quantity;
         var dishIdArray = req.body.dishId;
-        console.log("Quantity Array:");
-        console.log(quantityArray);
-        console.log(typeof quantityArray);
-        console.log("Dish ID Array:");
-        console.log(dishIdArray);
-        console.log(typeof dishIdArray);
-        //TODO TEREL:
-        // 1) Check if order is feasible       
+        // console.log("Quantity Input::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+        // console.log(typeof quantityArray);
+        // console.log(quantityArray.length);
+        // console.log(quantityArray);
+        // console.log("Dish Input::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+        // console.log(typeof dishIdArray);
+        // console.log(dishIdArray.length);
+        // console.log(dishIdArray);
+        
 
-        for(var i = 0; i < dishIdArray.length; i++){
-          console.log("inside loop")
-          console.log(dishIdArray)
-          
+        for(var i = 0; i < quantityArray.length; i++){
+          console.log("loop1")
           if (Array.isArray(dishIdArray)) {
-            console.log('dishIdArray is an array.');
             var quantity = quantityArray[i];
             var dishId = dishIdArray[i];
-          } else if (typeof dishIdArray === 'string') {
+          } else {
             var quantity = quantityArray;
             var dishId = dishIdArray;
           }
-          console.log("inside loop222222222222")
-          console.log(dishId)
-
-          console.log("TATATATATATATATATATATATATATATATATATATA")
-          
           var dishRecipe = await DishRecipe.findOne({ dishID:  dishId });
-          console.log("HERES THE RECIPE")
-          console.log(dishRecipe)
-          
+
           for (var ingredientInRecipe of dishRecipe.ingredients) {
-            console.log("RARARARARARARARARARARARARARAR")
-            console.log(ingredientInRecipe)
+            console.log("inner loop1")
             var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
 
             // INGREDIENT IN RECIPE:
@@ -90,35 +79,34 @@ const orderController = {
             // unitID           "64a5804ea792248175d204e8" // KG IN .UNITS
             // totalNetWeight   "1"
             // reorderPoint     "0"
-            
-            // FOR UNITS CONVERSION:
-            // initialUnitId
-            // 64a5804ea792248175d204e7
-            // convertedUnitId
-            // 64a5804ea792248175d204ec
-            console.log("THE INGRE IN INV IS ")
-            console.log(ingredientInInventory)
-            console.log("THE INGRE IN Recipe IS ")
-            console.log(ingredientInRecipe)
-
-
             var conversion = await ChefUnitsConversion.findOne({ 
                                                   initialUnitId: ingredientInRecipe.chefUnitID,
                                                   convertedUnitId: ingredientInInventory.unitID
                                                 }); //ForDishInInv
             var conversionFactor = conversion.conversionFactor;
-            console.log("TEREL CRISOSTOMO:")
-            console.log(conversion)
+            console.log("Ingredient in Recipe: " + (ingredientInRecipe.chefWeight * quantity * conversionFactor))
+            console.log("Ingredient in Inventory: " + (ingredientInInventory.totalNetWeight))
 
-            if((ingredientInRecipe.metricWeight * quantity * conversionFactor) < (ingredientInInventory.totalNetWeight)){
-                orderIsViable = false;
-                lackingIngredients.push(ingredient.name);
-                console.log(" GUDS");
+            if((ingredientInRecipe.chefWeight * quantity * conversionFactor) < (ingredientInInventory.totalNetWeight)){
+                orderIsViable = true;
+                console.log("viable");
             } else{
-                console.log(" NOT GUDS");
+                lackingIngredients.push(ingredientInInventory.name);
+                console.log("not viable");
             }
           }
         }
+
+
+
+
+
+
+
+
+
+
+
       }
       catch(error){
           console.error(error);
