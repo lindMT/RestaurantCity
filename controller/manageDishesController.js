@@ -59,7 +59,6 @@ const manageDishesController = {
 
     postManageDishes: async(req, res) => {
         // Retrieves all selected dish with box checked
-        console.log(req.body);
         let selectedDishes = req.body.selectedDishes;
 
 
