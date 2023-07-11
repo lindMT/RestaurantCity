@@ -35,7 +35,7 @@ const orderController = {
       try{
 
         // toggle this to true/false to test
-        var orderIsViable = true;
+        let orderIsViable = [];
 
         const lackingIngredients = []; //Removed default value
         const orderSuccessMessage = "Order fulfilled. Please go back to the order terminal to input more orders.";
@@ -72,13 +72,16 @@ const orderController = {
                                                 }); 
 
             var conversionFactor = conversion.conversionFactor;
-
-            if((ingredientInRecipe.metricWeight * quantity * conversionFactor) < (ingredientInInventory.totalNetWeight)){
+            console.log("Ingredient in Recipe: " + (ingredientInRecipe.chefWeight * quantity * conversionFactor))
+            console.log("Ingredient in Inventory: " + (ingredientInInventory.totalNetWeight))
+            console.log("ingredientInInventory.unitID: " + ingredientInInventory.unitID)
+            if((ingredientInRecipe.chefWeight * quantity * conversionFactor) < (ingredientInInventory.totalNetWeight)){
+                orderIsViable = true;
+                console.log("viable");
+            } else{
                 orderIsViable = false;
-                lackingIngredients.push(ingredient.name);
-            } 
-            
-            else{
+                lackingIngredients.push(ingredientInInventory.name);
+                console.log("not viable");
             }
           }
         }
