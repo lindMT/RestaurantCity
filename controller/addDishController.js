@@ -38,7 +38,7 @@ const addDishController = {
         // Fetch category in views, where data is from category table
        const trial = req.body.category
         let category = await DishCategory.findOne({ category: trial });
-
+        let inputDish= await Dish.findOne({ name: req.body.inputDishName });
         // if(!category){
         //     console.log(data)
 		// 	console.log('Category does not exist');
@@ -48,8 +48,14 @@ const addDishController = {
         const currentDate = Date();
         var ingreTable = [];
         // ingreTable = req.body.ingredient
-
+        
         //Create Dish Instance
+        if (inputDish){
+            req.flash('error_msg', 'Dish already exists, Please choose a different one')
+            console.log("Dish already exists")
+            return res.redirect('/addDish');
+        }else {
+
         const dish = new Dish({
             name: req.body.inputDishName,
             price: req.body.Amount,
@@ -65,7 +71,6 @@ const addDishController = {
             let dishID = await Dish.findOne({ name: req.body.inputDishName});
             
             var i 
-            var temp = req.body.ingredient
             for(i=0; i<req.body.ingredient.length; i++){
                 // if (i >=1 && temp != req.body.ingredient){
                 //     let ingre = await Ingredients.findOne({ name: req.body.ingredient});
@@ -78,9 +83,9 @@ const addDishController = {
                 }
                     
                 // console.log(ingre._id)
-                // //console.log(req.body.ingredient)
+                console.log(req.body.ingredient)
                 // console.log(unit._id)
-                // // console.log(req.body.selectUnit)
+                 console.log(req.body.selectUnit)
                 // console.log(ingreTable)
             }
                 
@@ -98,7 +103,7 @@ const addDishController = {
                 return res.redirect('/manageDishes');
             }
         }
-       
+    }
     }
 
 }
