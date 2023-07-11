@@ -1,0 +1,66 @@
+<%- include("partials/header") -%>
+
+<!-- TODO: Add later to CSS file -->
+<style>
+    #add-ni-card {
+        margin: auto;
+        width: 700px;
+    }
+</style>
+<div id="add-ni-card" class="card shadow">
+    <div>
+        <h1 style="text-align: center; padding: 5px;">Add New Ingredient</h1>
+    </div>
+    <hr/>
+    <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
+    <div>
+        <p style="text-align: center;">Fill-out ALL required input fields for the details of the NEW ingredient.</p>
+        <p style="text-align: center;">You are adding a new ingredient to the inventory with the name: <u><b style="color:rgb(0, 138, 189); text-transform: uppercase;"><%= ingredient.name %></b></u>.</p></p>
+        <br/>
+    </div>
+    <form method="post" action="#">
+        <!-- TODO: IngreCategory -->
+        <!-- <input name="ingreCategory" value="none" type="hidden"> -->
+
+        <div class="form-group form-align-left">
+            <label>Sizing Option Name <i>(Optional)</i></label>
+            <!-- TODO: CSS - Translate Style -->
+            <input type="text" name="ingreVariantName" placeholder="e.g. Small, Large, Coke Sakto" min="1" class="form-control" style="text-align: left; width: 100%;">
+        </div>
+        <br/>
+
+        <div class="form-group form-align-left">
+            <label>Net Weight</label>
+            <!-- TODO: CSS - Translate Style -->
+            <input type="number" name="ingreNetWt" placeholder="Minimum: 1" min="1" class="form-control" style="text-align: left; width: 100%;" required>
+        </div>
+        <br/>
+
+        <!-- TODO: Category is NEEDED FOR THIS -->
+        <div class="form-group form-align-left">
+            <label>Unit</label>
+            <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="width: 100%;" required>
+                <option disabled selected value> -- Select Unit -- </option>
+                <!-- For Loop -> IngredientWithUnitSymbol -->
+            </select>
+        </div>
+        <br/>
+
+        <div class="form-group form-align-left">
+            <!-- TODO: Backend - Will automatically compute for total net weight -->
+            <label>Quantity</label>
+            <!-- TODO: CSS - Translate Style -->
+            <input type="number" name="ingreQty" placeholder="Minimum: 1" min="1" max="10" class="form-control" style="text-align: left; width: 100%;" required>
+        </div>
+        <br/>
+
+        <hr/>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Add to Inventory</button>
+    </form>
+
+    <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
+</div>
+
+<script src="/js/addNewIngredient.js"></script>
+
+<%- include("partials/footer") -%>
