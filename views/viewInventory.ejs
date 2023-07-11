@@ -36,9 +36,7 @@
             <!-- TODO: For-Loop with Ingredients -->
             <% ingredients.forEach(function(ingredient) { %>
                 <tr>
-                    <td>
-                        <p style="text-transform: capitalize;"><%= ingredient.name %></p>
-                    </td>
+                    <td style="text-transform: capitalize;"><%= ingredient.name %></td>
                     <!-- TODO: To be replaced with actual data -->
                     <% if(ingredient.totalNetWeight > 0){ %>
                         <td class="table-success">  

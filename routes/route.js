@@ -14,6 +14,7 @@ const addDishController = require('../controller/addDishController.js');
 const addCategoryController = require('../controller/addCategoryController.js');
 const inputPhysicalController = require('../controller/inputPhysicalController.js');
 const orderController = require("../controller/orderController.js");
+
 const app = express();
 
 // Login
@@ -44,8 +45,9 @@ app.post("/viewInventory/discard/p2", viewInvController.postDiscard1);
 app.post("/viewInventory/discard/p2/process", viewInvController.postDiscard2);
 
 // Add New Ingredients
-app.get("/addNewIngredient", addIngreController.getAddIngre);
-app.post("/addNewIngredient/process", addIngreController.postAddIngredientAndVariation);
+app.get("/addNewIngredient/p1", addIngreController.getAddIngre);
+app.post("/addNewIngredient/p2", addIngreController.postAddIngre1);
+app.post("/addNewIngredient/p2/process", addIngreController.postAddIngre2);
 
 // Record Addt'l Purchase
 app.get("/recordAddtl/p1", recordAddtlController.getRecAddtl);

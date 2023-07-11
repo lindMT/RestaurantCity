@@ -33,10 +33,10 @@
         <% console.log(ingredient._id) %>
 
         <div class="form-group">
-            <label>Net Weight & Unit</label>
+            <label>Sizing Option</label>
             <!-- TODO: Translate Style to CCS -->
             <select id="record-select-nu-input" name="ingreNetUnit" class="form-select form-select-md" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
-                <option disabled selected value> -- Select Net Wt. & Unit -- </option>
+                <option disabled selected value> -- Select Size of Ingredient -- </option>
                 <% if(variants.length > 0) {%>
                     <% variants.forEach(variant => { %> 
                         <% units.forEach(unit => { %>
@@ -46,7 +46,6 @@
                         <% })%> 
                     <% }) %> 
                 <% } %>
-                <option value="others">Others... (Specify)</option>
             </select> 
         </div>
         <div class="form-group" id="record-others-field"></div>
@@ -65,7 +64,5 @@
 
     <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
 </div>
-
-<script src="/js/recordAddtl.js"></script>
 
 <%- include("partials/footer") -%>
