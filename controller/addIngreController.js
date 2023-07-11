@@ -15,16 +15,6 @@ const addIngreController = {
         const ingreQty = req.body.ingreQty;
         const ingreNetWt = req.body.ingreNetWt;
         const totalNetWeight = ingreQty * ingreNetWt;
-        const ingreVariantName = req.body.ingreVariantName
-
-
-        //Outline
-        // 1. find ingredient using ingredient.name
-        // 2. if ingredient exists
-        //     - add new variation
-        // 3. if not exists
-        //     - add new ingredient and variation
-
 
         // Find the record of unit in the units collection based on the unit symbol (ingreUnit)
         const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
@@ -54,7 +44,6 @@ const addIngreController = {
 
         // Create a new ingredient variation
         const ingreVariation = new IngreVariation({
-            // name: 
             ingreID: savedIngredient._id,
             unitID: unit._id,
             netWeight: ingreNetWt,
