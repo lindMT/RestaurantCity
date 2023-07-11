@@ -8,7 +8,6 @@ function changeOptions(){
             { value: '', text: '-- Select a Unit --' },
             { value: 'mL', text: 'mL (Milliliters)' },
             { value: 'L', text: 'L (Liters)' },
-            { value: 'fl oz', text: 'fl oz (Fluid Ounces)' },
         ];
         console.log("Wet")
     } else {
@@ -16,8 +15,6 @@ function changeOptions(){
             { value: '', text: '-- Select a Unit --' },
             { value: 'g', text: 'g (Grams)' },
             { value: 'kg', text: 'kg (Kilograms)' },
-            { value: 'oz', text: 'oz (Ounces)' },
-            { value: 'lb', text: 'lbs (Pounds)' },
         ];
         console.log("Dry")
     }

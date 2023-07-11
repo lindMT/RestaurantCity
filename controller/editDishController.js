@@ -12,7 +12,25 @@ const ObjectId = mongoose.Types.ObjectId;
 const editDishController = {
     // for redirecting login and signup
     getEditDish: async function(req, res) {
-       res.render('editDish');
+        const dishID = req.query.id;
+
+        try {
+            // Find dish in database
+            const dish = await Dish.findById(dishID);
+
+            // Pass dish data to editDish page
+            res.render('editDish', {dish: dish});
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("An error occurred while retrieving the dishes.");
+        }
+    },
+
+    postEditDish: async(req, res) => {
+        // Get data from editDish form
+        // Set old dish "isActive" to false
+        // Creates new dish with same name
     }
 
 

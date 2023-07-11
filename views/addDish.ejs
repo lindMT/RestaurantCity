@@ -14,6 +14,9 @@
       <hr>
       <div>
         <p>Fill out input fields for the details of the dish.</p>
+        <% if(error_msg) { %>    
+          <p style="color:red; font-weight:bold"> <%= error_msg %> </p>
+        <% } %>	
         <br/>
       </div>
 

@@ -24,6 +24,8 @@ const viewInvController = {
                 };
             });
 
+            console.log(ingredientsWithUnitSymbols)
+
             // Pass the ingredients data to the view
             res.render('viewInventory', { ingredients: ingredientsWithUnitSymbols });
         } catch (error) {
