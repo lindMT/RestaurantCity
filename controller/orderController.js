@@ -110,44 +110,57 @@ const orderController = {
             // INSERT into order table
             // INSERT into order item table
             // UPDATE ingredients/stock
-        // If not:
-            // POPULATE String[] of lacking ingredients
-            var proceedWithOrder = // based on orderIsViable (do a loop maybe)
+            var proceedWithOrder = true; // based on orderIsViable (do a loop maybe)
+            for (var i = 0; i < orderIsViable.length; i++){
+              if (!orderIsViable[i])
+                proceedWithOrder = false;
+            }
 
             if (proceedWithOrder){ 
               // Calculate Total Price
               var totalPrice = 0; 
   
-              for (var i = 0; i < dishIdArray.length; i++) {
-                const dishId = dishIdArray[i];
-                const dish = await Dish.findById(dishId).exec();
+              for (var i = 0; i < quantityArray.length; i++) {
+                if (Array.isArray(dishIdArray)) {
+                  var dishId = dishIdArray[i];
+                } else {
+                  var dishId = dishIdArray;
+                }
+                var dish = await Dish.findById(dishId);
                 totalPrice += dish.price * quantityArray[i];
               }
               
+              console.log("Total Price: " + totalPrice);
+              // TODO:
+                  // INSERT into order table
+                  // INSERT into order item table
+                  // UPDATE ingredients/stock
+
               // Create New Order
-              var newOrder = new Order({
-                  totalPrice: totalPrice,
-                  date: new Date(),
-                  takenBy: req.session.userName
-              });
+              // var newOrder = new Order({
+              //     totalPrice: totalPrice,
+              //     date: new Date(),
+              //     takenBy: req.session.userName
+              // });
   
-              newOrder.save().then(docs => {
-                for (var i = 0; i < dishIdArray.length; i++){
-                  var newOrderItem = new OrderItem({
-                      orderID: newOrder._id,
-                      dishID: dishIdArray[i]
-                  });
+              // newOrder.save().then(docs => {
+              //   for (var i = 0; i < dishIdArray.length; i++){
+              //     var newOrderItem = new OrderItem({
+              //         orderID: newOrder._id,
+              //         dishID: dishIdArray[i]
+              //     });
   
-                  newOrderItem.save().then(docs => {
-                    // TODO:
-                    // UPDATE ingredients/stock
-                  });
-                }
-                // Create New Order Items
-                res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
-                  lackingIngredients: []
-                });
+              //     newOrderItem.save().then(docs => {
+              //       // TODO:
+              //       // UPDATE ingredients/stock
+              //     });
+              //   }
+              // });
+
+              res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
+                                                      lackingIngredients: []
               });
+
           } else{
               res.render('orderProcessingLanding', {  orderPrompt: orderFailMessage,
                                                       lackingIngredients: lackingIngredients
