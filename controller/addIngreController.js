@@ -20,21 +20,6 @@ const addIngreController = {
         const ingreQty = req.body.ingreQty;
         const ingreNetWt = req.body.ingreNetWt;
         const totalNetWeight = ingreQty * ingreNetWt;
-        const ingreVariantName = req.body.ingreVariantName
-
-
-        //Outline
-        // 1. find ingredient using ingredient.name
-        // 2. if ingredient exists
-        //     - add new variation
-        // 3. if not exists
-        //     - add new ingredient and variation
-
-=======
-    postAddIngre1: async (req, res) => {
-        if(req.body.ingreId === "others"){
-            let newIngredientName = req.body.ingreName;
->>>>>>> Stashed changes
 
             return res.render('addNewIngredientP2', {
                 ingredient: newIngredientName
@@ -66,7 +51,6 @@ const addIngreController = {
 
         // Create a new ingredient variation
         const ingreVariation = new IngreVariation({
-            // name: 
             ingreID: savedIngredient._id,
             unitID: unit._id,
             netWeight: ingreNetWt,
