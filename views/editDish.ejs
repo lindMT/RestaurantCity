@@ -1,0 +1,104 @@
+<%- include("partials/header") -%>
+  <div class="editDish-card-holder">
+    <div class="card shadow editDish-card">
+      <form class="user-form" action="" method="post" >
+      <div class="editDish-header">
+        <h1>Edit Dish</h1>
+
+        <button type="submit" class="btn btn-save-progress" >Submit</button>
+   
+        <a href="/manageDishes"><button id="cancelBtn" type="button" class="btn btn-secondary" style="margin-left: 10px; color: white;">
+          Discard</button></a>
+      </div>
+      <hr>
+      <div>
+         <!-- Dish Name Code below-->
+        <p><h3>Sisig Special</h3></p>
+        <br/>
+      </div>
+
+      <div style="display: flex; flex-direction: row;">
+
+
+        <div style="width: 30%;">
+
+         
+          <!-- Category -->
+          <div class="form-category" style="width: 84%">
+            <label for="inputCategory">Category</label>
+            <select class="form-select" id="inputCategory" name="category" required>
+              <option disabled selected value>Food Category</option>
+              <!-- TODO: Backend -->
+                    <option style=text-transform:capitalize value="">Category</option>
+            </select>
+          </div>
+          <br>
+
+          <!-- Price Input -->
+          <div class="form-group col-md-10">
+            <label for="inputPrice">Price</label>
+            <div class="input-group">
+              <span class="input-group-text">Php</span>
+              <input type="number" class="form-control" name="Amount" id="inputPrice" min="1"
+                placeholder="e.g. 150.00" style="text-align: left;" required>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="width: 70%;">
+
+          <div id="form-row">
+            <div id="form-row-content" style="display: flex;">
+              <div class="form-ingredients">
+                <label for="ingredient">Ingredients</label>
+                <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example"
+                  required>
+                  <option disabled selected value>Select Ingredient</option>
+                  <!-- TODO: Backend-->                        
+                        <option style=text-transform:capitalize value="">Ingredient Name</option>
+                </select>
+              </div>
+
+
+
+              <div class="form-group" style="margin-left: 13px;">
+                <label for="inputAmt">Amount</label>
+                <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1"
+                  required>
+              </div>
+
+
+
+              <div class="form-unit" style="margin-left: 10px;">
+                <label for="ingreUnits">Unit</label>
+                <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example"
+                  required>
+                  <option disabled selected value>Select Unit</option>
+                        <option style=text-transform:capitalize value="unitName">Units</option>
+                </select>
+              </div>
+              <!-- Div Button -->
+              <div class="form-row-buttons" style="align-items: last baseline;">
+                <!-- Remove Ingredient Button -->
+                <button class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+                <!-- Add Ingredient Button -->
+                <button class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
+
+              </div>
+
+            </div>
+          </div> <!--ending tag for form row  -->
+
+        </div>
+      </form>
+      </div>
+
+    </div>
+
+  </div>
+
+  </div>
+  </div>
+  <script src="/js/editDish.js"></script>
+  <%- include("partials/footer") -%>

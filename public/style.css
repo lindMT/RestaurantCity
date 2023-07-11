@@ -252,6 +252,25 @@ button.viewRecipeBtn {
     margin-left: 10px;
   }
 
+/***************** EDIT DISH PAGE CSS *****************/
+  .editDish-card-holder {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+.editDish-header{
+    display: flex;
+    justify-content: left;
+    margin-top: 0.5em;
+}
+
+.editDish-header button{
+        margin-left: 29vw;  
+        height: 38px;
+}
+
 /***************** ORDER TERMINAL PAGE CSS *****************/
 
 .order-card {
