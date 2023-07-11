@@ -10,7 +10,7 @@
         "ingredient": {
           "$oid": "64a6b7b31731ba58e9a55822"
         },
-        "chefWeight": "200.25",
+        "chefWeight": "2",
         "chefUnitID": {
           "$oid": "64a451bb9a494ecb0fd7216b"
         }
@@ -19,7 +19,7 @@
         "ingredient": {
           "$oid": "64a6b7d8e082fa3e67ec83eb"
         },
-        "chefWeight": "300.50",
+        "chefWeight": "10",
         "chefUnitID": {
           "$oid": "64a4526d9a494ecb0fd7216d"
         }
