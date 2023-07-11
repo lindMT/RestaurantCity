@@ -71,23 +71,36 @@ const addDishController = {
             let dishID = await Dish.findOne({ name: req.body.inputDishName});
             
             var i 
-            for(i=0; i<req.body.ingredient.length; i++){
-                // if (i >=1 && temp != req.body.ingredient){
-                //     let ingre = await Ingredients.findOne({ name: req.body.ingredient});
+            var temp = []
+            temp = req.body.ingredient
+            console.log(temp[0].length)
 
-                // }
-                let ingre = await Ingredients.findOne({ name: req.body.ingredient[i]});
-                let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit[i]});
+            if(temp[0].length == 1){
+                let ingre = await Ingredients.findOne({ name: req.body.ingredient});
+                let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit});
                 if(ingre && unit){
-                    ingreTable.push([ingre._id,req.body.inputAmount[i],unit._id]);
+                    ingreTable.push([ingre._id,req.body.inputAmount,unit._id]);
                 }
-                    
-                // console.log(ingre._id)
-                console.log(req.body.ingredient)
-                // console.log(unit._id)
-                 console.log(req.body.selectUnit)
-                // console.log(ingreTable)
+            }else{
+                for(i=0; i<req.body.ingredient.length; i++){
+                    // if (i >=1 && temp != req.body.ingredient){
+                    //     let ingre = await Ingredients.findOne({ name: req.body.ingredient});
+    
+                    // }
+                    let ingre = await Ingredients.findOne({ name: req.body.ingredient[i]});
+                    let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit[i]});
+                    if(ingre && unit){
+                        ingreTable.push([ingre._id,req.body.inputAmount[i],unit._id]);
+                    }
+                        
+                    // console.log(ingre._id)
+                    // console.log(req.body.ingredient.length)
+                    // // console.log(unit._id)
+                    //  console.log(req.body.selectUnit)
+                    //  console.log(ingreTable)
+                }
             }
+            
                 
             const recipe = new DishRecipe({
                 dishID : dishID._id,
