@@ -21,8 +21,8 @@ const orderController = {
         try {
             const dishes = await Dish.find({});
             const categories = await Category.find({});
-            // console.log(dishes)
-            // console.log(categories)
+            console.log(dishes)
+            console.log(categories)
             res.render('orderTerminal', { dishes: dishes, categories: categories });
         } catch (error) {
             console.log("Error fetching Dishes and Categories (getOrder): ");
@@ -33,6 +33,7 @@ const orderController = {
     
     processOrder: async function(req, res){
       try{
+
         // toggle this to true/false to test
         var orderIsViable = true;
 
@@ -41,80 +42,97 @@ const orderController = {
         const orderFailMessage = "Order unfulfilled. Please find below the list of insufficient ingredients required for the dishes you requested.";
         var quantityArray = req.body.quantity;
         var dishIdArray = req.body.dishId;
-        // console.log("Quantity Input::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-        // console.log(typeof quantityArray);
-        // console.log(quantityArray.length);
-        // console.log(quantityArray);
-        // console.log("Dish Input::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-        // console.log(typeof dishIdArray);
-        // console.log(dishIdArray.length);
-        // console.log(dishIdArray);
-        
+        console.log("Quantity Array:");
+        console.log(quantityArray);
+        console.log(typeof quantityArray);
+        console.log("Dish ID Array:");
+        console.log(dishIdArray);
+        console.log(typeof dishIdArray);
+        //TODO TEREL:
+        // 1) Check if order is feasible       
 
-        for(var i = 0; i < quantityArray.length; i++){
-          console.log("loop1")
+        for(var i = 0; i < dishIdArray.length; i++){
           if (Array.isArray(dishIdArray)) {
             var quantity = quantityArray[i];
             var dishId = dishIdArray[i];
-          } else {
+          } 
+          else if (typeof dishIdArray === 'string') {
             var quantity = quantityArray;
             var dishId = dishIdArray;
           }
+          
           var dishRecipe = await DishRecipe.findOne({ dishID:  dishId });
-          console.log(dishRecipe)
-
+          
           for (var ingredientInRecipe of dishRecipe.ingredients) {
-            console.log("inner loop1")
             var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
 
-            // INGREDIENT IN RECIPE:
-            // metricWeight      "150.5"
-            // metricUnitID      "64a5804ea792248175d204e7" // GRAMS IN .UNITS
-            // chefWeight        "200.25"
-            // chefUnitID        "64a451bb9a494ecb0fd7216b"
-            
-            // INGREDIENT IN INVENTORY:
-            // _id              "64a6b7b31731ba58e9a55822"
-            // name             "carrots"
-            // category         "dry"
-            // unitID           "64a5804ea792248175d204e8" // KG IN .UNITS
-            // totalNetWeight   "1"
-            // reorderPoint     "0"
             var conversion = await ChefUnitsConversion.findOne({ 
                                                   initialUnitId: ingredientInRecipe.chefUnitID,
                                                   convertedUnitId: ingredientInInventory.unitID
-                                                }); //ForDishInInv
+                                                }); 
+
             var conversionFactor = conversion.conversionFactor;
-            console.log("Ingredient in Recipe: " + (ingredientInRecipe.chefWeight * quantity * conversionFactor))
-            console.log("Ingredient in Inventory: " + (ingredientInInventory.totalNetWeight))
-            console.log("ingredientInInventory.unitID: " + ingredientInInventory.unitID)
-            if((ingredientInRecipe.chefWeight * quantity * conversionFactor) < (ingredientInInventory.totalNetWeight)){
-                orderIsViable = true;
-                console.log("viable");
-            } else{
+
+            if((ingredientInRecipe.metricWeight * quantity * conversionFactor) < (ingredientInInventory.totalNetWeight)){
                 orderIsViable = false;
-                lackingIngredients.push(ingredientInInventory.name);
-                console.log("not viable");
+                lackingIngredients.push(ingredient.name);
+            } 
+            
+            else{
             }
           }
         }
 
+         // If yes: 
+            // CALCULATE Total Price (via quantityArray and dishIdArray)
+            // INSERT into order table
+            // INSERT into order item table
+            // UPDATE ingredients/stock
+        // If not:
+            // POPULATE String[] of lacking ingredients
 
-
-
-
-
-
-
-
-
-
-      }
-      catch(error){
+            if (orderIsViable){
+              // Calculate Total Price
+              var totalPrice = 0; 
+  
+              for (var i = 0; i < dishIdArray.length; i++) {
+                const dishId = dishIdArray[i];
+                const dish = await Dish.findById(dishId).exec();
+                totalPrice += dish.price * quantityArray[i];
+              }
+              
+              // Create New Order
+              var newOrder = new Order({
+                  totalPrice: totalPrice,
+                  date: new Date(),
+                  takenBy: req.session.userName
+              });
+  
+              newOrder.save().then(docs => {
+                for (var i = 0; i < dishIdArray.length; i++){
+                  var newOrderItem = new OrderItem({
+                      orderID: newOrder._id,
+                      dishID: dishIdArray[i]
+                  });
+  
+                  newOrderItem.save().then(docs => {
+                    // TODO:
+                    // UPDATE ingredients/stock
+                  });
+                }
+                // Create New Order Items
+                res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
+                  lackingIngredients: []
+                });
+              });
+          } else{
+              res.render('orderProcessingLanding', {  orderPrompt: orderFailMessage,
+                                                      lackingIngredients: lackingIngredients
+              });
+          }
+      } catch(error){
           console.error(error);
       }
-    
-    
     },
 
 };
