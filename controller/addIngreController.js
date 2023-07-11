@@ -77,12 +77,14 @@ const addIngreController = {
             });
 
             // Save the new ingredient to the database
-            await newIngredient.save();
+            // await newIngredient.save();
 
             let unit = await Unit.findById(newIngredient.unitID);
 
+            console.log(unit.unitSymbol + " " + req.body.ingreQty)
+
             if (req.body.ingreVariantName == null) {
-                const variationName = unit + req.body.ingreQty to string
+                const variationName = unit.unitSymbol + req.body.ingreQty
             } else {
                 const variationName = req.body.ingreVariantName
             }
@@ -103,8 +105,11 @@ const addIngreController = {
     }
 
 
-
-
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // --
+    // TODO: create post separately P2 & P3
+    // --
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
