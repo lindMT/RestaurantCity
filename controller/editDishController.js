@@ -13,6 +13,12 @@ const editDishController = {
     // for redirecting login and signup
     getEditDish: async function(req, res) {
        res.render('editDish');
+    },
+
+    postEditDish: async(req, res) => {
+        // Get data from editDish form
+        // Set old dish "isActive" to false
+        // Creates new dish with same name
     }
 
 
