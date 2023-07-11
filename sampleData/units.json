@@ -4,7 +4,7 @@
   },
   "unitName": "Gram",
   "unitSymbol": "g",
-  "category": "Dry"
+  "category": "Dry" 
 },
 {
   "_id": {
@@ -28,29 +28,5 @@
   },
   "unitName": "Liter",
   "unitSymbol": "L",
-  "category": "Wet"
-},
-{
-  "_id": {
-    "$oid": "64a5804ea792248175d204eb"
-  },
-  "unitName": "Ounce",
-  "unitSymbol": "oz",
-  "category": "Dry"
-},
-{
-  "_id": {
-    "$oid": "64a5804ea792248175d204ec"
-  },
-  "unitName": "Pound",
-  "unitSymbol": "lb",
-  "category": "Dry"
-},
-{
-  "_id": {
-    "$oid": "64a5804ea792248175d204ed"
-  },
-  "unitName": "Fluid Ounce",
-  "unitSymbol": "fl oz",
   "category": "Wet"
 }]

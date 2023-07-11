@@ -28,23 +28,17 @@
                     Position
                     <select class="form-control" name="position" required>
                         
-                        <!-- <option hidden disabled selected></option>
-                        <option value="owner">Owner</option>
-                        <option value="stockController">Stock Controller</option>
-                        <option value="chef">Chef</option>
-                        <option value="cashier">Cashier</option> -->
-
                         <option hidden disabled 
                             <% if (position == "") { %>
                                 selected
                             <% } %>
                         > -- Select a Position --</option>
 
-                        <option value="owner"
-                            <% if (position == "owner") { %>
+                        <option value="admin" 
+                            <% if (position == "admin") { %>
                                 selected
                             <% } %>
-                        >Owner</option>
+                        >Admin</option>
 
                         <option value="stockController"
                             <% if (position == "stockController") { %>
