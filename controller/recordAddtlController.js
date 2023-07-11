@@ -101,8 +101,8 @@ const recordAddtlController = {
 
             await auditIngredient.save();
 
-            return res.render('recordAddtlSuccess', {   title: "Record Additional Purchase", 
-                                                        message: 'Your additional purchase has been recorded!',
+            return res.render('recordAddtlSuccess', {   title: "Record Purchase", 
+                                                        message: 'Your purchase has been recorded!',
                                                         ingredient: foundIngredient,
                                                         unit: msgUnit,
                                                         totalNet: totalNetWeight

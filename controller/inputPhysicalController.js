@@ -9,10 +9,13 @@ const inputPhysicalController = {
     getInputPhysCount: async(req, res) => {
         try {
             // Retrieve all ingredients from the database
-            // const ingredients = await Ingredient.find().sort({name: 1});
+            const ingredients = await Ingredient.find().sort({name: 1});
+
+            // Retrieve all ingredient variations from the database
+            const ingredientVariations = await IngreVariation.find();
 
             // Retrieve all units from the database
-            // const units = await Unit.find();
+            const units = await Unit.find();
 
             // Map the unit IDs to unit symbols in the ingredients array
             const ingredientsWithUnitSymbols = ingredients.map(ingredient => {
@@ -35,8 +38,10 @@ const inputPhysicalController = {
                 };
             });
 
+            console.log(ingredientsWithUnitSymbols)
+
             // Pass the ingredients data to the view
-            res.render('inputPhysicalCount', { ingredients: ingredientVariationsWithDetails });
+            res.render('inputPhysicalCount', { ingredients: ingredientsWithUnitSymbols, ingredientVariations: ingredientVariationsWithDetails });
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the ingredients.");

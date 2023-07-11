@@ -31,14 +31,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr> 
-                        <td>1</td>
-                        <td>mL</td>
-                        <td>
-                            <!-- TODO: Name Attrib. MUST be UNIQUE -->
-                            <input type="number" name="ingreQty" placeholder="Qty" min="0" class="form-control" style="margin: auto; width: 80px;" required>
-                        </td>
-                    </tr>
+                        <!-- For Loop for variation -->
+                        <tr> 
+                            <td><%= ingredientVariations[j].netWeight %></td>
+                            <td><%= ingredientVariations[j].unitSymbol%></td>
+                            <td>
+                                <input type="number" name="ingreQty" placeholder="Qty" min="0" class="form-control" style="margin: auto; width: 80px;" required>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

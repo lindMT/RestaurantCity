@@ -2,17 +2,17 @@
 
     <!-- TODO: Add later to CSS file -->
     <style>
-        #record-card {
+        #discard-card {
             margin: auto;
             width: 600px;
         }
         
-        #record-others-field {
+        #discard-others-field {
             display: flex;
         }
     </style>
 
-    <div id="record-card" class="card shadow">
+    <div id="discard-card" class="card shadow">
         <div>
             <h1 style="text-align: center; padding: 5px;">Discard Ingredients</h1>
         </div>
@@ -25,7 +25,7 @@
         </div>
 
         <form method="post" action="/viewInventory/discard/p2/process">
-            <input id="record-select-category" name="ingreCategory" type="hidden" value="<%= ingredient.category %>" />
+            <input id="discard-select-category" name="ingreCategory" type="hidden" value="<%= ingredient.category %>" />
             <% console.log(ingredient.category) %>
                 <input name="ingreId" type="hidden" value="<%= ingredient._id %>" />
                 <% console.log(ingredient._id) %>
@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label>Net Weight & Unit</label>
                         <!-- TODO: Translate Style to CCS -->
-                        <select id="record-select-nu-input" name="ingreNetUnit" class="form-select form-select-md" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
+                        <select id="discard-select-nu-input" name="ingreNetUnit" class="form-select form-select-md" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
                 <option disabled selected value> -- Select Net Wt. & Unit -- </option>
                 <% if(variants.length > 0) {%>
                     <% variants.forEach(variant => { %> 
@@ -46,24 +46,24 @@
                 <% } %>
                 <option value="others">Others... (Specify)</option>
             </select>
-                    </div>
-                    <div class="form-group" id="record-others-field"></div>
-                    <br/>
+            </div>
+            <div class="form-group" id="discard-others-field"></div>
+            <br/>
 
-                    <div>
-                        <label>Quantity</label>
-                        <!-- TODO: CSS - Translate Style -->
-                        <input type="number" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" style="text-align: left; width: 100%; padding: 5px;" required>
-                    </div>
-                    <br/>
+            <div id="discard-qty-field">
+                <label id="discard-qty-label">Quantity</label>
+                <!-- TODO: CSS - Translate Style -->
+                <input type="number" id="discard-qty-input-field" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" style="text-align: left; width: 100%; padding: 5px;" required>
+            </div>
+            <br/>
 
-                    <hr/>
-                    <button type="submit" class="btn btn-submit-count" style="width: 100%;">Discard & Apply Changes</button>
+            <hr/>
+            <button type="submit" class="btn btn-submit-count" style="width: 100%;">Discard & Apply Changes</button>
         </form>
 
         <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
     </div>
 
-    <script src="/js/recordAddtl.js"></script>
+    <script src="/js/discardIngredient.js"></script>
 
     <%- include("partials/footer") -%>
