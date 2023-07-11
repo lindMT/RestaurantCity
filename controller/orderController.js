@@ -61,6 +61,7 @@ const orderController = {
             var dishId = dishIdArray;
           }
           var dishRecipe = await DishRecipe.findOne({ dishID:  dishId });
+          console.log(dishRecipe)
 
           for (var ingredientInRecipe of dishRecipe.ingredients) {
             console.log("inner loop1")
@@ -86,11 +87,12 @@ const orderController = {
             var conversionFactor = conversion.conversionFactor;
             console.log("Ingredient in Recipe: " + (ingredientInRecipe.chefWeight * quantity * conversionFactor))
             console.log("Ingredient in Inventory: " + (ingredientInInventory.totalNetWeight))
-
+            console.log("ingredientInInventory.unitID: " + ingredientInInventory.unitID)
             if((ingredientInRecipe.chefWeight * quantity * conversionFactor) < (ingredientInInventory.totalNetWeight)){
                 orderIsViable = true;
                 console.log("viable");
             } else{
+                orderIsViable = false;
                 lackingIngredients.push(ingredientInInventory.name);
                 console.log("not viable");
             }
