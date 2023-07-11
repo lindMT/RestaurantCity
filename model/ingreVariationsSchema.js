@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ingreVariationsSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
     ingreID: {
         type: Schema.Types.ObjectId,
         ref: 'ingredients',
