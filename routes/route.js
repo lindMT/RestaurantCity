@@ -64,10 +64,7 @@ app.get("/addCategory", addCategoryController.getAddCategory)
 app.post("/addCategory/process", addCategoryController.postAddCategory)
 
 // View Stock Report
-app.get("/viewStockReport", viewReportController.getStock)
-
-// View Periodical Report
-app.get("/viewPeriodical", viewReportController.getPeriodical)
+app.get("/viewStockReport", viewReportController.getPeriodical)
 
 // View Custom Report   
 app.get("/viewCustom", viewReportController.getCustom)

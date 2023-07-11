@@ -2,10 +2,6 @@ const User = require('../model/usersSchema.js');
 const bcrypt = require("bcrypt");
 
 const viewReportController = {
-    getStock: function(req, res) {
-        res.render('viewStockReport');
-    },
-
     getPeriodical: function(req, res) {
         res.render('viewPeriodical');
     },
