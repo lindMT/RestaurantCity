@@ -1,20 +1,35 @@
 <%- include("partials/header") -%>
-<h1>Dashboard</h1>
-<hr>
+
     
-    <div class="card-holder ">
-        <div class="card shadow d-flex flex-column text-left" style="min-width: 75vw; min-height: 20vw;">
-            <div class="card-body d-flex flex-column">
-                <h1>Alerts</h1> 
-                <hr>
+<div class="card shadow">
+    <div class="card-body d-flex flex-column">
+        <h1>Dashboard</h1> 
+        <hr>
+        
+    </div>    
 
-                
-            </div>        
-        </div>        
+    <div class="stock-analytics-holder">
+        <div class="card stock-analytics instock">
+            <h3>In Stock</h3>
+            <h1 id="in-stock" name="in-stock">3</h1>
+        </div>
+        <div class="card stock-analytics lowstock">
+            <h3>Low Stock</h3>
+            <h1 id="low-stock" name="low-stock">2</h1>
+        </div>
+        <div class="card stock-analytics outofstock">
+            <h3>Out of Stock</h3>
+            <h1 id="out-stock" name="out-stock">3</h1>
+        </div>
+        <div class="card stock-analytics missingstock">
+            <h3>Missing</h3>
+            <h1 id="missing-stock" name="missing-stock">6</h1>
+        </div>
     </div>
+</div>
 
-    <div class="card-holder ">
-        <div class="card shadow d-flex flex-column text-left" style="min-width: 75vw; min-height: 20vw;">
+    <div class="card shadow">
+        <div class="d-flex flex-column text-left" style="min-width: 75vw; min-height: 20vw;">
             <div class="card-body d-flex flex-column">
                 <h1>Daily Tasks</h1> 
                 <hr>
