@@ -9,7 +9,7 @@ const inputPhysicalController = {
     getInputPhysCount: async(req, res) => {
         try {
             // Retrieve all ingredients from the database
-            const ingredients = await Ingredient.find().sort({name: 1});
+            const ingredients = await Ingredient.find().sort({ name: 1 });
 
             // Retrieve all ingredient variations from the database
             const ingredientVariations = await IngreVariation.find();
@@ -18,40 +18,37 @@ const inputPhysicalController = {
             const units = await Unit.find();
 
             // Map the unit IDs to unit symbols in the ingredients array
-            const ingredientsWithUnitSymbols = ingredients.map(ingredient => {
-                const unit = units.find(unit => unit._id === ingredient.unitID);
+            const ingredientsWithUnitSymbols = ingredients.map((ingredient) => {
+                const unit = units.find((unit) => unit._id.toString() === ingredient.unitID.toString());
                 return {
-                    ...ingredient,
-                    unitSymbol: unit ? unit.unitSymbol : ''
+                    ...ingredient.toObject(),
+                    unitSymbol: unit ? unit.unitSymbol : '',
                 };
             });
 
-            // Map ingredient variations with ingredients and units
-            const ingredientVariationsWithDetails = ingredientVariations.map(variation => {
-                const ingredient = ingredientsWithUnitSymbols.find(ingredient => ingredient._id === variation.ingreID);
-                const unit = units.find(unit => unit._id === variation.unitID);
+            console.log(ingredientsWithUnitSymbols);
 
-                return {
-                    ...variation,
-                    ingredientName: ingredient ? ingredient.name : '',
-                    unitSymbol: unit ? unit.unitSymbol : ''
-                };
-            });
+            // Retrieve the unit symbols and ingredient names for ingredient variations
+            const ingredientVariationsWithDetails = await Promise.all(
+                ingredientVariations.map(async(variation) => {
+                    const unit = await Unit.findById(variation.unitID);
+                    const ingredient = await Ingredient.findById(variation.ingreID);
 
-            console.log(ingredientsWithUnitSymbols)
+                    const unitSymbol = unit ? unit.unitSymbol : '';
+                    const ingredientName = ingredient ? ingredient.name : '';
 
+                    return {
+                        ...variation.toObject(),
+                        unitSymbol,
+                        ingredientName,
+                    };
+                })
+            );
 
-
-
-            // TODO: YUNG MAPPING SHIT.. DI GUMAGANA BRO
-            //      1. FIX/ADD - Ingredient With Unit Symbols
-            //      2. FIX/ADD - Ingredient With Variations
-
-
-
+            console.log(ingredientVariationsWithDetails);
 
             // Pass the ingredients data to the view
-            // res.render('inputPhysicalCount', { ingredients: ingredientsWithUnitSymbols, ingredientVariations: ingredientVariationsWithDetails });
+            res.render('inputPhysicalCount', { ingredients: ingredientsWithUnitSymbols, ingredientVariations: ingredientVariationsWithDetails });
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the ingredients.");
