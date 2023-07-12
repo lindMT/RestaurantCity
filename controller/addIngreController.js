@@ -3,6 +3,7 @@ const User = require('../model/usersSchema.js');
 const Unit = require("../model/unitsSchema.js");
 const Ingredient = require("../model/ingredientsSchema.js");
 const IngreVariation = require("../model/ingreVariationsSchema.js");
+const Conversion = require("../model/conversionSchema.js")
 const purchasedIngre = require("../model/purchasedSchema.js");
 const bcrypt = require("bcrypt");
 
@@ -104,8 +105,8 @@ const addIngreController = {
 
     postAddIngre2b: async(req, res) => {
         const ingredient = JSON.parse(req.body.ingredient);
-        const ingredientVariants = req.body.ingredientVariants;
-        const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
+        // const ingredientVariants = req.body.ingredientVariants;
+        const inputUnit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
         const inputQty = req.body.ingreQty;
 
         const foundIngredient = await Ingredient.findById(ingredient._id);
@@ -113,8 +114,9 @@ const addIngreController = {
 
         if (foundIngredient) {
             let variationName;
+
             if (req.body.ingreVariantName === "") {
-                variationName = req.body.ingreNetWt + " " + unit.unitSymbol;
+                variationName = req.body.ingreNetWt + " " + inputUnit.unitSymbol;
             } else {
                 variationName = req.body.ingreVariantName;
             }
@@ -134,10 +136,11 @@ const addIngreController = {
             const newVariant = new IngreVariation({
                 name: variationName,
                 ingreID: foundIngredient._id,
-                unitID: foundIngredient.unitID,
+                unitID: inputUnit._id,
                 netWeight: req.body.ingreNetWt,
             });
 
+            
             try {
                 // Save the new variant to the database
                 await newVariant.save();
@@ -157,6 +160,7 @@ const addIngreController = {
                     console.log("Conversion Factor:", conFactor.conversionFactor);
                 } else {
                     totalNetWeight = inputQty * newVariant.netWeight;
+                    console.log(foundIngredient.unitID + " = " + foundUnit._id)
                     console.log(totalNetWeight + "=" + inputQty + "*" + newVariant.netWeight);
                 }
 
