@@ -41,7 +41,7 @@
                     <% variants.forEach(variant => { %> 
                         <% units.forEach(unit => { %>
                             <% if (unit._id.equals(variant.unitID)) {%>
-                                <option value="<%= variant._id %>"><%= variant.netWeight%> <%= unit.unitSymbol %> (<%= unit.unitName %>s)</option>
+                                <option value="<%= variant._id %>"><%= variant.name %> (Net Wt: <%= variant.netWeight %> / Unit: <%= unit.unitSymbol %>)</option>
                             <% }%> 
                         <% })%> 
                     <% }) %> 

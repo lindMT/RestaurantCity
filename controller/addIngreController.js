@@ -79,7 +79,7 @@ const addIngreController = {
 
             let variationName;
             if (req.body.ingreVariantName === "") {
-                variationName = req.body.ingreQty + unit.unitSymbol
+                variationName = req.body.ingreNetWt + " " + unit.unitSymbol
             } else {
                 variationName = req.body.ingreVariantName;
             }
