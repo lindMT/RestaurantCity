@@ -40,8 +40,18 @@ const inputPhysicalController = {
 
             console.log(ingredientsWithUnitSymbols)
 
+
+
+
+            // TODO: YUNG MAPPING SHIT.. DI GUMAGANA BRO
+            //      1. FIX/ADD - Ingredient With Unit Symbols
+            //      2. FIX/ADD - Ingredient With Variations
+
+
+
+
             // Pass the ingredients data to the view
-            res.render('inputPhysicalCount', { ingredients: ingredientsWithUnitSymbols, ingredientVariations: ingredientVariationsWithDetails });
+            // res.render('inputPhysicalCount', { ingredients: ingredientsWithUnitSymbols, ingredientVariations: ingredientVariationsWithDetails });
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the ingredients.");
