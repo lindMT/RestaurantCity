@@ -112,20 +112,19 @@ const orderController = {
               });
   
               newOrder.save().then(async (docs) => {
-                if (Array.isArray(dishIdArray) && Array.isArray(quantityArray)) {
+                if (Array.isArray(dishIdArray)) {
                   for (var i = 0; i < dishIdArray.length; i++){
                     console.log("Index:", i);
-                    console.log("dishIdArray[i]:", dishIdArray[i]);
-                    console.log("quantityArray[i]:", quantityArray[i]);
+                    console.log("dishIdArray:", dishIdArray[i]);
+                    console.log("quantityArray:", quantityArray[i]);
                     var newOrderItem = new OrderItem({
                         orderID: newOrder._id,
                         dishID: dishIdArray[i],
                         qty: quantityArray[i]
                     });
+                    await newOrderItem.save();
                   }
                } else {
-                  for (var i = 0; i < dishIdArray.length; i++){
-                    console.log("Index:", i);
                     console.log("dishIdArray:", dishIdArray);
                     console.log("quantityArray:", quantityArray);
                     var newOrderItem = new OrderItem({
@@ -133,27 +132,48 @@ const orderController = {
                         dishID: dishIdArray,
                         qty: quantityArray
                     });
+                    await newOrderItem.save();
+               }
+
+               /// FOR UPDATING 
+               for(var i = 0; i < quantityArray.length; i++){
+                  console.log("UPDATE LOOP 2")
+                  if (Array.isArray(dishIdArray)) {
+                    var quantity = quantityArray[i];
+                    var dishId = dishIdArray[i];
+                  } else {
+                    var quantity = quantityArray;
+                    var dishId = dishIdArray;
+                  }
+                  var dishRecipe = await DishRecipe.findOne({ dishID:  dishId });
+                  console.log(dishRecipe)
+                
+                  for (var ingredientInRecipe of dishRecipe.ingredients) {
+                    console.log("UPDATE INNER LOOP 2")
+                    var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
+                
+                    var conversion = await ChefUnitsConversion.findOne({ 
+                                                          initialUnitId: ingredientInRecipe.chefUnitID,
+                                                          convertedUnitId: ingredientInInventory.unitID
+                                                        }); //ForDishInInv
+                    var conversionFactor = conversion.conversionFactor;
+                    var dish = await Dish.findById(dishId);
+                    console.log("UPDATE Ingredient in Recipe: " + (ingredientInRecipe.chefWeight * quantity * conversionFactor))
+                    console.log("UPDATE Ingredient in Inventory: " + (ingredientInInventory.totalNetWeight))
+                    console.log("UPDATE ingredientInInventory.unitID: " + ingredientInInventory.unitID)
+                    var newNetWeight = (ingredientInInventory.totalNetWeight) - (ingredientInRecipe.chefWeight * quantity * conversionFactor);
+                    Ingredient.updateOne(
+                      { _id: ingredientInRecipe.ingredient },
+                      { $set: { totalNetWeight: newNetWeight } }
+                    )
+                    .catch(err => {
+                        console.log(err);
+                    });
+                
+                  }
                 }
-              }
-
-              await newOrderItem.save();
-
-               //TODO: UPDATE ingredients/stock
-                  // for(var i = 0; i < dishIdArray.length; i++){
-                  //     var dishID = dishIdArray;
-                  //     var quantity = quantityArray[i];
-
-                  //     var dishRecipe = await DishRecipe.findOne({dishID: dishID})
-
-                  //     var conversionFactor = conversion.conversionFactor;
-
-                  //     for(var ingredientInRecipe of dishRecipe.ingredients){
-                  //       var ingredientID = ingredientInRecipe.ingredient;
-                  //       var ingredientQuantity = ingredientInRecipe.chefWeight * quantity * conversionFactor
-
-                  //       await Ingredient.findByIdAndUpdate(ingredientID, { $inc: {totalNetWeight: -ingredientQuantity}})
-                  //     }    
-                  //   }
+               ///
+               
               });
 
               res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
