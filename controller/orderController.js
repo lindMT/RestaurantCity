@@ -103,7 +103,6 @@ const orderController = {
               // TODO:
                   // INSERT into order table
                   // INSERT into order item table
-                  // UPDATE ingredients/stock
 
               //Create New Order
               var newOrder = new Order({
@@ -137,8 +136,24 @@ const orderController = {
                 }
               }
 
-  
-                  await newOrderItem.save();
+              await newOrderItem.save();
+
+               //TODO: UPDATE ingredients/stock
+                  // for(var i = 0; i < dishIdArray.length; i++){
+                  //     var dishID = dishIdArray;
+                  //     var quantity = quantityArray[i];
+
+                  //     var dishRecipe = await DishRecipe.findOne({dishID: dishID})
+
+                  //     var conversionFactor = conversion.conversionFactor;
+
+                  //     for(var ingredientInRecipe of dishRecipe.ingredients){
+                  //       var ingredientID = ingredientInRecipe.ingredient;
+                  //       var ingredientQuantity = ingredientInRecipe.chefWeight * quantity * conversionFactor
+
+                  //       await Ingredient.findByIdAndUpdate(ingredientID, { $inc: {totalNetWeight: -ingredientQuantity}})
+                  //     }    
+                  //   }
               });
 
               res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
