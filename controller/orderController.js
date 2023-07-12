@@ -103,7 +103,7 @@ const orderController = {
               // TODO:
                   // INSERT into order table
                   // INSERT into order item table
-                  // SUCCESSFUL INSERTION ONLY WORKS IF THERE ARE MORE THAN 1 ITEMS WHEN CREATING ORDERS
+                  // UPDATE ingredients/stock
 
               //Create New Order
               var newOrder = new Order({
@@ -113,36 +113,32 @@ const orderController = {
               });
   
               newOrder.save().then(async (docs) => {
-                for (var i = 0; i < dishIdArray.length; i++){
-                  console.log("Index:", i);
-                  console.log("dishIdArray[i]:", dishIdArray);
-                  console.log("quantityArray[i]:", quantityArray);
-                  var newOrderItem = new OrderItem({
-                      orderID: newOrder._id,
-                      dishID: dishIdArray[i],
-                      qty: quantityArray[i]
-                  });
-  
-                  newOrderItem.save();
-
-                  //TODO: UPDATE ingredients/stock
-                  // for(var i = 0; i < dishIdArray.length; i++){
-                  //     var dishID = dishIdArray;
-                  //     var quantity = quantityArray[i];
-
-                  //     var dishRecipe = await DishRecipe.findOne({dishID: dishID})
-
-                  //     var conversionFactor = conversion.conversionFactor;
-
-                  //     for(var ingredientInRecipe of dishRecipe.ingredients){
-                  //       var ingredientID = ingredientInRecipe.ingredient;
-                  //       var ingredientQuantity = ingredientInRecipe.chefWeight * quantity * conversionFactor
-
-                  //       await Ingredient.findByIdAndUpdate(ingredientID, { $inc: {totalNetWeight: -ingredientQuantity}})
-                  //     }    
-                  //   }
-
+                if (Array.isArray(dishIdArray) && Array.isArray(quantityArray)) {
+                  for (var i = 0; i < dishIdArray.length; i++){
+                    console.log("Index:", i);
+                    console.log("dishIdArray[i]:", dishIdArray);
+                    console.log("quantityArray[i]:", quantityArray);
+                    var newOrderItem = new OrderItem({
+                        orderID: newOrder._id,
+                        dishID: dishIdArray[i],
+                        qty: quantityArray[i]
+                    });
                   }
+               } else {
+                  for (var i = 0; i < dishIdArray.length; i++){
+                    console.log("Index:", i);
+                    console.log("dishIdArray[i]:", dishIdArray);
+                    console.log("quantityArray[i]:", quantityArray);
+                    var newOrderItem = new OrderItem({
+                        orderID: newOrder._id,
+                        dishID: dishIdArray,
+                        qty: quantityArray
+                    });
+                }
+              }
+
+  
+                  await newOrderItem.save();
               });
 
               res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
