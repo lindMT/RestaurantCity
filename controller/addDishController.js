@@ -51,7 +51,7 @@ const addDishController = {
         
         //Create Dish Instance
         if (inputDish){
-            req.flash('error_msg', 'Dish already exists, Please choose a different one')
+            req.flash('error_msg', 'Dish already exists, Please input a different one')
             console.log("Dish already exists")
             return res.redirect('/addDish');
         }else {
@@ -65,41 +65,48 @@ const addDishController = {
             addedBy: user._id
             
         })
+        var i 
+        var temp = []
+        temp = req.body.ingredient
+        console.log(temp[0].length)
 
+        if(temp[0].length == 1){
+            let ingre = await Ingredients.findOne({ name: req.body.ingredient});
+            let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit});
+            if(ingre && unit){
+                ingreTable.push([ingre._id,req.body.inputAmount,unit._id]);
+            }
+        }else{
+            for(i=0; i<req.body.ingredient.length; i++){
+                // if (i >=1 && temp != req.body.ingredient){
+                //     let ingre = await Ingredients.findOne({ name: req.body.ingredient});
+
+                // }
+                let ingre = await Ingredients.findOne({ name: req.body.ingredient[i]});
+                let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit[i]});
+                for (let j = 0; j < i; j++) {
+                    if (req.body.ingredient[i] == req.body.ingredient[j]) {
+                        req.flash('error_msg', 'Duplicate Entry, Please input a different one')
+                        console.log("Duplicate Entry")
+                        return res.redirect('/addDish');
+                    }
+                  }
+                if(ingre && unit){
+                    ingreTable.push([ingre._id,req.body.inputAmount[i],unit._id]);
+                }
+                    
+                // console.log(ingre._id)
+                // console.log(req.body.ingredient.length)
+                // // console.log(unit._id)
+                //  console.log(req.body.selectUnit)
+                //  console.log(ingreTable)
+            }
+        }
        
         if(await dish.save()){
             let dishID = await Dish.findOne({ name: req.body.inputDishName});
             
-            var i 
-            var temp = []
-            temp = req.body.ingredient
-            console.log(temp[0].length)
-
-            if(temp[0].length == 1){
-                let ingre = await Ingredients.findOne({ name: req.body.ingredient});
-                let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit});
-                if(ingre && unit){
-                    ingreTable.push([ingre._id,req.body.inputAmount,unit._id]);
-                }
-            }else{
-                for(i=0; i<req.body.ingredient.length; i++){
-                    // if (i >=1 && temp != req.body.ingredient){
-                    //     let ingre = await Ingredients.findOne({ name: req.body.ingredient});
-    
-                    // }
-                    let ingre = await Ingredients.findOne({ name: req.body.ingredient[i]});
-                    let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit[i]});
-                    if(ingre && unit){
-                        ingreTable.push([ingre._id,req.body.inputAmount[i],unit._id]);
-                    }
-                        
-                    // console.log(ingre._id)
-                    // console.log(req.body.ingredient.length)
-                    // // console.log(unit._id)
-                    //  console.log(req.body.selectUnit)
-                    //  console.log(ingreTable)
-                }
-            }
+            
             
                 
             const recipe = new DishRecipe({
