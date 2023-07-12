@@ -15,7 +15,7 @@ const addIngreController = {
         })
     },
 
-    postAddIngre1: async(req, res) => { ///addNewIngredient/p2
+    postAddIngre1: async(req, res) => {
         if (req.body.ingreId === "others") {
             let newIngredientName = req.body.ingreName
 
@@ -26,7 +26,7 @@ const addIngreController = {
             // TODO: Found Ingredient must have UNIT SYMBOLS (Map)
             let foundIngredient = await Ingredient.findById(req.body.ingreId);
             let ingredientVariations = await IngreVariation.find({ ingreID: req.body.ingreId });
-            console.log(ingredientVariations);
+            // console.log(ingredientVariations);
 
             // Retrieve the unit for the found ingredient
             let unit = await Unit.findById(foundIngredient.unitID);
@@ -43,16 +43,16 @@ const addIngreController = {
                 })
             );
 
-            console.log(ingredientVariationsWithUnitSymbols);
+            // console.log(ingredientVariationsWithUnitSymbols);
 
             return res.render('addNewIngredientP3', {
                 ingredient: foundIngredient,
-                // ingredientVariants: ingredientVariationsWithUnitSymbols
+                ingredientVariants: ingredientVariationsWithUnitSymbols
             });
         }
     },
 
-    postAddIngre2: async(req, res) => {
+    postAddIngre2a: async(req, res) => {
         // Access the ingredient and ingredient variations from the request body
         const newIngredientName = req.body.ingredientName
 
@@ -60,7 +60,7 @@ const addIngreController = {
         // Check if the ingredient name already exists in the database
         const existingIngredient = await Ingredient.findOne({ name: newIngredientName });
 
-        let unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
+        const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
 
 
         if (!existingIngredient) { //if ingredient does not exist
@@ -78,12 +78,11 @@ const addIngreController = {
 
 
             let variationName;
-            if (req.body.ingreVariantName == null) {
-                variationName = unit.unitSymbol + req.body.ingreQty.toString();
+            if (req.body.ingreVariantName === "") {
+                variationName = req.body.ingreQty + unit.unitSymbol
             } else {
                 variationName = req.body.ingreVariantName;
             }
-            console.log(variationName)
 
             const newVariant = new IngreVariation({
                 name: variationName,
@@ -93,149 +92,189 @@ const addIngreController = {
             });
 
             await newVariant.save();
+
+
+            //TO-DO:
+            // 1. add audit
+            // 2. error checking
             res.send("Added ingre");
         }
+    },
+
+
+    postAddIngre2b: async(req, res) => {
+        // Access the ingredient and ingredient variations from the request body
+        const foundIngredient = req.body.ingredient
+
+        const ingredientVariants = req.body.ingredientVariants
+
+        console.log(foundIngredient)
+
+        const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
+        console.log(unit)
+        if (foundIngredient) {
+            let variationName;
+            if (req.body.ingreVariantName === "") {
+                variationName = req.body.ingreQty + unit.unitSymbol
+            } else {
+                variationName = req.body.ingreVariantName;
+            }
+
+            let ingreQty = req.body.ingreQty
+
+            const newVariant = new IngreVariation({
+                name: variationName,
+                ingreID: foundIngredient._id,
+                unitID: foundIngredient.unitID,
+                netWeight: req.body.ingreNetWt
+            });
+
+            // console.log(variationName)
+        }
+
     }
-
-
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // --
-    // TODO: create post separately P2 & P3
-    // --
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-    // <<<<<<< Updated upstream
-    //     postAddIngredientAndVariation: async(req, res) => {
-    //         const ingreQty = req.body.ingreQty;
-    //         const ingreNetWt = req.body.ingreNetWt;
-    //         const totalNetWeight = ingreQty * ingreNetWt;
-
-    //             return res.render('addNewIngredientP2', {
-    //                 ingredient: newIngredientName
-    //             })
-    //         }else{
-    //             let foundIngredient = await Ingredient.findById(req.body.ingreId);
-    //             console.log(foundIngredient)
-
-    //             return res.render('addNewIngredientP3', {
-    //                 ingredient: foundIngredient
-    //             })
-    //         }
-    // <<<<<<< Updated upstream
-
-    //         // Create a new ingredient instance
-    //         const ingredient = new Ingredient({
-    //             name: req.body.ingreName,
-    //             category: req.body.ingreCategory,
-    //             unitID: unit._id,
-    //             totalNetWeight: totalNetWeight,
-    //             reorderPoint: 0
-    //         });
-
-    //         // Save the ingredient to the database
-    //         await ingredient.save();
-
-    //         // Find the ingredient by its name
-    //         const savedIngredient = await Ingredient.findOne({ name: req.body.ingreName });
-
-    //         // Create a new ingredient variation
-    //         const ingreVariation = new IngreVariation({
-    //             ingreID: savedIngredient._id,
-    //             unitID: unit._id,
-    //             netWeight: ingreNetWt,
-    //         });
-
-    //         // Save the ingredient variation to the database
-    //         await ingreVariation.save();
-
-    //         // Get the current date
-    //         const currentDate = new Date();
-
-    //         // Find the user by their username
-    //         const user = await User.findOne({ userName: req.session.userName });
-
-    //         // Get the user ID
-    //         const userId = user._id;
-
-    //         const auditIngredient = new purchasedIngre({
-    //             ingreID: savedIngredient._id,
-    //             date: currentDate,
-    //             varID: ingreVariation._id,
-    //             qty: ingreQty,
-    //             doneBy: userId,
-    //         });
-
-    //         await auditIngredient.save();
-
-    //         return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: ingredient, unit: unit });
-    // =======
-    // >>>>>>> Stashed changes
-    //     },
-
-    // postAddIngredientAndVariation: async(req, res) => {
-    //     const ingreQty = req.body.ingreQty;
-    //     const ingreNetWt = req.body.ingreNetWt;
-    //     const totalNetWeight = ingreQty * ingreNetWt;
-
-    //     // Find the record of unit in the units collection based on the unit symbol (ingreUnit)
-    //     const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
-
-    //     // Check if the ingredient name already exists in the database
-    //     const existingIngredient = await Ingredient.findOne({ name: req.body.ingreName });
-
-    //     if (existingIngredient) {
-    //         // Prompt the user to go to the "record additional purchase"
-    //         return res.render('addNewIngredientError', { message: 'The ingredient you added ALREADY EXISTS in the inventory. Please use the Record Additional Purchase module.' });
-    //     }
-
-    //     // Create a new ingredient instance
-    //     const ingredient = new Ingredient({
-    //         name: req.body.ingreName,
-    //         category: req.body.ingreCategory,
-    //         unitID: unit._id,
-    //         totalNetWeight: totalNetWeight,
-    //         reorderPoint: 0
-    //     });
-
-    //     // Save the ingredient to the database
-    //     await ingredient.save();
-
-    //     // Find the ingredient by its name
-    //     const savedIngredient = await Ingredient.findOne({ name: req.body.ingreName });
-
-    //     // Create a new ingredient variation
-    //     const ingreVariation = new IngreVariation({
-    //         ingreID: savedIngredient._id,
-    //         unitID: unit._id,
-    //         netWeight: ingreNetWt,
-    //     });
-
-    //     // Save the ingredient variation to the database
-    //     await ingreVariation.save();
-
-    //     // Get the current date
-    //     const currentDate = new Date();
-
-    //     // Find the user by their username
-    //     const user = await User.findOne({ userName: req.session.userName });
-
-    //     // Get the user ID
-    //     const userId = user._id;
-
-    //     const auditIngredient = new purchasedIngre({
-    //         ingreID: savedIngredient._id,
-    //         date: currentDate,
-    //         varID: ingreVariation._id,
-    //         qty: ingreQty,
-    //         doneBy: userId,
-    //     });
-
-    //     await auditIngredient.save();
-
-    //     return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: ingredient, unit: unit });
-    // },
 };
+
+
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// --
+// TODO: create post separately P2 & P3
+// --
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+// <<<<<<< Updated upstream
+//     postAddIngredientAndVariation: async(req, res) => {
+//         const ingreQty = req.body.ingreQty;
+//         const ingreNetWt = req.body.ingreNetWt;
+//         const totalNetWeight = ingreQty * ingreNetWt;
+
+//             return res.render('addNewIngredientP2', {
+//                 ingredient: newIngredientName
+//             })
+//         }else{
+//             let foundIngredient = await Ingredient.findById(req.body.ingreId);
+//             console.log(foundIngredient)
+
+//             return res.render('addNewIngredientP3', {
+//                 ingredient: foundIngredient
+//             })
+//         }
+// <<<<<<< Updated upstream
+
+//         // Create a new ingredient instance
+//         const ingredient = new Ingredient({
+//             name: req.body.ingreName,
+//             category: req.body.ingreCategory,
+//             unitID: unit._id,
+//             totalNetWeight: totalNetWeight,
+//             reorderPoint: 0
+//         });
+
+//         // Save the ingredient to the database
+//         await ingredient.save();
+
+//         // Find the ingredient by its name
+//         const savedIngredient = await Ingredient.findOne({ name: req.body.ingreName });
+
+//         // Create a new ingredient variation
+//         const ingreVariation = new IngreVariation({
+//             ingreID: savedIngredient._id,
+//             unitID: unit._id,
+//             netWeight: ingreNetWt,
+//         });
+
+//         // Save the ingredient variation to the database
+//         await ingreVariation.save();
+
+//         // Get the current date
+//         const currentDate = new Date();
+
+//         // Find the user by their username
+//         const user = await User.findOne({ userName: req.session.userName });
+
+//         // Get the user ID
+//         const userId = user._id;
+
+//         const auditIngredient = new purchasedIngre({
+//             ingreID: savedIngredient._id,
+//             date: currentDate,
+//             varID: ingreVariation._id,
+//             qty: ingreQty,
+//             doneBy: userId,
+//         });
+
+//         await auditIngredient.save();
+
+//         return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: ingredient, unit: unit });
+// =======
+// >>>>>>> Stashed changes
+//     },
+
+// postAddIngredientAndVariation: async(req, res) => {
+//     const ingreQty = req.body.ingreQty;
+//     const ingreNetWt = req.body.ingreNetWt;
+//     const totalNetWeight = ingreQty * ingreNetWt;
+
+//     // Find the record of unit in the units collection based on the unit symbol (ingreUnit)
+//     const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
+
+//     // Check if the ingredient name already exists in the database
+//     const existingIngredient = await Ingredient.findOne({ name: req.body.ingreName });
+
+//     if (existingIngredient) {
+//         // Prompt the user to go to the "record additional purchase"
+//         return res.render('addNewIngredientError', { message: 'The ingredient you added ALREADY EXISTS in the inventory. Please use the Record Additional Purchase module.' });
+//     }
+
+//     // Create a new ingredient instance
+//     const ingredient = new Ingredient({
+//         name: req.body.ingreName,
+//         category: req.body.ingreCategory,
+//         unitID: unit._id,
+//         totalNetWeight: totalNetWeight,
+//         reorderPoint: 0
+//     });
+
+//     // Save the ingredient to the database
+//     await ingredient.save();
+
+//     // Find the ingredient by its name
+//     const savedIngredient = await Ingredient.findOne({ name: req.body.ingreName });
+
+//     // Create a new ingredient variation
+//     const ingreVariation = new IngreVariation({
+//         ingreID: savedIngredient._id,
+//         unitID: unit._id,
+//         netWeight: ingreNetWt,
+//     });
+
+//     // Save the ingredient variation to the database
+//     await ingreVariation.save();
+
+//     // Get the current date
+//     const currentDate = new Date();
+
+//     // Find the user by their username
+//     const user = await User.findOne({ userName: req.session.userName });
+
+//     // Get the user ID
+//     const userId = user._id;
+
+//     const auditIngredient = new purchasedIngre({
+//         ingreID: savedIngredient._id,
+//         date: currentDate,
+//         varID: ingreVariation._id,
+//         qty: ingreQty,
+//         doneBy: userId,
+//     });
+
+//     await auditIngredient.save();
+
+//     return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: ingredient, unit: unit });
+// },
+
 
 module.exports = addIngreController;

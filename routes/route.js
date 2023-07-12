@@ -47,8 +47,10 @@ app.post("/viewInventory/discard/p2/process", viewInvController.postDiscard2);
 // Add New Ingredients
 app.get("/addNewIngredient/p1", addIngreController.getAddIngre);
 app.post("/addNewIngredient/p2", addIngreController.postAddIngre1);
-app.post("/addNewIngredient/p2/process", addIngreController.postAddIngre2);
-// app.post("/addNewIngredient/p2/process", addIngreController.postAddIngre2b);
+app.post("/addNewIngredient/p2a/process", addIngreController.postAddIngre2a);
+app.post("/addNewIngredient/p2b/process", addIngreController.postAddIngre2b);
+
+
 
 
 // Record Addt'l Purchase
