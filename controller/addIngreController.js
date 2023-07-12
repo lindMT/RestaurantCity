@@ -52,57 +52,49 @@ const addIngreController = {
         }
     },
 
-    postAddIngre2: async(req, res) => { ///addNewIngredient/p2/process
-        // TODO: Backend
-        // 1. check if passed ingredient's name is in the database
-        // - if not, add req.body.category, req.body.netweight. req.body.unit, req.quantity to ingredients table.
-        //     - also add it to the variation table
-        // - if yes, add the variation inputs to the variation table
-
+    postAddIngre2: async(req, res) => {
         // Access the ingredient and ingredient variations from the request body
-        const { ingredient, ingredientVariations } = req.body;
+        const newIngredientName = req.body.ingredientName
+
 
         // Check if the ingredient name already exists in the database
-        const existingIngredient = await Ingredient.findOne({ name: ingredient.name });
+        const existingIngredient = await Ingredient.findOne({ name: newIngredientName });
+
+        let unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
+
 
         if (!existingIngredient) { //if ingredient does not exist
-            //1. add ingredient data input to ingredient table
-            //2. add variant data to variant table
-            //3. add audit purchased
+            const totalNetWeight = req.body.ingreNetWt * req.body.ingreQty
             const newIngredient = new Ingredient({
-                name: ingredient.name,
-                category: ingredient.category,
-                unitID: ingredient.unitID,
-                totalNetWeight: ingredient.totalNetWeight,
+                name: newIngredientName,
+                category: req.body.ingreCategory,
+                unitID: unit._id,
+                totalNetWeight: totalNetWeight,
                 reorderPoint: 0
             });
 
             // Save the new ingredient to the database
-            // await newIngredient.save();
+            await newIngredient.save();
 
-            let unit = await Unit.findById(newIngredient.unitID);
 
-            console.log(unit.unitSymbol + " " + req.body.ingreQty)
-
+            let variationName;
             if (req.body.ingreVariantName == null) {
-                const variationName = unit.unitSymbol + req.body.ingreQty
+                variationName = unit.unitSymbol + req.body.ingreQty.toString();
             } else {
-                const variationName = req.body.ingreVariantName
+                variationName = req.body.ingreVariantName;
             }
+            console.log(variationName)
 
             const newVariant = new IngreVariation({
                 name: variationName,
                 ingreID: newIngredient._id,
-                unitID: unit,
-                netWeight: ingredient.totalNetWeight
+                unitID: newIngredient.unitID,
+                netWeight: req.body.ingreNetWt
             });
 
-
-        } else {
-            //1. add variant data to variant table
-            //3. add audit purchased
+            await newVariant.save();
+            res.send("Added ingre");
         }
-
     }
 
 

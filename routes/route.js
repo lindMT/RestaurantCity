@@ -48,6 +48,8 @@ app.post("/viewInventory/discard/p2/process", viewInvController.postDiscard2);
 app.get("/addNewIngredient/p1", addIngreController.getAddIngre);
 app.post("/addNewIngredient/p2", addIngreController.postAddIngre1);
 app.post("/addNewIngredient/p2/process", addIngreController.postAddIngre2);
+// app.post("/addNewIngredient/p2/process", addIngreController.postAddIngre2b);
+
 
 // Record Addt'l Purchase
 app.get("/recordAddtl/p1", recordAddtlController.getRecAddtl);
@@ -64,7 +66,7 @@ app.post("/addDish/process", addDishController.postAddDish)
 
 // Edit Dish
 app.get("/editDish", editDishController.getEditDish)
-// app.post("/editDish/process", editDishController.postEditDish)
+    // app.post("/editDish/process", editDishController.postEditDish)
 
 // Add Category
 app.get("/addCategory", addCategoryController.getAddCategory)
