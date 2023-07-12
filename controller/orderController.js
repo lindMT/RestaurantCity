@@ -115,8 +115,8 @@ const orderController = {
                 if (Array.isArray(dishIdArray) && Array.isArray(quantityArray)) {
                   for (var i = 0; i < dishIdArray.length; i++){
                     console.log("Index:", i);
-                    console.log("dishIdArray[i]:", dishIdArray);
-                    console.log("quantityArray[i]:", quantityArray);
+                    console.log("dishIdArray[i]:", dishIdArray[i]);
+                    console.log("quantityArray[i]:", quantityArray[i]);
                     var newOrderItem = new OrderItem({
                         orderID: newOrder._id,
                         dishID: dishIdArray[i],
@@ -126,8 +126,8 @@ const orderController = {
                } else {
                   for (var i = 0; i < dishIdArray.length; i++){
                     console.log("Index:", i);
-                    console.log("dishIdArray[i]:", dishIdArray);
-                    console.log("quantityArray[i]:", quantityArray);
+                    console.log("dishIdArray:", dishIdArray);
+                    console.log("quantityArray:", quantityArray);
                     var newOrderItem = new OrderItem({
                         orderID: newOrder._id,
                         dishID: dishIdArray,
