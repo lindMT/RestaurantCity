@@ -15,8 +15,7 @@
         <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
         <div>
             <p style="text-align: center;">Fill-out ALL required input fields for the details of the new packaging size of the ingredient.</p>
-            <p style="text-align: center;">You are currently adding a new sizing option for: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient %></b></u>.</p><br/>
-            <br/>
+            <p style="text-align: center;">You are currently adding a new sizing option for: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p><br/>
         </div>
         <form method="post" action="/addNewIngredient/p2/process">
             <!-- TODO: IngreCategory -->
@@ -41,8 +40,12 @@
                 <label>Unit</label>
                 <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="width: 100%;" required>
                     <option disabled selected value> -- Select Unit -- </option>
-                    <% for(i = 0; i < ingredientVariants.length; i++){ %>
-                        <option value="<%= ingredientVariants[i]._id %>"><%= ingredientVariants[i].name %></option>
+                    <% if (ingredient.category === "wet") { %>
+                        <option value="mL">mL (Milliliters)</option>
+                        <option value="L">L (Liters)</option>
+                    <% } else { %>
+                        <option value="g">g (Grams)</option>
+                        <option value="kg">kg (Kilograms)</option>
                     <% } %>
                 </select>
             </div>

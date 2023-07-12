@@ -47,7 +47,7 @@ const addIngreController = {
 
             return res.render('addNewIngredientP3', {
                 ingredient: foundIngredient,
-                ingredientVariants: ingredientVariationsWithUnitSymbols
+                // ingredientVariants: ingredientVariationsWithUnitSymbols
             });
         }
     },
