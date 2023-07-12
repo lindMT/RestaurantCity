@@ -3,18 +3,14 @@ const User = require('../model/usersSchema.js');
 const Order = require('../model/orderSchema.js');
 const OrderItem = require('../model/orderItemSchema.js');
 const Ingredient = require('../model/ingredientsSchema.js');
-const IngreVariation = require('../model/ingreVariationsSchema.js');
 const Dish = require('../model/dishSchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
 const Category = require('../model/dishCategorySchema.js');
 const Conversion = require('../model/conversionSchema.js');
 const ChefUnitsConversion = require('../model/chefUnitsConversionSchema.js');
-const { calculateTotalPrice } = require("../public/js/orderTerminal.js");
 
 const bcrypt = require("bcrypt");
 const { Types } = mongoose;
-// ...
-
 
 const orderController = {
     getOrder: async function(req, res) {
@@ -39,15 +35,6 @@ const orderController = {
         const orderFailMessage = "Order unfulfilled. Please find below the list of insufficient ingredients required for the dishes you requested.";
         var quantityArray = req.body.quantity;
         var dishIdArray = req.body.dishId;
-        // console.log("Quantity Input::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-        // console.log(typeof quantityArray);
-        // console.log(quantityArray.length);
-        // console.log(quantityArray);
-        // console.log("Dish Input::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-        // console.log(typeof dishIdArray);
-        // console.log(dishIdArray.length);
-        // console.log(dishIdArray);
-        
 
         for(var i = 0; i < quantityArray.length; i++){
           console.log("loop1")
@@ -65,19 +52,6 @@ const orderController = {
             console.log("inner loop1")
             var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
 
-            // INGREDIENT IN RECIPE:
-            // metricWeight      "150.5"
-            // metricUnitID      "64a5804ea792248175d204e7" // GRAMS IN .UNITS
-            // chefWeight        "200.25"
-            // chefUnitID        "64a451bb9a494ecb0fd7216b"
-            
-            // INGREDIENT IN INVENTORY:
-            // _id              "64a6b7b31731ba58e9a55822"
-            // name             "carrots"
-            // category         "dry"
-            // unitID           "64a5804ea792248175d204e8" // KG IN .UNITS
-            // totalNetWeight   "1"
-            // reorderPoint     "0"
             var conversion = await ChefUnitsConversion.findOne({ 
                                                   initialUnitId: ingredientInRecipe.chefUnitID,
                                                   convertedUnitId: ingredientInInventory.unitID
@@ -97,19 +71,13 @@ const orderController = {
             }
           }
         }
-
+      
         console.log("FINAL CHECK (viable)")
         console.log(orderIsViable)
 
         console.log("FINAL CHECK (lackingIngredients)")
         console.log(lackingIngredients)
-
-        // TEREL INSERT HERE //////////////////////////////////
-        // If yes: 
-            // CALCULATE Total Price (via quantityArray and dishIdArray)
-            // INSERT into order table
-            // INSERT into order item table
-            // UPDATE ingredients/stock
+        
             var proceedWithOrder = true; // based on orderIsViable (do a loop maybe)
             for (var i = 0; i < orderIsViable.length; i++){
               if (!orderIsViable[i])
@@ -131,31 +99,51 @@ const orderController = {
               }
               
               console.log("Total Price: " + totalPrice);
+              
               // TODO:
                   // INSERT into order table
                   // INSERT into order item table
-                  // UPDATE ingredients/stock
+                  // SUCCESSFUL INSERTION ONLY WORKS IF THERE ARE MORE THAN 1 ITEMS WHEN CREATING ORDERS
 
-              // Create New Order
-              // var newOrder = new Order({
-              //     totalPrice: totalPrice,
-              //     date: new Date(),
-              //     takenBy: req.session.userName
-              // });
+              //Create New Order
+              var newOrder = new Order({
+                  totalPrice: totalPrice,
+                  date: new Date(),
+                  takenBy: req.session.userName
+              });
   
-              // newOrder.save().then(docs => {
-              //   for (var i = 0; i < dishIdArray.length; i++){
-              //     var newOrderItem = new OrderItem({
-              //         orderID: newOrder._id,
-              //         dishID: dishIdArray[i]
-              //     });
+              newOrder.save().then(async (docs) => {
+                for (var i = 0; i < dishIdArray.length; i++){
+                  console.log("Index:", i);
+                  console.log("dishIdArray[i]:", dishIdArray);
+                  console.log("quantityArray[i]:", quantityArray);
+                  var newOrderItem = new OrderItem({
+                      orderID: newOrder._id,
+                      dishID: dishIdArray[i],
+                      qty: quantityArray[i]
+                  });
   
-              //     newOrderItem.save().then(docs => {
-              //       // TODO:
-              //       // UPDATE ingredients/stock
-              //     });
-              //   }
-              // });
+                  newOrderItem.save();
+
+                  //TODO: UPDATE ingredients/stock
+                  // for(var i = 0; i < dishIdArray.length; i++){
+                  //     var dishID = dishIdArray;
+                  //     var quantity = quantityArray[i];
+
+                  //     var dishRecipe = await DishRecipe.findOne({dishID: dishID})
+
+                  //     var conversionFactor = conversion.conversionFactor;
+
+                  //     for(var ingredientInRecipe of dishRecipe.ingredients){
+                  //       var ingredientID = ingredientInRecipe.ingredient;
+                  //       var ingredientQuantity = ingredientInRecipe.chefWeight * quantity * conversionFactor
+
+                  //       await Ingredient.findByIdAndUpdate(ingredientID, { $inc: {totalNetWeight: -ingredientQuantity}})
+                  //     }    
+                  //   }
+
+                  }
+              });
 
               res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
                                                       lackingIngredients: []
@@ -166,16 +154,10 @@ const orderController = {
                                                       lackingIngredients: lackingIngredients
               });
           }
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
       }
       catch(error){
           console.error(error);
       }
-    
-    
     },
-
 };
 module.exports = orderController;

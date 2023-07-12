@@ -13,8 +13,7 @@ const orderSchema = new Schema( {
     },
 
     takenBy: {
-        type: Schema.Types.ObjectId,
-        ref: "userName",
+        type: String,
         required: true
     }
 });
