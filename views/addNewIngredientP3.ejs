@@ -41,10 +41,11 @@
             <div class="form-group form-align-left">
                 <label>Unit</label>
                 <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="width: 100%;" required>
-                <option disabled selected value> -- Select Unit -- </option>
-                <!-- For Loop -> IngredientWithUnitSymbol -->
-    
-            </select>
+                    <option disabled selected value> -- Select Unit -- </option>
+                    <% for(i = 0; i < ingredientVariants.length; i++){ %>
+                        <option value="<%= ingredientVariants[i]._id %>"><%= ingredientVariants[i].name %></option>
+                    <% } %>
+                </select>
             </div>
             <br/>
 
