@@ -13,7 +13,7 @@ const addDishController = {
     getAddDish: async function(req, res) {
         var categories = await DishCategory.find({});
         var ingredients = await Ingredients.find({});
-        var units = await ChefUnits.find({});
+        var units = await Units.find({});
         res.render('addDish', {categories, ingredients, units});
     },
 
@@ -70,7 +70,7 @@ const addDishController = {
 
         if(temp[0].length == 1){
             let ingre = await Ingredients.findOne({ name: req.body.ingredient});
-            let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit});
+            let unit = await Units.findOne({ unitName: req.body.selectUnit});
             if(ingre && unit){
                 ingreTable.push([ingre._id,req.body.inputAmount,unit._id]);
             }
@@ -81,7 +81,7 @@ const addDishController = {
 
                 // }
                 let ingre = await Ingredients.findOne({ name: req.body.ingredient[i]});
-                let unit = await ChefUnits.findOne({ unitName: req.body.selectUnit[i]});
+                let unit = await Units.findOne({ unitName: req.body.selectUnit[i]});
                 for (let j = 0; j < i; j++) {
                     if (req.body.ingredient[i] == req.body.ingredient[j]) {
                         req.flash('error_msg', 'Duplicate Entry, Please input a different one')
