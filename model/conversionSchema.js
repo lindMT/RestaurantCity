@@ -69,4 +69,19 @@ const conversionSchema = new Schema({
         - 0.030
 */
 
+/* Sample Data from chefUnitsConversion.json order (added to bottom):
+    - Cup to Gram 
+    - Cup to Kilogram 
+    - Cup to Liter
+    - Cup to Milliliter
+    - Tablespoon to Gram
+    - Tablespoon to Kilogram
+    - Tablesppon to Liter
+    - Tablesppon to Milliliter
+    - Teaspoon to Gram
+    - Teaspoon to Kilogram
+    - Teaspoon to Liter
+    - Teaspoon to Milliliter
+*/
+
 module.exports = mongoose.model('conversion', conversionSchema);

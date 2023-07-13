@@ -29,4 +29,26 @@
   "unitName": "Liter",
   "unitSymbol": "L",
   "category": "Wet"
+},
+{
+  "_id": {
+    "$oid": "64a451bb9a494ecb0fd7216b"
+  },
+  "unitName": "Cup",
+  "unitSymbol": "cup",
+  "category": "both"
+},{
+  "_id": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "unitName": "Tablespoon",
+  "unitSymbol": "tbsp",
+  "category": "both"
+},{
+  "_id": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "unitName": "Teaspoon",
+  "unitSymbol": "tsp",
+  "category": "both"
 }]
