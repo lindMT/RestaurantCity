@@ -2,31 +2,23 @@
 
 <!-- TODO: Add later to CSS file -->
 <style>
-    #record-card{
+    #add-ni-card {
         margin: auto;
         width: 600px;
     }
-
-    #record-others-field{
-        display: flex;
-    }
-</style>    
-
-<div id="record-card" class="card shadow">
-    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
+</style>
+<div id="add-ni-card" class="card shadow">
     <div>
-        <h1 style="text-align: center; padding: 5px;">Record Purchase</h1>
+        <h1 style="text-align: center; padding: 5px;">Record First Purchase</h1>
     </div>
     <hr/>
-
     <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
     <div>
-        <p style="text-align: center;">Before you record your purchase, you must first select the ingredient which you have bought (MUST exist in the inventory list; Otherwise, add it first via <a href="/addNewIngredient">Add New Ingredient</a> module).</p>
+        <p style="text-align: center;">Please select the ingredient that you will be recording the first purchase of.</p>
+        <p style="text-align: center;">If the ingredient to be recorded has ALREADY BEEN BOUGHT before, proceed to <a href="#">Record Purchase</a>. If it does not exist in the inventory, proceed to <a href="#">Add Ingredient</a>.</p>
         <br/>
     </div>
-
-    <!-- TODO: Backend form -->
-    <form method="post" action="/recordAddtl/p2">
+    <form method="post" action="/recordFirst/p2">
         <div class="form-group">
             <label>Ingredient Name</label>
             <!-- TODO: Translate Style to CCS -->
@@ -43,8 +35,9 @@
         <br/>
 
         <hr/>
-        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Proceed to Record Purchase</button>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Proceed to Next Step</button>
     </form>
+
 </div>
 
 <%- include("partials/footer") -%>

@@ -1,3 +1,5 @@
+// TODO: Remove categories if tatanggalin from DB
+
 function addInputFields(){
     var divOthersId = document.getElementById("discard-others-field");
 

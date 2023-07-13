@@ -1,0 +1,46 @@
+<%- include("partials/header") -%>
+
+<!-- TODO: Add later to CSS file -->
+<style>
+    #add-ni-card {
+        margin: auto;
+        width: 600px;
+    }
+</style>
+<div id="add-ni-card" class="card shadow">
+    <div>
+        <h1 style="text-align: center; padding: 5px;">Add New Ingredient</h1>
+    </div>
+    <hr/>
+    <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
+    <div>
+        <p style="text-align: center;">Fill-out the fields by inputting the details of the NEW ingredient.</p>
+        <p style="text-align: center;">If the ingredient to be added ALREADY EXISTS in the inventory, proceed to <a href="/recordFirst/p1">Record First Purchase</a>.</p>
+        <br/>
+    </div>
+    <form method="post" action="/addNewIngredient/process">
+        <div class="form-group form-align-left">
+            <label>Ingredient Name</label>
+            <input type="text" name="ingreName" placeholder="e.g. Cabbage, Sesame Oil, Beef" min="1" class="form-control" style="text-align: left; width: 100%;">
+        </div>
+        <br/>
+
+        <div class="form-group form-align-left">
+            <label>Default Unit</label>
+            <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="margin-top: 10px; width: 100%;" required>
+                <option disabled selected value> -- Select Unit -- </option>
+                <% for(let i = 0; i < units.length; i++){ %>
+                    <option value="<%= units[i].unitSymbol %>"><%= units[i].unitSymbol %> (<%= units[i].unitName %>s)</option>
+                <% } %>
+            </select>
+        </div>
+        <br/>
+        <hr/>
+
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Add to Inventory</button>
+    </form>
+</div>
+
+<script src="/js/addNewIngredient.js"></script>
+
+<%- include("partials/footer") -%>

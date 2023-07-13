@@ -9,175 +9,199 @@ const bcrypt = require("bcrypt");
 
 const addIngreController = {
     getAddIngre: async(req, res) => {
-        const foundIngredients = await Ingredient.find().sort({ name: 1 });
+        // const foundIngredients = await Ingredient.find().sort({ name: 1 });
 
-        await res.render('addNewIngredientP1', {
-            ingredients: foundIngredients
-        })
+        // await res.render('addNewIngredient', {
+        //     ingredients: foundIngredients
+        // })
+        const foundUnits = await Unit.find();
+
+        await res.render('addNewIngredient', {
+            units: foundUnits
+        });
     },
 
-    postAddIngre1: async(req, res) => {
-        if (req.body.ingreId === "others") {
-            let newIngredientName = req.body.ingreName
+    postAddIngre: async(req, res) => {
+        const inputName = req.body.ingreName
+        const inputUnit = req.body.ingreUnit
 
-            return res.render('addNewIngredientP2', {
-                ingredient: newIngredientName
-            })
-        } else {
-            // TODO: Found Ingredient must have UNIT SYMBOLS (Map)
-            const foundIngredient = await Ingredient.findById(req.body.ingreId);
-            let ingredientVariations = await IngreVariation.find({ ingreID: req.body.ingreId });
-            // console.log(ingredientVariations);
+        const foundUnit = await Unit.findOne({unitSymbol: inputUnit})
 
-            // Retrieve the unit for the found ingredient
-            let unit = await Unit.findById(foundIngredient.unitID);
+        const newIngredient = new Ingredient({
+            name: inputName,
+            unitID: foundUnit,
+            totalNetWeight: 0,
+            reorderPoint: 0
+        });
 
-            // Retrieve the unit symbols for ingredient variations
-            const ingredientVariationsWithUnitSymbols = await Promise.all(
-                ingredientVariations.map(async(variation) => {
-                    const unit = await Unit.findById(variation.unitID);
-                    const unitSymbol = unit ? unit.unitSymbol : '';
-                    return {
-                        ...variation.toObject(),
-                        unitSymbol,
-                    };
-                })
-            );
+        await newIngredient.save();
+        
+        // TODO: To be changed into a page
+        res.send("Done")
+    }
 
-            // console.log(ingredientVariationsWithUnitSymbols);
+    // postAddIngre1: async(req, res) => {
+    //     if (req.body.ingreId === "others") {
+    //         let newIngredientName = req.body.ingreName
 
-            return res.render('addNewIngredientP3', {
-                ingredient: foundIngredient,
-                ingredientVariants: ingredientVariationsWithUnitSymbols,
-            });
-        }
-    },
+    //         return res.render('addNewIngredientP2', {
+    //             ingredient: newIngredientName
+    //         })
+    //     } else {
+    //         // TODO: Found Ingredient must have UNIT SYMBOLS (Map)
+    //         const foundIngredient = await Ingredient.findById(req.body.ingreId);
+    //         let ingredientVariations = await IngreVariation.find({ ingreID: req.body.ingreId });
+    //         // console.log(ingredientVariations);
 
-    postAddIngre2a: async(req, res) => {
-        // Access the ingredient and ingredient variations from the request body
-        const newIngredientName = req.body.ingredientName
+    //         // Retrieve the unit for the found ingredient
+    //         let unit = await Unit.findById(foundIngredient.unitID);
 
+    //         // Retrieve the unit symbols for ingredient variations
+    //         const ingredientVariationsWithUnitSymbols = await Promise.all(
+    //             ingredientVariations.map(async(variation) => {
+    //                 const unit = await Unit.findById(variation.unitID);
+    //                 const unitSymbol = unit ? unit.unitSymbol : '';
+    //                 return {
+    //                     ...variation.toObject(),
+    //                     unitSymbol,
+    //                 };
+    //             })
+    //         );
 
-        // Check if the ingredient name already exists in the database
-        const existingIngredient = await Ingredient.findOne({ name: newIngredientName });
+    //         // console.log(ingredientVariationsWithUnitSymbols);
 
-        const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
+    //         return res.render('addNewIngredientP3', {
+    //             ingredient: foundIngredient,
+    //             ingredientVariants: ingredientVariationsWithUnitSymbols,
+    //         });
+    //     }
+    // },
 
-
-        if (!existingIngredient) { //if ingredient does not exist
-            const totalNetWeight = req.body.ingreNetWt * req.body.ingreQty
-            const newIngredient = new Ingredient({
-                name: newIngredientName,
-                category: req.body.ingreCategory,
-                unitID: unit._id,
-                totalNetWeight: totalNetWeight,
-                reorderPoint: 0
-            });
-
-            // Save the new ingredient to the database
-            await newIngredient.save();
-
-
-            let variationName;
-            if (req.body.ingreVariantName === "") {
-                variationName = req.body.ingreNetWt + " " + unit.unitSymbol
-            } else {
-                variationName = req.body.ingreVariantName;
-            }
-
-            const newVariant = new IngreVariation({
-                name: variationName,
-                ingreID: newIngredient._id,
-                unitID: newIngredient.unitID,
-                netWeight: req.body.ingreNetWt
-            });
-
-            await newVariant.save();
+    // postAddIngre2a: async(req, res) => {
+    //     // Access the ingredient and ingredient variations from the request body
+    //     const newIngredientName = req.body.ingredientName
 
 
-            //TO-DO:
-            // 1. add audit
-            // 2. error checking
-            res.send("Added ingre");
-        }
-    },
+    //     // Check if the ingredient name already exists in the database
+    //     const existingIngredient = await Ingredient.findOne({ name: newIngredientName });
+
+    //     const unit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
 
 
-    postAddIngre2b: async(req, res) => {
-        const ingredient = JSON.parse(req.body.ingredient);
-        // const ingredientVariants = req.body.ingredientVariants;
-        const inputUnit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
-        const inputQty = req.body.ingreQty;
+    //     if (!existingIngredient) { //if ingredient does not exist
+    //         const totalNetWeight = req.body.ingreNetWt * req.body.ingreQty
+    //         const newIngredient = new Ingredient({
+    //             name: newIngredientName,
+    //             category: req.body.ingreCategory,
+    //             unitID: unit._id,
+    //             totalNetWeight: totalNetWeight,
+    //             reorderPoint: 0
+    //         });
 
-        const foundIngredient = await Ingredient.findById(ingredient._id);
-        console.log(foundIngredient._id);
+    //         // Save the new ingredient to the database
+    //         await newIngredient.save();
 
-        if (foundIngredient) {
-            let variationName;
 
-            if (req.body.ingreVariantName === "") {
-                variationName = req.body.ingreNetWt + " " + inputUnit.unitSymbol;
-            } else {
-                variationName = req.body.ingreVariantName;
-            }
+    //         let variationName;
+    //         if (req.body.ingreVariantName === "") {
+    //             variationName = req.body.ingreNetWt + " " + unit.unitSymbol
+    //         } else {
+    //             variationName = req.body.ingreVariantName;
+    //         }
 
-            const existingVariant = await IngreVariation.findOne({
-                name: variationName,
-                ingreID: foundIngredient._id,
-            });
+    //         const newVariant = new IngreVariation({
+    //             name: variationName,
+    //             ingreID: newIngredient._id,
+    //             unitID: newIngredient.unitID,
+    //             netWeight: req.body.ingreNetWt
+    //         });
 
-            if (existingVariant) {
-                // Variant with the same name and ingredient ID already exists
-                return res.status(400).json({
-                    error: 'Variant with the same name and ingredient ID already exists.',
-                });
-            }
+    //         await newVariant.save();
 
-            const newVariant = new IngreVariation({
-                name: variationName,
-                ingreID: foundIngredient._id,
-                unitID: inputUnit._id,
-                netWeight: req.body.ingreNetWt,
-            });
+
+    //         //TO-DO:
+    //         // 1. add audit
+    //         // 2. error checking
+    //         res.send("Added ingre");
+    //     }
+    // },
+
+
+    // postAddIngre2b: async(req, res) => {
+    //     const ingredient = JSON.parse(req.body.ingredient);
+    //     // const ingredientVariants = req.body.ingredientVariants;
+    //     const inputUnit = await Unit.findOne({ unitSymbol: req.body.ingreUnit });
+    //     const inputQty = req.body.ingreQty;
+
+    //     const foundIngredient = await Ingredient.findById(ingredient._id);
+    //     console.log(foundIngredient._id);
+
+    //     if (foundIngredient) {
+    //         let variationName;
+
+    //         if (req.body.ingreVariantName === "") {
+    //             variationName = req.body.ingreNetWt + " " + inputUnit.unitSymbol;
+    //         } else {
+    //             variationName = req.body.ingreVariantName;
+    //         }
+
+    //         const existingVariant = await IngreVariation.findOne({
+    //             name: variationName,
+    //             ingreID: foundIngredient._id,
+    //         });
+
+    //         if (existingVariant) {
+    //             // Variant with the same name and ingredient ID already exists
+    //             return res.status(400).json({
+    //                 error: 'Variant with the same name and ingredient ID already exists.',
+    //             });
+    //         }
+
+    //         const newVariant = new IngreVariation({
+    //             name: variationName,
+    //             ingreID: foundIngredient._id,
+    //             unitID: inputUnit._id,
+    //             netWeight: req.body.ingreNetWt,
+    //         });
 
             
-            try {
-                // Save the new variant to the database
-                await newVariant.save();
+    //         try {
+    //             // Save the new variant to the database
+    //             await newVariant.save();
 
-                // Calculate the totalNetWeight based on unit conversion
-                let totalNetWeight;
-                const foundUnit = await Unit.findById(newVariant.unitID);
+    //             // Calculate the totalNetWeight based on unit conversion
+    //             let totalNetWeight;
+    //             const foundUnit = await Unit.findById(newVariant.unitID);
 
-                if (!foundIngredient.unitID.equals(foundUnit._id)) {
-                    // Use conversion factor
-                    const conFactor = await Conversion.findOne({
-                        initialUnitId: foundUnit._id,
-                        convertedUnitId: foundIngredient.unitID,
-                    });
+    //             if (!foundIngredient.unitID.equals(foundUnit._id)) {
+    //                 // Use conversion factor
+    //                 const conFactor = await Conversion.findOne({
+    //                     initialUnitId: foundUnit._id,
+    //                     convertedUnitId: foundIngredient.unitID,
+    //                 });
 
-                    totalNetWeight = inputQty * (newVariant.netWeight * conFactor.conversionFactor);
-                    console.log("Conversion Factor:", conFactor.conversionFactor);
-                } else {
-                    totalNetWeight = inputQty * newVariant.netWeight;
-                    console.log(foundIngredient.unitID + " = " + foundUnit._id)
-                    console.log(totalNetWeight + "=" + inputQty + "*" + newVariant.netWeight);
-                }
+    //                 totalNetWeight = inputQty * (newVariant.netWeight * conFactor.conversionFactor);
+    //                 console.log("Conversion Factor:", conFactor.conversionFactor);
+    //             } else {
+    //                 totalNetWeight = inputQty * newVariant.netWeight;
+    //                 console.log(foundIngredient.unitID + " = " + foundUnit._id)
+    //                 console.log(totalNetWeight + "=" + inputQty + "*" + newVariant.netWeight);
+    //             }
 
-                // Update the totalNetWeight of the foundIngredient
-                foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWeight);
-                await foundIngredient.save();
+    //             // Update the totalNetWeight of the foundIngredient
+    //             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWeight);
+    //             await foundIngredient.save();
 
-                console.log(newVariant);
-            } catch (error) {
-                // Handle any validation or database-related errors
-                console.error('Error saving new variant:', error);
-                return res.status(500).json({ error: 'Failed to save new variant.' });
-            }
-        } else {
-            return res.status(400).json({ error: 'Invalid or missing ingredient.' });
-        }
-    }
+    //             console.log(newVariant);
+    //         } catch (error) {
+    //             // Handle any validation or database-related errors
+    //             console.error('Error saving new variant:', error);
+    //             return res.status(500).json({ error: 'Failed to save new variant.' });
+    //         }
+    //     } else {
+    //         return res.status(400).json({ error: 'Invalid or missing ingredient.' });
+    //     }
+    // }
 };
 
 

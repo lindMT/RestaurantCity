@@ -6,6 +6,7 @@ const homeController = require('../controller/homeController.js');
 const userController = require('../controller/userController.js');
 const viewInvController = require('../controller/viewInvController.js');
 const addIngreController = require('../controller/addIngreController.js');
+const recordFirstController = require('../controller/recordFirstController.js')
 const recordAddtlController = require('../controller/recordAddtlController.js')
 const manageDishesController = require('../controller/manageDishesController.js');
 const editDishController = require('../controller/editDishController.js');
@@ -45,13 +46,16 @@ app.post("/viewInventory/discard/p2", viewInvController.postDiscard1);
 app.post("/viewInventory/discard/p2/process", viewInvController.postDiscard2);
 
 // Add New Ingredients
-app.get("/addNewIngredient/p1", addIngreController.getAddIngre);
-app.post("/addNewIngredient/p2", addIngreController.postAddIngre1);
-app.post("/addNewIngredient/p2a/process", addIngreController.postAddIngre2a);
-app.post("/addNewIngredient/p2b/process", addIngreController.postAddIngre2b);
+app.get("/addNewIngredient", addIngreController.getAddIngre);
+app.post("/addNewIngredient/process", addIngreController.postAddIngre);
+// app.post("/addNewIngredient/p2", addIngreController.postAddIngre1);
+// app.post("/addNewIngredient/p2a/process", addIngreController.postAddIngre2a);
+// app.post("/addNewIngredient/p2b/process", addIngreController.postAddIngre2b);
 
-
-
+// Record First Purchase
+app.get("/recordFirst/p1", recordFirstController.getRecFirst);
+app.post("/recordFirst/p2", recordFirstController.postRecFirst1);
+app.post("/recordFirst/p2/process", recordFirstController.postRecFirst2);
 
 // Record Addt'l Purchase
 app.get("/recordAddtl/p1", recordAddtlController.getRecAddtl);

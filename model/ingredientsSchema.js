@@ -6,11 +6,6 @@ const ingredientsSchema = new Schema({
         type: String,
         required: true,
     },
-    category: {
-        type: String,
-        enum: ["wet", "dry"],
-        required: true
-    },
     unitID: {
         type: Schema.Types.ObjectId,
         ref: 'units',
