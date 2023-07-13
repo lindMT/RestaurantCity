@@ -4,7 +4,7 @@ const Dish = require('../model/dishSchema.js');
 const DishCategory = require('../model/dishCategorySchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js');
-const ChefUnits = require('../model/chefUnitsSchema.js');
+const Units = require('../model/unitsSchema.js');
 const bcrypt = require("bcrypt");
 
 const manageDishesController = {
@@ -33,7 +33,7 @@ const manageDishesController = {
                     const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
 
                     // Fetch the chefUnit with unitSymbol
-                    const chefUnit = await ChefUnits.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
+                    const chefUnit = await Units.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
 
                     return {
                         ...item,
