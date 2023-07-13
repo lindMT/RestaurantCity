@@ -7,7 +7,6 @@ const Dish = require('../model/dishSchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
 const Category = require('../model/dishCategorySchema.js');
 const Conversion = require('../model/conversionSchema.js');
-const ChefUnitsConversion = require('../model/chefUnitsConversionSchema.js');
 
 const bcrypt = require("bcrypt");
 const { Types } = mongoose;
@@ -52,8 +51,8 @@ const orderController = {
             console.log("inner loop1")
             var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
 
-            var conversion = await ChefUnitsConversion.findOne({ 
-                                                  initialUnitId: ingredientInRecipe.chefUnitID,
+            var conversion = await Conversion.findOne({ 
+                                                  initialUnitId: ingredientInRecipe.unitID,
                                                   convertedUnitId: ingredientInInventory.unitID
                                                 }); //ForDishInInv
             var conversionFactor = conversion.conversionFactor;
@@ -148,8 +147,8 @@ const orderController = {
                     console.log("UPDATE INNER LOOP 2")
                     var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
                 
-                    var conversion = await ChefUnitsConversion.findOne({ 
-                                                          initialUnitId: ingredientInRecipe.chefUnitID,
+                    var conversion = await Conversion.findOne({ 
+                                                          initialUnitId: ingredientInRecipe.unitID,
                                                           convertedUnitId: ingredientInInventory.unitID
                                                         }); //ForDishInInv
                     var conversionFactor = conversion.conversionFactor;
