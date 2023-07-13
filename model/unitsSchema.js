@@ -10,11 +10,6 @@ const unitsSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-    },
-    category: {
-        type: String,
-        enum: ["wet", "dry"],
-        required: true,
     }
 });
 
