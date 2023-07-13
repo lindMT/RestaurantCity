@@ -4,7 +4,6 @@ const Dish = require('../model/dishSchema.js');
 const DishCategory = require('../model/dishCategorySchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js');
-const ChefUnits = require('../model/chefUnitsSchema.js');
 const bcrypt = require("bcrypt");
 
 const manageDishesController = {
