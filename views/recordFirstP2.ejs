@@ -14,8 +14,8 @@
     <hr/>
     <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
     <div>
-        <p style="text-align: center;">Fill-out the fields by inputting the details of the ingredient.</p>
-        <p style="text-align: center;">If the ingredient to be recorded has ALREADY BEEN BOUGHT before, proceed to <a href="#">Record Purchase</a>; If it does not exist in the inventory, proceed to <a href="#">Add Ingredient</a></p></p>
+        <p style="text-align: center;">Fill-out the fields by inputting the details of the ingredient's packaging information.</p>
+        <p style="text-align: center;">You have selected: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
         <br/>
     </div>
     <form method="post" action="#">
@@ -37,14 +37,7 @@
             <label>Unit</label>
             <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="width: 100%;" required>
                 <option disabled selected value> -- Select Unit -- </option>
-                <!-- TODO: REMOVE THESE -->
-                <% if (ingredient.category === "wet") { %>
-                    <option value="mL">mL (Milliliters)</option>
-                    <option value="L">L (Liters)</option>
-                <% } else { %>
-                    <option value="g">g (Grams)</option>
-                    <option value="kg">kg (Kilograms)</option>
-                <% } %>
+                <!-- TODO: ADD DATA; For Loop -->
             </select>
         </div>
         <br/>
