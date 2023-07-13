@@ -100,10 +100,6 @@ const orderController = {
               
               console.log("Total Price: " + totalPrice);
               
-              // TODO:
-                  // INSERT into order table
-                  // INSERT into order item table
-
               //Create New Order
               var newOrder = new Order({
                   totalPrice: totalPrice,
