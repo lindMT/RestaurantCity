@@ -15,6 +15,8 @@ const addDishController = require('../controller/addDishController.js');
 const addCategoryController = require('../controller/addCategoryController.js');
 const inputPhysicalController = require('../controller/inputPhysicalController.js');
 const orderController = require("../controller/orderController.js");
+const addUnitController = require("../controller/addUnitController.js");
+const addConversionController = require("../controller/addConversionController.js");
 
 const app = express();
 
@@ -77,6 +79,12 @@ app.get("/editDish", editDishController.getEditDish)
 // Add Category
 app.get("/addCategory", addCategoryController.getAddCategory)
 app.post("/addCategory/process", addCategoryController.postAddCategory)
+
+// Add Unit
+app.get("/addUnit", addUnitController.getAddUnit)
+
+// Add Conversion
+app.get("/addConversion", addConversionController.getAddConversion)
 
 // View Stock Report
 app.get("/viewStockReport", viewReportController.getPeriodical)
