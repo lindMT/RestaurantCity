@@ -33,7 +33,7 @@ const manageDishesController = {
                     const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
 
                     // Fetch the chefUnit with unitSymbol
-                    const chefUnit = await ChefUnits.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
+                    const chefUnit = await Units.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
 
                     return {
                         ...item,
