@@ -51,12 +51,16 @@
         <div class="form-group" id="record-others-field"></div>
         <br/>
 
-        <div>
-            <label>Quantity</label>
-            <!-- TODO: CSS - Translate Style -->
-            <input type="number" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" style="text-align: left; width: 100%; padding: 5px;" required>
+        <div id="record-purchase-qty-div" class="form-group form-align-left">
+            <button id="record-purchase-qty-btn" class="btn btn-success" onclick="addQty()" style="color: white; width: 100%;">Add Quantity</button>
+            <!-- TODO: Add JS + Fix Frontend -->
+            <!--    1. Add Label
+                    2. Add Input type number
+                    3. Add Remove Btn
+            -->
         </div>
         <br/>
+        <hr/>
 
         <hr/>
         <button type="submit" class="btn btn-submit-count" style="width: 100%;">Update Inventory</button>
@@ -64,5 +68,7 @@
 
     <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
 </div>
+
+<script src="/js/recordPurchase.js"></script>
 
 <%- include("partials/footer") -%>
