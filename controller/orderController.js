@@ -6,10 +6,10 @@ const Ingredient = require('../model/ingredientsSchema.js');
 const Dish = require('../model/dishSchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
 const Category = require('../model/dishCategorySchema.js');
-const Conversion = require('../model/conversionSchema.js');
-
-const bcrypt = require("bcrypt");
-const { Types } = mongoose;
+// const Conversion = require('../model/conversionSchema.js');
+// const bcrypt = require("bcrypt");
+// const { Types } = mongoose;
+var Convert = require('convert-units')
 
 const orderController = {
     getOrder: async function(req, res) {
