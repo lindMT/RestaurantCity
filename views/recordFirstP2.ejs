@@ -32,7 +32,6 @@
         </div>
         <br/>
 
-        <!-- TODO: Category is NEEDED FOR THIS -->
         <div class="form-group form-align-left">
             <label>Unit</label>
             <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="width: 100%;" required>
@@ -41,14 +40,24 @@
             </select>
         </div>
         <br/>
+
+        <div id="record-first-qty-div" class="form-group form-align-left">
+            <button id="record-first-qty-btn" class="btn btn-success" onclick="addQty()" style="color: white; width: 100%;">Add Quantity</button>
+            <!-- TODO: Add JS + Fix Frontend -->
+            <!--    1. Add Label
+                    2. Add Input type number
+                    3. Add Remove Btn
+            -->
+        </div>
+        <br/>
         <hr/>
 
-        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Record First Purchase</button>
+        <button type="submit" class="btn btn-submit-count" onclick="" style="width: 100%;">Record First Purchase</button>
     </form>
 
     <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
 </div>
 
-<!-- <script src="/js/addNewIngredient.js"></script> -->
+<script src="/js/recordFirst.js"></script>
 
 <%- include("partials/footer") -%>
