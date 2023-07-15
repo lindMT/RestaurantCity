@@ -29,10 +29,8 @@
     <form method="post" action="/recordAddtl/p2">
         <div class="form-group">
             <label>Ingredient Name</label>
-            <!-- TODO: Translate Style to CCS -->
             <select name="ingreId" class="form-select form-select-md" style="text-transform: capitalize; width: 100%; padding: 5px;" required>
                 <option disabled selected value> -- Select Ingredient -- </option>
-                <!-- Iterate through each available ingredient -->
                 <% if(ingredients.length > 0) {%>
                     <% ingredients.forEach(ing => { %> 
                         <option value="<%= ing._id %>"><%= ing.name %></option>

@@ -6,6 +6,9 @@ const Conversion = require("../model/conversionSchema.js");
 const purchasedIngre = require("../model/purchasedSchema.js");
 const bcrypt = require("bcrypt");
 
+const convert = require('convert-units');
+
+
 const recordFirstController = {
     getRecFirst: async(req, res) => {
         const foundIngredients = await Ingredient.find().sort({ name: 1 });
@@ -29,43 +32,80 @@ const recordFirstController = {
     },
 
     postRecFirst2: async(req, res) => {
-        var inputId = req.body.ingreId
-        var inputVariantName = req.body.ingreVariantName
-        var inputNetWt = req.body.ingreNetWt
-        var inputUnit = req.body.ingreUnit
-
-        // ingreId
-        // ingreVariantName (optional)
-        // ingreNetWt
-        // ingreUnit
-
         // User Inputs
-        const ingredientId = req.body.ingreId;
-        const ingreVariantName = req.body.ingreVariantName;
-        const inputNetwt = req.body.ingreNetWt;
-        const ingreUnit = req.body.ingreUnit;
-        const ingreQty = 1;
+        const inputId = req.body.ingreId;
+        const inputVariantName = req.body.ingreVariantName;
+        const inputNetWt = req.body.ingreNetWt;
+        const inputUnit = req.body.ingreUnit;
+        
+        // Check if there is quantity later
+        var inputQty = req.body.ingreQty;
+        var newVariant;
 
+        // For updating ingredient
+        const foundIngredient = await Ingredient.findById(inputId)
+        const foundIngredientUnit = await Unit.findById(foundIngredient.unitID)
 
-        const foundUnit = await Unit.findOne({ unitSymbol: ingreUnit });
+        const foundUnit = await Unit.findOne({ unitSymbol: inputUnit });
 
-
-
-        if (ingreVariantName === "") {
-            variationName = req.body.ingreNetWt + " " + foundUnit.unitSymbol
+        if (inputVariantName === "") {
+            variationName = inputNetWt + " " + foundUnit.unitSymbol
         } else {
-            variationName = req.body.ingreVariantName;
+            variationName = inputVariantName;
         }
 
-        const newVariant = new IngreVariation({
+        // TODO: Convert Net Weight (Unit)
+        if (inputQty !== undefined){
+            let totalNetWt = inputNetWt * inputQty
+
+            // Check Unit if NOT same with ingredient default
+            if(inputUnit !== foundIngredientUnit.unitSymbol){
+                totalNetWt = convert(totalNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
+            }
+
+            // Update inventory
+            foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWt);
+        }else{
+            // Update inventory
+            if(inputUnit !== foundIngredientUnit.unitSymbol){
+                inputNetWt = convert(inputNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
+            }
+
+            foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(inputNetWt);
+        }
+
+        await foundIngredient.save();
+        console.log("UPDATED INGREDIENT: " + foundIngredient)
+
+        newVariant = new IngreVariation({
             name: variationName,
-            ingreID: ingredientId,
+            ingreID: inputId,
             unitID: foundUnit._id,
-            netWeight: inputNetwt
+            netWeight: inputNetWt
+        });
+        
+        await newVariant.save();
+        console.log("NEW VARIANT: " + newVariant)
+
+        // Get the current date
+        const currentDate = new Date();
+
+        // Find the user by their username
+        const user = await User.findOne({ userName: req.session.userName });
+        // Get the user ID
+        const userId = user._id;
+
+        //Add ingredient to purchased audit.
+        const auditIngredient = new purchasedIngre({
+            ingreID: foundIngredient._id,
+            date: currentDate,
+            varID: newVariant._id,
+            qty: inputQty,
+            doneBy: userId,
         });
 
-        await newVariant.save();
-        console.log(newVariant)
+        await auditIngredient.save()
+        console.log("NEW PURCHASE: " + auditIngredient)
 
         res.send("Added variant")
 
@@ -113,7 +153,7 @@ const recordFirstController = {
     //             const newIngreVariation = new IngreVariation({
     //                 ingreID: ingredientId,
     //                 unitID: foundUnit._id,
-    //                 netWeight: inputNetWt,
+    //                 netWeight: totalNetWt,
     //             });
 
     //             await newIngreVariation.save();
