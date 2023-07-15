@@ -5,6 +5,7 @@ const IngreVariation = require("../model/ingreVariationsSchema.js");
 const Conversion = require("../model/conversionSchema.js");
 const purchasedIngre = require("../model/purchasedSchema.js");
 const bcrypt = require("bcrypt");
+const convert = require('convert-units');
 
 const recordAddtlController = {
 
@@ -34,52 +35,25 @@ const recordAddtlController = {
             let totalNetWeight = 0;
 
             // User Inputs
-            const ingredientId = req.body.ingreId;
-            const variantId = req.body.ingreNetUnit;
+            const foundIngredient = await Ingredient.findById(req.body.ingreId);
+            const ingreVariation = await IngreVariation.findById(req.body.ingreVariantName);
             const inputQty = req.body.ingreQty;
+            const foundUnitVariant = await Unit.findById(ingreVariation.unitID);
+            const foundUnitIngre = await Unit.findById(foundIngredient.unitID);
 
-            // Other variables
-            const foundIngredient = await Ingredient.findById(ingredientId);
-            let foundVariant;
-
-            if (variantId === "others") {
-                const inputNetWt = req.body.ingreNetWt;
-                const inputUnit = req.body.ingreUnit;
-                const foundUnit = await Unit.findOne({ unitSymbol: inputUnit });
-
-                const newIngreVariation = new IngreVariation({
-                    ingreID: ingredientId,
-                    unitID: foundUnit._id,
-                    netWeight: inputNetWt,
-                });
-
-                await newIngreVariation.save();
-                foundVariant = newIngreVariation;
-            } else {
-                foundVariant = await IngreVariation.findById(variantId);
-            }
-
-            const foundUnit = await Unit.findById(foundVariant.unitID);
-
-            if (!foundIngredient.unitID.equals(foundUnit._id)) {
+            if (!foundIngredient.unitID.equals(ingreVariation.unitID)) {
                 // Use conversion factor
-                const conFactor = await Conversion.findOne({
-                    initialUnitId: foundUnit._id,
-                    convertedUnitId: foundIngredient.unitID,
-                });
-
-                totalNetWeight = inputQty * (foundVariant.netWeight * conFactor.conversionFactor);
-                console.log("Conversion Factor:", conFactor.conversionFactor);
+                const conversionFactor = convert(inputQty).from(foundUnitVariant.unitSymbol).to(foundUnitIngre.unitSymbol);
+                totalNetWeight = ingreVariation.netWeight * conversionFactor;
             } else {
-                totalNetWeight = inputQty * foundVariant.netWeight;
-                console.log(totalNetWeight + "=" + inputQty + "*" + foundVariant.netWeight);
+                totalNetWeight = inputQty * ingreVariation.netWeight;
             }
 
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWeight);
             await foundIngredient.save();
 
             // For prompt
-            let msgUnit = await Unit.findById(foundIngredient.unitID)
+            let msgUnit = await Unit.findById(foundIngredient.unitID);
 
             // Get the current date
             const currentDate = new Date();
@@ -90,11 +64,11 @@ const recordAddtlController = {
             // Get the user ID
             const userId = user._id;
 
-            //Add ingredient to purchased audit.
+            // Add ingredient to purchased audit
             const auditIngredient = new purchasedIngre({
                 ingreID: foundIngredient._id,
                 date: currentDate,
-                varID: foundVariant._id,
+                varID: ingreVariation._id,
                 qty: inputQty,
                 doneBy: userId,
             });
@@ -108,12 +82,12 @@ const recordAddtlController = {
                 unit: msgUnit,
                 totalNet: totalNetWeight
             });
-
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred while updating the ingredient's running total.");
         }
     }
+
 }
 
 module.exports = recordAddtlController;
