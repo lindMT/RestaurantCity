@@ -97,7 +97,8 @@ app.get("/viewCustom", viewReportController.getCustom)
 app.get("/detailedReport/Milk", viewReportController.getDetailed)
 
 // Input Physical Count
-app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
+app.get("/inputPhysicalCount/p1", inputPhysicalController.getInputPhysCount)
+app.post("/inputPhysicalCount/p2", inputPhysicalController.postInputPhysCount1)
 
 // Order Terminal
 app.get("/viewOrderTerminal", orderController.getOrder)

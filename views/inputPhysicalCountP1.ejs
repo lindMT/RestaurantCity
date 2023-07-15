@@ -1,0 +1,48 @@
+<%- include("partials/header") -%>
+
+<!-- TODO: Add later to CSS file -->
+<style>
+    #record-card{
+        margin: auto;
+        width: 600px;
+    }
+
+    #record-others-field{
+        display: flex;
+    }
+</style>    
+
+<div id="record-card" class="card shadow">
+    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
+    <div>
+        <h1 style="text-align: center; padding: 5px;">Physical Count</h1>
+    </div>
+    <hr/>
+
+    <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
+    <div>
+        <p style="text-align: center;">Select an ingredient which you will be verifying the stock count of.</p>
+        <br/>
+    </div>
+
+    <!-- TODO: Backend form -->
+    <form method="post" action="/inputPhysicalCount/p2">
+        <div class="form-group">
+            <label>Ingredient Name</label>
+            <select name="ingreId" class="form-select form-select-md" style="text-transform: capitalize; width: 100%; padding: 5px;" required>
+                <option disabled selected value> -- Select Ingredient -- </option>
+                <% if(ingredients.length > 0) {%>
+                    <% ingredients.forEach(ing => { %> 
+                        <option value="<%= ing._id %>"><%= ing.name %></option>
+                    <% }) %> 
+                <% } %>
+            </select>
+        </div>
+        <br/>
+
+        <hr/>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Proceed to Next Step</button>
+    </form>
+</div>
+
+<%- include("partials/footer") -%>

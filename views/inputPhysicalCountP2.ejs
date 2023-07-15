@@ -1,0 +1,50 @@
+<%- include("partials/header") -%>
+<div class="physical-card-holder">
+
+    <div class="card shadow physical-card">
+        <div class="physical-header">
+            <h1>Physical Count</h1>
+            <button type="submit" class="btn btn-submit-count">Submit Physical Count</button>
+        </div>
+        <hr/>
+
+        <p>
+            Input the physical count for each of the selected ingredient's type / packaging. If necessary, also add the numerical details for partials/used ingredients.
+        </p>
+        <br/>
+
+        <h4 style="text-transform: uppercase;"><b><%= ingredient.name %></b></h4>
+        <p>Current Running Total: <b><u><%= ingredient.totalNetWeight %> <%= ingredientUnit %></u></b></p>
+        <hr/>
+        <div class="center-table">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Sizing Option</th>
+                    <th scope="col">Net Weight</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <!-- For Loop for variation -->
+                    <% for(let i = 0; i < ingredientVariations.length; i++){ %>
+                       <tr> 
+                           <td><%= ingredientVariations[i].name %></td>
+                           <td><%= ingredientVariations[i].netWeight %></td>
+                           <td><%= ingredientVariations[i].unitSymbol %></td>
+                           <td>
+                               <input type="number" name="PUT_NAME_HERE_WTF" placeholder="Qty" min="0" class="form-control" style="margin: auto; width: 80px;" required>
+                           </td>
+                       </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <br/>
+
+        <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
+    </div>
+</div>
+
+<%- include("partials/footer") -%>
