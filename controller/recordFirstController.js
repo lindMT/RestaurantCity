@@ -33,6 +33,37 @@ const recordFirstController = {
         // ingreVariantName (optional)
         // ingreNetWt
         // ingreUnit
+
+        // User Inputs
+        const ingredientId = req.body.ingreId;
+        const ingreVariantName = req.body.ingreVariantName;
+        const inputNetwt = req.body.ingreNetWt;
+        const ingreUnit = req.body.ingreUnit;
+        const ingreQty = 1;
+
+
+        const foundUnit = await Unit.findOne({ unitSymbol: ingreUnit });
+
+
+
+        if (ingreVariantName === "") {
+            variationName = req.body.ingreNetWt + " " + foundUnit.unitSymbol
+        } else {
+            variationName = req.body.ingreVariantName;
+        }
+
+        const newVariant = new IngreVariation({
+            name: variationName,
+            ingreID: ingredientId,
+            unitID: foundUnit._id,
+            netWeight: inputNetwt
+        });
+
+        await newVariant.save();
+        console.log(newVariant)
+
+        res.send("Added variant")
+
     },
 
     // getRecAddtl: async(req, res) => {

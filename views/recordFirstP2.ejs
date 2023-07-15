@@ -1,61 +1,63 @@
 <%- include("partials/header") -%>
 
-<!-- TODO: Add later to CSS file -->
-<style>
-    #add-ni-card {
-        margin: auto;
-        width: 600px;
-    }
-</style>
-<div id="add-ni-card" class="card shadow">
-    <div>
-        <h1 style="text-align: center; padding: 5px;">Record First Purchase</h1>
-    </div>
-    <hr/>
-
-    <div>
-        <p style="text-align: center;">Fill-out the fields by inputting the details of the ingredient's packaging information.</p>
-        <p style="text-align: center;">You have selected: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
-        <br/>
-    </div>
-
-    <!-- TODO: ADD ACTION -->
-    <form method="post" action="#">
-        <input type="hidden" name="ingreId" value="<%= ingredient._id %>">
-
-        <div class="form-group form-align-left">
-            <label>Sizing Option Name <i>(Optional)</i></label>
-            <input type="text" name="ingreVariantName" placeholder="e.g. Small, Large, Coke Sakto" min="1" class="form-control" style="text-align: left; width: 100%;">
+    <!-- TODO: Add later to CSS file -->
+    <style>
+        #add-ni-card {
+            margin: auto;
+            width: 600px;
+        }
+    </style>
+    <div id="add-ni-card" class="card shadow">
+        <div>
+            <h1 style="text-align: center; padding: 5px;">Record First Purchase</h1>
         </div>
-        <br/>
-
-        <div class="form-group form-align-left">
-            <label>Net Weight</label>
-            <input type="number" name="ingreNetWt" placeholder="Minimum: 1" min="1" class="form-control" style="text-align: left; width: 100%;" required>
-        </div>
-        <br/>
-
-        <div class="form-group form-align-left">
-            <label>Unit</label>
-            <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="width: 100%;" required>
-                <option disabled selected value> -- Select Unit -- </option>
-                <!-- TODO: ADD DATA; For Loop -->
-            </select>
-        </div>
-        <br/>
-
-        <div id="record-first-qty-div" class="form-group form-align-left">
-            <button id="record-first-qty-btn" class="btn btn-success" onclick="addQty()" style="color: white; width: 100%;">Add Quantity</button>
-        </div>
-        <br/>
         <hr/>
 
-        <button type="submit" class="btn btn-submit-count" onclick="" style="width: 100%;">Record First Purchase</button>
-    </form>
+        <div>
+            <p style="text-align: center;">Fill-out the fields by inputting the details of the ingredient's packaging information.</p>
+            <p style="text-align: center;">You have selected: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
+            <br/>
+        </div>
 
-    <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
-</div>
+        <!-- TODO: ADD ACTION -->
+        <form method="post" action="/recordFirst/p2/process">
+            <input type="hidden" name="ingreId" value="<%= ingredient._id %>">
 
-<script src="/js/recordFirst.js"></script>
+            <div class="form-group form-align-left">
+                <label>Sizing Option Name <i>(Optional)</i></label>
+                <input type="text" name="ingreVariantName" placeholder="e.g. Small, Large, Coke Sakto" min="1" class="form-control" style="text-align: left; width: 100%;">
+            </div>
+            <br/>
 
-<%- include("partials/footer") -%>
+            <div class="form-group form-align-left">
+                <label>Net Weight</label>
+                <input type="number" name="ingreNetWt" placeholder="Minimum: 1" min="1" class="form-control" style="text-align: left; width: 100%;" required>
+            </div>
+            <br/>
+
+            <div class="form-group form-align-left">
+                <label>Unit</label>
+                <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="width: 100%;" required>
+                <option disabled selected value> -- Select Unit -- </option>
+                <% for(let i = 0; i < units.length; i++){ %>
+                    <option value="<%= units[i].unitSymbol %>"><%= units[i].unitSymbol %> (<%= units[i].unitName %>s)</option>
+                <% } %>
+            </select>
+            </div>
+            <br/>
+
+            <div id="record-first-qty-div" class="form-group form-align-left">
+                <button id="record-first-qty-btn" class="btn btn-success" onclick="addQty()" style="color: white; width: 100%;">Add Quantity</button>
+            </div>
+            <br/>
+            <hr/>
+
+            <button type="submit" class="btn btn-submit-count" onclick="" style="width: 100%;">Record First Purchase</button>
+        </form>
+
+        <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
+    </div>
+
+    <script src="/js/recordFirst.js"></script>
+
+    <%- include("partials/footer") -%>
