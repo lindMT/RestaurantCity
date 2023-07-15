@@ -1,3 +1,57 @@
 <%- include("partials/header") -%>
-<!-- TODO -->
-<%- include("partials/footer") -%>
+<style>
+    .conversion-form-holder {
+    display:flex; 
+    justify-content: center; 
+    text-align: center;
+}
+
+.conversion-form {
+    max-width: 30vw; 
+    min-height: fit-content; 
+    display:flex; 
+    justify-content: center; 
+    text-align: center;
+}
+</style>
+    <div class="conversion-form-holder">
+        <div class="card shadow conversion-form">
+            <h1>Add a Unit Conversion</h1>
+            <hr>
+            Enter a conversion for the units.
+            <form action="" method="post">
+                <br>
+                <div id="form-row">
+                    <div id="form-row-content" style="display: flex;">
+                        <div class="form-unit">
+                            <label for="unit">Unit</label>
+                            <select class="form-select" id="startUnit" name="unit"
+                                aria-label="Default select example" required>
+                                <option disabled selected value>Select Unit</option>
+                                <!-- TODO: Backend -->
+                            </select>
+                        </div>
+
+                        <!-- Arrow Icon Div -->
+                        <div class="form-group" style="margin-left: 15px; margin-top: 9%;">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                        <!-- Arrow Icon Div -->
+
+                        <div class="form-convert-into-unit" style="margin-left: 10px;">
+                            <label for="convertIntoUnit">Convert into</label>
+                            <select class="form-select" name="convertIntoUnit" id="convertIntoUnit"
+                                aria-label="Default select example" required>
+                                <option disabled selected value>Select Unit to Convert</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <hr style="margin-top: 4rem;">
+
+                <button type="submit" class="btn btn-submit-count w-100">Submit</button>
+            </form>
+        </div>
+    </div>
+    <%- include("partials/footer") -%>
