@@ -27,8 +27,6 @@
     </div>
 
     <form method="post" action="/recordAddtl/p2/process">
-        <input id="record-select-category" name="ingreCategory" type="hidden" value="<%= ingredient.category %>"/>
-        <% console.log(ingredient.category) %>
         <input name="ingreId" type="hidden" value="<%= ingredient._id %>"/>
         <% console.log(ingredient._id) %>
 
@@ -53,11 +51,6 @@
 
         <div id="record-purchase-qty-div" class="form-group form-align-left">
             <button id="record-purchase-qty-btn" class="btn btn-success" onclick="addQty()" style="color: white; width: 100%;">Add Quantity</button>
-            <!-- TODO: Add JS + Fix Frontend -->
-            <!--    1. Add Label
-                    2. Add Input type number
-                    3. Add Remove Btn
-            -->
         </div>
         <br/>
 

@@ -29,7 +29,7 @@ const recordFirstController = {
     },
 
     postRecFirst2: async(req, res) => {
-
+        
     },
 
     // getRecAddtl: async(req, res) => {
