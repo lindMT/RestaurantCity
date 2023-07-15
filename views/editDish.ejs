@@ -13,7 +13,8 @@
       <hr>
       <div>
          <!-- Dish Name Code below-->
-        <p><h3>Sisig Special</h3></p>
+         <input class="form-check-input select" type="hidden" value="<%= dish.name %>" name="dishName" id="foodName1">
+        <p><h3><%= dish.name %></h3></p>
         <br/>
       </div>
 
@@ -27,10 +28,19 @@
           <div class="form-category" style="width: 84%">
             <label for="inputCategory">Category</label>
             <select class="form-select" id="inputCategory" name="category" required>
-              <option disabled selected value>Food Category</option>
+              
+              
+              <% if(categories.length > 0) {%>
+                <% categories.forEach(categories => { %>  
+                  <% if(category.category == categories.category) {%>
+              <option disabled selected value><%= categories.category %></option>
               <!-- TODO: Backend -->
-                    <option style=text-transform:capitalize value="">Category</option>
+              <% } %>
+                    <option style=text-transform:capitalize value="<%= categories.category %>"><%= categories.category %></option>
+                <% }) %> 
+            <% } %>
             </select>
+         
           </div>
           <br>
 
@@ -40,7 +50,7 @@
             <div class="input-group">
               <span class="input-group-text">Php</span>
               <input type="number" class="form-control" name="Amount" id="inputPrice" min="1"
-                placeholder="e.g. 150.00" style="text-align: left;" required>
+                placeholder="e.g. 150.00" style="text-align: left;" required><%= dish.price %>
             </div>
           </div>
 

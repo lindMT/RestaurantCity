@@ -29,6 +29,11 @@ const recordFirstController = {
     },
 
     postRecFirst2: async(req, res) => {
+        var inputId = req.body.ingreId
+        var inputVariantName = req.body.ingreVariantName
+        var inputNetWt = req.body.ingreNetWt
+        var inputUnit = req.body.ingreUnit
+
         // ingreId
         // ingreVariantName (optional)
         // ingreNetWt
