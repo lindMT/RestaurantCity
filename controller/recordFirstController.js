@@ -29,7 +29,10 @@ const recordFirstController = {
     },
 
     postRecFirst2: async(req, res) => {
-        
+        // ingreId
+        // ingreVariantName (optional)
+        // ingreNetWt
+        // ingreUnit
     },
 
     // getRecAddtl: async(req, res) => {

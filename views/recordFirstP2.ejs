@@ -12,13 +12,17 @@
         <h1 style="text-align: center; padding: 5px;">Record First Purchase</h1>
     </div>
     <hr/>
-    <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
+
     <div>
         <p style="text-align: center;">Fill-out the fields by inputting the details of the ingredient's packaging information.</p>
         <p style="text-align: center;">You have selected: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
         <br/>
     </div>
+
+    <!-- TODO: ADD ACTION -->
     <form method="post" action="#">
+        <input type="hidden" name="ingreId" value="<%= ingredient._id %>">
+
         <div class="form-group form-align-left">
             <label>Sizing Option Name <i>(Optional)</i></label>
             <input type="text" name="ingreVariantName" placeholder="e.g. Small, Large, Coke Sakto" min="1" class="form-control" style="text-align: left; width: 100%;">
@@ -27,7 +31,6 @@
 
         <div class="form-group form-align-left">
             <label>Net Weight</label>
-            <!-- TODO: CSS - Translate Style -->
             <input type="number" name="ingreNetWt" placeholder="Minimum: 1" min="1" class="form-control" style="text-align: left; width: 100%;" required>
         </div>
         <br/>
@@ -43,11 +46,6 @@
 
         <div id="record-first-qty-div" class="form-group form-align-left">
             <button id="record-first-qty-btn" class="btn btn-success" onclick="addQty()" style="color: white; width: 100%;">Add Quantity</button>
-            <!-- TODO: Add JS + Fix Frontend -->
-            <!--    1. Add Label
-                    2. Add Input type number
-                    3. Add Remove Btn
-            -->
         </div>
         <br/>
         <hr/>

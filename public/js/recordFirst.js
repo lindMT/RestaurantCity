@@ -29,7 +29,6 @@ function addQty(){
         var qtyRemove = document.createElement("button");
         qtyRemove.setAttribute('id', 'record-first-qty-remove-btn');
         qtyRemove.setAttribute('class', 'btn btn-danger');
-        qtyRemove.setAttribute('name', 'ingreQty');
         qtyRemove.setAttribute('style', 'margin-top: 25px; width: 100%;');
         qtyRemove.textContent = "Remove Quantity Input Field";
         qtyRemove.onclick = addQty;
