@@ -25,7 +25,7 @@ const addIngreController = {
         const inputName = req.body.ingreName
         const inputUnit = req.body.ingreUnit
 
-        const foundUnit = await Unit.findOne({unitSymbol: inputUnit})
+        const foundUnit = await Unit.findOne({ unitSymbol: inputUnit })
 
         const newIngredient = new Ingredient({
             name: inputName,
@@ -35,9 +35,9 @@ const addIngreController = {
         });
 
         await newIngredient.save();
-        
+
         // TODO: To be changed into a page
-        res.send("Done")
+        return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: newIngredient, unit: foundUnit });
     }
 
     // postAddIngre1: async(req, res) => {
@@ -164,7 +164,7 @@ const addIngreController = {
     //             netWeight: req.body.ingreNetWt,
     //         });
 
-            
+
     //         try {
     //             // Save the new variant to the database
     //             await newVariant.save();
