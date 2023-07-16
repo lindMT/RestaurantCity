@@ -104,7 +104,7 @@
 
             <% recipe.forEach(function(recipes) { %>
               <%recipes.ingredients.forEach((ingre, index) =>  {%>
-            <div class="form-row" id="form-row-content" style="display: flex;">
+            <div class="form-row" id="form-row-content" style="display: flex; align-items: last baseline;">
              
               <div class="form-ingredients">
                 <%if(index === 0){%><label for="ingredient">Ingredients</label><%}%>
@@ -131,7 +131,7 @@
 
 
 
-              <div class="form-group" style="margin-left: 13px;">
+              <div class="form-group" style="margin-left: 13px; margin-top: auto;">
                 <%if(index === 0){%>
                 <label for="inputAmt">Amount</label>
                 <%}%>

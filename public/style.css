@@ -271,6 +271,20 @@ button.viewRecipeBtn {
         height: 38px;
 }
 
+.editDish-form-row-buttons {
+    display: flex;
+    align-items: baseline;
+    margin-left: 10px;
+    margin-top: 10px;
+    
+  }
+  
+.editDish-form-row-buttons button {
+   margin-left: 10px;
+    
+  }
+
+
 /***************** ORDER TERMINAL PAGE CSS *****************/
 
 .order-card {
