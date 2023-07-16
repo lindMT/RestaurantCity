@@ -61,12 +61,53 @@
         <div style="width: 70%;">
           
           <div id="form-row">
+              <!-- EMPTY: For adding -->
+              <div id="form-row-content" style="display: none; ">
+                <div class="form-ingredients">
+                  <label for="ingredient">Ingredients</label>
+                  <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example" required>
+                    <option disabled selected value>Select Ingredient</option>
+                    <!-- TODO: Backend -->
+                    <% if(ingredients.length > 0) {%>
+                      <% ingredients.forEach(ingredients => { %> 
+                          <option style=text-transform:capitalize value="<%= ingredients.name %>"><%= ingredients.name %></option>
+                      <% }) %> 
+                    <% } %>
+                  </select>
+                </div>
+        
+                <div class="form-group" style="margin-left: 13px;">
+                  <label for="inputAmt">Amount</label>
+                  <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1" required>
+                </div>
+        
+                <div class="form-unit" style="margin-left: 10px;">
+                  <label for="ingreUnits">Unit</label>
+                  <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example" required>
+                    <option disabled selected value>Select Unit</option>
+                    <% if(units.length > 0) {%>
+                      <% units.forEach(units => { %> 
+                          <option style=text-transform:capitalize value="<%= units.unitName %>"><%= units.unitName %></option>
+                      <% }) %> 
+                    <% } %>
+                    <!-- TODO: Backend -->
+                  </select>
+                </div>
+        
+                <div class="form-row-buttons" style="align-items: last baseline;">
+                  <!-- Remove Ingredient Button -->
+                  <button class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+                  <!-- Add Ingredient Button -->
+                  <button class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
+                </div>
+              </div>
+
             <% recipe.forEach(function(recipes) { %>
-              <%recipes.ingredients.forEach(ingre =>  {%>
-            <div id="form-row-content" style="display: flex;">
+              <%recipes.ingredients.forEach((ingre, index) =>  {%>
+            <div class="form-row" id="form-row-content" style="display: flex;">
              
               <div class="form-ingredients">
-                <label for="ingredient">Ingredients</label>
+                <%if(index === 0){%><label for="ingredient">Ingredients</label><%}%>
                 
                 
                 <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example"
@@ -91,7 +132,9 @@
 
 
               <div class="form-group" style="margin-left: 13px;">
+                <%if(index === 0){%>
                 <label for="inputAmt">Amount</label>
+                <%}%>
                 
                 <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1" value="<%= ingre.chefWeight %>"
                   required>
@@ -100,7 +143,7 @@
 
 
               <div class="form-unit" style="margin-left: 10px;">
-                <label for="ingreUnits">Unit</label>
+                <%if(index === 0){%><label for="ingreUnits">Unit</label><%}%>
                 <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example"
                   required>
                   <% if(units.length > 0) {%>
@@ -116,8 +159,10 @@
               </div>
               <!-- Div Button -->
               <div class="form-row-buttons" style="align-items: last baseline;">
+                <%if(index != 0){%>
                 <!-- Remove Ingredient Button -->
                 <button type="button" class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+                <%}%>
                 <!-- Add Ingredient Button -->
                 <button type="button" class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm()"> + </button>
 
