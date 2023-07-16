@@ -1,0 +1,61 @@
+<%- include("partials/header") -%>
+
+    <!-- TODO: Add later to CSS file -->
+    <style>
+        #add-ni-card {
+            margin: auto;
+            width: 600px;
+        }
+        
+        .ingredient-details {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-view-inventory {
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+        }
+    </style>
+
+    <div id="add-ni-card" class="card shadow">
+        <div>
+            <h1 style="text-align: center; padding: 5px;">
+                <%= title %>
+            </h1>
+        </div>
+        <hr/>
+
+        <div class="ingredient-details">
+            <p style="color:rgb(0, 166, 0); text-align: center; font-size: 20px;">
+                <b><%= message %></b>
+            </p>
+            <p>
+                <b>Sizing Option:</b>
+                <%= variant.name %>
+            </p>
+            <p>
+                <b><%= ingredient.name.replace(/\b\w/g, c => c.toUpperCase()) %></b> added to inventory.
+            </p>
+        </div>
+
+        <div class="button-container">
+            <a href="/recordFirst/p1">
+                <button class="btn btn-submit-count" style="width: 100%;">Record First Purchase</button>
+            </a>
+            <a href="/viewInventory">
+                <button class="btn btn-submit-count btn-view-inventory" style="width: 100%;">View Inventory</button>
+            </a>
+        </div>
+    </div>
+
+    <%- include("partials/footer") -%>

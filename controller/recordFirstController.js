@@ -37,7 +37,7 @@ const recordFirstController = {
         const inputVariantName = req.body.ingreVariantName;
         const inputNetWt = req.body.ingreNetWt;
         const inputUnit = req.body.ingreUnit;
-        
+
         // Check if there is quantity later
         var inputQty = req.body.ingreQty;
         var newVariant;
@@ -55,21 +55,21 @@ const recordFirstController = {
         }
 
         // TODO: Convert Net Weight (Unit)
-        if (inputQty !== undefined){
+        if (inputQty !== undefined) {
             let totalNetWt = inputNetWt * inputQty
 
             // Check Unit if NOT same with ingredient default
-            if(inputUnit !== foundIngredientUnit.unitSymbol){
+            if (inputUnit !== foundIngredientUnit.unitSymbol) {
                 totalNetWt = convert(totalNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
             }
 
             // Update inventory
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWt);
-        }else{
+        } else {
             inputQty = 1;
 
             // Update inventory
-            if(inputUnit !== foundIngredientUnit.unitSymbol){
+            if (inputUnit !== foundIngredientUnit.unitSymbol) {
                 inputNetWt = convert(inputNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
             }
 
@@ -85,7 +85,7 @@ const recordFirstController = {
             unitID: foundUnit._id,
             netWeight: inputNetWt
         });
-        
+
         await newVariant.save();
         console.log("NEW VARIANT: " + newVariant)
 
@@ -107,10 +107,13 @@ const recordFirstController = {
         });
 
         await auditIngredient.save()
-        console.log("NEW PURCHASE: " + auditIngredient)
 
-        res.send("Added variant")
-
+        res.render('recordFirstSuccess', {
+            title: "Record First Purchase",
+            message: 'New variant added to inventory',
+            ingredient: foundIngredient,
+            variant: newVariant,
+        });
     },
 
 }
