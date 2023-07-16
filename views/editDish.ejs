@@ -33,11 +33,13 @@
               <% if(categories.length > 0) {%>
                 <% categories.forEach(categories => { %>  
                   <% if(category.category == categories.category) {%>
-              <option disabled selected value><%= categories.category %></option>
+                    <option selected style=text-transform:capitalize value="<%= categories.category %>"><%= categories.category %></option>
               <!-- TODO: Backend -->
-              <% } %>
+              <% } else{%>
+              
                     <option style=text-transform:capitalize value="<%= categories.category %>"><%= categories.category %></option>
-                <% }) %> 
+                    <% } %>
+                    <% }) %> 
             <% } %>
             </select>
          
@@ -50,31 +52,48 @@
             <div class="input-group">
               <span class="input-group-text">Php</span>
               <input type="number" class="form-control" name="Amount" id="inputPrice" min="1"
-                placeholder="e.g. 150.00" style="text-align: left;" required><%= dish.price %>
+                placeholder="e.g. 150.00" style="text-align: left;" value ="<%= dish.price %>" required>
             </div>
           </div>
 
         </div>
 
         <div style="width: 70%;">
-
+          
           <div id="form-row">
+            <% recipe.forEach(function(recipes) { %>
+              <%recipes.ingredients.forEach(ingre =>  {%>
             <div id="form-row-content" style="display: flex;">
+             
               <div class="form-ingredients">
                 <label for="ingredient">Ingredients</label>
+                
+                
                 <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example"
                   required>
-                  <option disabled selected value>Select Ingredient</option>
+                  
+                  <% if(ingredients.length > 0) {%>
+                    <% ingredients.forEach(dient => { %>  
+                      <% if(ingre.ingredient.toString() == dient._id.toString()) {%>
+
+                        <option selected style=text-transform:capitalize value="<%= dient.name %>"><%= dient.name %></option>
                   <!-- TODO: Backend-->                        
-                        <option style=text-transform:capitalize value="">Ingredient Name</option>
+                  <% } else{%>
+                        <option style=text-transform:capitalize value="<%= dient.name %>"><%= dient.name %></option>
+
+                        <% } %>
+                    <% }) %> 
+            <% } %>
                 </select>
+                
               </div>
 
 
 
               <div class="form-group" style="margin-left: 13px;">
                 <label for="inputAmt">Amount</label>
-                <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1"
+                
+                <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1" value="<%= ingre.chefWeight %>"
                   required>
               </div>
 
@@ -84,22 +103,31 @@
                 <label for="ingreUnits">Unit</label>
                 <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example"
                   required>
-                  <option disabled selected value>Select Unit</option>
-                        <option style=text-transform:capitalize value="unitName">Units</option>
+                  <% if(units.length > 0) {%>
+                    <% units.forEach(unit => { %>  
+                      <% if(ingre.chefUnitID.toString() == unit._id.toString()) {%>
+                        <option selected style=text-transform:capitalize value="<%= unit.unitName %>"><%= unit.unitName %></option>
+                  <% } else{%>
+                        <option style=text-transform:capitalize value="<%= unit.unitName %>"><%= unit.unitName %></option>
+                        <% } %>
+                    <% }) %> 
+            <% } %>
                 </select>
               </div>
               <!-- Div Button -->
               <div class="form-row-buttons" style="align-items: last baseline;">
                 <!-- Remove Ingredient Button -->
-                <button class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+                <button type="button" class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
                 <!-- Add Ingredient Button -->
-                <button class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
+                <button type="button" class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm()"> + </button>
 
               </div>
 
             </div>
+            <% }) %> 
+          <% }) %>
           </div> <!--ending tag for form row  -->
-
+          
         </div>
       </form>
       </div>
