@@ -16,15 +16,17 @@ const editDishController = {
 1
         try {
             // Find dish in database
-            var temp;
+
             const dish = await Dish.findById(dishID);
             var categories = await DishCategory.find({});
-             const category = await DishCategory.findById(dish.categoryID);
-            const receipe = await DishRecipe.find({dishID:dishID, isActive:true});
-            console.log(category)
+            const category = await DishCategory.findById(dish.categoryID);
+            const recipe = await DishRecipe.find({dishID:dishID, isActive:true});
+            var ingredients = await Ingredients.find({})
+            var units = await Units.find({});
+
             // Pass dish data to editDish page
-            if(dish && receipe){
-                res.render('editDish', {dish: dish, categories, category});
+            if(dish && recipe){
+                res.render('editDish', {dish, categories, category, recipe, ingredients, units});
             }
             
 
