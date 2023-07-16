@@ -48,7 +48,8 @@ const inputPhysicalController = {
         res.render('inputPhysicalCountP2', {
             ingredient: foundIngredient,
             ingredientVariations: ingredientVariationsWithDetails,
-            ingredientUnit: foundIngredientUnit.unitSymbol
+            ingredientUnit: foundIngredientUnit.unitSymbol,
+            units: units
         })
     },
 
