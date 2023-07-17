@@ -49,7 +49,7 @@ const addDishController = {
         
         //Create Dish Instance
         if (inputDish){
-            req.flash('error_msg', 'Dish already exists, Please input a different one')
+            req.flash('error_msg', 'Dish already added, Please input a different one')
             console.log("Dish already exists")
             return res.redirect('/addDish');
         }else {
@@ -84,7 +84,7 @@ const addDishController = {
                 let unit = await Units.findOne({ unitName: req.body.selectUnit[i]});
                 for (let j = 0; j < i; j++) {
                     if (req.body.ingredient[i] == req.body.ingredient[j]) {
-                        req.flash('error_msg', 'Duplicate Entry, Please input a different one')
+                        req.flash('error_msg', 'Duplicate Ingredient Entry, Please input a different one')
                         console.log("Duplicate Entry")
                         return res.redirect('/addDish');
                     }
