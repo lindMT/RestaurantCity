@@ -45,7 +45,7 @@ const addConversionController = {
             initialUnitId: toUnit._id
         });
 
-        // TODO: Add for loop where it will create all conversions for the inputted "toUnit"
+        // TODO: Add for loop where it will create all conversions for the inputted "fromUnit"
         // ---------------------------------------------------------------------------------
         // ---------------------------------------------------------------------------------
         // ---------------------------------------------------------------------------------
