@@ -86,6 +86,7 @@ app.post("/addUnit/process", addUnitController.postAddUnit)
 
 // Add Conversion
 app.get("/addConversion", addConversionController.getAddConversion)
+app.post("/addConversion/process", addConversionController.postAddConversion)
 
 // View Stock Report
 app.get("/viewStockReport", viewReportController.getPeriodical)
