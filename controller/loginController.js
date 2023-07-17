@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const loginController = {
     // for redirecting login and signup
     getLogin: function(req, res) {
-        res.render('login', {loginPrompt: ""});
+        res.render('login');
     },
 
     // for redirecting to home page
@@ -12,7 +12,7 @@ const loginController = {
         const password = req.body.password;
 
         console.log(req.body.userName)
-        User.findOne({ userName: req.body.userName }).then( docs => {
+        User.findOne({ userName: req.body.userName, status: "active" }).then( docs => {
                 if (docs != null) { 
                     if(bcrypt.compareSync( password, docs.password)) {
                         req.session.isAuth = true
@@ -23,11 +23,15 @@ const loginController = {
                         res.redirect('/home');
                         console.log(docs);
                     } else {
-                        res.render('login', {loginPrompt: "Wrong Credentials. Please contact the owner if needed."});
+                        req.flash('error_msg', 'Wrong password. Please contact the admin if needed.')
+                        console.log("Wrong PW")
+                        return res.redirect('/login');
                     }
                 }
                 else {
-                    res.render('login', {loginPrompt: "Wrong Credentials. Please contact the owner if needed."});
+                    req.flash('error_msg', 'Wrong username or inactive account. Please contact the admin if needed.')
+                    console.log("Wrong Username or Inactive Account")
+                    return res.redirect('/login');
                 }
             }       
         )
@@ -35,7 +39,7 @@ const loginController = {
 
     getLogout: function(req, res) {
         req.session.destroy();
-        res.render('login', {loginPrompt: ""});
+        res.redirect('/login');
     },
     
 }
