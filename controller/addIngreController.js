@@ -19,14 +19,23 @@ const addIngreController = {
     postAddIngre: async(req, res) => {
         const inputName = req.body.ingreName
         const inputUnit = req.body.ingreUnit
+        const inputHasVariant = req.body.hasVariant
+        let hasVariant;
 
         const foundUnit = await Unit.findOne({ unitSymbol: inputUnit })
+
+        if(inputHasVariant == "Yes"){
+            hasVariant = true;
+        }else{
+            hasVariant = false;
+        }
 
         const newIngredient = new Ingredient({
             name: inputName,
             unitID: foundUnit,
             totalNetWeight: 0,
-            reorderPoint: 0
+            reorderPoint: 0,
+            hasVariant: hasVariant
         });
 
         await newIngredient.save();

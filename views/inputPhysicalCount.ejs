@@ -14,6 +14,7 @@
             </p>
             <br/>
 
+            <!-- TODO: FOR LOOP FOR EACH INGREDIENT -->
             <h4 style="text-transform: uppercase;"><b><%= ingredient.name %></b></h4>
             <p>Current Running Total: <b><u><%= ingredient.totalNetWeight %> <%= ingredientUnit %></u></b></p>
             <hr/>
@@ -29,6 +30,8 @@
                         </tr>
                     </thead>
                     <tbody id="physical-tbl-body">
+                        <!-- TODO: Get VARIATIONS of CURRENT INGREDIENT -->
+                        <!-- TODO: If ingredient does not have Variations: Edi wala -->
                         <% for(let i = 0; i < ingredientVariations.length; i++){ %>
                            <tr> 
                                <td><%= ingredientVariations[i].name %></td>
@@ -56,6 +59,15 @@
     </div>
 </div>
 
-<script src="/js/inputPhysicalCount.js" data-mydata="<%= JSON.stringify(units) %>"></script>
+<!-- TO FIX/DELETE:
+    1. JS
+    2. Pages
+    3. Routes
+    4. Controller
+    5. Header
+
+    Concern:
+    1. What if walang variant?
+-->
 
 <%- include("partials/footer") -%>
