@@ -9,13 +9,16 @@ const addUnitController = {
     },
 
     postAddUnit: async(req, res) => {
-        const category = req.body.unitCategory;
         const name = req.body.unitName;
         const symbol = req.body.unitSymbol;
+        const category = req.body.unitCategory;
         
         // Checks if unit already exists
-        const unitSymbolExists = Unit.findOne({unitSymbol : symbol});
-        const unitNameExists = Unit.findOne({unitName : name});
+        var unitSymbolExists = await Unit.findOne({unitSymbol : symbol});
+        var unitNameExists = await Unit.findOne({unitName : name});
+
+        console.log("unitSymbolExists: " + unitSymbolExists)
+        console.log("unitNameExists: " + unitNameExists)
 
         if (unitSymbolExists){
             req.flash('error_msg', 'Unit symbol already exists in the system, Please input a different one')
@@ -27,8 +30,9 @@ const addUnitController = {
             return res.redirect('/addUnit');
         } else {
             const newUnit = new Unit({
-                unitName: inputName,
-                unitSymbol: inputSymbol
+                unitName: name,
+                unitSymbol: symbol,
+                category: category
             });
             
             await newUnit.save();
