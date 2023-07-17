@@ -6,10 +6,6 @@ const session = require('express-session');
 const mongoDBSession = require('connect-mongodb-session')(session);
 const flash = require('connect-flash');
 
-// npm init -y
-// npm install ejs express express-session body-parser mongoose  
-// eto mga wala pa: connect-mongodb-session path fs
-
 mongoose.connect("mongodb://127.0.0.1:27017/restaurantCity", {
     useNewUrlParser: true
 })
