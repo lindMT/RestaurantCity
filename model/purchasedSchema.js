@@ -19,22 +19,26 @@ const purchaseSchema = new Schema({
         required: true,
     },
 
+    // NULL = if INGREDIENT has NO VARIANT / Otherwise, HAVE VALUE
     varID: {
         type: Schema.Types.ObjectId,
         ref: 'ingreVariations',
         required: false
     },
 
+    // NULL = if INGREDIENT has VARIANT / Otherwise, HAVE VALUE
     qty: {
         type: Number,
         required: false
     },
 
+    // NULL = if INGREDIENT has VARIANT / Otherwise, HAVE VALUE
     netWeight: {
         type: mongoose.Types.Decimal128,
         required: false,
     },
 
+    // NULL = if INGREDIENT has VARIANT / Otherwise, HAVE VALUE
     unitID: {
         type: Schema.Types.ObjectId,
         ref: 'units',

@@ -35,53 +35,65 @@ const recordAddtlController = {
             let totalNetWeight = 0;
 
             // User Inputs
-            const foundIngredient = await Ingredient.findById(req.body.ingreId);
-            const ingreVariation = await IngreVariation.findById(req.body.ingreVariantName);
-            const inputQty = req.body.ingreQty;
-            const foundUnitVariant = await Unit.findById(ingreVariation.unitID);
+            const foundIngredient = await Ingredient.findById(req.body.ingreId);        
             const foundUnitIngre = await Unit.findById(foundIngredient.unitID);
 
-            if (!foundIngredient.unitID.equals(ingreVariation.unitID)) {
-                // Use conversion factor
-                const conversionFactor = convert(inputQty).from(foundUnitVariant.unitSymbol).to(foundUnitIngre.unitSymbol);
-                totalNetWeight = ingreVariation.netWeight * conversionFactor;
+            if(foundIngredient.hasVariant){
+                // Ingredient has VARIANT
+                const inputQty = req.body.ingreQty;
+                const ingreVariation = await IngreVariation.findById(req.body.ingreVariantName);
+                const foundUnitVariant = await Unit.findById(ingreVariation.unitID);
+
+                // Add code here
             } else {
-                totalNetWeight = inputQty * ingreVariation.netWeight;
+                // Ingredient has NO VARIANT
+                const inputNetWt = req.body.ingreNetWt
+                const inputUnit = req.body.ingreUnit 
+
+                // Add code here
             }
 
-            foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWeight);
-            await foundIngredient.save();
+            // if (!foundIngredient.unitID.equals(ingreVariation.unitID)) {
+            //     // Use conversion factor
+            //     const conversionFactor = convert(inputQty).from(foundUnitVariant.unitSymbol).to(foundUnitIngre.unitSymbol);
+            //     totalNetWeight = ingreVariation.netWeight * conversionFactor;
+            // } else {
+            //     totalNetWeight = inputQty * ingreVariation.netWeight;
+            // }
 
-            // For prompt
-            let msgUnit = await Unit.findById(foundIngredient.unitID);
+            // foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWeight);
+            // await foundIngredient.save();
 
-            // Get the current date
-            const currentDate = new Date();
+            // // For prompt
+            // let msgUnit = await Unit.findById(foundIngredient.unitID);
 
-            // Find the user by their username
-            const user = await User.findOne({ userName: req.session.userName });
+            // // Get the current date
+            // const currentDate = new Date();
 
-            // Get the user ID
-            const userId = user._id;
+            // // Find the user by their username
+            // const user = await User.findOne({ userName: req.session.userName });
 
-            // Add ingredient to purchased audit
-            const auditIngredient = new purchasedIngre({
-                ingreID: foundIngredient._id,
-                date: currentDate,
-                varID: ingreVariation._id,
-                qty: inputQty,
-                doneBy: userId,
-            });
+            // // Get the user ID
+            // const userId = user._id;
 
-            await auditIngredient.save();
+            // // Add ingredient to purchased audit
+            // const auditIngredient = new purchasedIngre({
+            //     ingreID: foundIngredient._id,
+            //     date: currentDate,
+            //     varID: ingreVariation._id,
+            //     qty: inputQty,
+            //     doneBy: userId,
+            // });
 
-            return res.render('recordAddtlSuccess', {
-                title: "Record Purchase",
-                message: 'Your purchase has been recorded!',
-                ingredient: foundIngredient,
-                unit: msgUnit,
-                totalNet: totalNetWeight
-            });
+            // await auditIngredient.save();
+
+            // return res.render('recordAddtlSuccess', {
+            //     title: "Record Purchase",
+            //     message: 'Your purchase has been recorded!',
+            //     ingredient: foundIngredient,
+            //     unit: msgUnit,
+            //     totalNet: totalNetWeight
+            // });
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred while updating the ingredient's running total.");
