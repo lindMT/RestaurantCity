@@ -82,6 +82,7 @@ app.post("/addCategory/process", addCategoryController.postAddCategory)
 
 // Add Unit
 app.get("/addUnit", addUnitController.getAddUnit)
+app.post("/addUnit/process", addUnitController.postAddUnit)
 
 // Add Conversion
 app.get("/addConversion", addConversionController.getAddConversion)
