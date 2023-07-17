@@ -3,7 +3,6 @@
     "$oid": "64a6b7b31731ba58e9a55822"
   },
   "name": "carrots",
-  "category": "dry",
   "unitID": {
     "$oid": "64a5804ea792248175d204e8"
   },
@@ -11,14 +10,13 @@
     "$numberDecimal": "1"
   },
   "reorderPoint": 0,
-  "__v": 0
+  "hasVariant": false
 },
 {
   "_id": {
     "$oid": "64a6b7d8e082fa3e67ec83eb"
   },
   "name": "olive oil",
-  "category": "wet",
   "unitID": {
     "$oid": "64a5804ea792248175d204ea"
   },
@@ -26,5 +24,5 @@
     "$numberDecimal": "2"
   },
   "reorderPoint": 0,
-  "__v": 0
+  "hasVariant": true
 }]
