@@ -53,11 +53,17 @@ const addConversionController = {
             initialUnitId: toUnit._id
         });
 
-        // TODO: Add for loop where it will create all conversions for the inputted "fromUnit"
-        // ---------------------------------------------------------------------------------
-        // ---------------------------------------------------------------------------------
-        // ---------------------------------------------------------------------------------
+        for (const foundConversion of findConversion) {
+            if(foundConversion.convertedUnitId.toString() !== fromUnit._id.toString()){
+                const newConversion = new Conversion({
+                    initialUnitId: fromUnit._id,
+                    convertedUnitId: foundConversion.convertedUnitId,
+                    conversionFactor: foundConversion.conversionFactor * inputFactor
+                });
 
+                await newConversion.save();
+            }
+        }
         return res.redirect('/addConversion');
     }
 
