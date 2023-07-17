@@ -14,8 +14,8 @@ const addUnitController = {
         const category = req.body.unitCategory;
         
         // Checks if unit already exists
-        var unitSymbolExists = await Unit.findOne({unitSymbol : symbol});
-        var unitNameExists = await Unit.findOne({unitName : name});
+        var unitSymbolExists = await Unit.findOne({unitSymbol : {'$regex': symbol,$options:'i'}});
+        var unitNameExists = await Unit.findOne({unitName : {'$regex': name,$options:'i'}});
 
         console.log("unitSymbolExists: " + unitSymbolExists)
         console.log("unitNameExists: " + unitNameExists)
