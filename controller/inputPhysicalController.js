@@ -9,28 +9,47 @@ const inputPhysicalController = {
     getInputPhysCount: async(req, res) => {
         const foundIngredients = await Ingredient.find().sort({ name: 1 });
         const foundVariations = await IngreVariation.find()
+        const foundUnits = await Unit.find()
 
         const ingredientVariationsWithDetails = await Promise.all(
             foundVariations.map(async(variation) => {
                 const unit = await Unit.findById(variation.unitID);
                 const ingredient = await Ingredient.findById(variation.ingreID);
 
+                const unitName = unit ? unit.unitName : '';
                 const unitSymbol = unit ? unit.unitSymbol : '';
                 const ingredientName = ingredient ? ingredient.name : '';
 
                 return {
                     ...variation.toObject(),
+                    unitName,
                     unitSymbol,
                     ingredientName,
                 };
             })
         );
 
-        await res.render('inputPhysicalCountP1', {
+        // TODO: add units
+
+        await res.render('inputPhysicalCount', {
             ingredients: foundIngredients,
-            variations: ingredientVariationsWithDetails,
+            ingredientVariations: ingredientVariationsWithDetails,
+            units: foundUnits
         })
     },
+
+    postInputPhysCount: async(req, res) => {
+        const inputs = req.body;
+
+        for (const key in inputs) {
+            if (inputs.hasOwnProperty(key)) {
+            const inputValue = inputs[key];
+            console.log(key + ': ' + inputValue);
+            }
+        }
+
+        res.send("Check console")
+    }
 
     // postInputPhysCount1: async(req, res) => {
     //     const inputId = req.body.ingreId;
