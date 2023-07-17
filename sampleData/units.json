@@ -3,45 +3,52 @@
     "$oid": "64a5804ea792248175d204e7"
   },
   "unitName": "Gram",
-  "unitSymbol": "g"
+  "unitSymbol": "g",
+  "category": "Dry"
 },
 {
   "_id": {
     "$oid": "64a5804ea792248175d204e8"
   },
   "unitName": "Kilogram",
-  "unitSymbol": "kg"
+  "unitSymbol": "kg",
+  "category": "Dry"
 },
 {
   "_id": {
     "$oid": "64a5804ea792248175d204e9"
   },
   "unitName": "Milliliter",
-  "unitSymbol": "mL"
+  "unitSymbol": "mL",
+  "category": "Wet"
 },
 {
   "_id": {
     "$oid": "64a5804ea792248175d204ea"
   },
   "unitName": "Liter",
-  "unitSymbol": "L"
+  "unitSymbol": "L",
+  "category": "Wet"
 },
 {
   "_id": {
     "$oid": "64a451bb9a494ecb0fd7216b"
   },
   "unitName": "Cup",
-  "unitSymbol": "cup"
+  "unitSymbol": "cup",
+  "category": "Both"
 },{
   "_id": {
     "$oid": "64a4520d9a494ecb0fd7216c"
   },
   "unitName": "Tablespoon",
-  "unitSymbol": "tbsp"
+  "unitSymbol": "tbsp",
+  "category": "Both"
 },{
   "_id": {
     "$oid": "64a4526d9a494ecb0fd7216d"
   },
   "unitName": "Teaspoon",
-  "unitSymbol": "tsp"
+  "unitSymbol": "tsp",
+  "category": "Both"
 }]
