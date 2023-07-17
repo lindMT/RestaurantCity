@@ -26,7 +26,8 @@ const purchaseSchema = new Schema({
         required: false
     },
 
-    // NULL = if INGREDIENT has VARIANT / Otherwise, HAVE VALUE
+
+    // NULL = if INGREDIENT has NO VARIANT / Otherwise, HAVE VALUE
     qty: {
         type: Number,
         required: false
