@@ -38,11 +38,11 @@
             <div class="form-group form-align-left">
                 <label>Unit</label>
                 <select id="add-ni-unit" name="ingreUnit" class="form-select form-select-md" style="width: 100%;" required>
-                <option disabled selected value> -- Select Unit -- </option>
-                <% for(let i = 0; i < units.length; i++){ %>
-                    <option value="<%= units[i].unitSymbol %>"><%= units[i].unitSymbol %> (<%= units[i].unitName %>s)</option>
-                <% } %>
-            </select>
+                    <option disabled selected value> -- Select Unit -- </option>
+                    <% for(let i = 0; i < units.length; i++){ %>
+                        <option value="<%= units[i].unitSymbol %>"><%= units[i].unitSymbol %> (<%= units[i].unitName %>s)</option>
+                    <% } %>
+                </select>
             </div>
             <br/>
 

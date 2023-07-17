@@ -7,15 +7,15 @@
         width: 600px;
     }
 </style>
-<div id="add-ni-card" class="card shadow">
+<div id="add-ni-card" class="card shadow" style="width: 700px;">
     <div>
         <h1 style="text-align: center; padding: 5px;">Record First Purchase</h1>
     </div>
     <hr/>
     <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
-    <div>
-        <p style="text-align: center;">Please select the ingredient that you will be recording the first purchase of.</p>
-        <p style="text-align: center;">If the ingredient to be recorded has ALREADY BEEN BOUGHT before, proceed to <a href="/recordAddtl/p1">Record Purchase</a>. If it does not exist in the inventory, proceed to <a href="/addNewIngredient">Add Ingredient</a>.</p>
+    <div style="text-align: center;">
+        <p>Please select the ingredient that you will be recording the first purchase of.</p>
+        <p>If the ingredient to be recorded has ALREADY BEEN BOUGHT before OR does NOT have definite sizing options, proceed to <a href="/recordAddtl/p1">Record Purchase</a>. If it does not exist in the inventory, please add it first via <a href="/addNewIngredient">Add Ingredient</a>.</p>
         <br/>
     </div>
     <form method="post" action="/recordFirst/p2">
@@ -26,9 +26,11 @@
                 <option disabled selected value> -- Select Ingredient -- </option>
                 <!-- Iterate through each available ingredient -->
                 <% if(ingredients.length > 0) {%>
-                    <% ingredients.forEach(ing => { %> 
-                        <option value="<%= ing._id %>"><%= ing.name %></option>
-                    <% }) %> 
+                    <% for(let i = 0; i < ingredients.length; i++){%>
+                        <% if (ingredients[i].hasVariant) {%>
+                            <option value="<%= ingredients[i]._id %>"><%= ingredients[i].name %></option>
+                        <% } %>
+                    <% } %>
                 <% } %>
             </select>
         </div>

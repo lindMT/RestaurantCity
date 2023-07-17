@@ -13,15 +13,15 @@
     </div>
     <hr/>
     <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
-    <div>
-        <p style="text-align: center;">Fill-out the fields by inputting the details of the NEW ingredient.</p>
-        <p style="text-align: center;">If the ingredient to be added ALREADY EXISTS in the inventory, proceed to <a href="/recordFirst/p1">Record First Purchase</a>.</p>
+    <div style="text-align: center;">
+        <p>Fill-out the fields by inputting the details of the NEW ingredient.</p>
+        <p>If the ingredient to be added ALREADY EXISTS in the inventory, proceed to <a href="/recordFirst/p1">Record First Purchase</a> or <a href="/recordAddtl/p1">Record Purchase</a>.</p>
         <br/>
     </div>
     <form method="post" action="/addNewIngredient/process">
         <div class="form-group form-align-left">
             <label>Ingredient Name</label>
-            <input type="text" name="ingreName" placeholder="e.g. Cabbage, Sesame Oil, Beef" min="1" class="form-control" style="text-align: left; width: 100%;">
+            <input type="text" name="ingreName" placeholder="e.g. Cabbage, Sesame Oil, Beef" min="1" class="form-control" style="text-align: left; width: 100%;" required>
         </div>
         <br/>
 
@@ -35,8 +35,17 @@
             </select>
         </div>
         <br/>
-        <hr/>
 
+        <div class="form-group form-align-left">
+            <label style="margin-bottom: 10px;">Will this ingredient have definite packaging options?</label><br/>
+            <input type="radio" id="add-radio-1" name="hasVariant" value="Yes" required>
+            <label for="add-radio-1" style="margin-right: 20px;">Yes</label>
+            <input type="radio" id="add-radio-2" name="hasVariant" value="No">
+            <label for="add-radio-2">No</label><br> 
+        </div>
+        <br/>
+
+        <hr/>
         <button type="submit" class="btn btn-submit-count" style="width: 100%;">Add to Inventory</button>
     </form>
 </div>

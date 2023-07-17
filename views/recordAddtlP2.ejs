@@ -13,13 +13,11 @@
     </style>
 
     <div id="record-card" class="card shadow">
-        <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
         <div>
             <h1 style="text-align: center; padding: 5px;">Record Purchase</h1>
         </div>
         <hr/>
 
-        <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
         <div>
             <p style="text-align: center;">Fill-out all of the fields by inputting the net weight, unit, and quantity bought for the selected ingredient.</p>
             <p style="text-align: center;">You are recording your purchase for: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
@@ -27,42 +25,55 @@
         </div>
 
         <form method="post" action="/recordAddtl/p2/process">
-            <input id="record-select-category" name="ingreCategory" type="hidden" value="<%= ingredient.category %>" />
-            <% console.log(ingredient.category) %>
             <input name="ingreId" type="hidden" value="<%= ingredient._id %>" />
             <% console.log(ingredient._id) %>
 
-            <div class="form-group">
-            <label>Sizing Option</label>
-            <!-- TODO: Translate Style to CCS -->
-            <select id="record-select-nu-input" name="ingreVariantName" class="form-select form-select-md" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
-            
-                <option disabled selected value> -- Select Size of Ingredient -- </option>
-            <% if (variants.length > 0) { %>
-                <% variants.forEach(variant => { %>
-                    <% units.forEach(unit => { %>
-                        <% if(unit._id.equals(variant.unitID)){ %>
-                            <option value="<%= variant._id %>">
-                                <%= variant.name %> (Net Wt: <%= variant.netWeight %> / Unit: <%= unit.unitSymbol %>)
-                            </option>
+            <% if(ingredient.hasVariant) {%>
+                <div class="form-group">
+                    <label>Sizing Option</label>
+                    <select id="record-select-nu-input" name="ingreVariantName" class="form-select form-select-md" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
+                        <option disabled selected value> -- Select Size of Ingredient -- </option>
+                        <% if (variants.length > 0) { %>
+                            <% variants.forEach(variant => { %>
+                                <% units.forEach(unit => { %>
+                                    <% if(unit._id.equals(variant.unitID)){ %>
+                                        <option value="<%= variant._id %>">
+                                            <%= variant.name %> (Net Wt: <%= variant.netWeight %> / Unit: <%= unit.unitSymbol %>)
+                                        </option>
+                                    <% } %>
+                                <% }) %>
+                            <% }) %>
                         <% } %>
-                    <% }) %>
-                <% }) %>
+                    </select>
+                </div>
+            <% } else { %>
+                <div class="form-group form-align-left">
+                    <label>Net Weight</label>
+                    <input type="number" name="ingreNetWt" placeholder="Minimum: 1" min="1" class="form-control" style="text-align: left; width: 100%;" required>
+                </div>
+                <br/>
+        
+                <div class="form-group form-align-left">
+                    <label>Unit</label>
+                    <select name="ingreUnit" class="form-select form-select-md" style="width: 100%;" required>
+                        <option disabled selected value> -- Select Unit -- </option>
+                        <% for(let i = 0; i < units.length; i++){ %>
+                            <option value="<%= units[i].unitSymbol %>"><%= units[i].unitSymbol %> (<%= units[i].unitName %>s)</option>
+                        <% } %>
+                    </select>
+                </div>
+            <% } %>
+            <br/>
+
+            <% if(ingredient.hasVariant) {%>
+                <div>
+                    <label>Quantity</label>
+                    <!-- TODO: CSS - Translate Style -->
+                    <input type="number" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" style="text-align: left; width: 100%; padding: 5px;" required>
+                </div>
+                <br/>
             <% } %>
             
-            </select>
-            </div>
-
-            <div class="form-group" id="record-others-field"></div>
-            <br/>
-
-            <div>
-                <label>Quantity</label>
-                <!-- TODO: CSS - Translate Style -->
-                <input type="number" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" style="text-align: left; width: 100%; padding: 5px;" required>
-            </div>
-            <br/>
-
             <hr/>
             <button type="submit" class="btn btn-submit-count" style="width: 100%;">Update Inventory</button>
         </form>
