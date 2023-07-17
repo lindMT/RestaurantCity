@@ -1,11 +1,11 @@
 <%- include("partials/header") -%>
   <div class="editDish-card-holder">
     <div class="card shadow editDish-card">
-      <form class="user-form" action="" method="post" >
+      <form class="user-form" action="#" method="post" >
       <div class="editDish-header">
         <h1>Edit Dish</h1>
 
-        <button type="submit" class="btn btn-save-progress" style="margin-left: auto;">Submit</button>
+        <button type="submit" class="btn btn-save-progress" >Submit </button>
    
         <a href="/manageDishes"><button id="cancelBtn" type="button" class="btn btn-secondary" style="margin-left: 10px; color: white;">
           Discard</button></a>
@@ -51,7 +51,7 @@
             <label for="inputPrice">Price</label>
             <div class="input-group">
               <span class="input-group-text">Php</span>
-              <input type="number" class="form-control" name="Amount" id="inputPrice" min="1"
+              <input type="number" class="form-control" name="price" id="inputPrice" min="1"
                 placeholder="e.g. 150.00" style="text-align: left;" value ="<%= dish.price %>" required>
             </div>
           </div>

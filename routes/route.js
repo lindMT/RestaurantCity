@@ -74,7 +74,7 @@ app.post("/addDish/process", addDishController.postAddDish)
 
 // Edit Dish
 app.get("/editDish", editDishController.getEditDish)
-    // app.post("/editDish/process", editDishController.postEditDish)
+app.post("/editDish/process", editDishController.postEditDish)
 
 // Add Category
 app.get("/addCategory", addCategoryController.getAddCategory)
