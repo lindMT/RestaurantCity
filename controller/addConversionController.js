@@ -36,8 +36,16 @@ const addConversionController = {
                 convertedUnitId: toUnit._id,
                 conversionFactor: inputFactor
             });
+            
+            // Creates the reverse conversion inputted by the user
+            const reverseNewConversion = new Conversion({
+                initialUnitId: toUnit._id,
+                convertedUnitId: fromUnit._id,
+                conversionFactor: 1 / inputFactor
+            });
 
             await newConversion.save();
+            await reverseNewConversion.save();
         }
         
         // Checks all existing conversions where the "toUnit" is the "fromUnit"
