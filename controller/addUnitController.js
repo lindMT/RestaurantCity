@@ -5,8 +5,7 @@ const bcrypt = require("bcrypt");
 
 const addUnitController = {
     getAddUnit: async(req, res) => {
-        res.render('addUnit', { addUnitPrompt: "1234" });
-        
+        res.render('addUnit');
     },
 
     postAddUnit: async(req, res) => {
@@ -15,23 +14,27 @@ const addUnitController = {
         const symbol = req.body.unitSymbol;
         
         // Checks if unit already exists
-        const unitExists = Unit.findOne({unitSymbol : symbol});
+        const unitSymbolExists = Unit.findOne({unitSymbol : symbol});
+        const unitNameExists = Unit.findOne({unitName : name});
 
-        // if (unitExists){
-        if (1 === 4){
-            req.flash('error_msg', 'Unit already exists in the system, Please input a different one')
-            console.log("Duplicate Unit Entry")
+        if (unitSymbolExists){
+            req.flash('error_msg', 'Unit symbol already exists in the system, Please input a different one')
+            console.log("Duplicate unit symbol entry")
+            return res.redirect('/addUnit');
+        } else if (unitNameExists){
+            req.flash('error_msg', 'Unit name already exists in the system, Please input a different one')
+            console.log("Duplicate unit name entry")
             return res.redirect('/addUnit');
         } else {
-            // const newUnit = new Unit({
-            //     unitName: inputName,
-            //     unitSymbol: inputSymbol
-            // });
+            const newUnit = new Unit({
+                unitName: inputName,
+                unitSymbol: inputSymbol
+            });
             
-            // await newUnit.save();
+            await newUnit.save();
             
             req.flash('success_msg', 'Unit Added Successfully.')
-            console.log("New Unit Entry")
+            console.log("New unit entry")
             return res.redirect('/addUnit'); // To be changed as page with "successfully added unit!" message
         }
     }
