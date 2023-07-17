@@ -100,6 +100,7 @@ app.get("/detailedReport/Milk", viewReportController.getDetailed)
 
 // Input Physical Count
 app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
+app.post("/inputPhysicalCount/process", inputPhysicalController.postInputPhysCount)
 // app.post("/inputPhysicalCount/p2", inputPhysicalController.postInputPhysCount1)
 // app.post("/inputPhysicalCount/p2/process", inputPhysicalController.postInputPhysCount2)
 
