@@ -13,22 +13,33 @@ const purchaseSchema = new Schema({
         required: true,
     },
 
-    varID: {
-        type: Schema.Types.ObjectId,
-        ref: 'ingreVariations',
-        required: true,
-    },
-
-    qty: {
-        type: Number,
-        required: true
-    },
-
     doneBy: {
         type: Schema.Types.ObjectId,
         ref: 'users',
         required: true,
     },
+
+    varID: {
+        type: Schema.Types.ObjectId,
+        ref: 'ingreVariations',
+        required: false
+    },
+
+    qty: {
+        type: Number,
+        required: false
+    },
+
+    netWeight: {
+        type: mongoose.Types.Decimal128,
+        required: false,
+    },
+
+    unitID: {
+        type: Schema.Types.ObjectId,
+        ref: 'units',
+        required: false
+    }
 
 });
 

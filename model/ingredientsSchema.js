@@ -18,6 +18,10 @@ const ingredientsSchema = new Schema({
     reorderPoint: {
         type: Number,
         required: true
+    },
+    hasVariant: {
+        type: Boolean,
+        required: true
     }
 });
 
