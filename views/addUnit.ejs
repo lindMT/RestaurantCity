@@ -1,3 +1,72 @@
 <%- include("partials/header") -%>
-<!-- TODO -->
+
+<!-- TODO: Add later to CSS file -->
+<style>
+    #record-card{
+        margin: auto;
+        width: 600px;
+    }
+
+    #record-others-field{
+        display: flex;
+    }
+</style>    
+
+<div id="record-card" class="card shadow">
+    <!-- TODO: Change DIV CLASS -> Own [inventory-header] -->
+    <div>
+        <h1 style="text-align: center; padding: 5px;">Add Units</h1>
+    </div>
+    <hr/>
+
+    <!-- TODO: Add DIV CLASS -> Body of New Ingredient -->
+    <div>
+        <p style="text-align: center;">Use the fields below to input your new unit.</p>
+        <br/>
+    </div>
+
+    <!-- TODO: Backend form -->
+    <form method="post" action="/addUnit/process">
+        <div class="form-group">
+            <label>Unit Category</label>
+                <select name="unitCategory" class="form-select form-select-md" style="text-transform: capitalize; width: 100%; padding: 5px;" required>
+                    <option disabled selected value> -- Select Unit Type -- </option>
+                    <option value="Wet">Wet</option>
+                    <option value="Dry">Dry</option>
+                </select>
+        </div>
+        <br/>
+
+        <div class="form-group">
+            <label>Unit Name</label>
+                <input type="text" name="unitName" placeholder="e.g. Kilogram" min="1" class="form-control" style="text-align: left; width: 100%;">
+        </div>
+        <br/>
+
+        <div class="form-group">
+            <label>Unit Symbol</label>
+                <input type="text" name="unitSymbol" placeholder="e.g. KG" min="1" class="form-control" style="text-align: left; width: 100%;">
+        </div>
+        <br/>
+
+        <hr/>
+        <button type="submit" class="btn btn-submit-count" style="width: 100%;">Submit</button>
+
+        <br/>
+        	
+
+        <div class="centered">
+            <% if(error_msg) { %>    
+                <p style="color:red; font-weight:bold; margin-top: 15px;"> <%= error_msg %> </p>
+            <% } %>
+            
+            <% if(success_msg) { %>    
+                <p style="color:green; font-weight:bold; margin-top: 15px;"> <%= success_msg %> </p>
+            <% } %>
+        </div>
+
+
+    </form>
+</div>
+
 <%- include("partials/footer") -%>
