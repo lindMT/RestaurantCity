@@ -18,26 +18,39 @@ const addConversionController = {
     
     postAddConversion: async(req, res) => {
         const inputIngredient = req.body;
-        const toUnitSymbol = req.body;
+        const subUnitSymbol = req.body;
         const inputFactor = req.body;
 
-        const toUnit = await Unit.findOne({ unitSymbol: toUnitSymbol }); // Subject to change if symbol or name will be used
+        const subUnit = await Unit.findOne({ unitSymbol: subUnitSymbol }); // Subject to change if symbol or name will be used
         const ingredient = await Ingredients.findOne({ name: inputIngredient });
 
-        // Checks if conversion exists
+        // Checks if ingredient exists in conversion table
         const existsConversion = await Conversion.findOne({
-            ingredientId: ingredient._id,
-            convertedUnitId: toUnit._id
+            ingredientId: ingredient._id
         });
 
-        if(existsConversion){
-            // Handle error where the conversion already exists
+        // Checks if it will duplicate the sub-unit
+        const duplicateConversion = await Conversion.findOne({
+            ingredientId: ingredient._id,
+            convertedUnitId: subUnit._id
+        });
 
+        if(duplicateConversion){ 
+            // Handle error that sub-unit will be duplicated
+
+        } else if(existsConversion){ // If ingredient exists in conversion table, add sub-unit only
+            const newSubUnit = {
+                convertedUnitId: subUnit._id,
+                conversionFactor: inputFactor,
+            };
+            existsConversion.subUnit.push(newSubUnit);
+            existsConversion = await existsConversion.save();
+            
         } else{
-            // Saves the conversion inputted by the user
+            // Creates new sub-unit
             const newSubUnit = [
                 {
-                    convertedUnitId: toUnit._id,
+                    convertedUnitId: subUnit._id,
                     conversionFactor: inputFactor
                 }
             ]
@@ -49,7 +62,7 @@ const addConversionController = {
             
             await newConversion.save();
         }
-        
+
         return res.redirect('/addConversion');
     }
 
