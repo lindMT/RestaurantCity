@@ -6,6 +6,8 @@ const Conversion = require("../model/conversionSchema.js");
 const discardedIngre = require("../model/discardedSchema.js");
 const bcrypt = require("bcrypt");
 
+const convert = require('convert-units');
+
 const viewInvController = {
     getViewInventory: async function(req, res) {
         try {
@@ -62,10 +64,17 @@ const viewInvController = {
             // User Inputs
             const ingredientId = req.body.ingreId;
             const variantId = req.body.ingreNetUnit;
-            const inputQty = req.body.ingreQty;
+            var inputQty = req.body.ingreQty;
+
+            console.log("inputQty: " + inputQty)
+
+            if(inputQty === undefined){
+                inputQty = 1;
+            }
 
             // Other variables
             const foundIngredient = await Ingredient.findById(ingredientId);
+            const foundIngredientUnit = await Unit.findById(foundIngredient.unitID);
             let foundVariant;
 
             if (variantId === "others") {
@@ -84,20 +93,21 @@ const viewInvController = {
                 foundVariant = await IngreVariation.findById(variantId);
             }
 
+            // For VARIANT UNIT
             const foundUnit = await Unit.findById(foundVariant.unitID);
 
             if (!foundIngredient.unitID.equals(foundUnit._id)) {
-                // Use conversion factor
-                const conFactor = await Conversion.findOne({
-                    initialUnitId: foundUnit._id,
-                    convertedUnitId: foundIngredient.unitID,
-                });
+                // ==================================
+                // TODO: BOUND TO CHANGE AFTER CONVERSION IMPLEMENTATION
+                // ==================================
+                totalNetWeight = convert(foundVariant.netWeight).from(foundUnit.unitSymbol).to(foundIngredientUnit.unitSymbol)
 
-                totalNetWeight = inputQty * (foundVariant.netWeight * conFactor.conversionFactor);
-                console.log("Conversion Factor:", conFactor.conversionFactor);
+                totalNetWeight = inputQty * Number(totalNetWeight);
+                // console.log("Conversion Factor:", conFactor.conversionFactor);
+                console.log("NOT EQUAL: " + totalNetWeight)
             } else {
                 totalNetWeight = inputQty * foundVariant.netWeight;
-                console.log(totalNetWeight + "=" + inputQty + "*" + foundVariant.netWeight);
+                console.log("EQUAL: " + totalNetWeight)
             }
 
             if (totalNetWeight <= foundIngredient.totalNetWeight) {
@@ -118,15 +128,19 @@ const viewInvController = {
                 const userId = user._id;
 
                 // Add ingredient to discarded audit.
-                const auditDiscard = new discardedIngre({
-                    ingreID: foundIngredient._id,
-                    date: currentDate,
-                    varID: foundVariant._id,
-                    qty: inputQty,
-                    doneBy: userId,
-                });
 
-                await auditDiscard.save();
+                // ==================================
+                // TODO: FIX SCHEMA
+                // ==================================
+                // const auditDiscard = new discardedIngre({
+                //     ingreID: foundIngredient._id,
+                //     date: currentDate,
+                //     varID: foundVariant._id,
+                //     qty: inputQty,
+                //     doneBy: userId,
+                // });
+
+                // await auditDiscard.save();
 
                 return res.render('discardIngredientSuccess', { title: "Discard Ingredient", 
                                                                 message: 'Successfully discarded ingredient!',
