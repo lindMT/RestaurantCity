@@ -30,16 +30,15 @@
                 <input name="ingreId" type="hidden" value="<%= ingredient._id %>" />
                 <% console.log(ingredient._id) %>
 
-                    <div class="form-group">
-                        <label>Sizing Option</label>
-                        <!-- TODO: Translate Style to CCS -->
-                        <select id="discard-select-nu-input" name="ingreNetUnit" class="form-select form-select-md" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
+            <div class="form-group">
+                <label>Sizing Option</label>
+                <select id="discard-select-nu-input" name="ingreNetUnit" class="form-select form-select-md" style="width: 100%; padding: 5px;" onchange="addInputFields()" required>
                 <option disabled selected value> -- Select Size of Ingredient -- </option>
                 <% if(variants.length > 0) {%>
                     <% variants.forEach(variant => { %> 
                         <% units.forEach(unit => { %>
                             <% if (unit._id.equals(variant.unitID)) {%>
-                                <option value="<%= variant._id %>"><%= variant.netWeight%> <%= unit.unitSymbol %> (<%= unit.unitName %>s)</option>
+                                <option value="<%= variant._id %>"><%= variant.name %> (Net Wt: <%= variant.netWeight %> / Unit: <%= unit.unitSymbol %>)</option>
                             <% }%> 
                         <% })%> 
                     <% }) %> 
@@ -50,12 +49,7 @@
             <div class="form-group" id="discard-others-field"></div>
             <br/>
 
-            <div id="discard-qty-field">
-                <!-- <label id="discard-qty-label">Quantity</label> -->
-                <!-- TODO: CSS - Translate Style -->
-                <!-- <input type="number" id="discard-qty-input-field" name="ingreQty" class="form-control" placeholder="Minimum: 1" min="1" style="text-align: left; width: 100%; padding: 5px;" required> -->
-            </div>
-            <br/>
+            <div id="discard-qty-field"></div>
 
             <hr/>
             <button type="submit" class="btn btn-submit-count" style="width: 100%;">Discard & Apply Changes</button>

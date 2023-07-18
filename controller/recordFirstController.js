@@ -41,6 +41,7 @@ const recordFirstController = {
         // Check if there is quantity later
         var inputQty = req.body.ingreQty;
         var newVariant;
+        var addedMsg = 0;
 
         // For updating ingredient
         const foundIngredient = await Ingredient.findById(inputId)
@@ -54,26 +55,33 @@ const recordFirstController = {
             variationName = inputVariantName;
         }
 
-        // TODO: Convert Net Weight (Unit)
         if (inputQty !== undefined) {
             let totalNetWt = inputNetWt * inputQty
 
             // Check Unit if NOT same with ingredient default
             if (inputUnit !== foundIngredientUnit.unitSymbol) {
+                // ==================================
+                // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
+                // ==================================
                 totalNetWt = convert(totalNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
             }
 
             // Update inventory
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWt);
+            addedMsg = Number(totalNetWt);
         } else {
             inputQty = 1;
 
             // Update inventory
             if (inputUnit !== foundIngredientUnit.unitSymbol) {
+                // ==================================
+                // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
+                // ==================================
                 inputNetWt = convert(inputNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
             }
 
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(inputNetWt);
+            addedMsg = Number(inputNetWt);
         }
 
         await foundIngredient.save();
@@ -113,6 +121,8 @@ const recordFirstController = {
             message: 'New variant added to inventory',
             ingredient: foundIngredient,
             variant: newVariant,
+            totalNetWt: addedMsg,
+            ingredientUnit: foundIngredientUnit.unitSymbol
         });
     },
 
