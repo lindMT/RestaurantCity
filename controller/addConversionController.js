@@ -29,6 +29,10 @@ const addConversionController = {
 
         if(existsConversion){
             // Handle error where the conversion already exists
+
+        } else if(fromUnit.category !== toUnit.category && fromUnit.category !== 'Both' && toUnit.category !== 'Both'){
+            // Handle error where units do not belong in the same category or neither of them are "Both"
+
         } else{
             // Saves the conversion inputted by the user
             const newConversion = new Conversion({
@@ -54,7 +58,8 @@ const addConversionController = {
         });
 
         for (const foundConversion of findConversion) {
-            if(foundConversion.convertedUnitId.toString() !== fromUnit._id.toString()){
+            if((foundConversion.convertedUnitId.toString() !== fromUnit._id.toString()) &&
+            ((fromUnit.category === foundConversion.category) || (foundConversion.category === "Both") || (fromUnit.category === "Both"))){ // Checks if both units have the same category OR the convertedUnit is "Both"
                 const newConversion = new Conversion({
                     initialUnitId: fromUnit._id,
                     convertedUnitId: foundConversion.convertedUnitId,
