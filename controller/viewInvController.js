@@ -66,10 +66,18 @@ const viewInvController = {
             const variantId = req.body.ingreNetUnit;
             var inputQty = req.body.ingreQty;
 
+            // For auditing
+            var auditDiscard;
+            // For checking: Did user use a variant?
+            var hasUsedVariant;
+
             console.log("inputQty: " + inputQty)
 
             if(inputQty === undefined){
                 inputQty = 1;
+                hasUsedVariant = false;
+            }else{
+                hasUsedVariant = true;
             }
 
             // Other variables
@@ -127,20 +135,26 @@ const viewInvController = {
                 // Get the user ID
                 const userId = user._id;
 
-                // Add ingredient to discarded audit.
+                // Add ingredient to discarded audit
+                if(hasUsedVariant){
+                    auditDiscard = new discardedIngre({
+                        ingreID: foundIngredient._id,
+                        date: currentDate,
+                        doneBy: userId,
+                        varID: foundVariant._id,
+                        qty: inputQty
+                    });
+                }else{
+                    auditDiscard = new discardedIngre({
+                        ingreID: foundIngredient._id,
+                        date: currentDate,
+                        doneBy: userId,
+                        netWeight: foundVariant.netWeight,
+                        unitID: foundUnit._id
+                    });
+                }
 
-                // ==================================
-                // TODO: FIX SCHEMA
-                // ==================================
-                // const auditDiscard = new discardedIngre({
-                //     ingreID: foundIngredient._id,
-                //     date: currentDate,
-                //     varID: foundVariant._id,
-                //     qty: inputQty,
-                //     doneBy: userId,
-                // });
-
-                // await auditDiscard.save();
+                await auditDiscard.save();
 
                 return res.render('discardIngredientSuccess', { title: "Discard Ingredient", 
                                                                 message: 'Successfully discarded ingredient!',
