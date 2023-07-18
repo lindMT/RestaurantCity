@@ -2,20 +2,27 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const conversionSchema = new Schema({
+    ingredientId: {
+        type: Schema.Types.ObjectId,
+        ref: 'ingredients',
+        required: true
+    },
     initialUnitId: {
         type: Schema.Types.ObjectId, 
-        ref: 'units',
+        ref: 'ingredients',
         required: true
     },
-    convertedUnitId: {
-        type: Schema.Types.ObjectId, 
-        ref: 'units',
-        required: true
-    },
-    conversionFactor: {
-        type: Number, //can store Double also
-        required: true,
-    }
+    subUnit: [{
+        convertedUnitId: {
+            type: Schema.Types.ObjectId, 
+            ref: 'units',
+            required: true
+        },
+        conversionFactor: {
+            type: Number, //can store Double also
+            required: true,
+        }
+    }]
 });
 
 /* Sample Data (conversion.json) order:
