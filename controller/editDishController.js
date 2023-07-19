@@ -57,58 +57,8 @@ const editDishController = {
         var flag = 0
         temp = req.body.editIngredient
         console.log(temp[0].length)
-        // console.log(inputIngre.ingredients[0].ingredient)
-
-        // if(temp[0].length == 1){
-        //     if(inputIngre.ingredients.length == 1){
-        //         let ingre = await Ingredients.findOne({ name: req.body.editIngredient});
-        //         let unit = await Units.findOne({ unitName: req.body.editUnit});
-        //         if (inputIngre.ingredients[0].ingredient.toString() != ingre._id.toString() ||
-        //         inputIngre.ingredients[0].chefWeight != req.body.editAmount || inputIngre.ingredients[0].chefUnitID.toString() != unit._id){
-        //             ingreTable.push([ingre._id,req.body.editAmount,unit._id]);
-        //         }
-        //     }
-        //     else{
-        //         let ingre = await Ingredients.findOne({ name: req.body.editIngredient});
-        //         let unit = await Units.findOne({ unitName: req.body.editUnit});
-        //         if(ingre && unit){
-        //             ingreTable.push([ingre._id,req.body.editAmount,unit._id]);
-        //         }
-        //     }
-        // }
-        
-        // else{
-        //     for(i=0; i<req.body.editIngredient.length; i++){
-
-        //         let ingre = await Ingredients.findOne({ name: req.body.editIngredient[i]});
-        //         let unit = await Units.findOne({ unitName: req.body.editUnit[i]});
-        //         for (let j = 0; j < i; j++) {
-        //             if (req.body.editIngredient[i] == req.body.editIngredient[j]) {
-        //                 req.flash('error_msg', 'Duplicate Ingredient Entry, Please input a different one')
-        //                 console.log("Duplicate Entry")
-        //                 return res.redirect('/addDish');
-        //             }
-        //           }
-        //         if(ingre && unit){
-        //             ingreTable.push([ingre._id,req.body.editAmount[i],unit._id]);
-        //         }
-                    
-        //         // console.log(ingre._id)
-        //         // console.log(req.body.ingredient.length)
-        //         // // console.log(unit._id)
-        //         //  console.log(req.body.selectUnit)
-        //         //  console.log(ingreTable)
-        //     }
-        // }
-
+    
         if (oldDish.categoryID.equals(category._id) && oldDish.price == req.body.price){
-            // console.log(oldDish.categoryID)
-            // console.log(req.body.hiddenID)
-            // console.log(inputIngre)
-            // console.log(category._id)
-            // console.log(oldDish.price)
-            // console.log(req.body.price)
-            
 
             if(temp[0].length == 1){
                 if(inputIngre.ingredients.length == 1){
