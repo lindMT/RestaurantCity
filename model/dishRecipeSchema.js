@@ -40,6 +40,17 @@ const dishRecipeSchema = new Schema ({
         required: true
     },
 
+    lastModified: {
+        type: Date,
+        required: true
+    },
+
+    addedBy: {
+        type: Schema.Types.ObjectId, 
+        ref: 'users',
+        required: true
+}
+
 });
 
 module.exports = mongoose.model('dishRecipe', dishRecipeSchema);

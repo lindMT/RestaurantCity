@@ -1,7 +1,48 @@
 <%- include("partials/header") -%>
   <div class="editDish-card-holder">
     <div class="card shadow editDish-card">
-      <form class="user-form" action="#" method="post" >
+      <!-- EMPTY: For adding -->
+      <div id="form-row-content" style="display: none; ">
+        <div class="form-ingredients">
+          <label for="ingredient">Ingredients</label>
+          <select class="form-select" id="ingredient" name="editIngredient" aria-label="Default select example" required>
+            <option disabled selected value>Select Ingredient</option>
+            <!-- TODO: Backend -->
+            <% if(ingredients.length > 0) {%>
+              <% ingredients.forEach(ingredients => { %> 
+                  <option style=text-transform:capitalize value="<%= ingredients.name %>"><%= ingredients.name %></option>
+              <% }) %> 
+            <% } %>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-left: 13px;">
+          <label for="inputAmt">Amount</label>
+          <input type="number" class="form-control" name="editAmount" id="inputAmt" placeholder="1" min="1" required>
+        </div>
+
+        <div class="form-unit" style="margin-left: 10px;">
+          <label for="ingreUnits">Unit</label>
+          <select class="form-select" name="editUnit" id="ingreUnits" aria-label="Default select example" required>
+            <option disabled selected value>Select Unit</option>
+            <% if(units.length > 0) {%>
+              <% units.forEach(units => { %> 
+                  <option style=text-transform:capitalize value="<%= units.unitName %>"><%= units.unitName %></option>
+              <% }) %> 
+            <% } %>
+            <!-- TODO: Backend -->
+          </select>
+        </div>
+
+        <div class="form-row-buttons" style="align-items: last baseline;">
+          <!-- Remove Ingredient Button -->
+          <button class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+          <!-- Add Ingredient Button -->
+          <button class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
+        </div>
+      </div>
+
+      <form class="user-form" action="/editDish/process" method="post" >
       <div class="editDish-header">
         <h1>Edit Dish</h1>
 
@@ -14,7 +55,11 @@
       <div>
          <!-- Dish Name Code below-->
          <input class="form-check-input select" type="hidden" value="<%= dish.name %>" name="dishName" id="foodName1">
+         
         <p><h3><%= dish.name %></h3></p>
+        <% if(error_msg) { %>    
+          <p style="color:red; font-weight:bold"> <%= error_msg %> </p>
+        <% } %>	
         <br/>
       </div>
 
@@ -61,48 +106,9 @@
         <div style="width: 70%;">
           
           <div id="form-row">
-              <!-- EMPTY: For adding -->
-              <div id="form-row-content" style="display: none; ">
-                <div class="form-ingredients">
-                  <label for="ingredient">Ingredients</label>
-                  <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example" required>
-                    <option disabled selected value>Select Ingredient</option>
-                    <!-- TODO: Backend -->
-                    <% if(ingredients.length > 0) {%>
-                      <% ingredients.forEach(ingredients => { %> 
-                          <option style=text-transform:capitalize value="<%= ingredients.name %>"><%= ingredients.name %></option>
-                      <% }) %> 
-                    <% } %>
-                  </select>
-                </div>
-        
-                <div class="form-group" style="margin-left: 13px;">
-                  <label for="inputAmt">Amount</label>
-                  <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1" required>
-                </div>
-        
-                <div class="form-unit" style="margin-left: 10px;">
-                  <label for="ingreUnits">Unit</label>
-                  <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example" required>
-                    <option disabled selected value>Select Unit</option>
-                    <% if(units.length > 0) {%>
-                      <% units.forEach(units => { %> 
-                          <option style=text-transform:capitalize value="<%= units.unitName %>"><%= units.unitName %></option>
-                      <% }) %> 
-                    <% } %>
-                    <!-- TODO: Backend -->
-                  </select>
-                </div>
-        
-                <div class="form-row-buttons" style="align-items: last baseline;">
-                  <!-- Remove Ingredient Button -->
-                  <button class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
-                  <!-- Add Ingredient Button -->
-                  <button class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
-                </div>
-              </div>
-
+           
             <% recipe.forEach(function(recipes) { %>
+              
               <%recipes.ingredients.forEach((ingre, index) =>  {%>
             <div class="form-row" id="form-row-content" style="display: flex; align-items: last baseline;">
              
@@ -110,7 +116,7 @@
                 <%if(index === 0){%><label for="ingredient">Ingredients</label><%}%>
                 
                 
-                <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example"
+                <select class="form-select" id="ingredient" name="editIngredient" aria-label="Default select example"
                   required>
                   
                   <% if(ingredients.length > 0) {%>
@@ -136,7 +142,7 @@
                 <label for="inputAmt">Amount</label>
                 <%}%>
                 
-                <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1" value="<%= ingre.chefWeight %>"
+                <input type="number" class="form-control" name="editAmount" id="inputAmt" placeholder="1" min="1" value="<%= ingre.chefWeight %>"
                   required>
               </div>
 
@@ -144,7 +150,7 @@
 
               <div class="form-unit" style="margin-left: 10px;">
                 <%if(index === 0){%><label for="ingreUnits">Unit</label><%}%>
-                <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example"
+                <select class="form-select" name="editUnit" id="ingreUnits" aria-label="Default select example"
                   required>
                   <% if(units.length > 0) {%>
                     <% units.forEach(unit => { %>  
@@ -181,7 +187,5 @@
 
   </div>
 
-  </div>
-  </div>
   <script src="/js/editDish.js"></script>
   <%- include("partials/footer") -%>

@@ -113,7 +113,10 @@ const addDishController = {
                     ingredient: ingredient[0], 
                     chefWeight: ingredient[1],
                     chefUnitID: ingredient[2]
-                  }))
+                  })),
+                isActive:true,
+                lastModified:currentDate,
+                addedBy:user._id
             })
 
             if(await recipe.save()){
