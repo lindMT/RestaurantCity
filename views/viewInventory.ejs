@@ -48,7 +48,9 @@
                         </td>
                     <% } %>
                     <td>
-                        <%= ingredient.totalNetWeight %>
+                        <!-- Rounded to 2 decimal places -->
+                        <%= ingredient.totalNetWeight %> 
+                        <!-- Math.round(ingredient.totalNetWeight * 100) / 100 -->
                     </td>
                     <td>
                         <%= ingredient.unitSymbol %>

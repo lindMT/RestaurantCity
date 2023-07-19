@@ -1,73 +1,93 @@
 <%- include("partials/header") -%>
 
-<div class="physical-card-holder">
-    <div class="card shadow physical-card">
-        <form method="post" action="/inputPhysicalCount/p2/process">
-            <div class="physical-header">
-                <h1>Physical Count</h1>
-                <button type="submit" class="btn btn-submit-count">Submit Physical Count</button>
-            </div>
-            <hr/>
+    <div class="physical-card-holder">
+        <div class="card shadow physical-card">
+            <form method="post" action="/inputPhysicalCount/process">
+                <div class="physical-header">
+                    <h1>Physical Count</h1>
+                    <button type="submit" class="btn btn-submit-count">Submit Physical Count</button>
+                </div>
+                <hr/>
 
-            <p>
-                Input the physical count for each of the selected ingredient's type / packaging. If necessary, also add the numerical details for partials/used ingredients.
-            </p>
-            <br/>
+                <p>
+                    Input the physical count for each of the selected ingredient's type / packaging. If necessary, also add the details for ingredients that are used.
+                </p>
+                <br/>
 
-            <!-- TODO: FOR LOOP FOR EACH INGREDIENT -->
-            <h4 style="text-transform: uppercase;"><b><%= ingredient.name %></b></h4>
-            <p>Current Running Total: <b><u><%= ingredient.totalNetWeight %> <%= ingredientUnit %></u></b></p>
-            <hr/>
+                <!-- TODO: FOR LOOP FOR EACH INGREDIENT -->
+                <% for(let i = 0; i < ingredients.length; i++) {%>
 
-            <div id="physical-whole-div" class="center-table">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Sizing Option</th>
-                            <th scope="col">Net Weight</th>
-                            <th scope="col">Unit</th>
-                            <th scope="col">Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody id="physical-tbl-body">
-                        <!-- TODO: Get VARIATIONS of CURRENT INGREDIENT -->
-                        <!-- TODO: If ingredient does not have Variations: Edi wala -->
-                        <% for(let i = 0; i < ingredientVariations.length; i++){ %>
-                           <tr> 
-                               <td><%= ingredientVariations[i].name %></td>
-                               <td><%= ingredientVariations[i].netWeight %></td>
-                               <td><%= ingredientVariations[i].unitSymbol %></td>
-                               <td>
-                                   <input type="number" name="variation<%= i+1 %>" placeholder="Qty" min="0" class="form-control" style="margin: auto; width: 80px;" required>
-                               </td>
-                           </tr>
-                        <% } %>
-                        <!-- Count of variations / For for-loop in backend -->
-                        <input type="hidden" name="variationCount" value="<%= ingredientVariations.length %>">
+                    <h4 style="text-transform: uppercase;"><b><%= ingredients[i].name %></b></h4>
+                    <hr/>
+                    <div id="physical-whole-div" class="center-table">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sizing Option</th>
+                                    <th scope="col">Net Weight</th>
+                                    <th scope="col">Unit</th>
+                                    <th scope="col">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="physical-tbl-body">
 
-                        <tr id="physical-partials-field"></tr>
-                    </tbody>
-                </table>
+                                <% for (let j = 0; j < ingredientVariations.length; j++) { %>
+                                    <% if(ingredients[i].hasVariant && ingredientVariations[j].ingreID.equals(ingredients[i]._id)){ %>
+                                        <tr>
+                                            <td>
+                                                <%= ingredientVariations[j].name %>
+                                            </td>
+                                            <td>
+                                                <%= ingredientVariations[j].netWeight %>
+                                            </td>
+                                            <td>
+                                                <%= ingredientVariations[j].unitSymbol %> (
+                                                    <%= ingredientVariations[j].unitName %>)</td>
+                                            <td>
+                                                <input type="number" name="variant_qty_<%= ingredientVariations[j]._id %>" placeholder="Qty" min="0" class="form-control" style="margin: auto; width: 80px;" required>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                            <% } %>
 
-                <button id="physical-add-field-btn" class="btn btn-success" onclick="addField()" style="width: 100%;">Add Field for Partials / Used</button>
-            </div>
-        </form>
-        <br/>
+                                                <tr>
+                                                    <% if (!ingredients[i].hasVariant) { %>
+                                                        <td>No Packaging Option</td>
+                                                        <td>
+                                                            <input type="number" name="others_netwt_<%= ingredients[i]._id %>" placeholder="Minimum: 1" min="1" class="form-control" style="text-align: left; width: 100%;" required>
+                                                        </td>
+                                                        <td style="align-items: center;">
+                                                            <select name="others_unit_<%= ingredients[i]._id %>" class="form-select form-select-md" style="width: 100%;" required>
+                                            <option disabled selected value> Unit </option>
+                                            <% for(let i = 0; i < units.length; i++){ %>
+                                                <option value="<%= units[i]._id %>"><%= units[i].unitSymbol %> (<%= units[i].unitName %>s)</option>
+                                            <% } %>
+                                        </select>
+                                                        </td>
+                                                        <% } else { %>
+                                                            <td>Consumed / Partials</td>
+                                                            <td>
+                                                                <input type="number" name="others_netwt_<%= ingredients[i]._id %>" placeholder="Minimum: 1" min="1" class="form-control" style="text-align: left; width: 100%;">
+                                                            </td>
+                                                            <td style="align-items: center;">
+                                                                <select name="others_unit_<%= ingredients[i]._id %>" class="form-select form-select-md" style="width: 100%;" required>
+                                                                    <option disabled selected value>Unit</option>
+                                                                    <% for(let i = 0; i < units.length; i++){ %>
+                                                                      <option value="<%= units[i]._id %>"><%= units[i].unitSymbol %> (<%= units[i].unitName %>s)</option>
+                                                                    <% } %>
+                                                                  </select>
+                                                            </td>
+                                                            <% } %>
+                                                                <td>-</td>
+                                                </tr>
 
-        <hr/>
-        <button class="btn btn-secondary" style="color:white; width: 100%;" onclick="history.back()">Return to Previous page</button>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/><br/>
+                    <% } %>
+            </form>
+        </div>
     </div>
-</div>
 
-<!-- TO FIX/DELETE:
-    1. JS
-    2. Pages
-    3. Routes
-    4. Controller
-    5. Header
-
-    Concern:
-    1. What if walang variant?
--->
-
-<%- include("partials/footer") -%>
+    <%- include("partials/footer") -%>

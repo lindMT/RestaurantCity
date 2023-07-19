@@ -2,61 +2,66 @@ const { default: mongoose } = require('mongoose');
 const User = require('../model/usersSchema.js');
 const Unit = require('../model/unitsSchema.js');
 const Conversion = require('../model/conversionSchema.js');
+const Ingredients = require('../model/ingredientsSchema.js')
 const bcrypt = require("bcrypt");
 
 const addConversionController = {
     getAddConversion: async(req, res) => {
         const foundUnits = await Unit.find();
+        const foundIngredients = await Ingredients.find();
 
+        //TODO: Map units with ingredients
         await res.render('addConversion', {
-            units: foundUnits
+            units: foundUnits, ingredients: foundIngredients
         });
     },
     
     postAddConversion: async(req, res) => {
-        const fromUnitSymbol = req.body;
-        const toUnitSymbol = req.body;
+        const inputIngredient = req.body;
+        const subUnitSymbol = req.body;
         const inputFactor = req.body;
 
-        const fromUnit = await Unit.findOne({ unitSymbol: fromUnitSymbol}); // Subject to change if symbol or name will be used
-        const toUnit = await Unit.findOne({ unitSymbol: toUnitSymbol}); // Subject to change if symbol or name will be used
+        const subUnit = await Unit.findOne({ unitSymbol: subUnitSymbol }); // Subject to change if symbol or name will be used
+        const ingredient = await Ingredients.findOne({ name: inputIngredient });
 
-        // Checks if conversion exists
+        // Checks if ingredient exists in conversion table
         const existsConversion = await Conversion.findOne({
-            initialUnitId: fromUnit._id,
-            convertedUnitId: toUnit._id
+            ingredientId: ingredient._id
         });
 
-        if(existsConversion){
-            // Handle error where the conversion already exists
+        // Checks if it will duplicate the sub-unit
+        const duplicateConversion = await Conversion.findOne({
+            ingredientId: ingredient._id,
+            convertedUnitId: subUnit._id
+        });
+
+        if(duplicateConversion){ 
+            // Handle error that sub-unit will be duplicated
+
+        } else if(existsConversion){ // If ingredient exists in conversion table, add sub-unit only
+            const newSubUnit = {
+                convertedUnitId: subUnit._id,
+                conversionFactor: inputFactor,
+            };
+            existsConversion.subUnit.push(newSubUnit);
+            existsConversion = await existsConversion.save();
+            
         } else{
-            // Saves the conversion inputted by the user
+            // Creates new sub-unit
+            const newSubUnit = [
+                {
+                    convertedUnitId: subUnit._id,
+                    conversionFactor: inputFactor
+                }
+            ]
             const newConversion = new Conversion({
-                initialUnitId: fromUnit._id,
-                convertedUnitId: toUnit._id,
-                conversionFactor: inputFactor
+                ingredientId: ingredient._id,
+                initialUnitId: ingredient.unitID,
+                subUnit: newSubUnit
             });
             
-            // Creates the reverse conversion inputted by the user
-            const reverseNewConversion = new Conversion({
-                initialUnitId: toUnit._id,
-                convertedUnitId: fromUnit._id,
-                conversionFactor: 1 / inputFactor
-            });
-
             await newConversion.save();
-            await reverseNewConversion.save();
         }
-        
-        // Checks all existing conversions where the "toUnit" is the "fromUnit"
-        const findConversion = await Conversion.find({
-            initialUnitId: toUnit._id
-        });
-
-        // TODO: Add for loop where it will create all conversions for the inputted "fromUnit"
-        // ---------------------------------------------------------------------------------
-        // ---------------------------------------------------------------------------------
-        // ---------------------------------------------------------------------------------
 
         return res.redirect('/addConversion');
     }
