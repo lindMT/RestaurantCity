@@ -16,7 +16,7 @@ const addCategoryController = require('../controller/addCategoryController.js');
 const inputPhysicalController = require('../controller/inputPhysicalController.js');
 const orderController = require("../controller/orderController.js");
 const addUnitController = require("../controller/addUnitController.js");
-const addConversionController = require("../controller/addConversionController.js");
+const manageConversionsController = require("../controller/manageConversionsController.js");
 
 const app = express();
 
@@ -85,8 +85,10 @@ app.get("/addUnit", addUnitController.getAddUnit)
 app.post("/addUnit/process", addUnitController.postAddUnit)
 
 // Add Conversion
-app.get("/addConversion", addConversionController.getAddConversion)
-app.post("/addConversion/process", addConversionController.postAddConversion)
+app.get("/manageConversions", manageConversionsController.getManageConversions)
+app.get("/viewConversions/:ingreID", manageConversionsController.viewConversions)
+app.get("/addConversion/:ingreID", manageConversionsController.addConversion)
+app.post("/addConversion/process", manageConversionsController.postAddConversion)
 
 // View Stock Report
 app.get("/viewStockReport", viewReportController.getPeriodical)

@@ -5,16 +5,38 @@ const Conversion = require('../model/conversionSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js')
 const bcrypt = require("bcrypt");
 
-const addConversionController = {
-    getAddConversion: async(req, res) => {
-        const foundUnits = await Unit.find();
+const manageConversionsController = {
+    getManageConversions: async(req, res) => {
+        // const foundUnits = await Unit.find();
         const foundIngredients = await Ingredients.find();
 
         //TODO: Map units with ingredients
-        await res.render('addConversion', {
-            units: foundUnits, ingredients: foundIngredients
+        await res.render('manageConversions', {
+            ingredients: foundIngredients
         });
     },
+    
+
+    viewConversions: async(req, res) => {
+        var ingreID = req.params.ingreID;
+        console.log("IngreID in view conversions: " + ingreID);
+
+        const ingredient = await Ingredients.findById(ingreID);
+        console.log("ingredient JSON to pass" + ingredient)
+        res.render('viewConversions', { ingredient: ingredient })
+
+    },
+
+    addConversion: async(req, res) => {
+        var ingreID = req.params.ingreID;
+        console.log("IngreID in add conversions: " + ingreID);
+
+        const ingredient = await Ingredients.findById(ingreID);
+
+        res.render('addConversion', {ingredient: ingredient})
+
+    },
+
     
     postAddConversion: async(req, res) => {
         const inputIngredient = req.body;
@@ -68,4 +90,4 @@ const addConversionController = {
 
 }
 
-module.exports = addConversionController;
+module.exports = manageConversionsController;
