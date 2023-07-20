@@ -3,7 +3,7 @@ const User = require('../model/usersSchema.js');
 const Unit = require("../model/unitsSchema.js");
 const Ingredient = require("../model/ingredientsSchema.js");
 const IngreVariation = require("../model/ingreVariationsSchema.js");
-const Conversion = require("../model/conversionSchema.js")
+const Conversion = require("../model/ingreConversionSchema.js")
 const purchasedIngre = require("../model/purchasedSchema.js");
 const bcrypt = require("bcrypt");
 

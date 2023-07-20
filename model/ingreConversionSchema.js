@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const conversionSchema = new Schema({
+const ingreConversionSchema = new Schema({
     ingredientId: {
         type: Schema.Types.ObjectId,
         ref: 'ingredients',
@@ -91,4 +91,4 @@ const conversionSchema = new Schema({
     - Teaspoon to Milliliter
 */
 
-module.exports = mongoose.model('conversion', conversionSchema);
+module.exports = mongoose.model('ingreConversion', ingreConversionSchema);

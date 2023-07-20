@@ -1,7 +1,7 @@
 const { default: mongoose } = require('mongoose');
 const User = require('../model/usersSchema.js');
 const Unit = require('../model/unitsSchema.js');
-const Conversion = require('../model/conversionSchema.js');
+const Conversion = require('../model/ingreConversionSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js')
 const bcrypt = require("bcrypt");
 

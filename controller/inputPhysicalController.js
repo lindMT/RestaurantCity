@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const IngreVariation = require("../model/ingreVariationsSchema.js");
 const bcrypt = require("bcrypt");
 const Mismatch = require("../model/mismatchSchema.js");
-const Conversion = require("../model/conversionSchema.js");
+const Conversion = require("../model/ingreConversionSchema.js");
 
 const convertNetWeight = async(netWeight, unitId, targetUnitId) => {
     try {
