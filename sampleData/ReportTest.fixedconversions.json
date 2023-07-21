@@ -1,0 +1,348 @@
+[{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21012"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204eb"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "conversionFactor": 28.3495
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21013"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204eb"
+  },
+  "conversionFactor": 0.035
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21014"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "convertedUnitId": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "conversionFactor": 0.067628
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21015"
+  },
+  "initialUnitId": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "conversionFactor": 14.7868
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21016"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "convertedUnitId": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "conversionFactor": 0.202884
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21017"
+  },
+  "initialUnitId": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "conversionFactor": 4.9289
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21018"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ec"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204eb"
+  },
+  "conversionFactor": 16
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21019"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204eb"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ec"
+  },
+  "conversionFactor": 0.0625
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2101a"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ec"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "conversionFactor": 453.592
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2101b"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ec"
+  },
+  "conversionFactor": 0.0022
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2101c"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "convertedUnitId": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "conversionFactor": 67.628
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2101d"
+  },
+  "initialUnitId": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "conversionFactor": 0.014786
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2101e"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "convertedUnitId": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "conversionFactor": 202.884
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2101f"
+  },
+  "initialUnitId": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "conversionFactor": 0.0049289
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21020"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204eb"
+  },
+  "conversionFactor": 35.274
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21021"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204eb"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "conversionFactor": 0.0283495
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21022"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ec"
+  },
+  "conversionFactor": 2.20462
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21023"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ec"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "conversionFactor": 0.453592
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21024"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "conversionFactor": 0.001
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21025"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "conversionFactor": 1000
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21026"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ed"
+  },
+  "convertedUnitId": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "conversionFactor": 2
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21027"
+  },
+  "initialUnitId": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ed"
+  },
+  "conversionFactor": 0.5
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21028"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ed"
+  },
+  "convertedUnitId": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "conversionFactor": 6
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae21029"
+  },
+  "initialUnitId": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ed"
+  },
+  "conversionFactor": 0.166667
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2102a"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "convertedUnitId": {
+    "$oid": "64a451bb9a494ecb0fd7216b"
+  },
+  "conversionFactor": 0.00422675
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2102b"
+  },
+  "initialUnitId": {
+    "$oid": "64a451bb9a494ecb0fd7216b"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "conversionFactor": 236.588
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2102c"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "convertedUnitId": {
+    "$oid": "64a451bb9a494ecb0fd7216b"
+  },
+  "conversionFactor": 4.22675
+},
+{
+  "_id": {
+    "$oid": "64b6a2ed99f3be091ae2102d"
+  },
+  "initialUnitId": {
+    "$oid": "64a451bb9a494ecb0fd7216b"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "conversionFactor": 0.2366
+},
+{
+  "_id": {
+    "$oid": "64baa93ecc44369017a4d07e"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "conversionFactor": 0.001
+}]

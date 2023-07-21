@@ -1,0 +1,72 @@
+[{
+  "_id": {
+    "$oid": "64ba94fbcc44369017a4d04d"
+  },
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "date": "Thu Jul 06 2023 20:46:43 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "varID": {
+    "$oid": "64ba948ecc44369017a4d04b"
+  },
+  "qty": 1,
+  "netWeight": null,
+  "unitID": null
+},
+{
+  "_id": {
+    "$oid": "64ba95fdcc44369017a4d04f"
+  },
+  "ingreID": {
+    "$oid": "64ba93e4c3cb1f6c9cb0aca2"
+  },
+  "date": "Thu Jul 06 2023 20:46:43 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "varID": null,
+  "qty": null,
+  "netWeight": 100,
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e7"
+  }
+},
+{
+  "_id": {
+    "$oid": "64baa090cc44369017a4d068"
+  },
+  "ingreID": {
+    "$oid": "64ba93e4c3cb1f6c9cb0aca2"
+  },
+  "date": "Thu Jul 06 2023 20:46:43 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "varID": null,
+  "qty": null,
+  "netWeight": 1,
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e8"
+  }
+},
+{
+  "_id": {
+    "$oid": "64baa81acc44369017a4d07a"
+  },
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "date": "Thu Jul 06 2023 20:46:43 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "varID": {
+    "$oid": "64baa7a0cc44369017a4d078"
+  },
+  "qty": 1,
+  "netWeight": null,
+  "unitID": null
+}]

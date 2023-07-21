@@ -24,7 +24,7 @@
     </div>
     <div class="card shadow periodical-report-card">
         <div class="periodical-header">
-            <h3><b> Stock Report for </b></h3>
+            <h3><b> Stock Report for <%= %> to <%= %></b></h3>
             <i>Generated on <span id="current_date"></span></i>  
             <hr>
             
@@ -42,19 +42,28 @@
             </tr>
             </thead>
             <tbody>
+            <% ingres.forEach(function(ingredient, index) { %>
             <tr> 
                 <!-- Pag may DB na, revise to calling based on id -->
                 <td name="ingredient-name">
-                    <a href="/detailedReport/Milk">Milk</a>
+                    <a href="/detailedReport/Milk"><%= ingredient.name %></a>
                 </td>
-                <td id="custom-purchased" name="custom-purchased"> 1,500</td>
+                <!-- Value from purchasedIngre -->
+                <td id="custom-purchased" name="custom-purchased"> <%= purchasesValues[index] %></td>
+                <!-- Value from dishRecipe (orderItem) -->
                 <td id="custom-consumed" name="custom-consumed">   4,466</td>
+                <!-- Value from discardedIngre + mismatch -->
                 <td id="custom-lost" name="custom-lost">           34</td>
+                <!-- Value = purchased - (consumed + lost) -->
                 <td id="custom-remaining" name="custom-remaining"> 0</td>
-                <td id="custom-unit" name="custom-unit">           L</td>
-
-
+                <% 
+                units.forEach(function(unit){
+                    if(ingredient.unitID.toString() == unit._id.toString()){
+                %>
+                <td id="custom-unit" name="custom-unit"><%= unit.unitSymbol %></td>
+                <% } }) %>
             </tr>
+            <% }) %>
             </tbody>
         </table>
         <div class="periodical-footer">
