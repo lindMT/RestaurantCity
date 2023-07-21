@@ -23,6 +23,8 @@ const manageConversionsController = {
 
         const ingredient = await Ingredients.findById(ingreID);
         console.log("ingredient JSON to pass" + ingredient)
+
+        // TO ADD: Display base unit instead
         res.render('viewConversions', { ingredient: ingredient })
 
     },
@@ -32,6 +34,8 @@ const manageConversionsController = {
         console.log("IngreID in add conversions: " + ingreID);
 
         const ingredient = await Ingredients.findById(ingreID);
+
+        // TO ADD: Display FROM unit as base unit instead of drop down
 
         res.render('addConversion', {ingredient: ingredient})
 
@@ -85,7 +89,7 @@ const manageConversionsController = {
             await newConversion.save();
         }
 
-        return res.redirect('/addConversion');
+        return res.redirect('/manageConversions');
     }
 
 }
