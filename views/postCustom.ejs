@@ -53,7 +53,7 @@
                 <!-- Value from dishRecipe (orderItem) -->
                 <td id="custom-consumed" name="custom-consumed">   4,466</td>
                 <!-- Value from discardedIngre + mismatch -->
-                <td id="custom-lost" name="custom-lost">           34</td>
+                <td id="custom-lost" name="custom-lost">           <%= lostValues[index] %></td>
                 <!-- Value = purchased - (consumed + lost) -->
                 <td id="custom-remaining" name="custom-remaining"> 0</td>
                 <% 
