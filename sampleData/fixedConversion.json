@@ -333,4 +333,28 @@
     "$oid": "64a5804ea792248175d204ea"
   },
   "conversionFactor": 0.2366
+},
+{
+  "_id": {
+    "$oid": "64bc018d50c8b73c24389833"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "conversionFactor": 1000
+},
+{
+  "_id": {
+    "$oid": "64bc018d50c8b73c24389834"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "convertedUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "conversionFactor": 0.001
 }]
