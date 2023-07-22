@@ -4,15 +4,17 @@ const Unit = require('../model/unitsSchema.js');
 const Conversion = require('../model/ingreConversionSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js')
 const bcrypt = require("bcrypt");
+const unitsSchema = require('../model/unitsSchema.js');
 
 const manageConversionsController = {
     getManageConversions: async(req, res) => {
-        // const foundUnits = await Unit.find();
+        const foundUnits = await Unit.find();
         const foundIngredients = await Ingredients.find();
 
         //TODO: Map units with ingredients
         await res.render('manageConversions', {
-            ingredients: foundIngredients
+            ingredients: foundIngredients,
+            units: foundUnits
         });
     },
     
@@ -34,10 +36,11 @@ const manageConversionsController = {
         console.log("IngreID in add conversions: " + ingreID);
 
         const ingredient = await Ingredients.findById(ingreID);
-
+        const baseUnit = await Unit.findById(ingredient.unitID);
+        // TODO: get units that are not in ingreConversions and pass into addConversion and set it as options
         // TO ADD: Display FROM unit as base unit instead of drop down
 
-        res.render('addConversion', {ingredient: ingredient})
+        res.render('addConversion', {ingredient: ingredient, baseUnit: baseUnit})
 
     },
 
