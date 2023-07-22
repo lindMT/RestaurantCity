@@ -316,6 +316,22 @@ const viewReportController = {
                             }
                         }
                     }
+
+                    // loop through all mismatches
+                    // NOTE: ASSUMING THAT THE UNIT FOR DIFFERENCE WILL ALWAYS MATCH INGREDIENT BASE UNIT
+                    for (var b = 0; b < mismatches.length; b++){
+                        // get date and convert string to Date type
+                        date = new Date(mismatches[b].date);
+                        console.log("MISMATCHES " + date);
+                        // check if discardeds date matches current date loop
+                        if (date.getDate() === dateArray[d].getDate()){
+                            // check if the mismatch is for the ingredient
+                            if (ingres[i]._id.toString() == mismatches[b].ingreID.toString()){
+                                console.log(mismatches[b]);
+                                totalLost += +(mismatches[b].difference);
+                            }
+                        }
+                    }
                 }
                 purchasesValues[i] = totalPurchased;
                 console.log("Purchased: " + totalPurchased);
