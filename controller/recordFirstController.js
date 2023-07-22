@@ -1,17 +1,17 @@
-const User = require('../model/usersSchema.js');
-const Unit = require("../model/unitsSchema.js");
-const Ingredient = require("../model/ingredientsSchema.js");
-const IngreVariation = require("../model/ingreVariationsSchema.js");
-const Conversion = require("../model/ingreConversionSchema.js");
-const purchasedIngre = require("../model/purchasedSchema.js");
-const bcrypt = require("bcrypt");
+var User = require('../model/usersSchema.js');
+var Unit = require("../model/unitsSchema.js");
+var Ingredient = require("../model/ingredientsSchema.js");
+var IngreVariation = require("../model/ingreVariationsSchema.js");
+var Conversion = require("../model/ingreConversionSchema.js");
+var purchasedIngre = require("../model/purchasedSchema.js");
+var bcrypt = require("bcrypt");
 
-const convert = require('convert-units');
+var convert = require('convert-units');
 
 
-const recordFirstController = {
+var recordFirstController = {
     getRecFirst: async(req, res) => {
-        const foundIngredients = await Ingredient.find().sort({ name: 1 });
+        var foundIngredients = await Ingredient.find().sort({ name: 1 });
 
         await res.render('recordFirstP1', {
             ingredients: foundIngredients,
@@ -19,11 +19,11 @@ const recordFirstController = {
     },
 
     postRecFirst1: async(req, res) => {
-        const inputIngreId = req.body.ingreId
+        var inputIngreId = req.body.ingreId
 
         // For passing to EJS file
-        const foundIngredient = await Ingredient.findById(inputIngreId)
-        const foundUnits = await Unit.find();
+        var foundIngredient = await Ingredient.findById(inputIngreId)
+        var foundUnits = await Unit.find();
 
         await res.render('recordFirstP2', {
             ingredient: foundIngredient,
@@ -33,10 +33,10 @@ const recordFirstController = {
 
     postRecFirst2: async(req, res) => {
         // User Inputs
-        const inputId = req.body.ingreId;
-        const inputVariantName = req.body.ingreVariantName;
-        const inputNetWt = req.body.ingreNetWt;
-        const inputUnit = req.body.ingreUnit;
+        var inputId = req.body.ingreId;
+        var inputVariantName = req.body.ingreVariantName;
+        var inputNetWt = req.body.ingreNetWt;
+        var inputUnit = req.body.ingreUnit;
 
         // Check if there is quantity later
         var inputQty = req.body.ingreQty;
@@ -44,10 +44,10 @@ const recordFirstController = {
         var addedMsg = 0;
 
         // For updating ingredient
-        const foundIngredient = await Ingredient.findById(inputId)
-        const foundIngredientUnit = await Unit.findById(foundIngredient.unitID)
+        var foundIngredient = await Ingredient.findById(inputId)
+        var foundIngredientUnit = await Unit.findById(foundIngredient.unitID)
 
-        const foundUnit = await Unit.findOne({ unitSymbol: inputUnit });
+        var foundUnit = await Unit.findOne({ unitSymbol: inputUnit });
 
         if (inputVariantName === "") {
             variationName = inputNetWt + " " + foundUnit.unitSymbol
@@ -59,12 +59,12 @@ const recordFirstController = {
             let totalNetWt = inputNetWt * inputQty
 
             // Check Unit if NOT same with ingredient default
-            if (inputUnit !== foundIngredientUnit.unitSymbol) {
-                // ==================================
-                // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
-                // ==================================
-                totalNetWt = convert(totalNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
-            }
+            // if (inputUnit !== foundIngredientUnit.unitSymbol) {
+            //     // ==================================
+            //     // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
+            //     // ==================================
+            //     totalNetWt = convert(totalNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
+            // }
 
             // Update inventory
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWt);
@@ -73,12 +73,12 @@ const recordFirstController = {
             inputQty = 1;
 
             // Update inventory
-            if (inputUnit !== foundIngredientUnit.unitSymbol) {
-                // ==================================
-                // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
-                // ==================================
-                inputNetWt = convert(inputNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
-            }
+            // if (inputUnit !== foundIngredientUnit.unitSymbol) {
+            //     // ==================================
+            //     // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
+            //     // ==================================
+            //     inputNetWt = convert(inputNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
+            // }
 
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(inputNetWt);
             addedMsg = Number(inputNetWt);
@@ -98,15 +98,15 @@ const recordFirstController = {
         console.log("NEW VARIANT: " + newVariant)
 
         // Get the current date
-        const currentDate = new Date();
+        var currentDate = new Date();
 
         // Find the user by their username
-        const user = await User.findOne({ userName: req.session.userName });
+        var user = await User.findOne({ userName: req.session.userName });
         // Get the user ID
-        const userId = user._id;
+        var userId = user._id;
 
         //Add ingredient to purchased audit.
-        const auditIngredient = new purchasedIngre({
+        var auditIngredient = new purchasedIngre({
             ingreID: foundIngredient._id,
             date: currentDate,
             varID: newVariant._id,
