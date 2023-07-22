@@ -95,6 +95,7 @@ app.get("/viewStockReport", viewReportController.getPeriodical)
 
 // View Custom Report   
 app.get("/viewCustom", viewReportController.getCustom)
+app.post("/viewCustom", viewReportController.postCustom)
 
 // View Detailed Report
 // To revise /Milk, will be ingredient id once may db na
