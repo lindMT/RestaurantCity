@@ -1,17 +1,16 @@
 const { default: mongoose } = require('mongoose');
 const User = require('../model/usersSchema.js');
-const Unit = require('../model/unitsSchema.js');
+const Units = require('../model/unitsSchema.js');
 const Conversion = require('../model/ingreConversionSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js')
 const bcrypt = require("bcrypt");
-const unitsSchema = require('../model/unitsSchema.js');
 
 const manageConversionsController = {
     getManageConversions: async(req, res) => {
-        const foundUnits = await Unit.find();
+        // const foundUnits = await Unit.find();
         const foundIngredients = await Ingredients.find();
-
-        //TODO: Map units with ingredients
+        const foundUnits = await Units.find();
+        
         await res.render('manageConversions', {
             ingredients: foundIngredients,
             units: foundUnits
@@ -19,15 +18,48 @@ const manageConversionsController = {
     },
     
 
-    viewConversions: async(req, res) => {
+    viewConversions: async function(req, res) {
         var ingreID = req.params.ingreID;
         console.log("IngreID in view conversions: " + ingreID);
 
-        const ingredient = await Ingredients.findById(ingreID);
-        console.log("ingredient JSON to pass" + ingredient)
-
-        // TO ADD: Display base unit instead
-        res.render('viewConversions', { ingredient: ingredient })
+        try {
+            const ingredients = await Ingredients.findById(ingreID);
+            const conversions = await Conversion.find();
+            
+            // Map Ingredient ID with IngreConversion ID
+            const ingreWithConversion = await Promise.all([ingredients].map(async ingre => {
+                const conversion = conversions.find(conversion => conversion.ingredientId.equals(ingre._id));
+                const baseUnit = await Units.findById(ingre.unitID);
+                if (conversion) {
+                    // Map Unit ID with IngreConversion Sub-Unit ID
+                    const subUnitsWithConversions = await Promise.all(conversion.subUnit.map(async subUnit => {
+                        const convertedUnit = await Units.findById(subUnit.convertedUnitId);
+                        return {
+                            convertedUnitName: convertedUnit.unitName,
+                            conversionFactor: subUnit.conversionFactor
+                        };
+                    }));
+                    return {
+                        ingredientName: ingre.name,
+                        baseUnitName: baseUnit.unitName,
+                        conversions: subUnitsWithConversions
+                    };
+                } else {
+                    return {
+                        ingredientName: ingre.name,
+                        baseUnitName: baseUnit.unitName,
+                        conversions: []
+                    };
+                }
+            }));
+    
+            console.log("ingredient JSON to pass: ", ingreWithConversion);
+            res.render('viewConversions', { ingredients: ingreWithConversion });
+        } catch (err) {
+            console.error("Error in viewConversions: ", err);
+            // Handle the error and send an appropriate response.
+            res.status(500).send("Internal Server Error");
+        }
 
     },
 
@@ -36,11 +68,10 @@ const manageConversionsController = {
         console.log("IngreID in add conversions: " + ingreID);
 
         const ingredient = await Ingredients.findById(ingreID);
-        const baseUnit = await Unit.findById(ingredient.unitID);
-        // TODO: get units that are not in ingreConversions and pass into addConversion and set it as options
+
         // TO ADD: Display FROM unit as base unit instead of drop down
 
-        res.render('addConversion', {ingredient: ingredient, baseUnit: baseUnit})
+        res.render('addConversion', {ingredient: ingredient})
 
     },
 
