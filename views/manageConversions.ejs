@@ -1,6 +1,6 @@
 <%- include("partials/header") -%>
     <div class="viewdish-card-holder" >
-        <div class="card shadow viewdish-form" style="width: 30vw;">
+        <div class="card shadow viewdish-form" style="width: 50vw;">
             <form method="post" action="/manageDishes/process">
                 <div class="viewdish-header">
                     <h1>Manage Unit Conversions</h1>
@@ -14,7 +14,8 @@
                     style=" width: 80%; margin-left: auto; margin-right: auto;">
                     <thead>
                         <tr>
-                            <th scope="col" style="text-align: left; padding-right: 30px;">Ingredient Name</th>
+                            <th scope="col" style="text-align: left;">Ingredient Name</th>
+                            <th scope="col" style="text-align: center;">Base Unit</th>
                             <th scope="col" style="text-align: center;">Conversions</th>
                         </tr>
                     </thead>
@@ -24,6 +25,15 @@
                             <td style="text-align: left;">
                                 <%= ingre.name %>
                             </td>
+                            
+                            <td style="text-align: center;">
+                                <% units.forEach(function(unit) {%>
+                                    <% if(unit._id.toString() == ingre.unitID) { %>
+                                        <%= unit.unitName%>
+                                    <% } %>
+                                <% }) %>
+                            </td>
+
                             <td>
                                 <a href="/viewConversions/<%= ingre._id %>" style="color: black; text-decoration: none;">
                                     View Conversions

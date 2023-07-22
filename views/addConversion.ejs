@@ -68,19 +68,12 @@ input[type=number] {
 
                     <!-- NEW STYLE * temporary * -->
                     <div class="form-group form-align-left">
-                        <label>Unit</label>
-                        <select class="form-select" id="startUnit" name="unit"
-                            aria-label="Default select example" required>
-                            <option disabled selected value>Select Unit</option>
-                        </select>
-                    </div>
-
-                    <br/>
-                    <div class="form-group form-align-left">
-                        <label>Convert into</label>
+                        <label>Convert <%= baseUnit.unitName %> (base unit) into</label>
                         <select class="form-select" name="convertIntoUnit" id="convertIntoUnit"
                             aria-label="Default select example" required>
-                            <option disabled selected value>Select Unit to Convert</option>
+                            <option disabled selected value>Select Unit to Convert Into</option>
+                            <option value = "lbs">lbs (hardcoded)</option>
+                            <option value = "tonnes">tonnes (hardcoded)</option>
                         </select>
                     </div>
 
