@@ -1,0 +1,78 @@
+<%- include("partials/header") -%>
+<a href="/viewStockReport">
+    <button type="button" class="btn btn-submit-count" style="margin-left:1rem;">Back to Periodical Report</button>
+</a>
+
+<div class="periodical-card-holder">
+    <div class="card shadow periodical-select-card">
+        <form action="/viewCustom" method="post" id="custom-dates">
+        <div class="periodical-header">
+            <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Custom Report</h1>
+            <hr>
+        </div>
+        <div class="stock-header2 ">
+            <h5>From:</h5>
+            <input type="date" id="start_date" name="startDate" value="<%= startDate %>"></input>
+        </div>
+        <div class="stock-header2">
+            <h5>To:</h5>
+            <input type="date" id="end_date" name="endDate" value="<%= endDate %>"></input>
+        </div>
+        <hr>
+        <button type="submit" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
+        </form>
+    </div>
+    <div class="card shadow periodical-report-card">
+        <div class="periodical-header">
+            <h3><b> Stock Report for <%= formattedStartDate %> to <%= formattedEndDate %></b></h3>
+            <i>Generated on <span id="current_date"></span></i>  
+            <hr>
+            
+        </div>
+        <table id="custom-report" class="table table-striped" style="margin-top: 1rem;">
+            <thead>
+            <tr>
+                <th scope="col">Ingredient</th>
+                <th scope="col">Purchased</th>
+                <th scope="col">Consumed</th>
+                <th scope="col">Lost</th>
+                <th scope="col">Remaining Stock</th>
+                <th scope="col">Unit</th>
+                <!-- No date here since it will be shown thru detailed -->
+            </tr>
+            </thead>
+            <tbody>
+            <% ingres.forEach(function(ingredient, index) { %>
+            <tr> 
+                <!-- Pag may DB na, revise to calling based on id -->
+                <td name="ingredient-name">
+                    <a href="/detailedReport/Milk"><%= ingredient.name %></a>
+                </td>
+                <!-- Value from purchasedIngre -->
+                <td id="custom-purchased" name="custom-purchased"> <%= purchasesValues[index] %></td>
+                <!-- Value from dishRecipe (orderItem) -->
+                <td id="custom-consumed" name="custom-consumed">   4,466</td>
+                <!-- Value from discardedIngre + mismatch -->
+                <td id="custom-lost" name="custom-lost">           34</td>
+                <!-- Value = purchased - (consumed + lost) -->
+                <td id="custom-remaining" name="custom-remaining"> 0</td>
+                <% 
+                units.forEach(function(unit){
+                    if(ingredient.unitID.toString() == unit._id.toString()){
+                %>
+                <td id="custom-unit" name="custom-unit"><%= unit.unitSymbol %></td>
+                <% } }) %>
+            </tr>
+            <% }) %>
+            </tbody>
+        </table>
+        <div class="periodical-footer">
+            <hr>
+            <h5><b>-END OF REPORT-</b></h5>
+        </div>
+    </div>
+
+</div>
+
+<script src="/js/calendarCustom.js"></script>
+<%- include("partials/footer") -%>
