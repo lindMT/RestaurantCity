@@ -2,7 +2,6 @@
 const date = new Date().toLocaleString();
 document.getElementById("current_date").innerHTML = date;
 
-
 // Getting current date in yyyy-mm-dd format
 var today = new Date();
 var dd = today.getDate();
@@ -24,7 +23,6 @@ $("#start_date").change(function() {
 });
 $("#start_date").attr("max", today);
 $("#end_date").attr("max", today);
-
 
 // Disable submit button
 $("#submitbtn").prop("disabled", true);
