@@ -40,7 +40,7 @@ input[type=number] {
             <h1>Add Unit Conversion for <%= ingredient.name %></h1>
             <hr>
             Enter a conversion for the units.
-            <form action="" method="post">
+            <form action="/addConversion/<%= ingredient._id %>/process" method="post">
                 <br>
                 <div id="form-row">
                     <!-- OLD STYLE -->
@@ -68,19 +68,20 @@ input[type=number] {
 
                     <!-- NEW STYLE * temporary * -->
                     <div class="form-group form-align-left">
-                        <label>Convert <%= baseUnit.unitName %> (base unit) into</label>
+                        <label>Convert <%= baseUnit %>(base unit) into</label>
                         <select class="form-select" name="convertIntoUnit" id="convertIntoUnit"
                             aria-label="Default select example" required>
                             <option disabled selected value>Select Unit to Convert Into</option>
-                            <option value = "lbs">lbs (hardcoded)</option>
-                            <option value = "tonnes">tonnes (hardcoded)</option>
+                            <% units.forEach(unit => { %>
+                            <option value="<%= unit.unitSymbol %>"><%= unit.unitSymbol %></option>
+                            <% }); %>
                         </select>
                     </div>
 
                     <br/>
                     <div class="form-group form-align-left">
                         <label>Conversion Factor</label>
-                        <input type="number" name="ingreName" placeholder="e.g. 0.0001" min="1" class="form-control" style="text-align: left; width: 100%;">
+                        <input type="number" name="factor" placeholder="e.g. 0.0001" min="0.0000000000001" step="any" class="form-control" style="text-align: left; width: 100%;">
                     </div>
                 </div>
                 <br/>

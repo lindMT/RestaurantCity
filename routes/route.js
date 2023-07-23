@@ -88,7 +88,7 @@ app.post("/addUnit/process", addUnitController.postAddUnit)
 app.get("/manageConversions", manageConversionsController.getManageConversions)
 app.get("/viewConversions/:ingreID", manageConversionsController.viewConversions)
 app.get("/addConversion/:ingreID", manageConversionsController.addConversion)
-app.post("/addConversion/process", manageConversionsController.postAddConversion)
+app.post("/addConversion/:ingreID/process", manageConversionsController.postAddConversion)
 
 // View Stock Report
 app.get("/viewStockReport", viewReportController.getPeriodical)
