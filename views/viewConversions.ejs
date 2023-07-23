@@ -56,7 +56,7 @@ input[type=number] {
                     <tbody>
                         <% ingredients[0].conversions.forEach(conversion => { %>
                         <tr>
-                            <td><%= conversion.baseUnitName %></td>
+                            <td style="text-align: left;"><%= ingredients[0].baseUnitName %></td>
                             <td><%= conversion.convertedUnitName %></td>
                             <td><%= conversion.conversionFactor %></td>
                         </tr>
