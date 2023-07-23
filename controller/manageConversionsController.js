@@ -54,7 +54,10 @@ const manageConversionsController = {
             }));
     
             console.log("ingredient JSON to pass: ", ingreWithConversion);
-            res.render('viewConversions', { ingredients: ingreWithConversion });
+            res.render('viewConversions', { 
+                ingredients: ingreWithConversion,
+                ingre: ingredients
+            });
         } catch (err) {
             console.error("Error in viewConversions: ", err);
             // Handle the error and send an appropriate response.
@@ -68,21 +71,35 @@ const manageConversionsController = {
         console.log("IngreID in add conversions: " + ingreID);
 
         const ingredient = await Ingredients.findById(ingreID);
+        const ingreConversion = await Conversion.find({ ingredientId: ingreID });
+        const initialUnitId = ingreConversion.map(conversion => conversion.initialUnitId);
+        const categoryOfUnits = await Units.find({ _id: { $in: initialUnitId } }).distinct('category');
+        // Find all units with the same category as ingreConversion.initialUnitId
+        const unitsWithSameCategory = await Units.find({
+            $or: [
+                { category: { $in: categoryOfUnits } },
+                { category: 'Both' }
+            ]
+        });
 
-        // TO ADD: Display FROM unit as base unit instead of drop down
-
-        res.render('addConversion', {ingredient: ingredient})
+        const baseUnitNames = await Units.find({ _id: { $in: initialUnitId } }).distinct('unitName');
+        res.render('addConversion', {
+            ingredient: ingredient,
+            baseUnit: baseUnitNames,
+            units: unitsWithSameCategory
+        })
 
     },
 
     
     postAddConversion: async(req, res) => {
-        const inputIngredient = req.body;
-        const subUnitSymbol = req.body;
-        const inputFactor = req.body;
+        const inputIngredient = req.params.ingreID;
+        const subUnitSymbol = req.body.convertIntoUnit;
+        const inputFactor = req.body.factor;
+        console.log(subUnitSymbol);
 
-        const subUnit = await Unit.findOne({ unitSymbol: subUnitSymbol }); // Subject to change if symbol or name will be used
-        const ingredient = await Ingredients.findOne({ name: inputIngredient });
+        const subUnit = await Units.findOne({ unitSymbol: subUnitSymbol });
+        const ingredient = await Ingredients.findById(inputIngredient);
 
         // Checks if ingredient exists in conversion table
         const existsConversion = await Conversion.findOne({
@@ -96,7 +113,8 @@ const manageConversionsController = {
         });
 
         if(duplicateConversion){ 
-            // Handle error that sub-unit will be duplicated
+            req.flash('error_msg', 'Conversion already exists, Please input a different one')
+            console.log("Conversion already exists")
 
         } else if(existsConversion){ // If ingredient exists in conversion table, add sub-unit only
             const newSubUnit = {
@@ -104,7 +122,7 @@ const manageConversionsController = {
                 conversionFactor: inputFactor,
             };
             existsConversion.subUnit.push(newSubUnit);
-            existsConversion = await existsConversion.save();
+            await existsConversion.save();
             
         } else{
             // Creates new sub-unit
