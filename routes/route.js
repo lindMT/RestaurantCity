@@ -92,6 +92,7 @@ app.post("/addConversion/process", manageConversionsController.postAddConversion
 
 // View Stock Report
 app.get("/viewStockReport", viewReportController.getPeriodical)
+app.post("/viewPeriodical", viewReportController.postPeriodical)
 
 // View Custom Report   
 app.get("/viewCustom", viewReportController.getCustom)
