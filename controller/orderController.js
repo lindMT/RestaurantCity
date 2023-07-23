@@ -6,9 +6,7 @@ const Ingredient = require('../model/ingredientsSchema.js');
 const Dish = require('../model/dishSchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
 const Category = require('../model/dishCategorySchema.js');
-// const Conversion = require('../model/conversionSchema.js');
-// const bcrypt = require("bcrypt");
-// const { Types } = mongoose;
+const Unit = require('../model/unitsSchema.js');
 var Convert = require('convert-units')
 
 const orderController = {
@@ -28,6 +26,8 @@ const orderController = {
       try{
         // toggle this to true/false to test
         let orderIsViable = [];
+        let ingredientsToUse = []; // from Ingredients._id
+        let ingredientUnitTotal = []; // totalWeight
 
         const lackingIngredients = []; //Removed default value
         const orderSuccessMessage = "Order fulfilled. Please go back to the order terminal to input more orders.";
@@ -35,8 +35,9 @@ const orderController = {
         var quantityArray = req.body.quantity;
         var dishIdArray = req.body.dishId;
 
+        // LOOP THRU SELECTED DISHES
         for(var i = 0; i < quantityArray.length; i++){
-          console.log("loop1")
+          console.log("Main Loop (Dish)")
           if (Array.isArray(dishIdArray)) {
             var quantity = quantityArray[i];
             var dishId = dishIdArray[i];
@@ -45,141 +46,57 @@ const orderController = {
             var dishId = dishIdArray;
           }
           var dishRecipe = await DishRecipe.findOne({ dishID:  dishId });
-          console.log(dishRecipe)
 
+          // POPULATE ingredientToUse and ingredientQuantityTotal\
           for (var ingredientInRecipe of dishRecipe.ingredients) {
-            console.log("inner loop1")
+            console.log("Inner Loop (Ingredient per Dish)")
             var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
+            var chefUnit =  await Unit.find({unitSymbol: ingredientInRecipe.chefUnitID});
+            var invUnit =  await Unit.find({unitSymbol: ingredientInInventory.unitID});
+            var chefUnitSymbol = chefUnit.unitSymbol;
+            var invUnitSymbol =  invUnit.unitSymbol;
+            console.log(chefUnitSymbol + " amd " + invUnitSymbol )
+            var netWeight = Convert(ingredientInRecipe.chefWeight).from(chefUnitSymbol).to(invUnitSymbol)
 
-            var conversion = await Conversion.findOne({ 
-                                                  initialUnitId: ingredientInRecipe.chefUnitID,
-                                                  convertedUnitId: ingredientInInventory.unitID
-                                                }); //ForDishInInv
-            var conversionFactor = conversion.conversionFactor;
-            var dish = await Dish.findById(dishId);
-            console.log("Ingredient in Recipe: " + (ingredientInRecipe.chefWeight * quantity * conversionFactor))
-            console.log("Ingredient in Inventory: " + (ingredientInInventory.totalNetWeight))
-            console.log("ingredientInInventory.unitID: " + ingredientInInventory.unitID)
-            if((ingredientInRecipe.chefWeight * quantity * conversionFactor) < (ingredientInInventory.totalNetWeight)){
-                orderIsViable.push(true);
-                console.log("viable");
-            } else{
-                orderIsViable.push(false);
-                lackingIngredients.push(ingredientInInventory.name + "(for " + dish.name + ")");
-                console.log("not viable");
+            // if ingredients to use is not empty
+            if (ingredientsToUse.length != 0){
+              for (var x = 0 ; x < ingredientsToUse.length; x++){
+            
+                console.log(ingredientInRecipe.ingredient + " AND " + ingredientsToUse[x])
+                if (ingredientInRecipe.ingredient == ingredientsToUse[x]){
+                  ingredientUnitTotal[x] += netWeight;
+                } else{
+                  ingredientToUse.push(ingredientInRecipe.ingredient)
+                  ingredientUnitTotal.push(netWeight);
+                }
+              }
+            } else{// else add to it
+              ingredientToUse.push(ingredientInRecipe.ingredient)
+              ingredientUnitTotal.push(netWeight);
             }
+
+          }
+
+        }
+
+        // LOOP THRU TOTAL OF UNIQUE INGREDIENTS AND UNIT TOTAL
+        console.log("LEN IS " + ingredientsToUse.length)
+        for(var y=0; y<ingredientsToUse.length; y++){
+          var ingredientInInventory = await Ingredient.findById(ingredientsToUse[y]);
+
+          if(ingredientUnitTotal[y] < ingredientInInventory.totalNetWeight){
+              orderIsViable.push(true);
+              console.log("viable");
+          } else{
+              orderIsViable.push(false);
+              lackingIngredients.push(ingredientInInventory.name + "(for " + dish.name + ")");
+              console.log("not viable");
           }
         }
-      
-        console.log("FINAL CHECK (viable)")
-        console.log(orderIsViable)
 
-        console.log("FINAL CHECK (lackingIngredients)")
-        console.log(lackingIngredients)
-        
-            var proceedWithOrder = true; // based on orderIsViable (do a loop maybe)
-            for (var i = 0; i < orderIsViable.length; i++){
-              if (!orderIsViable[i])
-                proceedWithOrder = false;
-            }
 
-            if (proceedWithOrder){ 
-              // Calculate Total Price
-              var totalPrice = 0; 
-  
-              for (var i = 0; i < quantityArray.length; i++) {
-                if (Array.isArray(dishIdArray)) {
-                  var dishId = dishIdArray[i];
-                } else {
-                  var dishId = dishIdArray;
-                }
-                var dish = await Dish.findById(dishId);
-                totalPrice += dish.price * quantityArray[i];
-              }
-              
-              console.log("Total Price: " + totalPrice);
-              
-              //Create New Order
-              var newOrder = new Order({
-                  totalPrice: totalPrice,
-                  date: new Date(),
-                  takenBy: req.session.userName
-              });
-  
-              newOrder.save().then(async (docs) => {
-                if (Array.isArray(dishIdArray)) {
-                  for (var i = 0; i < dishIdArray.length; i++){
-                    console.log("Index:", i);
-                    console.log("dishIdArray:", dishIdArray[i]);
-                    console.log("quantityArray:", quantityArray[i]);
-                    var newOrderItem = new OrderItem({
-                        orderID: newOrder._id,
-                        dishID: dishIdArray[i],
-                        qty: quantityArray[i]
-                    });
-                    await newOrderItem.save();
-                  }
-               } else {
-                    console.log("dishIdArray:", dishIdArray);
-                    console.log("quantityArray:", quantityArray);
-                    var newOrderItem = new OrderItem({
-                        orderID: newOrder._id,
-                        dishID: dishIdArray,
-                        qty: quantityArray
-                    });
-                    await newOrderItem.save();
-               }
 
-               /// FOR UPDATING 
-               for(var i = 0; i < quantityArray.length; i++){
-                  console.log("UPDATE LOOP 2")
-                  if (Array.isArray(dishIdArray)) {
-                    var quantity = quantityArray[i];
-                    var dishId = dishIdArray[i];
-                  } else {
-                    var quantity = quantityArray;
-                    var dishId = dishIdArray;
-                  }
-                  var dishRecipe = await DishRecipe.findOne({ dishID:  dishId });
-                  console.log(dishRecipe)
-                
-                  for (var ingredientInRecipe of dishRecipe.ingredients) {
-                    console.log("UPDATE INNER LOOP 2")
-                    var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
-                
-                    var conversion = await Conversion.findOne({ 
-                                                          initialUnitId: ingredientInRecipe.chefUnitID,
-                                                          convertedUnitId: ingredientInInventory.unitID
-                                                        }); //ForDishInInv
-                    var conversionFactor = conversion.conversionFactor;
-                    var dish = await Dish.findById(dishId);
-                    console.log("UPDATE Ingredient in Recipe: " + (ingredientInRecipe.chefWeight * quantity * conversionFactor))
-                    console.log("UPDATE Ingredient in Inventory: " + (ingredientInInventory.totalNetWeight))
-                    console.log("UPDATE ingredientInInventory.unitID: " + ingredientInInventory.unitID)
-                    var newNetWeight = (ingredientInInventory.totalNetWeight) - (ingredientInRecipe.chefWeight * quantity * conversionFactor);
-                    Ingredient.updateOne(
-                      { _id: ingredientInRecipe.ingredient },
-                      { $set: { totalNetWeight: newNetWeight } }
-                    )
-                    .catch(err => {
-                        console.log(err);
-                    });
-                
-                  }
-                }
-               ///
-               
-              });
-
-              res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
-                                                      lackingIngredients: []
-              });
-
-          } else{
-              res.render('orderProcessingLanding', {  orderPrompt: orderFailMessage,
-                                                      lackingIngredients: lackingIngredients
-              });
-          }
+        /////////////// --------- end of try --------- /////////////////
       }
       catch(error){
           console.error(error);
