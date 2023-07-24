@@ -52,6 +52,7 @@
                                                 </td>
                                                 <td>
                                                     <%= mismatch.difference %>
+                                                        <%= mismatch.unitSymbol %>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -69,9 +70,13 @@
 
                                                     <div class="button-container">
                                                         <a href="/inputPhysicalCount">
-                                                            <button class="btn btn-submit-count btn-view-inventory" style="width: 100%;">Input Physical Count</button>
+                                                            <button class="btn btn-submit-count" style="width: 100%;">Input Physical Count</button>
+                                                        </a>
+                                                        <a href="/home">
+                                                            <button class="btn btn-submit-count btn-view-inventory" style="width: 100%;">View Dashboard</button>
                                                         </a>
                                                     </div>
+
         </div>
     </div>
     <%- include("partials/footer") -%>

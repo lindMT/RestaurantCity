@@ -17,45 +17,18 @@ const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
             return netWeight;
         }
 
-        console.log(initialUnitId)
-        console.log(convertedUnitId)
-
-        // Find the ingreConversion record based on the combination of mainIngredientId and variationUnitId
-        const ingreConversion = await IngreConversion.findOne({
-            ingredientId: initialUnitId,
-            "subUnit.convertedUnitId": convertedUnitId,
+        // Swap the ingredientId and variationUnitId here
+        const fixedConversion = await FixedConversion.findOne({
+            initialUnitId: initialUnitId,
+            convertedUnitId: convertedUnitId,
         });
 
-        console.log("ingreConversion:   " + ingreConversion)
-        if (!ingreConversion) {
-            // Swap the ingredientId and variationUnitId here
-            const fixedConversion = await FixedConversion.findOne({
-                initialUnitId: initialUnitId,
-                convertedUnitId: convertedUnitId,
-            });
-
-            console.log("fixedConversion:   " + fixedConversion)
-
-            if (!fixedConversion) {
-                throw new Error('Ingredient conversion data not found.');
-            }
-
-            const conversionFactor = fixedConversion.conversionFactor;
-            const convertedNetWeight = netWeight * conversionFactor; // Apply the correct conversion factor here
-            return convertedNetWeight;
+        if (!fixedConversion) {
+            throw new Error('Ingredient conversion data not found.');
         }
 
-        // Find the conversion factor for the target unit (variationUnitId) in the ingreConversion
-        const targetUnitConversion = ingreConversion.subUnit.find((unit) => {
-            return unit.convertedUnitId.toString() === initialUnitId.toString();
-        });
-
-        if (!targetUnitConversion) {
-            throw new Error('Conversion factor not found for the target unit.');
-        }
-
-        const conversionFactor = targetUnitConversion.conversionFactor;
-        const convertedNetWeight = netWeight * conversionFactor;
+        const conversionFactor = fixedConversion.conversionFactor;
+        const convertedNetWeight = netWeight * conversionFactor; // Apply the correct conversion factor here
         return convertedNetWeight;
     } catch (error) {
         console.error('Error converting net weight:', error);
@@ -165,6 +138,10 @@ const inputPhysicalController = {
 
                         const difference = convertedTotalNetWeight - mainIngredientTotalNetWeight;
 
+                        // Get the unit symbol of the main ingredient
+                        const mainIngredientUnit = await Unit.findById(ingredient.unitID);
+                        const unitSymbol = mainIngredientUnit.unitSymbol;
+
                         // Get the current date
                         const currentDate = new Date();
 
@@ -187,6 +164,7 @@ const inputPhysicalController = {
                             ingredientName: ingredient.name,
                             mainIngredientTotalNetWeight,
                             difference,
+                            unitSymbol,
                         });
 
                         await mismatch.save();
@@ -198,8 +176,15 @@ const inputPhysicalController = {
                 }
             }
 
+            // Check if all mismatches have difference = 0
+            const allMismatchesZero = mismatches.every((mismatch) => mismatch.difference === 0);
+
             // Pass the mismatches data to the template engine
-            return res.render('inputPhysicalCountP2', { title: "Input Physical Count", message: 'Ingredient with Mismatches', mismatches });
+            return res.render('inputPhysicalCountP2', {
+                title: "Input Physical Count",
+                message: allMismatchesZero ? 'No mismatches found.' : 'Ingredient with Mismatches',
+                mismatches,
+            });
         } catch (error) {
             console.error(error);
             res.status(500).send('An error occurred while processing the physical count.');
