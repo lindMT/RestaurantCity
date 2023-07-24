@@ -2,10 +2,36 @@ const User = require('../model/usersSchema.js');
 const Unit = require("../model/unitsSchema.js");
 const Ingredient = require("../model/ingredientsSchema.js");
 const IngreVariation = require("../model/ingreVariationsSchema.js");
-const Conversion = require("../model/ingreConversionSchema.js");
+const FixedConversion = require("../model/fixedConversionSchema.js");
 const purchasedIngre = require("../model/purchasedSchema.js");
 const bcrypt = require("bcrypt");
-const convert = require('convert-units');
+
+const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
+    try {
+        // Check if the variationId and ingredientId are the same, then no conversion is needed
+        if (initialUnitId.toString() === convertedUnitId.toString()) {
+            return netWeight;
+        }
+
+        // Swap the ingredientId and variationUnitId here
+        const fixedConversion = await FixedConversion.findOne({
+            initialUnitId: initialUnitId,
+            convertedUnitId: convertedUnitId,
+        });
+
+        if (!fixedConversion) {
+            throw new Error('Ingredient conversion data not found.');
+        }
+
+        const conversionFactor = fixedConversion.conversionFactor;
+        const convertedNetWeight = netWeight * conversionFactor; // Apply the correct conversion factor here
+        
+        return convertedNetWeight;
+    } catch (error) {
+        console.error('Error converting net weight:', error);
+        throw error;
+    }
+};
 
 const recordAddtlController = {
 
@@ -34,6 +60,7 @@ const recordAddtlController = {
             // User Inputs
             const foundIngredient = await Ingredient.findById(req.body.ingreId);
             const foundIngredientUnit = await Unit.findById(foundIngredient.unitID)
+            var convertedNetWeight;
 
             // For net weight accumulation
             let totalNetWeight = 0;
@@ -54,19 +81,12 @@ const recordAddtlController = {
                 // Ingredient has VARIANT
                 const ingreVariation = await IngreVariation.findById(req.body.ingreVariant);
                 const inputQty = req.body.ingreQty;
-
                 const inputUnit = await Unit.findById(ingreVariation.unitID);
-
                 var inputNetWt = ingreVariation.netWeight;
+                
+                convertedNetWeight = await convertNetWeight(inputNetWt, inputUnit._id, foundIngredientUnit._id);
 
-                if(!ingreVariation._id.equals(foundIngredientUnit._id)){
-                    // ==================================
-                    // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
-                    // ==================================
-                    inputNetWt = convert(inputNetWt).from(inputUnit.unitSymbol).to(foundIngredientUnit.unitSymbol)
-                }
-
-                totalNetWeight = Number(inputNetWt * inputQty);
+                totalNetWeight = Number(convertedNetWeight * inputQty);
 
                 // Add ingredient to purchased audit
                 auditIngredient = new purchasedIngre({
@@ -83,14 +103,9 @@ const recordAddtlController = {
                 const inputUnit = req.body.ingreUnit;
                 const matchedInputUnit = await Unit.findOne({ unitSymbol: inputUnit });
 
-                if(!matchedInputUnit._id.equals(foundIngredientUnit._id)){
-                    // ==================================
-                    // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
-                    // ==================================
-                    inputNetWt = convert(inputNetWt).from(matchedInputUnit.unitSymbol).to(foundIngredientUnit.unitSymbol)
-                }
+                convertedNetWeight = await convertNetWeight(inputNetWt, matchedInputUnit._id, foundIngredientUnit._id);
 
-                totalNetWeight = Number(inputNetWt);
+                totalNetWeight = Number(convertedNetWeight);
 
                 // Add ingredient to purchased audit
                 auditIngredient = new purchasedIngre({
@@ -122,19 +137,3 @@ const recordAddtlController = {
 }
 
 module.exports = recordAddtlController;
-
-// if (!foundIngredient.unitID.equals(ingreVariation.unitID)) {
-//     // Use conversion factor
-//     const conversionFactor = convert(inputQty).from(foundUnitVariant.unitSymbol).to(foundUnitIngre.unitSymbol);
-//     totalNetWeight = ingreVariation.netWeight * conversionFactor;
-// } else {
-//     totalNetWeight = inputQty * ingreVariation.netWeight;
-// }
-
-// return res.render('recordAddtlSuccess', {
-//     title: "Record Purchase",
-//     message: 'Your purchase has been recorded!',
-//     ingredient: foundIngredient,
-//     unit: msgUnit,
-//     totalNet: totalNetWeight
-// });

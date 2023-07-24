@@ -7,23 +7,19 @@ function addInputFields(){
     var qtyFieldId = document.getElementById("discard-qty-input-field");
     var qtyLblId = document.getElementById("discard-qty-label");
 
-    var categoryInputId = document.getElementById("discard-select-category");
-    var categoryInputVal = categoryInputId.value;
-
     var selectId = document.getElementById("discard-select-nu-input");
     var selectVal = selectId.value;
 
     if(selectVal == "others"){
         console.log(selectId.value)
-        var options;
 
         var netWt = document.createElement("input");
         netWt.setAttribute('class', 'form-control');
         netWt.setAttribute('id', 'discard-netwt-field');
         netWt.setAttribute('name', 'ingreNetWt');
         netWt.setAttribute('type', 'number');
-        netWt.setAttribute('placeholder', 'Net Wt. (Min: 1)');
-        netWt.setAttribute('min', '1');
+        netWt.setAttribute('step', 'any')
+        netWt.setAttribute('placeholder', 'Net Wt.');
         netWt.setAttribute('style', 'margin-top: 10px; text-align: left; padding: 5px; width: 48%;');
         netWt.required = "true"
 
@@ -34,42 +30,15 @@ function addInputFields(){
         unit.setAttribute('style', 'margin-top: 10px; margin-left: 1%; padding: 5px; width: 51%;');
         unit.required = "true";
 
-        // Create an array of option values and text
-        
-        console.log(categoryInputVal)
+        // Get possible symbols
+        var units = JSON.parse(document.querySelector('script[data-mydata]').getAttribute('data-mydata'));
+        // Make options
+        for(let i = 0; i < units.length; i++){      
+            var unitOption = document.createElement('option')
+            unitOption.setAttribute('value', units[i].unitSymbol)
+            unitOption.text = units[i].unitSymbol + " " + "(" + units[i].unitName + ")"
 
-        if(categoryInputVal == "wet"){
-            options = [
-                { value: '', text: '-- Select a Unit --' },
-                { value: 'mL', text: 'mL (Milliliters)' },
-                { value: 'L', text: 'L (Liters)' },
-            ];
-
-            console.log("Wet")
-        }else{
-            options = [
-                { value: '', text: '-- Select a Unit --' },
-                { value: 'g', text: 'g (Grams)' },
-                { value: 'kg', text: 'kg (Kilograms)' },
-            ];
-
-            console.log("Dry")
-        }
-
-        // grams, kilograms, milliliters, liters
-
-        // Create and append the option elements
-        for (var i = 0; i < options.length; i++) {
-            var unitOption = document.createElement('option');
-
-            if (i === 0) {
-                unitOption.disabled = true;
-                unitOption.selected = true;
-            }
-
-            unitOption.value = options[i].value;
-            unitOption.text = options[i].text;
-            unit.appendChild(unitOption);
+            unit.appendChild(unitOption)
         }
 
         divOthersId.appendChild(netWt);
@@ -88,8 +57,6 @@ function addInputFields(){
         }
 
         if (qtyFieldId === null){
-            console.log("pasok oh")
-
             var qtyInput = document.createElement("input");
             qtyInput.setAttribute('class', 'form-control');
             qtyInput.setAttribute('id', 'discard-qty-input-field');

@@ -1,14 +1,10 @@
 const User = require('../model/usersSchema.js');
-const Ingredient = require("../model/ingredientsSchema.js");
 const Unit = require("../model/unitsSchema.js");
-const mongoose = require('mongoose');
+const Ingredient = require("../model/ingredientsSchema.js");
 const IngreVariation = require("../model/ingreVariationsSchema.js");
-const bcrypt = require("bcrypt");
 const Mismatch = require("../model/mismatchSchema.js");
-const IngreConversion = require("../model/ingreConversionSchema.js");
 const FixedConversion = require("../model/fixedConversionSchema.js");
-
-
+const bcrypt = require("bcrypt");
 
 const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
     try {
