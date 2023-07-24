@@ -4,62 +4,25 @@
 </a>
 
 <div class="periodical-card-holder">
+    <p id="current_date" style="display: none;"></p>
     <div class="card shadow periodical-select-card">
-        <form>
+        <form action="/viewCustom" method="post" id="custom-dates">
         <div class="periodical-header">
             <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Custom Report</h1>
             <hr>
         </div>
         <div class="stock-header2 ">
             <h5>From:</h5>
-            <input type="date" id="start_date">
+            <input type="date" id="start_date" name="startDate"></input>
         </div>
         <div class="stock-header2">
             <h5>To:</h5>
-            <input type="date" id="end_date"></input>
+            <input type="date" id="end_date" name="endDate"></input>
         </div>
         <hr>
-        <button type="button" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
+        <button type="submit" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
         </form>
     </div>
-    <div class="card shadow periodical-report-card">
-        <div class="periodical-header">
-            <h3><b> Stock Report for </b></h3>
-            <i>Generated on <span id="current_date"></span></i>  
-            <hr>
-            
-        </div>
-        <table class="table table-striped" style="margin-top: 1rem;">
-            <thead>
-            <tr>
-                <th scope="col">Ingredient</th>
-                <th scope="col">Purchased</th>
-                <th scope="col">Consumed</th>
-                <th scope="col">Lost</th>
-                <th scope="col">Remaining Stock</th>
-                <th scope="col">Unit</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr> 
-                <!-- Pag may DB na, revise to calling based on id -->
-                <td name="ingredient-name">
-                    <a href="/detailedReport/Milk">Milk</a>
-                </td>
-                <td id="custom-purchased" name="custom-purchased"> 1,500</td>
-                <td id="custom-consumed" name="custom-consumed">   4,466</td>
-                <td id="custom-lost" name="custom-lost">           34</td>
-                <td id="custom-remaining" name="custom-remaining"> 0</td>
-                <td id="custom-unit" name="custom-unit">           L</td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="periodical-footer">
-            <hr>
-            <h5><b>-END OF REPORT-</b></h5>
-        </div>
-    </div>
-
 </div>
 
 <script src="/js/calendarCustom.js"></script>

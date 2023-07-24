@@ -5,7 +5,7 @@
 
 <div class="periodical-card-holder">
     <div class="card shadow periodical-select-card">
-        <form id="report_form">
+        <form id="report_form" action="/viewPeriodical" method="post">
             <div class="periodical-header">
                 <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Periodical Report</h1>
                 <hr>
@@ -14,59 +14,22 @@
                 <h5>Report Type:</h5>
                 <div class="form-group col-md-8">
                     <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required onchange="reportType(this.value)">
-                            <option disabled selected>-Choose One-</option>
-                            <option value="1">Daily</option>
-                            <option value="2">Weekly</option>
-                            <option value="3">Monthly</option>
-                            <option value="4">Annually</option>
+                        <option disabled selected>-Choose One-</option>
+                        <% for (var i = 0; i < reportTypeLabels.length; i++) { %>
+                            <option value="<%= i+1 %>"><%= reportTypeLabels[i] %></option>
+                        <% } %>
                     </select>        
                 </div>
             </div>
             <div class="stock-header2">
                 <h5>Calendar:</h5>
                 <div class="col-md-8" id="calendar-div">
-                    <input type="text" class="form-control" id="calendar" data-date-end-date="0d" required readonly>
+                    <input type="text" class="form-control" id="calendar" data-date-end-date="0d" required readonly name="selectedDate">
                 </div>
             </div>
             <hr>
-            <button type="button" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
+            <button type="submit" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
         </form>
-    </div>
-    <div class="card shadow periodical-report-card">
-        <div class="periodical-header">
-            <h3><b> Stock Report for </b></h3>
-            <i>Generated on <span id="current_date"></span></i>  
-            <hr>
-        </div>
-        <table class="table table-striped" style="margin-top: 1rem;">
-            <thead>
-            <tr>
-                <th scope="col">Ingredient</th>
-                <th scope="col">Purchased</th>
-                <th scope="col">Consumed</th>
-                <th scope="col">Lost</th>
-                <th scope="col">Remaining Stock</th>
-                <th scope="col">Unit</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr> 
-                <!-- Pag may DB na, revise to calling based on id -->
-                <td name="ingredient-name">
-                    <a href="/detailedReport/Milk">Milk</a>
-                </td>
-                <td id="periodical-purchased" name="periodical-purchased">  1,500</td>
-                <td id="periodical-consumed" name="periodical-consumed">    4,466</td>
-                <td id="periodical-lost" name="periodical-lost">            34</td>
-                <td id="periodical-remaining" name="periodical-remaining">  0</td>
-                <td id="periodical-unit" name="periodical-unit">            L</td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="periodical-footer">
-            <hr>
-            <h5><b>-END OF REPORT-</b></h5>
-        </div>
     </div>
 
 </div>

@@ -1,0 +1,75 @@
+<%- include("partials/header") -%>
+<style>
+    .conversion-form-holder {
+    display:flex; 
+    justify-content: center; 
+    text-align: center;
+}
+
+.conversion-form {
+    max-width: 30vw; 
+    min-height: fit-content; 
+    display:flex; 
+    justify-content: center; 
+    text-align: center;
+}
+
+/* Should be inline css so that other modules wouldn't be affected */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none; 
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
+
+    <div class="viewdish-card-holder">
+        <div class="card shadow viewdish-form" style="width: 80vw;">
+            
+                <div class="form-align-left"  style="color: #818181;">
+                    <a href="/manageConversions">
+                        <i class="fa-solid fa-arrow-left fa-lg" style="color: #818181;"></i>
+                        Back
+                    </a>
+                </div>
+
+                <div class="viewdish-header">
+                    <h1>View Conversions for <%= ingredients[0].ingredientName %></h1>
+                </div>
+                <hr>
+                <!-- TODO: For Loop with modal -->
+                <!-- TODO: Change Value, id, and name for each dishes -->
+                <table class="table table-striped" id="dishTable"
+                    style=" width: 100%; margin-left: auto; margin-right: auto;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: left;">From Unit</th>
+                            <th scope="col" style="text-align: center;">To Unit</th>
+                            <th scope="col" style="text-align: center;">Conversion Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% ingredients[0].conversions.forEach(conversion => { %>
+                        <tr>
+                            <td style="text-align: left;"><%= ingredients[0].baseUnitName %></td>
+                            <td><%= conversion.convertedUnitName %></td>
+                            <td><%= conversion.conversionFactor %></td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+
+                <div class="form-align-left" style="color: #41A162; margin-top: 10px;">
+                    <a href="/addConversion/<%= ingre._id %>">
+                        <i class="fa-solid fa-arrow-right-arrow-left fa-xl" style="color: #41A162;"></i>
+                        Add Unit Conversion
+                    </a>
+                </div>
+        </div>
+    </div>
+<%- include("partials/footer") -%>

@@ -5,36 +5,63 @@ const mongoose = require('mongoose');
 const IngreVariation = require("../model/ingreVariationsSchema.js");
 const bcrypt = require("bcrypt");
 const Mismatch = require("../model/mismatchSchema.js");
-const Conversion = require("../model/conversionSchema.js");
+const IngreConversion = require("../model/ingreConversionSchema.js");
+const FixedConversion = require("../model/fixedConversionSchema.js");
 
-const convertNetWeight = async(netWeight, unitId, targetUnitId) => {
+
+
+const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
     try {
-
-        console.log('UNIT ID: ' + unitId)
-        console.log('targetUnitId ID: ' + targetUnitId)
-            // Check if conversion is needed
-        if (unitId.toString() !== targetUnitId.toString()) {
-            // Find the conversion factor for the main unit and target unit
-            const conversion = await Conversion.findOne({
-                initialUnitId: unitId,
-                convertedUnitId: targetUnitId,
-            });
-
-            if (!conversion) {
-                throw new Error('Conversion factor not found.');
-            }
-
-            const conversionFactor = conversion.conversionFactor;
-            return netWeight * conversionFactor;
+        // Check if the variationId and ingredientId are the same, then no conversion is needed
+        if (initialUnitId.toString() === convertedUnitId.toString()) {
+            return netWeight;
         }
 
-        return netWeight;
+        console.log(initialUnitId)
+        console.log(convertedUnitId)
+
+        // Find the ingreConversion record based on the combination of mainIngredientId and variationUnitId
+        const ingreConversion = await IngreConversion.findOne({
+            ingredientId: initialUnitId,
+            "subUnit.convertedUnitId": convertedUnitId,
+        });
+
+        console.log("ingreConversion:   " + ingreConversion)
+        if (!ingreConversion) {
+            // Swap the ingredientId and variationUnitId here
+            const fixedConversion = await FixedConversion.findOne({
+                initialUnitId: initialUnitId,
+                convertedUnitId: convertedUnitId,
+            });
+
+            console.log("fixedConversion:   " + fixedConversion)
+
+            if (!fixedConversion) {
+                throw new Error('Ingredient conversion data not found.');
+            }
+
+            const conversionFactor = fixedConversion.conversionFactor;
+            const convertedNetWeight = netWeight * conversionFactor; // Apply the correct conversion factor here
+            return convertedNetWeight;
+        }
+
+        // Find the conversion factor for the target unit (variationUnitId) in the ingreConversion
+        const targetUnitConversion = ingreConversion.subUnit.find((unit) => {
+            return unit.convertedUnitId.toString() === initialUnitId.toString();
+        });
+
+        if (!targetUnitConversion) {
+            throw new Error('Conversion factor not found for the target unit.');
+        }
+
+        const conversionFactor = targetUnitConversion.conversionFactor;
+        const convertedNetWeight = netWeight * conversionFactor;
+        return convertedNetWeight;
     } catch (error) {
-        console.error(error);
-        throw new Error('Error converting net weight.');
+        console.error('Error converting net weight:', error);
+        throw error;
     }
 };
-
 
 const inputPhysicalController = {
     getInputPhysCount: async(req, res) => {
@@ -80,8 +107,6 @@ const inputPhysicalController = {
             const variationSum = {};
             for (const key in inputs) {
                 if (inputs.hasOwnProperty(key)) {
-                    console.log(inputs.hasOwnProperty(key));
-
                     // Split the key into type, prefix, and id
                     const [type, prefix, id] = key.split('_');
 
@@ -90,7 +115,6 @@ const inputPhysicalController = {
                         const variation = await IngreVariation.findById(id);
                         const ingredientId = variation.ingreID.toString();
 
-                        console.log('variant_qty ID:', ingredientId);
                         if (!variationSum[ingredientId]) {
                             variationSum[ingredientId] = {
                                 totalNetWeight: Number(variation.netWeight) * Number(inputs[key]),
@@ -98,26 +122,30 @@ const inputPhysicalController = {
                             };
                         } else {
                             variationSum[ingredientId].totalNetWeight += Number(variation.netWeight) * Number(inputs[key]);
-                            console.log('variant_qty ID:', ingredientId);
                         }
                     } else if (type === 'others' && prefix === 'netwt') {
-                        // Handling ingredients with no packaging option
+                        // Handling ingredients with no packaging option (partials)
                         const ingredientId = id;
-                        console.log('others_netwt:', ingredientId);
+                        const partialsUnitID = inputs[`others_unit_${ingredientId}`]; // Get the unit ID for partials from corresponding input
+                        const ingredient = await Ingredient.findById(ingredientId);
+
+                        // Convert the net weight based on partials' unit asynchronously
+                        const convertedNetWeight = await convertNetWeight(Number(inputs[key]), partialsUnitID, ingredient.unitID.toString()); // Pass ingredientId as the third parameter
+
                         if (!variationSum[ingredientId]) {
                             variationSum[ingredientId] = {
-                                totalNetWeight: Number(inputs[key]),
-                                unitID: inputs[`others_unit_${ingredientId}`], // Get the unit ID for consumed/partials from corresponding input
+                                totalNetWeight: convertedNetWeight,
+                                unitID: partialsUnitID, // Use the correct unit ID for partials fetched from the database
                             };
                         } else {
-                            variationSum[ingredientId].totalNetWeight += Number(inputs[key]);
-                            console.log('others_netwt:', ingredientId);
+                            variationSum[ingredientId].totalNetWeight += convertedNetWeight; // Convert the net weight based on partials' unit
                         }
                     }
                 }
             }
 
-            console.log('Variation Sum:', variationSum);
+            // Create an array to store mismatched data
+            const mismatches = [];
 
             // Compare the variation sum with the main ingredient's total net weight
             for (const ingredientId in variationSum) {
@@ -127,6 +155,8 @@ const inputPhysicalController = {
 
                     if (ingredient) {
                         const mainIngredientTotalNetWeight = Number(ingredient.totalNetWeight);
+
+                        // Convert the variation's total net weight to the main ingredient's unit of measurement
                         const convertedTotalNetWeight = await convertNetWeight(
                             variationTotalNetWeight,
                             variationSum[ingredientId].unitID,
@@ -144,36 +174,36 @@ const inputPhysicalController = {
                         const userId = user._id;
 
                         // Create a mismatch record in the audit
-                        console.log('Mismatch Calculation:');
-                        console.log('---------------------');
-                        console.log('Ingredient ID:', ingredientId);
-                        console.log('Ingredient Name:', ingredient.name);
-                        console.log('Main Ingredient Total Net Weight:', mainIngredientTotalNetWeight);
-                        console.log('Variation Total Net Weight:', variationTotalNetWeight);
-                        console.log('Converted Total Net Weight:', convertedTotalNetWeight);
-                        console.log('Difference:', difference);
-                        console.log('Unit ID:', ingredient.unitID);
-
                         const mismatch = new Mismatch({
-                            ingreID: ingredientId,
+                            ingreID: ingredientId, // Use ingredientId obtained from the loop
                             date: currentDate,
                             doneBy: userId,
                             difference,
                             unitID: ingredient.unitID,
                         });
+
+                        // Add the mismatched data to the array
+                        mismatches.push({
+                            ingredientName: ingredient.name,
+                            mainIngredientTotalNetWeight,
+                            difference,
+                        });
+
                         await mismatch.save();
+
+                        console.log(`Ingredient: ${ingredient.name}`);
+                        console.log(`Total Net Weight of Ingredient: ${mainIngredientTotalNetWeight}`);
+                        console.log(`Total Variant Net Weight (Converted to Main Ingredient's Unit): ${convertedTotalNetWeight}`);
                     }
                 }
             }
 
-            res.send('Check console');
+            // Pass the mismatches data to the template engine
+            return res.render('inputPhysicalCountP2', { title: "Input Physical Count", message: 'Ingredient with Mismatches', mismatches });
         } catch (error) {
             console.error(error);
             res.status(500).send('An error occurred while processing the physical count.');
         }
     }
-
-
 };
-
 module.exports = inputPhysicalController;

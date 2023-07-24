@@ -1,0 +1,82 @@
+[{
+  "_id": {
+    "$oid": "64bc06cd34baf58c4514efb9"
+  },
+  "ingredientId": {
+    "$oid": "64a6b7d8e082fa3e67ec83eb"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "subUnit": [
+    {
+      "convertedUnitId": {
+        "$oid": "64a4520d9a494ecb0fd7216c"
+      },
+      "conversionFactor": 67.628,
+      "_id": {
+        "$oid": "64bc06cd34baf58c4514efba"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a4526d9a494ecb0fd7216d"
+      },
+      "conversionFactor": 202.884,
+      "_id": {
+        "$oid": "64bc06cd34baf58c4514efbb"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a451bb9a494ecb0fd7216b"
+      },
+      "conversionFactor": 4.22675,
+      "_id": {
+        "$oid": "64bc06cd34baf58c4514efbc"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc070f51ebbb5e3b37ddd4"
+  },
+  "ingredientId": {
+    "$oid": "64a6b7b31731ba58e9a55822"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "subUnit": [
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204eb"
+      },
+      "conversionFactor": 35.274,
+      "_id": {
+        "$oid": "64bc070f51ebbb5e3b37ddd5"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204ec"
+      },
+      "conversionFactor": 2.20462,
+      "_id": {
+        "$oid": "64bc070f51ebbb5e3b37ddd6"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204e7"
+      },
+      "conversionFactor": 1000,
+      "_id": {
+        "$oid": "64bc070f51ebbb5e3b37ddd7"
+      }
+    }
+  ],
+  "__v": 0
+}]

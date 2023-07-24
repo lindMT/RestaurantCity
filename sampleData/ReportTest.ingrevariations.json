@@ -1,0 +1,26 @@
+[{
+  "_id": {
+    "$oid": "64ba948ecc44369017a4d04b"
+  },
+  "name": "Tetra Pack",
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "netWeight": 1
+},
+{
+  "_id": {
+    "$oid": "64baa7a0cc44369017a4d078"
+  },
+  "name": "Half Liter",
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "netWeight": 500
+}]
