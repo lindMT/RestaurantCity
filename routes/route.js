@@ -9,6 +9,7 @@ const addIngreController = require('../controller/addIngreController.js');
 const recordFirstController = require('../controller/recordFirstController.js')
 const recordAddtlController = require('../controller/recordAddtlController.js')
 const manageDishesController = require('../controller/manageDishesController.js');
+const approveDishesController = require('../controller/approveDishesController.js');
 const editDishController = require('../controller/editDishController.js');
 const viewReportController = require('../controller/viewReportController.js');
 const addDishController = require('../controller/addDishController.js');
@@ -67,6 +68,9 @@ app.post("/recordAddtl/p2/process", recordAddtlController.postRecAddtl2);
 // Manage Dishes
 app.get("/manageDishes", manageDishesController.getManageDishes);
 app.post("/manageDishes/process", manageDishesController.postManageDishes);
+
+app.get("/approveDishes", approveDishesController.getApproveDishes);
+// app.post("/approveDish/process", approveDishController.postApproveDish)
 
 // Add Dish
 app.get("/addDish", addDishController.getAddDish)

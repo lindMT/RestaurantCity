@@ -1,0 +1,94 @@
+<%- include("partials/header") -%>
+    <div class="viewdish-card-holder">
+        <div class="card shadow viewdish-form" style="width: 80vw;">
+            <form method="post" action="">
+                <div class="viewdish-header">
+                    <h1>Approve Dishes</h1>
+
+                    <div style="text-align: center; margin-left: auto">
+
+                        <button id="approveDishBtn" type="submit" class="btn btn-secondary"
+                            style="margin-left: 10px; color: white" disabled>
+                            Approve Dish</button>
+                        <button id="rejectDishBtn" type="submit" class="btn btn-secondary"
+                            style="margin-left: 10px; color: white;" disabled>
+                            Reject Dish</button>
+                    </div>
+                </div>
+                <hr>
+                <p>Owner will <b><u>APPROVE</u></b> or <b><u>REJECT</u></b> the dish made by the chef</p>
+                <!-- TODO: For Loop with modal -->
+                <!-- TODO: Change Value, id, and name for each dishes -->
+                <table class="table table-striped" id="dishTable"
+                    style=" width: 100%; margin-left: auto; margin-right: auto;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: left;">Dish Name</th>
+                            <th scope="col" style="text-align: center;">Category</th>
+                            <th scope="col" style="text-align: center;">Price</th>
+                            <th scope="col" style="text-align: center;">Recipe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;">
+                                <div class="form-check">
+                                    <input class="form-check-input select" type="checkbox" value="dishName" name="selectedDishes" id="foodName1">
+                                    <label>
+                                     Dish Name
+                                    </label>
+                            </td>
+                            
+                            <td>Dish Category</td>
+                            <td>₱ Dish Price</td>
+                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal" type ="button">
+                                    View Recipe</button></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--MODAL MAKER -->
+    <div class="modal fade" id="dishDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="dishCategory" style="padding: auto;" name="dishCategory"> dish.category </h4>
+
+                    <div data-dismiss="modal">
+                        <i class="fa-solid fa-x" style="color: #000000;"></i>
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <h2 class="modal-body" id="dishName" style="text-align: center;">dish.name </h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredients</th>
+                                <th scope="col">Weight</th>
+                                <th scope="col">Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                            <tr>
+                                <td>item.ingredientName</td>
+                                <td>item.chefWeight </td>
+                                <td>item.chefUnitSymbol </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/approveDishes.js"></script>
+    <%- include("partials/footer") -%>
