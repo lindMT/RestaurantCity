@@ -23,6 +23,7 @@ const manageDishesController = {
                 
                 // Fetch the recipe for the dish
                 const recipe = await DishRecipe.findOne({ dishID: dish._id, isActive:true}).lean();
+                const isApproved = recipe ? recipe.isApproved : false;
 
                 // Retrieve ingredient names for the recipe
                 const ingredientIds = recipe ? recipe.ingredients.map(item => item.ingredient) : [];
@@ -45,7 +46,8 @@ const manageDishesController = {
                 return {
                     ...dish.toObject(),
                     category: category ? category.category : '',
-                    recipe: recipeWithIngredientNames
+                    recipe: recipeWithIngredientNames,
+                    recipeApproved: isApproved
                 };
             }));
 
