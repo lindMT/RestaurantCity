@@ -27,26 +27,42 @@
 
     <!-- TODO: Backend form -->
     <form method="post" action="/addUnit/process">
+
         <div class="form-group">
-            <label>Unit Category</label>
-                <select name="unitCategory" class="form-select form-select-md" style="text-transform: capitalize; width: 100%; padding: 5px;" required>
-                    <option disabled selected value> -- Select Unit Type -- </option>
-                    <option value="Wet">Wet</option>
-                    <option value="Dry">Dry</option>
-                    <option value="Both">Both</option>
+            <label>New Unit Name</label>
+                <input type="text" name="unitName" placeholder="e.g. Kilogram" class="form-control" style="text-align: left; width: 100%;">
+        </div>
+        <br/>
+
+        <div class="form-group">
+            <label>New Unit Symbol</label>
+                <input type="text" name="unitSymbol" placeholder="e.g. KG" class="form-control" style="text-align: left; width: 100%;">
+        </div>
+        <br/>
+
+        <div class="form-group">
+            <label>Select Reference Ingredient</label>
+                <select name="ingreRef" class="form-select form-select-md" style="text-transform: capitalize; width: 100%; padding: 5px;" required>
+                    <option disabled selected value> -- Select an Ingredient -- </option>
+                    
+                    <% ingredients.forEach(function(ingre){ %>
+                        <option value="<%=ingre._id.toString()%>"><%=ingre.name%> 
+                                                    
+                            <% units.forEach(function(unit) {%>
+                                <% if(unit._id.toString() == ingre.unitID) { %>
+                                    (<%= unit.unitName%>)
+                                <% } %>
+                            <% }) %>
+                        </option>
+                    <% }); %>   
+
                 </select>
         </div>
         <br/>
 
         <div class="form-group">
-            <label>Unit Name</label>
-                <input type="text" name="unitName" placeholder="e.g. Kilogram" min="1" class="form-control" style="text-align: left; width: 100%;">
-        </div>
-        <br/>
-
-        <div class="form-group">
-            <label>Unit Symbol</label>
-                <input type="text" name="unitSymbol" placeholder="e.g. KG" min="1" class="form-control" style="text-align: left; width: 100%;">
+            <label>Conversion Factor</label>
+                <input type="number" name="conversionFactor" placeholder="e.g. 1" min="0.00000001" class="form-control" style="text-align: left; width: 100%;">
         </div>
         <br/>
 
@@ -54,7 +70,6 @@
         <button type="submit" class="btn btn-submit-count" style="width: 100%;">Submit</button>
 
         <br/>
-        	
 
         <div class="centered">
             <% if(error_msg) { %>    

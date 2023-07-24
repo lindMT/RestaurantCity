@@ -1,11 +1,16 @@
 const { default: mongoose } = require('mongoose');
 const User = require('../model/usersSchema.js');
 const Unit = require('../model/unitsSchema.js');
+const Ingredient = require('../model/ingredientsSchema.js');
 const bcrypt = require("bcrypt");
 
 const addUnitController = {
     getAddUnit: async(req, res) => {
-        res.render('addUnit');
+
+        const ingredients = await Ingredient.find({});
+        const units = await Unit.find({});
+
+        res.render('addUnit', { ingredients, units});
     },
 
     postAddUnit: async(req, res) => {
