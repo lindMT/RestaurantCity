@@ -7,6 +7,8 @@ const Dish = require('../model/dishSchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
 const Category = require('../model/dishCategorySchema.js');
 const Unit = require('../model/unitsSchema.js');
+const FixedConversion = require('../model/fixedConversionSchema.js');
+const IngreConversion = require('../model/ingreConversionSchema.js');
 var Convert = require('convert-units')
 
 const orderController = {
@@ -45,58 +47,109 @@ const orderController = {
             var quantity = quantityArray;
             var dishId = dishIdArray;
           }
-          var dishRecipe = await DishRecipe.findOne({ dishID:  dishId });
 
-          // POPULATE ingredientToUse and ingredientQuantityTotal\
+          var dishRecipe = await DishRecipe.findOne({ dishID: dishId });
+          console.log(dishRecipe)
+
           for (var ingredientInRecipe of dishRecipe.ingredients) {
-            console.log("Inner Loop (Ingredient per Dish)")
+            console.log("Check Ingredient in Recipe loop")
             var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
-            var chefUnit =  await Unit.find({unitSymbol: ingredientInRecipe.chefUnitID});
-            var invUnit =  await Unit.find({unitSymbol: ingredientInInventory.unitID});
-            var chefUnitSymbol = chefUnit.unitSymbol;
-            var invUnitSymbol =  invUnit.unitSymbol;
-            console.log(chefUnitSymbol + " amd " + invUnitSymbol )
-            var netWeight = Convert(ingredientInRecipe.chefWeight).from(chefUnitSymbol).to(invUnitSymbol)
-
-            // if ingredients to use is not empty
-            if (ingredientsToUse.length != 0){
-              for (var x = 0 ; x < ingredientsToUse.length; x++){
-            
-                console.log(ingredientInRecipe.ingredient + " AND " + ingredientsToUse[x])
-                if (ingredientInRecipe.ingredient == ingredientsToUse[x]){
-                  ingredientUnitTotal[x] += netWeight;
-                } else{
-                  ingredientToUse.push(ingredientInRecipe.ingredient)
-                  ingredientUnitTotal.push(netWeight);
+        
+            var fixedUnitConversion = await FixedConversion.findOne({
+              initialUnitId: ingredientInRecipe.chefUnitID,
+              convertedUnitId: ingredientInInventory.unitID
+            });
+        
+            var ingreUnitConversion = await IngreConversion.findOne({
+              initialUnitId: ingredientInRecipe.chefUnitID,
+              convertedUnitId: ingredientInInventory.unitID
+            });
+        
+            const conversionFactor = ingreUnitConversion ? ingreUnitConversion.conversionFactor : fixedUnitConversion.conversionFactor;
+        
+            if (ingredientsToUse.length != 0) {
+              for (var j = 0; j < ingredientsToUse.length; j++) {
+                console.log(ingredientInRecipe.ingredient + " AND " + ingredientsToUse[j])
+                if (ingredientInRecipe.ingredient == ingredientsToUse[j]) {
+                  ingredientUnitTotal[j] += ingredientInInventory.totalNetWeight;
+                } else {
+                  ingredientsToUse.push(ingredientInRecipe.ingredient)
+                  ingredientUnitTotal.push(ingredientInInventory.totalNetWeight);
                 }
               }
-            } else{// else add to it
-              ingredientToUse.push(ingredientInRecipe.ingredient)
-              ingredientUnitTotal.push(netWeight);
+            } else { // else add to it
+              ingredientsToUse.push(ingredientInRecipe.ingredient)
+              ingredientUnitTotal.push(ingredientInInventory.totalNetWeight);
             }
-
-          }
-
-        }
-
-        // LOOP THRU TOTAL OF UNIQUE INGREDIENTS AND UNIT TOTAL
-        console.log("LEN IS " + ingredientsToUse.length)
-        for(var y=0; y<ingredientsToUse.length; y++){
-          var ingredientInInventory = await Ingredient.findById(ingredientsToUse[y]);
-
-          if(ingredientUnitTotal[y] < ingredientInInventory.totalNetWeight){
+        
+            if ((ingredientInRecipe.chefWeight * quantity * conversionFactor) < (ingredientUnitTotal[j])) {
               orderIsViable.push(true);
               console.log("viable");
-          } else{
+            } else {
               orderIsViable.push(false);
               lackingIngredients.push(ingredientInInventory.name + "(for " + dish.name + ")");
               console.log("not viable");
+            }
           }
         }
+        
+      //Putting this here for sample code to insert data to db
+      var proceedWithOrder = true; // based on orderIsViable (do a loop maybe)
+      for (var i = 0; i < orderIsViable.length; i++){
+        if (!orderIsViable[i])
+          proceedWithOrder = false;
+        }
+        
+        if (proceedWithOrder){ 
+          // Calculate Total Price
+          var totalPrice = 0; 
 
+          for (var i = 0; i < quantityArray.length; i++) {
+            if (Array.isArray(dishIdArray)) {
+              var dishId = dishIdArray[i];
+            } else {
+              var dishId = dishIdArray;
+            }
+            var dish = await Dish.findById(dishId);
+            totalPrice += dish.price * quantityArray[i];
+          }
+          
+          console.log("Total Price: " + totalPrice);
+          
+          //Create New Order
+          var newOrder = new Order({
+              totalPrice: totalPrice,
+              date: new Date(),
+              takenBy: req.session.userName
+          });
 
+          newOrder.save().then(async (docs) => {
+            if (Array.isArray(dishIdArray)) {
+              for (var i = 0; i < dishIdArray.length; i++){
+                console.log("Index:", i);
+                console.log("dishIdArray:", dishIdArray[i]);
+                console.log("quantityArray:", quantityArray[i]);
+                var newOrderItem = new OrderItem({
+                    orderID: newOrder._id,
+                    dishID: dishIdArray[i],
+                    qty: quantityArray[i]
+                });
+                await newOrderItem.save();
+              }
+           } else {
+                console.log("dishIdArray:", dishIdArray);
+                console.log("quantityArray:", quantityArray);
+                var newOrderItem = new OrderItem({
+                    orderID: newOrder._id,
+                    dishID: dishIdArray,
+                    qty: quantityArray
+                });
+                await newOrderItem.save();
+            }
+          });
+        }
 
-        /////////////// --------- end of try --------- /////////////////
+        //Insert Here: Update of Inventory after ordering
       }
       catch(error){
           console.error(error);
