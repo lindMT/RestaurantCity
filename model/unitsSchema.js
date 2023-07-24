@@ -13,11 +13,11 @@ const unitsSchema = new Schema({
         unique: true,
     },
 
-    category: {
-        type: String,
-        required: true,
-        enum: ['Wet', 'Dry', 'Both'] // Specify the enum values here
-    }
+    // category: {
+    //     type: String,
+    //     required: true,
+    //     enum: ['Wet', 'Dry', 'Both'] // Specify the enum values here
+    // }
 });
 
 const Unit = mongoose.model('units', unitsSchema);

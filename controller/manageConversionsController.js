@@ -72,21 +72,22 @@ const manageConversionsController = {
 
         const ingredient = await Ingredients.findById(ingreID);
         const ingreConversion = await Conversion.find({ ingredientId: ingreID });
+        const unit = await Units.find();
         const initialUnitId = ingreConversion.map(conversion => conversion.initialUnitId);
-        const categoryOfUnits = await Units.find({ _id: { $in: initialUnitId } }).distinct('category');
+        // const categoryOfUnits = await Units.find({ _id: { $in: initialUnitId } }).distinct('category');
         // Find all units with the same category as ingreConversion.initialUnitId
-        const unitsWithSameCategory = await Units.find({
-            $or: [
-                { category: { $in: categoryOfUnits } },
-                { category: 'Both' }
-            ]
-        });
+        // const unitsWithSameCategory = await Units.find({
+        //     $or: [
+        //         { category: { $in: categoryOfUnits } },
+        //         { category: 'Both' }
+        //     ]
+        // });
 
         const baseUnitNames = await Units.find({ _id: { $in: initialUnitId } }).distinct('unitName');
         res.render('addConversion', {
             ingredient: ingredient,
             baseUnit: baseUnitNames,
-            units: unitsWithSameCategory
+            units: unit
         })
 
     },
