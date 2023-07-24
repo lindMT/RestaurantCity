@@ -21,6 +21,8 @@ const addDishController = {
         
         const data = req.session.userName
         let user = await User.findOne({ userName: data });
+        let chef = await User.findOne({ position: "chef" });
+        let admin = await User.findOne({ position: "admin" });
 
         //TODO
         // 1) Counter check if dish name is existing in table
@@ -36,7 +38,7 @@ const addDishController = {
         // Fetch category in views, where data is from category table
        const trial = req.body.category
         let category = await DishCategory.findOne({ category: trial });
-        let inputDish= await Dish.findOne({ name: req.body.inputDishName });
+        let inputDish= await Dish.findOne({ name: req.body.inputDishName});
         // if(!category){
         //     console.log(data)
 		// 	console.log('Category does not exist');
@@ -45,24 +47,49 @@ const addDishController = {
 		// }
         const currentDate = Date();
         var ingreTable = [];
+        var approval;
+        var activeStatus;
+        
         // ingreTable = req.body.ingredient
         
         //Create Dish Instance
+   
         if (inputDish){
-            req.flash('error_msg', 'Dish already added, Please input a different one')
-            console.log("Dish already exists")
-            return res.redirect('/addDish');
-        }else {
-
-        const dish = new Dish({
-            name: req.body.inputDishName,
-            price: req.body.Amount,
-            categoryID: category._id,
-            lastModified: currentDate,
-            isActive: true,
-            addedBy: user._id
+            if (inputDish.isApproved == 'for approval'){
+                req.flash('error_msg', 'Dish already added for approval, Please input a different one')
+                console.log("Dish already exists")
+                console.log(user._id);
+                console.log(admin._id);
+                
+                return res.redirect('/addDish');
+            }else{
+                req.flash('error_msg', 'Dish already added, Please input a different one')
+                console.log("Dish already exists")
+                console.log(user._id);
+                console.log(admin._id);
+                
+                return res.redirect('/addDish');
+            }
             
-        })
+        }else {
+            if(user._id.equals(admin._id)){
+                approval = "approved"
+                //activeStatus = true
+            } else{
+                approval = "for approval"
+                //activeStatus = false
+            }
+            
+            const dish = new Dish({
+                name: req.body.inputDishName,
+                price: req.body.Amount,
+                categoryID: category._id,
+                lastModified: currentDate,
+                isActive: true,
+                addedBy: user._id,
+                isApproved: approval
+            })
+
         var i 
         var temp = []
         temp = req.body.ingredient
@@ -92,20 +119,12 @@ const addDishController = {
                 if(ingre && unit){
                     ingreTable.push([ingre._id,req.body.inputAmount[i],unit._id]);
                 }
-                    
-                // console.log(ingre._id)
-                // console.log(req.body.ingredient.length)
-                // // console.log(unit._id)
-                //  console.log(req.body.selectUnit)
-                //  console.log(ingreTable)
+  
             }
         }
        
         if(await dish.save()){
             let dishID = await Dish.findOne({ name: req.body.inputDishName});
-            
-            
-            
                 
             const recipe = new DishRecipe({
                 dishID : dishID._id,
