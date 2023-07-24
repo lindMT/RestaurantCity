@@ -2,11 +2,36 @@ const User = require('../model/usersSchema.js');
 const Unit = require("../model/unitsSchema.js");
 const Ingredient = require("../model/ingredientsSchema.js");
 const IngreVariation = require("../model/ingreVariationsSchema.js");
-const Conversion = require("../model/ingreConversionSchema.js");
+const FixedConversion = require("../model/fixedConversionSchema.js");
 const discardedIngre = require("../model/discardedSchema.js");
 const bcrypt = require("bcrypt");
 
-const convert = require('convert-units');
+const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
+    try {
+        // Check if the variationId and ingredientId are the same, then no conversion is needed
+        if (initialUnitId.toString() === convertedUnitId.toString()) {
+            return netWeight;
+        }
+
+        // Swap the ingredientId and variationUnitId here
+        const fixedConversion = await FixedConversion.findOne({
+            initialUnitId: initialUnitId,
+            convertedUnitId: convertedUnitId,
+        });
+
+        if (!fixedConversion) {
+            throw new Error('Ingredient conversion data not found.');
+        }
+
+        const conversionFactor = fixedConversion.conversionFactor;
+        const convertedNetWeight = netWeight * conversionFactor; // Apply the correct conversion factor here
+        
+        return convertedNetWeight;
+    } catch (error) {
+        console.error('Error converting net weight:', error);
+        throw error;
+    }
+};
 
 const viewInvController = {
     getViewInventory: async function(req, res) {
@@ -63,7 +88,7 @@ const viewInvController = {
 
             // User Inputs
             const ingredientId = req.body.ingreId;
-            const variantId = req.body.ingreNetUnit;
+            var variantId = req.body.ingreNetUnit;
             var inputQty = req.body.ingreQty;
 
             // For auditing
@@ -85,7 +110,7 @@ const viewInvController = {
             const foundIngredientUnit = await Unit.findById(foundIngredient.unitID);
             let foundVariant;
 
-            if (variantId === "others") {
+            if (!(foundIngredient.hasVariant) || variantId === "others") {
                 const inputNetWt = req.body.ingreNetWt;
                 const inputUnit = req.body.ingreUnit;
                 const foundUnit = await Unit.findOne({ unitSymbol: inputUnit });
@@ -97,26 +122,15 @@ const viewInvController = {
                 });
 
                 foundVariant = newIngreVariation;
-            } else {
+            } else if (variantId !== undefined) {
                 foundVariant = await IngreVariation.findById(variantId);
             }
 
             // For VARIANT UNIT
             const foundUnit = await Unit.findById(foundVariant.unitID);
 
-            if (!foundIngredient.unitID.equals(foundUnit._id)) {
-                // ==================================
-                // TODO: BOUND TO CHANGE AFTER CONVERSION IMPLEMENTATION
-                // ==================================
-                totalNetWeight = convert(foundVariant.netWeight).from(foundUnit.unitSymbol).to(foundIngredientUnit.unitSymbol)
-
-                totalNetWeight = inputQty * Number(totalNetWeight);
-                // console.log("Conversion Factor:", conFactor.conversionFactor);
-                console.log("NOT EQUAL: " + totalNetWeight)
-            } else {
-                totalNetWeight = inputQty * foundVariant.netWeight;
-                console.log("EQUAL: " + totalNetWeight)
-            }
+            totalNetWeight = await convertNetWeight(foundVariant.netWeight, foundUnit._id, foundIngredientUnit._id);
+            totalNetWeight = inputQty * Number(totalNetWeight);
 
             if (totalNetWeight <= foundIngredient.totalNetWeight) {
                 foundIngredient.totalNetWeight -= totalNetWeight;

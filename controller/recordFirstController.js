@@ -1,15 +1,39 @@
-var User = require('../model/usersSchema.js');
-var Unit = require("../model/unitsSchema.js");
-var Ingredient = require("../model/ingredientsSchema.js");
-var IngreVariation = require("../model/ingreVariationsSchema.js");
-var Conversion = require("../model/ingreConversionSchema.js");
-var purchasedIngre = require("../model/purchasedSchema.js");
-var bcrypt = require("bcrypt");
+const User = require('../model/usersSchema.js');
+const Unit = require("../model/unitsSchema.js");
+const Ingredient = require("../model/ingredientsSchema.js");
+const IngreVariation = require("../model/ingreVariationsSchema.js");
+const FixedConversion = require("../model/fixedConversionSchema.js");
+const purchasedIngre = require("../model/purchasedSchema.js");
+const bcrypt = require("bcrypt");
 
-var convert = require('convert-units');
+const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
+    try {
+        // Check if the variationId and ingredientId are the same, then no conversion is needed
+        if (initialUnitId.toString() === convertedUnitId.toString()) {
+            return netWeight;
+        }
 
+        // Swap the ingredientId and variationUnitId here
+        const fixedConversion = await FixedConversion.findOne({
+            initialUnitId: initialUnitId,
+            convertedUnitId: convertedUnitId,
+        });
 
-var recordFirstController = {
+        if (!fixedConversion) {
+            throw new Error('Ingredient conversion data not found.');
+        }
+
+        const conversionFactor = fixedConversion.conversionFactor;
+        const convertedNetWeight = netWeight * conversionFactor; // Apply the correct conversion factor here
+        
+        return convertedNetWeight;
+    } catch (error) {
+        console.error('Error converting net weight:', error);
+        throw error;
+    }
+};
+
+const recordFirstController = {
     getRecFirst: async(req, res) => {
         var foundIngredients = await Ingredient.find().sort({ name: 1 });
 
@@ -58,29 +82,13 @@ var recordFirstController = {
         if (inputQty !== undefined) {
             let totalNetWt = inputNetWt * inputQty
 
-            // Check Unit if NOT same with ingredient default
-            // if (inputUnit !== foundIngredientUnit.unitSymbol) {
-            //     // ==================================
-            //     // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
-            //     // ==================================
-            //     totalNetWt = convert(totalNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
-            // }
-
             // Update inventory
-            foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWt);
+            foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(await convertNetWeight(totalNetWt, foundUnit._id, foundIngredientUnit._id));
             addedMsg = Number(totalNetWt);
         } else {
             inputQty = 1;
 
-            // Update inventory
-            // if (inputUnit !== foundIngredientUnit.unitSymbol) {
-            //     // ==================================
-            //     // TODO: BOUND TO CHANGE AFTER CONVERSION TABLE IS DONE
-            //     // ==================================
-            //     inputNetWt = convert(inputNetWt).from(inputUnit).to(foundIngredientUnit.unitSymbol)
-            // }
-
-            foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(inputNetWt);
+            foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(await convertNetWeight(inputNetWt, foundUnit._id, foundIngredientUnit._id));
             addedMsg = Number(inputNetWt);
         }
 
