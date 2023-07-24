@@ -2,6 +2,7 @@ const { default: mongoose } = require('mongoose');
 const User = require('../model/usersSchema.js');
 const Unit = require('../model/unitsSchema.js');
 const Ingredient = require('../model/ingredientsSchema.js');
+const Conversion = require('../model/ingreConversionSchema.js');
 const bcrypt = require("bcrypt");
 
 const addUnitController = {
@@ -16,7 +17,8 @@ const addUnitController = {
     postAddUnit: async(req, res) => {
         const name = req.body.unitName;
         const symbol = req.body.unitSymbol;
-        const category = req.body.unitCategory;
+        const ingredient = req.body.ingreRef;
+        const factor = req.body.conversionFactor;
         
         // Checks if unit already exists
         var unitSymbolExists = await Unit.findOne({unitSymbol : {'$regex': symbol,$options:'i'}});
@@ -36,11 +38,39 @@ const addUnitController = {
         } else {
             const newUnit = new Unit({
                 unitName: name,
-                unitSymbol: symbol,
-                category: category
+                unitSymbol: symbol
             });
-            
+
             await newUnit.save();
+
+            const unitUsed = await Unit.findOne({ unitSymbol: symbol });
+            const ingreUsed = await Ingredient.findById(ingredient);
+            const existsConversion = await Conversion.findOne({
+                ingredientId: ingreUsed._id
+            });
+
+            if(existsConversion){ // If ingredient exists in conversion table, add sub-unit only
+                const newSubUnit = {
+                    convertedUnitId: unitUsed._id,
+                    conversionFactor: factor,
+                };
+                existsConversion.subUnit.push(newSubUnit);
+                await existsConversion.save();
+            } else {
+                const newSubUnit = [
+                    {
+                        convertedUnitId: unitUsed._id,
+                        conversionFactor: factor
+                    }
+                ]
+                const newConversion = new Conversion({
+                    ingredientId: ingreUsed._id,
+                    initialUnitId: ingreUsed.unitID,
+                    subUnit: newSubUnit
+                });
+    
+                await newConversion.save();
+            }
             
             req.flash('success_msg', 'Unit Added Successfully.')
             console.log("New unit entry")
