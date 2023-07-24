@@ -12,7 +12,7 @@ const manageDishesController = {
     getManageDishes: async function(req, res) {
         try {
             // Retrieve all dishes available
-            const dishes = await Dish.find({ isActive: true});
+            const dishes = await Dish.find({ isActive: true }).collation({ locale: 'en' }).sort({ name: 1 });
             
             // Retrieve categories from DishCatego
             const categories = await DishCategory.find();
