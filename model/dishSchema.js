@@ -38,10 +38,14 @@ const dishSchema = new Schema ( {
 
     isApproved: {
         type: String,
-        
         enum: ['for approval', 'approved', 'rejected'],
         required: true
-    }
+    },
+    
+    approvedOn: {
+        type: Date,
+        required: true
+    },
 });
 
 module.exports = mongoose.model('dish', dishSchema);

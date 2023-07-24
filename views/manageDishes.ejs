@@ -31,7 +31,9 @@
                     </thead>
                     <tbody>
                         <% dishes.forEach(function(dish) { %>
+                            
                         <tr>
+                            <% if (dish.isApproved == 'approved') { %>
                             <td style="text-align: left;">
                                 <div class="form-check">
                                     <input class="form-check-input select" type="checkbox" value="<%= dish.name %>" name="selectedDishes" id="foodName1">
@@ -43,15 +45,37 @@
                             <td>₱ <%= dish.price %></td>
                             <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal<%= dish._id %>" type ="button">
                                     View Recipe</button></td>
+                            
+                            
+                            
                             <td style=text-transform:capitalize><%= dish.isApproved %></td>
-                            <% if (dish.isApproved == 'approved') { %>
                             <td><a href="/editDish?id=<%= dish._id %>" style="color: black; text-decoration: none;">
                                     Edit</a></td>
-                            <% } else if (dish.isApproved == 'for approval') {%>
-                                <td>-</td>
+                                    
+                 
+                         
                             <% } %>
+                            <%if (dish.isApproved == 'for approval' || recipeApproved == 'for approval') {%>
+
+                                    <td style="text-align: left;">
+                                        <div class="form-check">
+                                            <input class="form-check-input select" type="checkbox" value="<%= dish.name %>" name="selectedDishes" id="foodName1">
+                                            <label>
+                                                <%= dish.name %>
+                                            </label>
+                                    </td>
+                                    <td><%= dish.category %></td>
+                                    <td>₱ <%= dish.price %></td>
+                                    <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal<%= dish._id %>" type ="button">
+                                            View Recipe</button></td>
+                                    <td style=text-transform:capitalize><%= dish.isApproved %></td>
+                                        <td>-</td>
+                                        <% } %>
+                                
                         </tr>
+                        
                         <% }); %>
+                        
                     </tbody>
                 </table>
                 <% } else { %>

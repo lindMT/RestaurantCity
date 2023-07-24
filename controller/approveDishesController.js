@@ -17,7 +17,6 @@ const approveDishesController = {
                 isActive: true,
                 isApproved: 'for approval'
             });
-            
             // Retrieve categories from DishCatego
             const categories = await DishCategory.find();
             

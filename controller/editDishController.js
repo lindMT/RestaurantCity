@@ -20,12 +20,13 @@ const editDishController = {
             const dish = await Dish.findById(dishID);
             var categories = await DishCategory.find({});
             const category = await DishCategory.findById(dish.categoryID);
-            const recipe = await DishRecipe.find({dishID:dishID, isActive:true});
+            const recipe = await DishRecipe.find({dishID:dishID, isActive:true, isApproved:'approved'});
             var ingredients = await Ingredients.find({})
             var units = await Units.find({});
 
             // Pass dish data to editDish page
             if(dish && recipe){
+
                 res.render('editDish', {dish, categories, category, recipe, ingredients, units});
             }
             
@@ -44,13 +45,30 @@ const editDishController = {
         const data = req.session.userName
         let user = await User.findOne({ userName: data });
 
-        let oldDish = await Dish.findOne({ name: req.body.dishName, isActive:true});
+        let oldDish = await Dish.findOne({ name: req.body.dishName, isActive:true, isApproved:'approved'});
         const currentDate = Date();
         const trial = req.body.category
         let category = await DishCategory.findOne({ category: trial });
-        const inputIngre= await DishRecipe.findOne({ dishID: oldDish._id , isActive:true});
-
+        const inputIngre= await DishRecipe.findOne({ dishID: oldDish._id , isActive:true, isApproved:'approved'});
+        let admin = await User.findOne({ position: "admin" });
+        let forApprovalDish = await Dish.findOne({ name: req.body.dishName, isActive:true, isApproved:'for approval'});
+        const forApprovalIngre= await DishRecipe.findOne({ dishID: oldDish._id , isActive:true, isApproved:'for approval'});
         var ingreTable = [];
+
+        if(user._id.equals(admin._id)){
+            approval = "approved"
+            //activeStatus = true
+        } else{
+            approval = "for approval"
+            //activeStatus = false
+        }
+
+        if(forApprovalDish || forApprovalIngre){
+            req.flash('error_msg', 'A dish with the same name is already for approval')
+            console.log("Duplicate Entry")
+            const urlWithQuery = '/editDish?id=' + oldDish._id.toString();
+            return res.redirect(urlWithQuery);
+        }
 
         var i 
         var temp = []
@@ -116,24 +134,54 @@ const editDishController = {
                     return res.redirect(urlWithQuery);
                 }
             }
-            await DishRecipe.updateOne({dishID: oldDish._id, isActive:true},{$set: {lastModified:currentDate, isActive:false, addedBy:user._id}})
 
-            const recipe = new DishRecipe({
-                dishID : oldDish._id,
-                ingredients: ingreTable.map((ingredient) => ({
-                    ingredient: ingredient[0], 
-                    chefWeight: ingredient[1],
-                    chefUnitID: ingredient[2]
-                  })),
-                isActive:true,
-                lastModified:currentDate,
-                addedBy:user._id
-            })
-
-            if(await recipe.save()){
-                await Dish.updateOne({name: req.body.dishName, isActive:true},{$set: {lastModified:currentDate, addedBy:user._id}})
-                return res.redirect('/manageDishes');
+            if(user._id.equals(admin._id)){
+                approval = "approved"
+                await DishRecipe.updateOne({dishID: oldDish._id, isActive:true, isApproved:'approved'},{$set: {lastModified:currentDate, isActive:false, addedBy:user._id}})
+                const recipe = new DishRecipe({
+                    dishID : oldDish._id,
+                    ingredients: ingreTable.map((ingredient) => ({
+                        ingredient: ingredient[0], 
+                        chefWeight: ingredient[1],
+                        chefUnitID: ingredient[2]
+                      })),
+                    isActive:true,
+                    lastModified:currentDate,
+                    addedBy:user._id,
+                    isApproved: approval,
+                    approvedOn: currentDate,
+                })
+    
+                if(await recipe.save()){
+                    //await Dish.updateOne({name: req.body.dishName, isActive:true},{$set: {lastModified:currentDate, addedBy:user._id}})
+                    return res.redirect('/manageDishes');
+                }
+                //activeStatus = true
+            } else{
+                approval = "for approval"
+                const recipe = new DishRecipe({
+                    dishID : oldDish._id,
+                    ingredients: ingreTable.map((ingredient) => ({
+                        ingredient: ingredient[0], 
+                        chefWeight: ingredient[1],
+                        chefUnitID: ingredient[2]
+                      })),
+                    isActive:true,
+                    lastModified:currentDate,
+                    addedBy:user._id,
+                    isApproved: approval,
+                    approvedOn: currentDate,
+                })
+    
+                if(await recipe.save()){
+                    //await Dish.updateOne({name: req.body.dishName, isActive:true},{$set: {lastModified:currentDate, addedBy:user._id}})
+                    return res.redirect('/manageDishes');
+                }
+                //activeStatus = false
             }
+            //await DishRecipe.updateOne({dishID: oldDish._id, isActive:true, isApproved:'approved'},{$set: {lastModified:currentDate, isActive:false, addedBy:user._id}})
+
+            
         }else{
 
             if(temp[0].length == 1){
@@ -163,38 +211,85 @@ const editDishController = {
                     
             }
         }
-        await Dish.updateOne({name: req.body.dishName, isActive:true},{$set: {lastModified:currentDate, isActive:false, addedBy:user._id}})
-        await DishRecipe.updateOne({dishID: oldDish._id, isActive:true},{$set: {lastModified:currentDate, isActive:false, addedBy:user._id}})
-
-        const dish = new Dish({
-            name: req.body.dishName,
-            price: req.body.price,
-            categoryID: category._id,
-            lastModified: currentDate,
-            isActive: true,
-            addedBy: user._id
-    })
-
-        if(await dish.save()){
-            let newDishID = await Dish.findOne({ name: req.body.dishName, isActive:true});
-
-            const recipe = new DishRecipe({
-                dishID : newDishID._id,
-                ingredients: ingreTable.map((ingredient) => ({
-                    ingredient: ingredient[0], 
-                    chefWeight: ingredient[1],
-                    chefUnitID: ingredient[2]
-                  })),
-                isActive:true,
-                lastModified:currentDate,
-                addedBy:user._id
-            })
-
-            if(await recipe.save()){
-                console.log(ingreTable)
-                return res.redirect('/manageDishes');
+        if(user._id.equals(admin._id)){
+            approval = "approved"
+            await Dish.updateOne({name: req.body.dishName, isActive:true, isApproved:'approved'},{$set: {lastModified:currentDate, isActive:false, addedBy:user._id}})
+            await DishRecipe.updateOne({dishID: oldDish._id, isActive:true, isApproved:'approved'},{$set: {lastModified:currentDate, isActive:false, addedBy:user._id}})
+            const dish = new Dish({
+                name: req.body.dishName,
+                price: req.body.price,
+                categoryID: category._id,
+                lastModified: currentDate,
+                isActive: true,
+                addedBy: user._id,
+                isApproved: approval,
+                approvedOn: currentDate,
+        })
+    
+            if(await dish.save()){
+                let newDishID = await Dish.findOne({ name: req.body.dishName, isActive:true, isApproved:'approved'});
+    
+                const recipe = new DishRecipe({
+                    dishID : newDishID._id,
+                    ingredients: ingreTable.map((ingredient) => ({
+                        ingredient: ingredient[0], 
+                        chefWeight: ingredient[1],
+                        chefUnitID: ingredient[2]
+                      })),
+                    isActive:true,
+                    lastModified:currentDate,
+                    addedBy:user._id,
+                    isApproved: approval,
+                    approvedOn: currentDate,
+                })
+    
+                if(await recipe.save()){
+                    console.log(ingreTable)
+                    return res.redirect('/manageDishes');
+                }
+            }
+            //activeStatus = true
+        } else{
+            approval = "for approval"
+            //activeStatus = false
+            const dish = new Dish({
+                name: req.body.dishName,
+                price: req.body.price,
+                categoryID: category._id,
+                lastModified: currentDate,
+                isActive: true,
+                addedBy: user._id,
+                isApproved: approval,
+                approvedOn: currentDate,
+        })
+    
+            if(await dish.save()){
+                let newDishID = await Dish.findOne({ name: req.body.dishName, isActive:true, isApproved:'for approval'});
+    
+                const recipe = new DishRecipe({
+                    dishID : newDishID._id,
+                    ingredients: ingreTable.map((ingredient) => ({
+                        ingredient: ingredient[0], 
+                        chefWeight: ingredient[1],
+                        chefUnitID: ingredient[2]
+                      })),
+                    isActive:true,
+                    lastModified:currentDate,
+                    addedBy:user._id,
+                    isApproved: approval,
+                    approvedOn: currentDate,
+                })
+    
+                if(await recipe.save()){
+                    console.log(ingreTable)
+                    return res.redirect('/manageDishes');
+                }
             }
         }
+        //await Dish.updateOne({name: req.body.dishName, isActive:true, isApproved:'approved'},{$set: {lastModified:currentDate, isActive:false, addedBy:user._id}})
+        //await DishRecipe.updateOne({dishID: oldDish._id, isActive:true, isApproved:'approved'},{$set: {lastModified:currentDate, isActive:false, addedBy:user._id}})
+
+        
     }
     }
 };

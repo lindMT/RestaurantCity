@@ -39,7 +39,17 @@ const dishRecipeSchema = new Schema ({
         type: Schema.Types.ObjectId, 
         ref: 'users',
         required: true
-}
+},
+isApproved: {
+    type: String,
+    enum: ['for approval', 'approved', 'rejected'],
+    required: true
+},
+
+approvedOn: {
+    type: Date,
+    required: true
+},
 
 });
 

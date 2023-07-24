@@ -87,7 +87,8 @@ const addDishController = {
                 lastModified: currentDate,
                 isActive: true,
                 addedBy: user._id,
-                isApproved: approval
+                isApproved: approval,
+                approvedOn: currentDate,
             })
 
         var i 
@@ -135,7 +136,9 @@ const addDishController = {
                   })),
                 isActive:true,
                 lastModified:currentDate,
-                addedBy:user._id
+                addedBy:user._id,
+                isApproved: approval,
+                approvedOn: currentDate,
             })
 
             if(await recipe.save()){

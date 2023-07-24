@@ -24,7 +24,6 @@ const manageDishesController = {
                 // Fetch the recipe for the dish
                 const recipe = await DishRecipe.findOne({ dishID: dish._id, isActive:true}).lean();
                 const isApproved = recipe ? recipe.isApproved : false;
-
                 // Retrieve ingredient names for the recipe
                 const ingredientIds = recipe ? recipe.ingredients.map(item => item.ingredient) : [];
                 const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
@@ -42,7 +41,7 @@ const manageDishesController = {
                         chefUnitSymbol: chefUnit ? chefUnit.unitSymbol : ''
                     };
                 })) : [];
-
+                console.log(recipeWithIngredientNames)
                 return {
                     ...dish.toObject(),
                     category: category ? category.category : '',
