@@ -99,9 +99,7 @@ const editDishController = {
                                 inputIngre.ingredients[j].chefWeight == req.body.editAmount[i] && 
                                 inputIngre.ingredients[j].chefUnitID.toString() == unit._id){
                                     flag++
-                            }
-                            
-                            
+                            }   
                         }
 
                         ingreTable.push([ingre._id,req.body.editAmount[i],unit._id]);
@@ -198,12 +196,6 @@ const editDishController = {
             }
         }
     }
-
-        
     }
-
-
 };
-
-
 module.exports = editDishController;
