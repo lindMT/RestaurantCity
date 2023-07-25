@@ -76,6 +76,15 @@
       "_id": {
         "$oid": "64bc070f51ebbb5e3b37ddd7"
       }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a451bb9a494ecb0fd7216b"
+      },
+      "conversionFactor": 7.81,
+      "_id": {
+        "$oid": "64bc06cd34baf58c4514efff"
+      }
     }
   ],
   "__v": 0
