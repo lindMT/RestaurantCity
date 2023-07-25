@@ -38,7 +38,7 @@ const addDishController = {
         // Fetch category in views, where data is from category table
        const trial = req.body.category
         let category = await DishCategory.findOne({ category: trial });
-        let inputDish= await Dish.findOne({ name: req.body.inputDishName});
+        let inputDish= await Dish.findOne({ name: req.body.inputDishName, isActive:true});
         // if(!category){
         //     console.log(data)
 		// 	console.log('Category does not exist');
@@ -74,10 +74,10 @@ const addDishController = {
         }else {
             if(user._id.equals(admin._id)){
                 approval = "approved"
-                //activeStatus = true
+                approvedDate = currentDate
             } else{
                 approval = "for approval"
-                //activeStatus = false
+                approvedDate = null
             }
             
             const dish = new Dish({
@@ -88,7 +88,7 @@ const addDishController = {
                 isActive: true,
                 addedBy: user._id,
                 isApproved: approval,
-                approvedOn: currentDate,
+                approvedOn: approvedDate,
             })
 
         var i 
@@ -138,7 +138,7 @@ const addDishController = {
                 lastModified:currentDate,
                 addedBy:user._id,
                 isApproved: approval,
-                approvedOn: currentDate,
+                approvedOn: approvedDate,
             })
 
             if(await recipe.save()){
