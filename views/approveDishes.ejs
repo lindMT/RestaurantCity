@@ -6,13 +6,6 @@
                     <h1>Approve Dishes</h1>
 
                     <div style="text-align: center; margin-left: auto">
-
-                        <button id="approveDishBtn" type="submit" class="btn btn-secondary"
-                            style="margin-left: 10px; color: white" disabled>
-                            Approve Dish</button>
-                        <button id="rejectDishBtn" type="submit" class="btn btn-secondary"
-                            style="margin-left: 10px; color: white;" disabled>
-                            Reject Dish</button>
                     </div>
                 </div>
                 <hr>
@@ -27,23 +20,30 @@
                             <th scope="col" style="text-align: center;">Category</th>
                             <th scope="col" style="text-align: center;">Price</th>
                             <th scope="col" style="text-align: center;">Recipe</th>
+                            <th scope="col" style="text-align: center;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% dishes.forEach(function(dish) { %>
                         <tr>
                             <td style="text-align: left;">
-                                <div class="form-check">
-                                    <input class="form-check-input select" type="checkbox" value="dishName" name="selectedDishes" id="foodName1">
-                                    <label>
                                         <%= dish.name %>
-                                    </label>
                             </td>
                             
                             <td><%= dish.category %></td>
                             <td>₱ <%= dish.price %></td>
                             <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal<%= dish._id %>" type ="button">
                                     View Recipe</button></td>
+                            <!-- Approve Button -->
+                            <td style="display: flex; align-items: center;">
+                                <button id="approveDishBtn" type="submit" class="btn btn-success"
+                                style="margin-left: 10px; color: white;">
+                                Approve</button>
+                            <!-- Reject Button -->
+                                <button id="rejectDishBtn" type="submit" class="btn btn-danger"
+                                style="margin-left: 10px; color: white; flex: content;">
+                                Reject </button>
+                            </td>
                         </tr>
                         <% }); %>
                     </tbody>
