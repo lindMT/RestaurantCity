@@ -170,7 +170,7 @@ const editDishController = {
                     lastModified:currentDate,
                     addedBy:user._id,
                     isApproved: approval,
-                    approvedOn: currentDate,
+                    approvedOn: null,
                 })
     
                 if(await recipe.save()){
@@ -260,7 +260,7 @@ const editDishController = {
                 isActive: true,
                 addedBy: user._id,
                 isApproved: approval,
-                approvedOn: currentDate,
+                approvedOn: null,
         })
     
             if(await dish.save()){
@@ -277,7 +277,7 @@ const editDishController = {
                     lastModified:currentDate,
                     addedBy:user._id,
                     isApproved: approval,
-                    approvedOn: currentDate,
+                    approvedOn: null,
                 })
     
                 if(await recipe.save()){
