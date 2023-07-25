@@ -68,30 +68,48 @@ const manageDishesController = {
             // If only one dish is selected, convert it to an array
             selectedDishes = [selectedDishes];
         }
+
+        console.log(selectedDishes);
         
         try {
-             selectedDishes.forEach(async (selected) => {
-                const { dishID, dishRecipeID } = selected;
-          
-                // Verify that both dishID and dishRecipeID are provided
-                if (dishID && dishRecipeID) {
-                  // Delete the 'Dish' with the given dishID
-                  const dishResult = await Dish.updateOne(
-                    { _id: dishID },
-                    { isActive: false }
-                  );
-          
-                  console.log('Dish removed:', dishResult.nModified);
-          
-                  // Delete the 'DishRecipe' with the given dishID and dishRecipeID
-                  const dishRecipeResult = await DishRecipe.updateOne({
-                    dishID: dishID,
-                    _id: dishRecipeID
-                  }, { isActive: false });
-          
-                  console.log('Dish Recipe removed:', dishRecipeResult.deletedCount);
+            for (const dishRecipeID of selectedDishes) {
+                // Verify that dishRecipeID is provided
+                if (dishRecipeID) {
+                    // Find the 'DishRecipe' with the given dishRecipeID
+                    const dishRecipe = await DishRecipe.findOne({ _id: dishRecipeID });
+    
+                    if (dishRecipe) {
+                        // Get the dishID from the 'DishRecipe' document
+                        const dishID = dishRecipe.dishID;
+
+                        const dish = await DishRecipe.find({ dishID: dishID });
+
+                        if (dishRecipesForDish.length > 1) {
+                            const dishRecipeResult = await DishRecipe.updateOne(
+                                { _id: dishRecipeID, dishID: dishID },
+                                { isActive: false }
+                            );
+    
+                            console.log('Dish Recipe removed:', dishRecipeResult.nModified);
+                        } else {
+                            // If only one DishRecipe found, update both Dish and DishRecipe to false
+                            const dishResult = await Dish.updateOne(
+                                { _id: dishID },
+                                { isActive: false }
+                            );
+    
+                            console.log('Dish removed:', dishResult.nModified);
+    
+                            const dishRecipeResult = await DishRecipe.updateOne(
+                                { _id: dishRecipeID, dishID: dishID },
+                                { isActive: false }
+                            );
+    
+                            console.log('Dish Recipe removed:', dishRecipeResult.nModified);
+                        }
+                    }
                 }
-             });
+            }
               
             res.redirect('/manageDishes');
         } catch (error) {
