@@ -82,7 +82,7 @@ const manageDishesController = {
                         // Get the dishID from the 'DishRecipe' document
                         const dishID = dishRecipe.dishID;
 
-                        const dish = await DishRecipe.find({ dishID: dishID });
+                        const dishRecipesForDish = await DishRecipe.find({ dishID: dishID });
 
                         if (dishRecipesForDish.length > 1) {
                             const dishRecipeResult = await DishRecipe.updateOne(
