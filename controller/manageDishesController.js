@@ -22,30 +22,32 @@ const manageDishesController = {
                 const category = categories.find(category => category._id.equals(dish.categoryID));
                 
                 // Fetch the recipe for the dish
-                const recipe = await DishRecipe.findOne({ dishID: dish._id, isActive:true}).lean();
-                //console.log(recipe)
-                // Retrieve ingredient names for the recipe
-                const ingredientIds = recipe ? recipe.ingredients.map(item => item.ingredient) : [];
-                const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
+                const recipes = await DishRecipe.find({ dishID: dish._id, isActive: true }).lean();
 
                 // Map ingredient names to the recipe items
-                const recipeWithIngredientNames = recipe ? await Promise.all(recipe.ingredients.map(async item => {
-                    const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
+                const recipesWithIngredients = await Promise.all(recipes.map(async recipe => {
 
-                    // Fetch the chefUnit with unitSymbol
-                    const chefUnit = await Units.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
-
+                    const ingredientIds = recipe.ingredients.map(item => item.ingredient);
+                    const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
+                    
+                    const recipeWithIngredientNames = await Promise.all(recipe.ingredients.map(async item => {
+                        const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
+                        const chefUnit = await Units.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
+                        return {
+                            ...item,
+                            ingredientName: ingredient ? ingredient.name : '',
+                            chefUnitSymbol: chefUnit ? chefUnit.unitSymbol : ''
+                        };
+                    }));
                     return {
-                        ...item,
-                        ingredientName: ingredient ? ingredient.name : '',
-                        chefUnitSymbol: chefUnit ? chefUnit.unitSymbol : ''
+                        ...recipe,
+                        ingredients: recipeWithIngredientNames,
                     };
-                })) : [];
+                }));
                 return {
                     ...dish.toObject(),
                     category: category ? category.category : '',
-                    recipe: recipeWithIngredientNames,
-                    dishRecipeID: recipe._id
+                    recipe: recipesWithIngredients
                 };
             }));
 
@@ -70,8 +72,7 @@ const manageDishesController = {
         try {
             for (const selected of selectedDishes) {
                 const { dishID, dishRecipeID } = selected;
-                console.log(dishID)
-                console.log(dishRecipeID)
+          
                 // Verify that both dishID and dishRecipeID are provided
                 if (dishID && dishRecipeID) {
                   // Delete the 'Dish' with the given dishID
