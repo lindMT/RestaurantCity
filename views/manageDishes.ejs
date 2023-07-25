@@ -31,7 +31,7 @@
                     </thead>
                     <tbody>
                         <% dishes.forEach(function(dish) { %>
-                        <% dish.recipes.forEach(function(recipe) { %>
+                        <% dish.recipe.forEach(function(recipe) { %>
                         <tr>
                             <td style="text-align: left;">
                                 <div class="form-check">
@@ -46,20 +46,26 @@
                             <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal<%= dish._id %>" type ="button">
                                     View Recipe</button></td>
                                 
-                            <td style=text-transform:capitalize><%= dish.isApproved %></td>
-                            <% if (dish.isApproved == 'approved') { %>
+                                    <%  if ( dish.isApproved == 'for approval' ||recipe.isApproved == 'for approval') { %>
+                                        <td style=text-transform:capitalize><%= recipe.isApproved %></td>
+                                        <td>-</td>
+
+                                        <% } else if ( dish.isApproved == 'for approval' && recipe.isApproved == 'for approval') { %>
+                                            <td style=text-transform:capitalize><%= recipe.isApproved %></td>
+                                            <td>-</td>
+                                
+                            <% } else if (dish.isApproved == 'approved') { %>
+                                <td style=text-transform:capitalize><%= dish.isApproved %></td>
                             <td><a href="/editDish?id=<%= dish._id %>" style="color: black; text-decoration: none;">
                                     Edit</a></td>
-                            <% } else if (dish.isApproved == 'for approval' || recipeApproved == 'for approval') { %>
-                                <td>-</td>
-                            <% } %>          
+                                    <% } %> 
                         </tr>
                         <% }); %>
                         <% }); %>
                         
                     </tbody>
                 </table>
-                <% } else { %>
+  
 
                 <% } %>
 
@@ -75,7 +81,7 @@
 
     <!--MODAL MAKER -->
     <% dishes.forEach(function(dish) { %>
-        <% dish.recipes.forEach(function(recipe) { %>
+        <% dish.recipe.forEach(function(recipe) { %>
     <div class="modal fade" id="dishDetailsModal<%= dish._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
