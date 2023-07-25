@@ -23,7 +23,7 @@ const manageDishesController = {
                 
                 // Fetch the recipe for the dish
                 const recipe = await DishRecipe.findOne({ dishID: dish._id, isActive:true}).lean();
-
+                //console.log(recipe)
                 // Retrieve ingredient names for the recipe
                 const ingredientIds = recipe ? recipe.ingredients.map(item => item.ingredient) : [];
                 const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
@@ -70,7 +70,8 @@ const manageDishesController = {
         try {
             for (const selected of selectedDishes) {
                 const { dishID, dishRecipeID } = selected;
-          
+                console.log(dishID)
+                console.log(dishRecipeID)
                 // Verify that both dishID and dishRecipeID are provided
                 if (dishID && dishRecipeID) {
                   // Delete the 'Dish' with the given dishID

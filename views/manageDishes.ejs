@@ -35,7 +35,7 @@
                         <tr>
                             <td style="text-align: left;">
                                 <div class="form-check">
-                                    <input class="form-check-input select" type="checkbox" value="<%= dish.name %>" name="selectedDishes" id="foodName1">
+                                    <input class="form-check-input select" type="checkbox" value="<%= dish._id %>" name="selectedDishes[<%= dish._id %>][dishID]" id="foodName1">
                                     <label>
                                         <%= dish.name %>
                                     </label>

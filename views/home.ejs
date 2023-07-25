@@ -29,7 +29,7 @@
 </div> -->
 
     <!-- View will depend on the User (Owner and Stock Controller)  -->
-    <% if (session.position == 'admin') {%> 
+    
     <div class="card shadow">
         <div class="d-flex flex-column text-left" style="min-width: 75vw; min-height: 20vw;">
             <div class="card-body d-flex flex-column">
@@ -57,11 +57,27 @@
                                 </button></td>
                             </td>
                          </tr>
+                         <% if (session.position == 'admin') {%> 
+                            <%if (counter > 0){ %>
+                         <tr>
+                            <td style="text-transform: capitalize;">You have <%= counter %> dishes for approval</td>
+                                <td class="table-warning">  
+                                    Immediate Action
+                                </td>
+                            <td>
+                                <button class="viewReportBtn" type ="button" style="background:none; border:none;">
+                                    <a href="/approveDishes %>" style="color: black; text-decoration: none;">
+                                        Report Details</a>
+                                </button></td>
+                            </td>
+                         </tr>
+                         <% } %>
+                         <% } %>
                     </tbody>
                 </table>
             </div>        
         </div>        
     </div>
-    <% } %>
+   
 <script src="js/home.js"></script>
 <%- include("partials/footer") -%>
