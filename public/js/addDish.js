@@ -35,11 +35,21 @@ function removeForm(button) {
 
   // ----- Make the forms sticky ------
   const inputElements = document.querySelectorAll('.form-control');
+  const selectElements = document.querySelectorAll('select.form-select');
+
   inputElements.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       const inputValue = inputElement.value;
       const inputName = inputElement.name;
       localStorage.setItem(inputName, inputValue);
+    });
+  });
+
+  selectElements.forEach((selectElement) => {
+    selectElement.addEventListener('change', () => {
+      const selectedValue = selectElement.value;
+      const selectName = selectElement.name;
+      localStorage.setItem(selectName, selectedValue);
     });
   });
 
@@ -52,25 +62,25 @@ function removeForm(button) {
         inputElement.value = storedValue;
       }
     });
-  });
 
-  const selectElements = document.querySelectorAll('select.form-select');
-  selectElements.forEach((selectElement) => {
-    selectElement.addEventListener('change', () => {
-      const selectedValue = selectElement.value;
-      const selectName = selectElement.name;
-      localStorage.setItem(selectName, selectedValue);
-    });
-  });
-
-  // Load the select elements data from localStorage when the page loads
-  window.addEventListener('load', () => {
     selectElements.forEach((selectElement) => {
       const selectName = selectElement.name;
       const storedValue = localStorage.getItem(selectName);
       if (storedValue !== null) {
         selectElement.value = storedValue;
       }
+    });
+  });
+
+  // Remove event listeners after form submission to prevent further updates to localStorage
+  const form = document.querySelector('.user-form');
+  form.addEventListener('submit', () => {
+    inputElements.forEach((inputElement) => {
+      inputElement.removeEventListener('input', updateLocalStorage);
+    });
+
+    selectElements.forEach((selectElement) => {
+      selectElement.removeEventListener('change', updateLocalStorage);
     });
   });
 // -- End of form sticky --- 
