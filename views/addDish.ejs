@@ -118,7 +118,6 @@
         </div>
       </form>
       </div>
-
     </div>
 
   </div>
@@ -126,4 +125,63 @@
   </div>
   </div>
   <script src="/js/addDish.js"></script>
+  <script>
+    const inputElements = document.querySelectorAll('.form-control');
+    const selectElements = document.querySelectorAll('select.form-select');
+  
+    inputElements.forEach((inputElement) => {
+      inputElement.addEventListener('input', () => {
+        const inputValue = inputElement.value;
+        const inputName = inputElement.name;
+        localStorage.setItem(inputName, inputValue);
+      });
+    });
+  
+    selectElements.forEach((selectElement) => {
+      selectElement.addEventListener('change', () => {
+        const selectedValue = selectElement.value;
+        const selectName = selectElement.name;
+        localStorage.setItem(selectName, selectedValue);
+      });
+    });
+  
+    // Load the form data from localStorage when the page loads
+    window.addEventListener('load', () => {
+      // Check if the form has been submitted
+      const isFormSubmitted = localStorage.getItem('formSubmitted');
+  
+      inputElements.forEach((inputElement) => {
+        const inputName = inputElement.name;
+        const storedValue = localStorage.getItem(inputName);
+  
+        if (isFormSubmitted === 'true') {
+          // Clear the localStorage data after form submission
+          localStorage.removeItem(inputName);
+        } else if (storedValue !== null) {
+          // Restore form data from localStorage
+          inputElement.value = storedValue;
+        }
+      });
+  
+      selectElements.forEach((selectElement) => {
+        const selectName = selectElement.name;
+        const storedValue = localStorage.getItem(selectName);
+  
+        if (isFormSubmitted === 'true') {
+          // Clear the localStorage data after form submission
+          localStorage.removeItem(selectName);
+        } else if (storedValue !== null) {
+          // Restore form data from localStorage
+          selectElement.value = storedValue;
+        }
+      });
+    });
+  
+    // Set formSubmitted flag to true upon form submission
+    const form = document.querySelector('.user-form');
+    form.addEventListener('submit', () => {
+      localStorage.setItem('formSubmitted', 'true');
+    });
+  </script>
+  
   <%- include("partials/footer") -%>
