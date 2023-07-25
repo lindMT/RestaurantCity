@@ -31,7 +31,8 @@ const orderController = {
         let ingredientsToUse = []; // from Ingredients._id
         let ingredientUnitTotal = []; // totalWeight
 
-        const lackingIngredients = []; //Removed default value
+        const lackingIngredients = [];
+        const lackingIngredientsDetails = []; 
         const orderSuccessMessage = "Order fulfilled. Please go back to the order terminal to input more orders.";
         const orderFailMessage = "Order unfulfilled. Please find below the list of insufficient ingredients required for the dishes you requested.";
         var quantityArray = req.body.quantity;
@@ -100,7 +101,31 @@ const orderController = {
           proceedWithOrder = false;
         }
         
-        if (proceedWithOrder){ 
+        if (!proceedWithOrder){ //Provides Information for what is Lacking in the Ingredients for all orders
+          for (let i = 0; i < lackingIngredients.length; i++){
+            const ingredientId = lackingIngredients[i];
+            const ingredientInRecipe = dishRecipe.ingredients.find((ingredient) => ingredient.ingredient.toString() === ingredientId);
+
+            if(ingredientInRecipe){
+              const ingredientInInventory = await Ingredient.findById(ingredientId);
+              const ingredientName = ingredientInInventory.name;
+              const availableStock = ingredientInInventory.totalNetWeight;
+              const requiredForDish = ingredientInRecipe.chefWeight * quantity * conversionFactor;
+              const neededAmount = ingredientUnitTotal[i] - requiredForDish;
+            }
+
+            lackingIngredientsDetails.push({
+              name: ingredientName,
+              availableIngre: availableStock,
+              neededIngre: requiredForDish,
+              neededForOtherDishes: neededAmount
+            });
+          }
+              res.render('orderProcessingLanding', {  orderPrompt: orderFailMessage,
+              lackingIngredients: lackingIngredientsDetails});
+        }
+        
+        else{ 
           // Calculate Total Price
           var totalPrice = 0; 
 
@@ -147,11 +172,16 @@ const orderController = {
                 await newOrderItem.save();
             }
           });
+
+          res.render('orderProcessingLanding', {  orderPrompt: orderSuccessMessage,
+            lackingIngredients: []
+          });
         }
+      }
 
         //Insert Here: Update of Inventory after ordering
-      }
-      catch(error){
+      
+        catch(error){
           console.error(error);
       }
     },
