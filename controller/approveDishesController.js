@@ -13,10 +13,26 @@ const approveDishesController = {
     getApproveDishes: async function(req, res) {
         try {
             // Retrieve all dishes that are for approval
-            const dishes = await Dish.find({ 
+            const dishesForApproval = await Dish.find({
                 isActive: true,
                 isApproved: 'for approval'
-            });
+              });
+          
+              // Retrieve approved dish recipes that have 'for approval' status
+              const approvedDishRecipes = await DishRecipe.find({
+                isActive: true,
+                isApproved: 'for approval'
+              });
+          
+              // Find the corresponding approved dishes using the dishID field from approvedDishRecipes
+              const approvedDishes = await Dish.find({
+                _id: { $in: approvedDishRecipes.map(recipe => recipe.dishID) },
+                isActive: true,
+                isApproved: 'approved'
+              });
+
+              const dishes = [...dishesForApproval, ...approvedDishes];
+            
             // Retrieve categories from DishCatego
             const categories = await DishCategory.find();
             
@@ -25,7 +41,7 @@ const approveDishesController = {
                 const category = categories.find(category => category._id.equals(dish.categoryID));
                 
                 // Fetch the recipe for the dish
-                const recipe = await DishRecipe.findOne({ dishID: dish._id, isActive:true}).lean();
+                const recipe = await DishRecipe.findOne({ dishID: dish._id }).lean();
 
                 // Retrieve ingredient names for the recipe
                 const ingredientIds = recipe ? recipe.ingredients.map(item => item.ingredient) : [];
