@@ -66,7 +66,7 @@ const orderController = {
               convertedUnitId: ingredientInInventory.unitID
             });
         
-            const conversionFactor = ingreUnitConversion?.conversionFactor ||  fixedUnitConversion.conversionFactor;
+            const conversionFactor = ingreUnitConversion?.conversionFactor ||  fixedUnitConversion?.conversionFactor;
         
             if (ingredientsToUse.length != 0) {
               for (var j = 0; j < ingredientsToUse.length; j++) {
