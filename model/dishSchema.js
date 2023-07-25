@@ -44,7 +44,7 @@ const dishSchema = new Schema ( {
     
     approvedOn: {
         type: Date,
-        required: true
+        
     },
 });
 

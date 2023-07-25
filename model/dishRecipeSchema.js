@@ -48,7 +48,7 @@ isApproved: {
 
 approvedOn: {
     type: Date,
-    required: true
+
 },
 
 });
