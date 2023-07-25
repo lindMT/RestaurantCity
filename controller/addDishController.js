@@ -38,7 +38,7 @@ const addDishController = {
         // Fetch category in views, where data is from category table
        const trial = req.body.category
         let category = await DishCategory.findOne({ category: trial });
-        let inputDish= await Dish.findOne({ name: req.body.inputDishName});
+        let inputDish= await Dish.findOne({ name: req.body.inputDishName, isActive:true});
         // if(!category){
         //     console.log(data)
 		// 	console.log('Category does not exist');
