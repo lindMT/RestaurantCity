@@ -14,7 +14,7 @@ var Convert = require('convert-units')
 const orderController = {
     getOrder: async function(req, res) {
         try {
-            const dishes = await Dish.find({});
+            const dishes = await Dish.find({isApproved: "approved", isActive: true});
             const categories = await Category.find({});
             res.render('orderTerminal', { dishes: dishes, categories: categories });
         } catch (error) {
@@ -38,7 +38,7 @@ const orderController = {
         var quantityArray = req.body.quantity;
         var dishIdArray = req.body.dishId;
 
-        // ASSIGN DISHCOUNT
+        // ASSIGN DISH COUNT
         if (Array.isArray(dishIdArray)) {
           var dishCount = dishIdArray[i];
         } else {
