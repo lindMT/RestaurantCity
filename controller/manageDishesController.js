@@ -29,7 +29,7 @@ const manageDishesController = {
 
                     const ingredientIds = recipe.ingredients.map(item => item.ingredient);
                     const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
-                    
+
                     const recipeWithIngredientNames = await Promise.all(recipe.ingredients.map(async item => {
                         const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
                         const chefUnit = await Units.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
@@ -70,7 +70,7 @@ const manageDishesController = {
         }
         
         try {
-            for (const selected of selectedDishes) {
+             selectedDishes.forEach(async (selected) => {
                 const { dishID, dishRecipeID } = selected;
           
                 // Verify that both dishID and dishRecipeID are provided
@@ -91,7 +91,7 @@ const manageDishesController = {
           
                   console.log('Dish Recipe removed:', dishRecipeResult.deletedCount);
                 }
-              }
+             });
               
             res.redirect('/manageDishes');
         } catch (error) {
