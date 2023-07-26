@@ -51,11 +51,11 @@
                 <!-- Value from purchasedIngre -->
                 <td id="custom-purchased" name="custom-purchased"> <%= purchasesValues[index] %></td>
                 <!-- Value from dishRecipe (orderItem) -->
-                <td id="custom-consumed" name="custom-consumed">   4,466</td>
+                <td id="custom-consumed" name="custom-consumed">   <%= consumedValues[index] %></td>
                 <!-- Value from discardedIngre + mismatch -->
                 <td id="custom-lost" name="custom-lost">           <%= lostValues[index] %></td>
                 <!-- Value = purchased - (consumed + lost) -->
-                <td id="custom-remaining" name="custom-remaining"> 0</td>
+                <td id="custom-remaining" name="custom-remaining"> <%= stockValues[index] %></td>
                 <% 
                 units.forEach(function(unit){
                     if(ingredient.unitID.toString() == unit._id.toString()){
