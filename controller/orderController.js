@@ -14,8 +14,7 @@ var Convert = require('convert-units')
 const orderController = {
     getOrder: async function(req, res) {
         try {
-            // const dishes = await Dish.find({isApproved: "approved", isActive: true}); use after JSON file is finished
-            const dishes = await Dish.find({isActive: true});
+            const dishes = await Dish.find({isApproved: "approved", isActive: true});
             const categories = await Category.find({});
             res.render('orderTerminal', { dishes: dishes, categories: categories });
         } catch (error) {
