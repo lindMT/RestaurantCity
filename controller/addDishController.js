@@ -125,7 +125,7 @@ const addDishController = {
         }
        
         if(await dish.save()){
-            let dishID = await Dish.findOne({ name: req.body.inputDishName});
+            let dishID = await Dish.findOne({ name: req.body.inputDishName, isActive:true});
                 
             const recipe = new DishRecipe({
                 dishID : dishID._id,

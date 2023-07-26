@@ -1,7 +1,7 @@
 <%- include("partials/header") -%>
     <div class="viewdish-card-holder">
         <div class="card shadow viewdish-form" style="width: 57%;">
-            <form method="post" action="">
+            <form method="post" action="/approveDish/process">
                 <div class="viewdish-header">
                     <h1>Approve Dishes</h1>
 
@@ -9,6 +9,12 @@
                     </div>
                 </div>
                 <hr>
+                <% if(error_msg) { %>    
+                    <p style="color:red; font-weight:bold"> <%= error_msg %> </p>
+                    <% }%>
+                  <%  if(success_msg){%>
+                    <p style="color:green; font-weight:bold"> <%= success_msg %> </p>
+                    <% }%>
                 <p>Owner will <b><u>APPROVE</u></b> or <b><u>REJECT</u></b> the dish made by the chef</p>
                 <!-- TODO: For Loop with modal -->
                 <!-- TODO: Change Value, id, and name for each dishes -->
@@ -24,8 +30,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <% if (dishes. length > 0){ %>
                         <% dishes.forEach(function(dish) { %>
                         <tr>
+                            
+                            
                             <td style="text-align: left;">
                                         <%= dish.name %>
                             </td>
@@ -36,16 +45,20 @@
                                     View Recipe</button></td>
                             <!-- Approve Button -->
                             <td style="display: flex; align-items: center;">
-                                <button id="approveDishBtn" type="submit" class="btn btn-success"
+                                <button id="approveDishBtn" type='submit' class="btn btn-success" name="approve" value="<%= dish._id %>"
                                 style="margin-left: 10px; color: white;">
-                                Approve</button>
+                                Approve</button> 
                             <!-- Reject Button -->
-                                <button id="rejectDishBtn" type="submit" class="btn btn-danger"
+                                <button id="rejectDishBtn" type='submit' class="btn btn-danger" name="reject" value="<%= dish._id %>"
                                 style="margin-left: 10px; color: white; flex: content;">
-                                Reject </button>
+                                 Reject </button>
                             </td>
                         </tr>
                         <% }); %>
+                        <% } else {%>
+                            <tr>  <td colspan="5" ><p style="font-weight:bold; margin-top: 15px; vertical-align: center; "> No Pending Dishes For Approval </p></td></tr>
+                           
+                        <% }%>
                     </tbody>
                 </table>
                 </div>

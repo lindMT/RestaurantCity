@@ -74,6 +74,66 @@ const approveDishesController = {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the dishes.");
         }
-    }
+    },
+
+    postApproveDish: async function(req, res) {
+        const approve = req.body.approve;
+        const reject = req.body.reject;
+        const currentDate = Date();
+
+        //Approve Dishes
+        if (req.body.approve){
+
+            const dish = await Dish.find({_id:approve, isActive:true})
+            const recipe = await DishRecipe.findOne({dishID:approve, isActive:true, isApproved:'for approval'})
+
+            var i;
+            for(i=0;i<dish.length;i++){
+                if (dish[i].isApproved == 'for approval'){
+                   
+                    const approveDish = await Dish.findOne({name:dish[i].name, isActive:true, isApproved:'approved'})
+                    console.log(approveDish)
+                    await Dish.updateOne({name: dish[i].name, isActive:true, isApproved:'approved'},{$set: {lastModified:currentDate, isActive:false}})
+                    
+                    await DishRecipe.updateOne({dishID:approveDish._id, isActive:true, isApproved:'approved'},{$set: {lastModified:currentDate, isActive:false}})
+                    await Dish.updateOne({_id:approve, isActive:true, isApproved:'for approval'},{$set: {lastModified:currentDate, isApproved:'approved', approvedOn:currentDate}})
+                    await DishRecipe.updateOne({dishID: approve, isActive:true, isApproved:'for approval'},{$set: {lastModified:currentDate, isApproved:'approved', approvedOn:currentDate}})
+                    req.flash('success_msg', 'Dish ' + dish[i].name + ' Successfully Approved')
+                    return res.redirect('/approveDishes');
+                } else if(dish[i].isApproved == 'approved' && recipe){
+                    req.flash('success_msg', 'Dish ' + dish[i].name + ' Successfully Approved')
+                    const approveDish = await Dish.findOne({name:dish[i].name, isActive:true, isApproved:'approved'})
+                    await DishRecipe.updateOne({dishID:approveDish._id, isActive:true, isApproved:'approved'},{$set: {lastModified:currentDate, isActive:false}})
+                    await DishRecipe.updateOne({dishID: approve, isActive:true, isApproved:'for approval'},{$set: {lastModified:currentDate, isApproved:'approved', approvedOn:currentDate}})
+                    req.flash('success_msg', 'Dish ' + dish[i].name + ' Successfully Approved')
+                    return res.redirect('/approveDishes');
+                }
+            }
+
+        //Reject Dishes
+        } else if (req.body.reject) {
+
+            const dish = await Dish.find({_id:reject, isActive:true})
+            const recipe = await DishRecipe.findOne({dishID:reject, isActive:true, isApproved:'for approval'})
+
+            var i;
+            for(i=0;i<dish.length;i++){
+                if (dish[i].isApproved == 'for approval'){
+                    req.flash('error_msg', 'Dish ' + dish[i].name + ' Successfully Rejected')
+                   await Dish.updateOne({_id:reject, isActive:true, isApproved:'for approval'},{$set: {lastModified:currentDate, isApproved:'rejected'}})
+                    await DishRecipe.updateOne({dishID: reject, isActive:true, isApproved:'for approval'},{$set: {lastModified:currentDate, isActive:false, isApproved:'rejected'}})
+                    return res.redirect('/approveDishes');
+                } else if(dish[i].isApproved == 'approved' && recipe){
+                    req.flash('error_msg', 'Dish ' + dish[i].name + ' Successfully Rejected')
+                    await DishRecipe.updateOne({dishID: reject, isActive:true, isApproved:'for approval'},{$set: {lastModified:currentDate, isActive:false, isApproved:'rejected'}})
+                    return res.redirect('/approveDishes');
+                }
+            }
+        }
+        
+        
+    },
+
 }
+
 module.exports = approveDishesController;
