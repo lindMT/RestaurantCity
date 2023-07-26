@@ -1,0 +1,122 @@
+[{
+  "_id": {
+    "$oid": "64c1470685ed9a2c45c4d173"
+  },
+  "dishID": {
+    "$oid": "64c1470685ed9a2c45c4d16e"
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "$oid": "64c140dd85ed9a2c45c4d0e5"
+      },
+      "chefWeight": {
+        "$numberDecimal": "100"
+      },
+      "chefUnitID": {
+        "$oid": "64a5804ea792248175d204e7"
+      },
+      "_id": {
+        "$oid": "64c1470685ed9a2c45c4d174"
+      }
+    }
+  ],
+  "isActive": true,
+  "lastModified": {
+    "$date": "2023-07-26T16:17:10.000Z"
+  },
+  "addedBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "isApproved": "approved",
+  "approvedOn": {
+    "$date": "2023-07-26T16:17:10.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c1474a85ed9a2c45c4d1bc"
+  },
+  "dishID": {
+    "$oid": "64c1474a85ed9a2c45c4d1b7"
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "$oid": "64c140ce85ed9a2c45c4d0d9"
+      },
+      "chefWeight": {
+        "$numberDecimal": "2"
+      },
+      "chefUnitID": {
+        "$oid": "64a451bb9a494ecb0fd7216b"
+      },
+      "_id": {
+        "$oid": "64c1474a85ed9a2c45c4d1bd"
+      }
+    }
+  ],
+  "isActive": true,
+  "lastModified": {
+    "$date": "2023-07-26T16:18:18.000Z"
+  },
+  "addedBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "isApproved": "approved",
+  "approvedOn": {
+    "$date": "2023-07-26T16:18:18.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c148f785ed9a2c45c4d238"
+  },
+  "dishID": {
+    "$oid": "64c148f785ed9a2c45c4d231"
+  },
+  "ingredients": [
+    {
+      "ingredient": {
+        "$oid": "64c140dd85ed9a2c45c4d0e5"
+      },
+      "chefWeight": {
+        "$numberDecimal": "100"
+      },
+      "chefUnitID": {
+        "$oid": "64a5804ea792248175d204e7"
+      },
+      "_id": {
+        "$oid": "64c148f785ed9a2c45c4d239"
+      }
+    },
+    {
+      "ingredient": {
+        "$oid": "64c147d485ed9a2c45c4d1c9"
+      },
+      "chefWeight": {
+        "$numberDecimal": "5"
+      },
+      "chefUnitID": {
+        "$oid": "64c1488e85ed9a2c45c4d200"
+      },
+      "_id": {
+        "$oid": "64c148f785ed9a2c45c4d23a"
+      }
+    }
+  ],
+  "isActive": true,
+  "lastModified": {
+    "$date": "2023-07-26T16:25:27.000Z"
+  },
+  "addedBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "isApproved": "approved",
+  "approvedOn": {
+    "$date": "2023-07-26T16:25:27.000Z"
+  },
+  "__v": 0
+}]

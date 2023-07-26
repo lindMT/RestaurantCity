@@ -1,0 +1,38 @@
+[{
+  "_id": {
+    "$oid": "64c1468185ed9a2c45c4d136"
+  },
+  "ingreID": {
+    "$oid": "64c140dd85ed9a2c45c4d0e5"
+  },
+  "date": "Thu Jul 27 2023 00:14:57 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "100"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c1469085ed9a2c45c4d145"
+  },
+  "ingreID": {
+    "$oid": "64c140ce85ed9a2c45c4d0d9"
+  },
+  "date": "Thu Jul 27 2023 00:15:12 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "250"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "__v": 0
+}]

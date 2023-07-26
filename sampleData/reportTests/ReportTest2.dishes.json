@@ -1,0 +1,72 @@
+[{
+  "_id": {
+    "$oid": "64c1470685ed9a2c45c4d16e"
+  },
+  "name": "Shawarma",
+  "price": {
+    "$numberDecimal": "100"
+  },
+  "categoryID": {
+    "$oid": "64a825e585ad11ed4b260cd9"
+  },
+  "isActive": true,
+  "lastModified": {
+    "$date": "2023-07-26T16:17:10.000Z"
+  },
+  "addedBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "isApproved": "approved",
+  "approvedOn": {
+    "$date": "2023-07-26T16:17:10.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c1474a85ed9a2c45c4d1b7"
+  },
+  "name": "Milkshake",
+  "price": {
+    "$numberDecimal": "50"
+  },
+  "categoryID": {
+    "$oid": "64a825e585ad11ed4b260cdc"
+  },
+  "isActive": true,
+  "lastModified": {
+    "$date": "2023-07-26T16:18:18.000Z"
+  },
+  "addedBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "isApproved": "approved",
+  "approvedOn": {
+    "$date": "2023-07-26T16:18:18.000Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c148f785ed9a2c45c4d231"
+  },
+  "name": "Salty Shawarma",
+  "price": {
+    "$numberDecimal": "110"
+  },
+  "categoryID": {
+    "$oid": "64a825e585ad11ed4b260cd9"
+  },
+  "isActive": true,
+  "lastModified": {
+    "$date": "2023-07-26T16:25:27.000Z"
+  },
+  "addedBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "isApproved": "approved",
+  "approvedOn": {
+    "$date": "2023-07-26T16:25:27.000Z"
+  },
+  "__v": 0
+}]

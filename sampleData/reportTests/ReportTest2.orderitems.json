@@ -1,0 +1,39 @@
+[{
+  "_id": {
+    "$oid": "64c1490585ed9a2c45c4d24e"
+  },
+  "orderID": {
+    "$oid": "64c1490585ed9a2c45c4d24c"
+  },
+  "dishID": {
+    "$oid": "64c1474a85ed9a2c45c4d1b7"
+  },
+  "qty": 1,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c1490585ed9a2c45c4d250"
+  },
+  "orderID": {
+    "$oid": "64c1490585ed9a2c45c4d24c"
+  },
+  "dishID": {
+    "$oid": "64c1470685ed9a2c45c4d16e"
+  },
+  "qty": 1,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c1490c85ed9a2c45c4d27b"
+  },
+  "orderID": {
+    "$oid": "64c1490c85ed9a2c45c4d278"
+  },
+  "dishID": {
+    "$oid": "64c148f785ed9a2c45c4d231"
+  },
+  "qty": 2,
+  "__v": 0
+}]

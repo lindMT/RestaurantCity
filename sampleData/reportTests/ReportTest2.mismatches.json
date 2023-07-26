@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "64bc1034ab2b5b8cf0ba36e4"
+  },
+  "ingreID": {
+    "$oid": "64c147d485ed9a2c45c4d1c9"
+  },
+  "date": "Thu Jul 27 2023 00:07:00 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "difference": {
+    "$numberDecimal": "-0.33"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e7"
+  }
+}]

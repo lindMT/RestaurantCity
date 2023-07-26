@@ -7,7 +7,7 @@
     "$oid": "64a5804ea792248175d204e7"
   },
   "totalNetWeight": {
-    "$numberDecimal": "0"
+    "$numberDecimal": "1080"
   },
   "reorderPoint": 0,
   "hasVariant": false,
@@ -22,7 +22,7 @@
     "$oid": "64a5804ea792248175d204ea"
   },
   "totalNetWeight": {
-    "$numberDecimal": "0"
+    "$numberDecimal": "4"
   },
   "reorderPoint": 0,
   "hasVariant": true,

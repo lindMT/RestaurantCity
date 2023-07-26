@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "64c1490585ed9a2c45c4d24c"
+  },
+  "totalPrice": {
+    "$numberDecimal": "150"
+  },
+  "date": "Thu Jul 27 2023 00:25:41 GMT+0800 (Philippine Standard Time)",
+  "takenBy": "alain",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c1490c85ed9a2c45c4d278"
+  },
+  "totalPrice": {
+    "$numberDecimal": "220"
+  },
+  "date": "Thu Jul 27 2023 00:25:48 GMT+0800 (Philippine Standard Time)",
+  "takenBy": "alain",
+  "__v": 0
+}]

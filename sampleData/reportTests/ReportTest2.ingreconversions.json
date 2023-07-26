@@ -1,0 +1,150 @@
+[{
+  "_id": {
+    "$oid": "64c140ce85ed9a2c45c4d0dc"
+  },
+  "ingredientId": {
+    "$oid": "64c140ce85ed9a2c45c4d0d9"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "subUnit": [
+    {
+      "convertedUnitId": {
+        "$oid": "64a4520d9a494ecb0fd7216c"
+      },
+      "conversionFactor": 67.628,
+      "_id": {
+        "$oid": "64c140ce85ed9a2c45c4d0dd"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a4526d9a494ecb0fd7216d"
+      },
+      "conversionFactor": 202.884,
+      "_id": {
+        "$oid": "64c140ce85ed9a2c45c4d0de"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a451bb9a494ecb0fd7216b"
+      },
+      "conversionFactor": 4.22675,
+      "_id": {
+        "$oid": "64c140ce85ed9a2c45c4d0df"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204e9"
+      },
+      "conversionFactor": 1000,
+      "_id": {
+        "$oid": "64c140ce85ed9a2c45c4d0e0"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204ed"
+      },
+      "conversionFactor": 33.814,
+      "_id": {
+        "$oid": "64c140ce85ed9a2c45c4d0e1"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c140dd85ed9a2c45c4d0e8"
+  },
+  "ingredientId": {
+    "$oid": "64c140dd85ed9a2c45c4d0e5"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "subUnit": [
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204eb"
+      },
+      "conversionFactor": 35.274,
+      "_id": {
+        "$oid": "64c140dd85ed9a2c45c4d0e9"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204ec"
+      },
+      "conversionFactor": 2.20462,
+      "_id": {
+        "$oid": "64c140dd85ed9a2c45c4d0ea"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204e7"
+      },
+      "conversionFactor": 1000,
+      "_id": {
+        "$oid": "64c140dd85ed9a2c45c4d0eb"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c147d485ed9a2c45c4d1cc"
+  },
+  "ingredientId": {
+    "$oid": "64c147d485ed9a2c45c4d1c9"
+  },
+  "initialUnitId": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "subUnit": [
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204eb"
+      },
+      "conversionFactor": 0.035,
+      "_id": {
+        "$oid": "64c147d485ed9a2c45c4d1cd"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204ec"
+      },
+      "conversionFactor": 0.0022,
+      "_id": {
+        "$oid": "64c147d485ed9a2c45c4d1ce"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64a5804ea792248175d204e8"
+      },
+      "conversionFactor": 0.001,
+      "_id": {
+        "$oid": "64c147d485ed9a2c45c4d1cf"
+      }
+    },
+    {
+      "convertedUnitId": {
+        "$oid": "64c1488e85ed9a2c45c4d200"
+      },
+      "conversionFactor": 0.3,
+      "_id": {
+        "$oid": "64c1488e85ed9a2c45c4d208"
+      }
+    }
+  ],
+  "__v": 1
+}]

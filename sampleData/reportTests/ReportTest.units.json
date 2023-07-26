@@ -1,0 +1,80 @@
+[{
+  "_id": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "unitName": "Gram",
+  "unitSymbol": "g",
+  "category": "Dry"
+},
+{
+  "_id": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "unitName": "Kilogram",
+  "unitSymbol": "kg",
+  "category": "Dry"
+},
+{
+  "_id": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "unitName": "Milliliter",
+  "unitSymbol": "ml",
+  "category": "Wet"
+},
+{
+  "_id": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "unitName": "Liter",
+  "unitSymbol": "l",
+  "category": "Wet"
+},
+{
+  "_id": {
+    "$oid": "64a451bb9a494ecb0fd7216b"
+  },
+  "unitName": "Cup",
+  "unitSymbol": "cup",
+  "category": "Both"
+},
+{
+  "_id": {
+    "$oid": "64a4520d9a494ecb0fd7216c"
+  },
+  "unitName": "Tablespoon",
+  "unitSymbol": "tbsp",
+  "category": "Both"
+},
+{
+  "_id": {
+    "$oid": "64a4526d9a494ecb0fd7216d"
+  },
+  "unitName": "Teaspoon",
+  "unitSymbol": "tsp",
+  "category": "Both"
+},
+{
+  "_id": {
+    "$oid": "64a5804ea792248175d204eb"
+  },
+  "unitName": "Ounce",
+  "unitSymbol": "oz",
+  "category": "Dry"
+},
+{
+  "_id": {
+    "$oid": "64a5804ea792248175d204ec"
+  },
+  "unitName": "Pound",
+  "unitSymbol": "lb",
+  "category": "Dry"
+},
+{
+  "_id": {
+    "$oid": "64a5804ea792248175d204ed"
+  },
+  "unitName": "Fluid Ounce",
+  "unitSymbol": "fl oz",
+  "category": "Wet"
+}]

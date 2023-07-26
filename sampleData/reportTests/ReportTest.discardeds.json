@@ -1,0 +1,129 @@
+[{
+  "_id": {
+    "$oid": "64bc0161f8e28c3d767e8194"
+  },
+  "ingreID": {
+    "$oid": "64ba93e4c3cb1f6c9cb0aca2"
+  },
+  "date": "Sun Jul 23 2023 00:18:41 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "10"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc0639cf88819b6f89c622"
+  },
+  "ingreID": {
+    "$oid": "64ba93e4c3cb1f6c9cb0aca2"
+  },
+  "date": "Sun Jul 23 2023 00:39:21 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "1"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc073a916892e6ad8cbf26"
+  },
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "date": "Sun Jul 23 2023 00:43:38 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "varID": {
+    "$oid": "64bc03bbee730031893cedc1"
+  },
+  "qty": 1,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc0765916892e6ad8cbf43"
+  },
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "date": "Sun Jul 23 2023 00:44:21 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "varID": {
+    "$oid": "64bc0245f8e28c3d767e81b0"
+  },
+  "qty": 1,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc07deab2b5b8cf0ba36dd"
+  },
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "date": "Sun Jul 23 2023 00:39:21 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "1"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc0803ab2b5b8cf0ba36de"
+  },
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "date": "Sun Jul 23 2023 00:39:21 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "200"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e9"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c10fd85025fa156aa22582"
+  },
+  "ingreID": {
+    "$oid": "64ba93e4c3cb1f6c9cb0aca2"
+  },
+  "date": "Wed Jul 26 2023 20:21:44 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "10"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "__v": 0
+}]

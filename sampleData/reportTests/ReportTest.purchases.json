@@ -1,0 +1,91 @@
+[{
+  "_id": {
+    "$oid": "64bc0151f8e28c3d767e8183"
+  },
+  "ingreID": {
+    "$oid": "64ba93e4c3cb1f6c9cb0aca2"
+  },
+  "date": "Sun Jul 23 2023 00:18:25 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "100"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc0245f8e28c3d767e81b3"
+  },
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "date": "Sun Jul 23 2023 00:22:29 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "varID": {
+    "$oid": "64bc0245f8e28c3d767e81b0"
+  },
+  "qty": 5,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc03bbee730031893cedc4"
+  },
+  "ingreID": {
+    "$oid": "64ba93f5c3cb1f6c9cb0aca6"
+  },
+  "date": "Sun Jul 23 2023 00:28:43 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "varID": {
+    "$oid": "64bc03bbee730031893cedc1"
+  },
+  "qty": 4,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc058fcf88819b6f89c5e1"
+  },
+  "ingreID": {
+    "$oid": "64ba93e4c3cb1f6c9cb0aca2"
+  },
+  "date": "Sun Jul 23 2023 00:36:31 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "1"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64bc0629cf88819b6f89c611"
+  },
+  "ingreID": {
+    "$oid": "64ba93e4c3cb1f6c9cb0aca2"
+  },
+  "date": "Sun Jul 23 2023 00:39:05 GMT+0800 (Philippine Standard Time)",
+  "doneBy": {
+    "$oid": "64a3fc38e916ed6021b6a5f6"
+  },
+  "netWeight": {
+    "$numberDecimal": "1000"
+  },
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "__v": 0
+}]

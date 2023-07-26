@@ -4,6 +4,7 @@ const User = require('../model/usersSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js');
 const Unit = require("../model/unitsSchema.js");
 const fixedConversion = require("../model/fixedConversionSchema.js");
+const ingreConversion = require("../model/ingreConversionSchema.js");
 const ingreVariations = require("../model/ingreVariationsSchema.js");
 
 // consumed
@@ -248,10 +249,6 @@ const viewReportController = {
             var ingreVars;
             var units = await Unit.find({});
             var conversions = await fixedConversion.find({});
-            var dishes = await Dish.find({});
-            var dishRecipes = await DishRecipe.find({});
-            var orders = await Order.find({});
-            var orderItems = await OrderItem.find({});
             
             console.log("---------- CUSTOM REPORT ----------");
 
@@ -329,15 +326,28 @@ const viewReportController = {
                                 var toID = ingres[i].unitID.toString();
                                 var multiplier = 0;
                                 var convertedVal = 0;
-
+                                
                                 for (var l = 0; l < conversions.length; l++){
                                     // get conversion factor
                                     if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
-                                        console.log("Conversion Factor Found");
+                                        console.log("Conversion Factor Found (FIXED)");
                                         multiplier = conversions[l].conversionFactor;
                                         console.log("Multiplier: " + multiplier);
                                     }
                                 }
+
+                                // check if conversion factor not found
+                                if (multiplier == 0){
+                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                            console.log("Conversion Factor Found (UNIQUE)");
+                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                            console.log("Multiplier: " + multiplier);
+                                        }
+                                    }
+                                }
+
                                 // convert netWeight
                                 convertedVal = +(ingreVars.netWeight*multiplier);
                                 console.log("Converted NetWeight: " + convertedVal);
@@ -367,11 +377,24 @@ const viewReportController = {
                                 for (var l = 0; l < conversions.length; l++){
                                     // get conversion factor
                                     if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
-                                        console.log("Conversion Factor Found");
+                                        console.log("Conversion Factor Found (FIXED)");
                                         multiplier = conversions[l].conversionFactor;
                                         console.log("Multiplier: " + multiplier);
                                     }
-                                } 
+                                }
+
+                                // check if conversion factor not found
+                                if (multiplier == 0){
+                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                            console.log("Conversion Factor Found (UNIQUE)");
+                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                            console.log("Multiplier: " + multiplier);
+                                        }
+                                    }
+                                }
+
                                 // convert netWeight
                                 convertedVal = purchases[j].netWeight*multiplier;
                                 console.log("Converted NetWeight: " + convertedVal);
@@ -418,17 +441,30 @@ const viewReportController = {
 
                                 for (var l = 0; l < conversions.length; l++){
                                     if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
-                                        console.log("Conversion Factor Found");
+                                        console.log("Conversion Factor Found (FIXED)");
                                         multiplier = conversions[l].conversionFactor;
                                         console.log("Multiplier: " + multiplier);
                                     }
                                 }
+
+                                // check if conversion factor not found
+                                if (multiplier == 0){
+                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                            console.log("Conversion Factor Found (UNIQUE)");
+                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                            console.log("Multiplier: " + multiplier);
+                                        }
+                                    }
+                                }
+
                                 // convert netWeight
                                 convertedVal = +(ingreVars.netWeight*multiplier);
                                 console.log("Converted NetWeight: " + convertedVal);
                                 console.log("Qty: " + discardeds[a].qty);
 
-                                // add to totalPurchased
+                                // add to totalLost
                                 totalLost += +(convertedVal*discardeds[a].qty);
                                 console.log("totalLost: " + totalLost);
                             }
@@ -453,18 +489,30 @@ const viewReportController = {
                                 for (var l = 0; l < conversions.length; l++){
                                     if (fromID == conversions[l].initialUnitId.toString()){
                                         if (toID == conversions[l].convertedUnitId.toString()){
-                                            console.log("Conversion Factor Found");
+                                            console.log("Conversion Factor Found (FIXED)");
                                             multiplier = conversions[l].conversionFactor;
                                             console.log("Multiplier: " + multiplier);
                                         }
                                     }
                                 } 
+
+                                // check if conversion factor not found
+                                if (multiplier == 0){
+                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                            console.log("Conversion Factor Found (UNIQUE)");
+                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                            console.log("Multiplier: " + multiplier);
+                                        }
+                                    }
+                                }
+
                                 // convert netWeight
                                 convertedVal = discardeds[a].netWeight*multiplier;
                                 console.log("Converted NetWeight: " + convertedVal);
 
-                                // add to totalPurchased
-                                // console.log("totalLost: "+ totalLost);
+                                // add to totalLost
                                 totalLost += +convertedVal;
                                 console.log("totalLost: "+ totalLost);
                             }
@@ -493,10 +541,108 @@ const viewReportController = {
                         }
                         console.log("totalLost: " + totalLost);
                     }
+
+                    // loop through all orders
+                    var orders = await Order.find({
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // orders stores date as a String
+                    console.log();
+                    console.log(">>> CHECKING ORDERS...");
+                    for (var o = 0; o < orders.length; o++){
+                        console.log("----- Order Found");
+                        // get all order items associated with that order
+                        var orderItems = await OrderItem.find({orderID: orders[o]._id});
+                        for (var p = 0; p < orderItems.length; p++){
+                            // get all dishes listed as an order item
+                            var dishes = await Dish.find({_id: orderItems[p].dishID});
+                            for (var q = 0; q < dishes.length; q++){
+                                console.log("Dish: " + dishes[q].name);
+                                // get the recipe that was used at the date/time the dish was ordered (CODE FROM BEST FRIEND)
+                                var result = await DishRecipe.aggregate([
+                                    { $match: {
+                                        dishID: dishes[q]._id,
+                                        approvedOn: { $lte: dateArray[d] } // get dates on or before chosen date
+                                      }, },
+                                    { $addFields: {
+                                        dateDifference: {
+                                          $abs: { $subtract: ["$approvedOn", dateArray[d]] } // get difference of dates
+                                        },
+                                      }, },
+                                    { $sort: {
+                                        dateDifference: 1, // sort in ascending order of dateDifference to get the closest date
+                                        approvedOn: -1, // if there are multiple records with the same dateDifference, sort by date in descending order to get the most recent one
+                                      }, },
+                                    {
+                                      $limit: 1, // get only the first record with the closest date
+                                    },
+                                ]);
+                                //console.log(result);
+                                var recipe = result[0];
+
+                                for (var r = 0; r < recipe.ingredients.length; r++){
+                                    // check if the current ingredient is used in the recipe
+                                    if (recipe.ingredients[r].ingredient.toString() == ingres[i]._id.toString()){
+                                        console.log("Ingredient Used in Dish");
+                                        //check if unit matches
+                                        if(recipe.ingredients[r].chefUnitID.toString() == ingres[i].unitID.toString()){
+                                            // if yes, add value as is
+                                            console.log("Unit Match for Recipe (did not convert)");
+                                            console.log("NetWeight: " + discardeds[a].netWeight);
+                                            totalConsumed += +(recipe.ingredients[r].chefWeight*orderItems[p].qty);
+                                            console.log("totalConsumed: " + totalConsumed);
+                                        }else{
+                                            // if no, convert
+                                            console.log("Unit NOT Match for Recipe (need to convert)");
+                                            var fromID = recipe.ingredients[r].chefUnitID.toString();
+                                            var toID = ingres[i].unitID.toString();
+                                            var multiplier = 0;
+                                            var convertedVal = 0;
+            
+                                            for (var l = 0; l < conversions.length; l++){
+                                                if (fromID == conversions[l].initialUnitId.toString()){
+                                                    if (toID == conversions[l].convertedUnitId.toString()){
+                                                        console.log("Conversion Factor Found (FIXED)");
+                                                        multiplier = conversions[l].conversionFactor;
+                                                        console.log("Multiplier: " + multiplier);
+                                                    }
+                                                }
+                                            } 
+            
+                                            // check if conversion factor not found
+                                            if (multiplier == 0){
+                                                var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                                for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                                    if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                                        console.log("Conversion Factor Found (UNIQUE)");
+                                                        multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                                        console.log("Multiplier: " + multiplier);
+                                                    }
+                                                }
+                                            }
+            
+                                            // convert netWeight
+                                            convertedVal = +(recipe.ingredients[r].chefWeight*multiplier);
+                                            console.log("Converted NetWeight: " + convertedVal);
+            
+                                            // add to totalConsumed
+                                            totalConsumed += +convertedVal*orderItems[p].qty;
+                                            console.log("totalConsumed: "+ totalConsumed);
+                                        }
+                                    }else{
+                                        console.log("Ingredient NOT Used in Dish");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    
                 }
-                purchasesValues[i] = totalPurchased;
-                consumedValues[i] = totalConsumed;
-                lostValues[i] = totalLost;
+                purchasesValues[i] = totalPurchased.toFixed(2);
+                consumedValues[i] = totalConsumed.toFixed(2);
+                lostValues[i] = totalLost.toFixed(2);
 
                 console.log();
                 console.log("FINAL TOTAL PURCHASED: " + totalPurchased);
@@ -508,7 +654,7 @@ const viewReportController = {
 
                 // compute total stock
                 totalStock = totalPurchased - (totalConsumed + totalLost);
-                stockValues[i] = totalStock;
+                stockValues[i] = totalStock.toFixed(2);
 
                 console.log();
                 console.log("FINAL TOTAL STOCK: " + totalStock);

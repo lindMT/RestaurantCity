@@ -1,0 +1,45 @@
+[{
+  "_id": {
+    "$oid": "64c140ce85ed9a2c45c4d0d9"
+  },
+  "name": "Milk",
+  "unitID": {
+    "$oid": "64a5804ea792248175d204ea"
+  },
+  "totalNetWeight": {
+    "$numberDecimal": "4.25"
+  },
+  "reorderPoint": 0,
+  "hasVariant": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c140dd85ed9a2c45c4d0e5"
+  },
+  "name": "Beef",
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e8"
+  },
+  "totalNetWeight": {
+    "$numberDecimal": "1.2"
+  },
+  "reorderPoint": 0,
+  "hasVariant": false,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64c147d485ed9a2c45c4d1c9"
+  },
+  "name": "Salt",
+  "unitID": {
+    "$oid": "64a5804ea792248175d204e7"
+  },
+  "totalNetWeight": {
+    "$numberDecimal": "933.3333333333334"
+  },
+  "reorderPoint": 0,
+  "hasVariant": true,
+  "__v": 0
+}]
