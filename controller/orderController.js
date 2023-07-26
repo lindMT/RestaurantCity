@@ -75,16 +75,21 @@ const orderController = {
             
             var ingreUnitConversions = await IngreConversion.find();
             
-            for(var iuc of ingreUnitConversions){
-              // find ingredient in ingreConv
-              if(iuc.ingredientId.toString() == ingredientInRecipe.ingredient.toString()){
-                for (var z=0; z < iuc.subUnit.length; z++){
-                  if(iuc.subUnit[z].convertedUnitId.toString() == ingredientInRecipe.chefUnitID.toString()){
-                      var iuConversionFactor = iuc.subUnit[z].conversionFactor;
+            if(ingredientInRecipe.chefUnitID.toString() != ingredientInInventory.unitID.toString()){
+              for(var iuc of ingreUnitConversions){
+                // find ingredient in ingreConv
+                if(iuc.ingredientId.toString() == ingredientInRecipe.ingredient.toString()){
+                  for (var z=0; z < iuc.subUnit.length; z++){
+                    if(iuc.subUnit[z].convertedUnitId.toString() == ingredientInRecipe.chefUnitID.toString()){
+                        var iuConversionFactor = iuc.subUnit[z].conversionFactor;
+                    }
                   }
                 }
               }
+            } else{
+              var iuConversionFactor = 1; // converting same units
             }
+            
 
             // Set according to which is found
             if (iuConversionFactor == null || iuConversionFactor == undefined) {
