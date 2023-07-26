@@ -14,12 +14,10 @@
                 <h5>Report Type:</h5>
                 <div class="form-group col-md-8">
                     <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required onchange="reportType(this.value)">
+                        <option disabled selected>-Choose One-</option>
                         <% for (var i = 0; i < reportTypeLabels.length; i++) { %>
-                            <% if(reportType == i+1){ %>
-                                <option selected value="<%= i+1 %>"><%= reportTypeLabels[i] %></option>
-                            <% }else{ %>
-                                <option value="<%= i+1 %>"><%= reportTypeLabels[i] %></option>
-                        <% }} %>
+                            <option value="<%= i+1 %>"><%= reportTypeLabels[i] %></option>
+                        <% } %>
                     </select>        
                 </div>
             </div>
@@ -51,17 +49,28 @@
             </tr>
             </thead>
             <tbody>
-            <tr> 
-                <!-- Pag may DB na, revise to calling based on id -->
-                <td name="ingredient-name">
-                    <a href="/detailedReport/Milk">Milk</a>
-                </td>
-                <td id="periodical-purchased" name="periodical-purchased">  1,500</td>
-                <td id="periodical-consumed" name="periodical-consumed">    4,466</td>
-                <td id="periodical-lost" name="periodical-lost">            34</td>
-                <td id="periodical-remaining" name="periodical-remaining">  0</td>
-                <td id="periodical-unit" name="periodical-unit">            L</td>
-            </tr>
+                <% ingres.forEach(function(ingredient, index) { %>
+                <tr> 
+                    <!-- Pag may DB na, revise to calling based on id -->
+                    <td name="ingredient-name">
+                        <a href="/detailedReport/Milk"><%= ingredient.name %></a>
+                    </td>
+                    <!-- Value from purchasedIngre -->
+                    <td id="custom-purchased" name="custom-purchased"> <%= purchasesValues[index] %></td>
+                    <!-- Value from dishRecipe (orderItem) -->
+                    <td id="custom-consumed" name="custom-consumed">   <%= consumedValues[index] %></td>
+                    <!-- Value from discardedIngre + mismatch -->
+                    <td id="custom-lost" name="custom-lost">           <%= lostValues[index] %></td>
+                    <!-- Value = purchased - (consumed + lost) -->
+                    <td id="custom-remaining" name="custom-remaining"> <%= stockValues[index] %></td>
+                    <% 
+                    units.forEach(function(unit){
+                        if(ingredient.unitID.toString() == unit._id.toString()){
+                    %>
+                    <td id="custom-unit" name="custom-unit"><%= unit.unitSymbol %></td>
+                    <% } }) %>
+                </tr>
+                <% }) %>
             </tbody>
         </table>
         <div class="periodical-footer">

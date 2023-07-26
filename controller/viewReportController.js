@@ -52,7 +52,7 @@ const viewReportController = {
             const [month, day, year] = input.split('/').map(Number);
 
             // create Date object using UTC
-            const date = new Date(year, month - 1, day);
+            const date = new Date(Date.UTC(year, month - 1, day));
 
             return date;
         }
@@ -143,16 +143,10 @@ const viewReportController = {
 
         try {
             var ingres = await Ingredients.find({});
-            var ingreVars = await ingreVariations.find({});
+            var ingreVars;
             var units = await Unit.find({});
             var conversions = await fixedConversion.find({});
-            var dishes = await Dish.find({});
-            var dishRecipes = await DishRecipe.find({});
-            var orders = await Order.find({});
-            var orderItems = await OrderItem.find({});
-            var purchases = await purchasedIngre.find({});
-            var discardeds = await discardedIngre.find({});
-            var mismatches = await mismatch.find({});
+
             console.log("---------- PERIODICAL REPORT ----------");
 
             // get date inputs
@@ -196,11 +190,404 @@ const viewReportController = {
             // get dates between start and end
             var dateArray = getDates(startDateObject, endDateObject);
 
-            // !!!!!!!! place variables here (to copy from custom)
+            // purchased values
+            var totalPurchased = 0;
+            var purchasesValues = [];
 
-            // !!!!!!!! place logic for data here (to copy from custom)
+            // consumed values
+            var totalConsumed = 0;
+            var consumedValues = [];
 
-            res.render('postPeriodical', {reportTypeLabels, reportType, selectedDate, dateString});
+            // lost values
+            var totalLost = 0;
+            var lostValues = [];
+
+            // stock count values
+            var totalStock = 0;
+            var stockValues = [];
+
+            // loop through all ingredients
+            for(var i = 0; i < ingres.length; i++){
+                console.log();
+                console.log("CURRENT INGREDIENT: " + ingres[i].name);
+                // loop through all dates
+                for (var d = 0; d < dateArray.length; d++){
+                    console.log();
+                    console.log(dateArray[d]);
+                    console.log(dateArray[d].toString());
+
+                    // loop through all purchases
+                    var purchases = await purchasedIngre.find({
+                        ingreID: ingres[i]._id, 
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // purchases stores date as a String
+                    console.log();
+                    console.log(">>> CHECKING PURCHASES...");
+                    for (var j = 0; j < purchases.length; j++){
+                        console.log("----- Purchase Found");
+                        // check if has variation or not
+                        if (ingres[i].hasVariant == true){
+                            console.log("hasVariant is TRUE");
+                            // get variant
+                            ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
+                            // check if the variant's unit matches the ingredient's unit
+                            if(ingres[i].unitID.toString() == ingreVars.unitID.toString()){
+                                // if yes, add value as is
+                                console.log("Unit Match for hasVariant is TRUE (did not convert)");
+                                console.log("NetWeight: " + ingreVars.netWeight);
+                                console.log("Qty: " + purchases[j].qty);
+                                totalPurchased += +(ingreVars.netWeight*purchases[j].qty);
+                                console.log("totalPurchased: "+ totalPurchased);
+                            }else{
+                                // if no, convert
+                                console.log("Unit NOT Match for hasVariant is TRUE (need to convert)");
+                                var fromID = ingreVars.unitID.toString();
+                                var toID = ingres[i].unitID.toString();
+                                var multiplier = 0;
+                                var convertedVal = 0;
+                                
+                                for (var l = 0; l < conversions.length; l++){
+                                    // get conversion factor
+                                    if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
+                                        console.log("Conversion Factor Found (FIXED)");
+                                        multiplier = conversions[l].conversionFactor;
+                                        console.log("Multiplier: " + multiplier);
+                                    }
+                                }
+
+                                // check if conversion factor not found
+                                if (multiplier == 0){
+                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                            console.log("Conversion Factor Found (UNIQUE)");
+                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                            console.log("Multiplier: " + multiplier);
+                                        }
+                                    }
+                                }
+
+                                // convert netWeight
+                                convertedVal = +(ingreVars.netWeight*multiplier);
+                                console.log("Converted NetWeight: " + convertedVal);
+                                console.log("Qty: " + purchases[j].qty);
+
+                                // add to totalPurchased
+                                totalPurchased += +(convertedVal*purchases[j].qty);
+                                console.log("totalPurchased: " + totalPurchased);
+                            }
+                        }else{ //hasVariant == false
+                            console.log("hasVariant is FALSE");
+                            // check if the unit indicated matches the ingredient's unit
+                            if(purchases[j].unitID.toString() == ingres[i].unitID.toString()){
+                                // if yes, add value as is
+                                console.log("Unit Match for hasVariant is FALSE (did not convert)");
+                                console.log("NetWeight: " + purchases[j].netWeight);
+                                totalPurchased += +purchases[j].netWeight;
+                                console.log("totalPurchased: "+ totalPurchased);
+                            }else{
+                                // if no, convert
+                                console.log("Unit NOT Match for hasVariant is FALSE (need to convert)");
+                                var fromID = purchases[j].unitID.toString();
+                                var toID = ingres[i].unitID.toString();
+                                var multiplier = 0;
+                                var convertedVal = 0;
+
+                                for (var l = 0; l < conversions.length; l++){
+                                    // get conversion factor
+                                    if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
+                                        console.log("Conversion Factor Found (FIXED)");
+                                        multiplier = conversions[l].conversionFactor;
+                                        console.log("Multiplier: " + multiplier);
+                                    }
+                                }
+
+                                // check if conversion factor not found
+                                if (multiplier == 0){
+                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                            console.log("Conversion Factor Found (UNIQUE)");
+                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                            console.log("Multiplier: " + multiplier);
+                                        }
+                                    }
+                                }
+
+                                // convert netWeight
+                                convertedVal = purchases[j].netWeight*multiplier;
+                                console.log("Converted NetWeight: " + convertedVal);
+
+                                // add to totalPurchased
+                                totalPurchased += +convertedVal;
+                                console.log("totalPurchased: "+ totalPurchased);
+                            }
+                        }
+                    }
+
+                    // loop through all discarded
+                    var discardeds = await discardedIngre.find({
+                        ingreID: ingres[i]._id, 
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // discardeds stores date as a String
+                    console.log();
+                    console.log(">>> CHECKING DISCARDEDS...");
+                    for (var a = 0; a < discardeds.length; a++){
+                        console.log("----- Discard Found");
+                        // check if the discard is for a variant
+                        if (discardeds[a].varID !== undefined){
+                            // with variant
+                            console.log("Using Variant");
+                            // get variant
+                            ingreVars = await ingreVariations.findOne({_id: discardeds[a].varID});
+                            // check if unit matches
+                            if(ingres[i].unitID.toString() == ingreVars.unitID.toString()){
+                                // if yes, add value as is
+                                console.log("Unit Match for Using Variant (did not convert)");
+                                console.log("NetWeight: " + ingreVars.netWeight);
+                                console.log("Qty: " + discardeds[a].qty);
+                                totalLost += +(ingreVars.netWeight*discardeds[a].qty);
+                                console.log("totalLost: " + totalLost);
+                            }else{
+                                //if no, convert
+                                console.log("Unit NOT Match for Using Variant (need to convert)");
+                                var fromID = ingreVars.unitID.toString();
+                                var toID = ingres[i].unitID.toString();
+                                var multiplier = 0;
+                                var convertedVal = 0;
+
+                                for (var l = 0; l < conversions.length; l++){
+                                    if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
+                                        console.log("Conversion Factor Found (FIXED)");
+                                        multiplier = conversions[l].conversionFactor;
+                                        console.log("Multiplier: " + multiplier);
+                                    }
+                                }
+
+                                // check if conversion factor not found
+                                if (multiplier == 0){
+                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                            console.log("Conversion Factor Found (UNIQUE)");
+                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                            console.log("Multiplier: " + multiplier);
+                                        }
+                                    }
+                                }
+
+                                // convert netWeight
+                                convertedVal = +(ingreVars.netWeight*multiplier);
+                                console.log("Converted NetWeight: " + convertedVal);
+                                console.log("Qty: " + discardeds[a].qty);
+
+                                // add to totalLost
+                                totalLost += +(convertedVal*discardeds[a].qty);
+                                console.log("totalLost: " + totalLost);
+                            }
+                        } else {
+                            // no variant
+                            console.log("NOT Using Variant");
+                            // check if unit matches
+                            if(discardeds[a].unitID.toString() == ingres[i].unitID.toString()){
+                                // if yes, add value as is
+                                console.log("Unit Match for NOT Using Variant (did not convert)");
+                                console.log("NetWeight: " + discardeds[a].netWeight);
+                                totalLost += +discardeds[a].netWeight;
+                                console.log("totalLost: " + totalLost);
+                            }else{
+                                // if no, convert
+                                console.log("Unit NOT Match for NOT Using Variant (need to convert)");
+                                var fromID = discardeds[a].unitID.toString();
+                                var toID = ingres[i].unitID.toString();
+                                var multiplier = 0;
+                                var convertedVal = 0;
+
+                                for (var l = 0; l < conversions.length; l++){
+                                    if (fromID == conversions[l].initialUnitId.toString()){
+                                        if (toID == conversions[l].convertedUnitId.toString()){
+                                            console.log("Conversion Factor Found (FIXED)");
+                                            multiplier = conversions[l].conversionFactor;
+                                            console.log("Multiplier: " + multiplier);
+                                        }
+                                    }
+                                } 
+
+                                // check if conversion factor not found
+                                if (multiplier == 0){
+                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                            console.log("Conversion Factor Found (UNIQUE)");
+                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                            console.log("Multiplier: " + multiplier);
+                                        }
+                                    }
+                                }
+
+                                // convert netWeight
+                                convertedVal = discardeds[a].netWeight*multiplier;
+                                console.log("Converted NetWeight: " + convertedVal);
+
+                                // add to totalLost
+                                totalLost += +convertedVal;
+                                console.log("totalLost: "+ totalLost);
+                            }
+                        }
+                    }
+
+                    // loop through all mismatches
+                    var mismatches = await mismatch.find({
+                        ingreID: ingres[i]._id, 
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // mismatches stores date as a String
+                    // NOTE: ASSUMING THAT THE UNIT FOR DIFFERENCE WILL ALWAYS MATCH INGREDIENT BASE UNIT
+                    console.log();
+                    console.log(">>> CHECKING MISMATCHES...");
+                    for (var b = 0; b < mismatches.length; b++){
+                        console.log("----- Mismatch Found");
+                        // check if the difference is negative or positive
+                        if (mismatches[b].difference < 0){ 
+                            // if negative, convert to positive then add to loss
+                            totalLost += +(-(mismatches[b].difference));
+                        }else if (mismatches[b].difference > 0){ 
+                            // if positive, subtract from loss (NOTE: NOT SURE IF THIS IS CORRECT IMPLEMENTATION)
+                            totalLost -= +(mismatches[b].difference);
+                        }
+                        console.log("totalLost: " + totalLost);
+                    }
+
+                    // loop through all orders
+                    var orders = await Order.find({
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // orders stores date as a String
+                    console.log();
+                    console.log(">>> CHECKING ORDERS...");
+                    for (var o = 0; o < orders.length; o++){
+                        console.log("----- Order Found");
+                        // get all order items associated with that order
+                        var orderItems = await OrderItem.find({orderID: orders[o]._id});
+                        for (var p = 0; p < orderItems.length; p++){
+                            // get all dishes listed as an order item
+                            var dishes = await Dish.find({_id: orderItems[p].dishID});
+                            for (var q = 0; q < dishes.length; q++){
+                                console.log("Dish: " + dishes[q].name);
+                                // get the recipe that was used at the date/time the dish was ordered (CODE FROM BEST FRIEND)
+                                var result = await DishRecipe.aggregate([
+                                    { $match: {
+                                        dishID: dishes[q]._id,
+                                        approvedOn: { $lte: dateArray[d] } // get dates on or before chosen date
+                                      }, },
+                                    { $addFields: {
+                                        dateDifference: {
+                                          $abs: { $subtract: ["$approvedOn", dateArray[d]] } // get difference of dates
+                                        },
+                                      }, },
+                                    { $sort: {
+                                        dateDifference: 1, // sort in ascending order of dateDifference to get the closest date
+                                        approvedOn: -1, // if there are multiple records with the same dateDifference, sort by date in descending order to get the most recent one
+                                      }, },
+                                    {
+                                      $limit: 1, // get only the first record with the closest date
+                                    },
+                                ]);
+                                //console.log(result);
+                                var recipe = result[0];
+
+                                for (var r = 0; r < recipe.ingredients.length; r++){
+                                    // check if the current ingredient is used in the recipe
+                                    if (recipe.ingredients[r].ingredient.toString() == ingres[i]._id.toString()){
+                                        console.log("Ingredient Used in Dish");
+                                        //check if unit matches
+                                        if(recipe.ingredients[r].chefUnitID.toString() == ingres[i].unitID.toString()){
+                                            // if yes, add value as is
+                                            console.log("Unit Match for Recipe (did not convert)");
+                                            console.log("NetWeight: " + discardeds[a].netWeight);
+                                            totalConsumed += +(recipe.ingredients[r].chefWeight*orderItems[p].qty);
+                                            console.log("totalConsumed: " + totalConsumed);
+                                        }else{
+                                            // if no, convert
+                                            console.log("Unit NOT Match for Recipe (need to convert)");
+                                            var fromID = recipe.ingredients[r].chefUnitID.toString();
+                                            var toID = ingres[i].unitID.toString();
+                                            var multiplier = 0;
+                                            var convertedVal = 0;
+            
+                                            for (var l = 0; l < conversions.length; l++){
+                                                if (fromID == conversions[l].initialUnitId.toString()){
+                                                    if (toID == conversions[l].convertedUnitId.toString()){
+                                                        console.log("Conversion Factor Found (FIXED)");
+                                                        multiplier = conversions[l].conversionFactor;
+                                                        console.log("Multiplier: " + multiplier);
+                                                    }
+                                                }
+                                            } 
+            
+                                            // check if conversion factor not found
+                                            if (multiplier == 0){
+                                                var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                                for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                                                    if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                                                        console.log("Conversion Factor Found (UNIQUE)");
+                                                        multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                                                        console.log("Multiplier: " + multiplier);
+                                                    }
+                                                }
+                                            }
+            
+                                            // convert netWeight
+                                            convertedVal = +(recipe.ingredients[r].chefWeight*multiplier);
+                                            console.log("Converted NetWeight: " + convertedVal);
+            
+                                            // add to totalConsumed
+                                            totalConsumed += +convertedVal*orderItems[p].qty;
+                                            console.log("totalConsumed: "+ totalConsumed);
+                                        }
+                                    }else{
+                                        console.log("Ingredient NOT Used in Dish");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                }
+                purchasesValues[i] = totalPurchased.toFixed(2);
+                consumedValues[i] = totalConsumed.toFixed(2);
+                lostValues[i] = totalLost.toFixed(2);
+
+                console.log();
+                console.log("FINAL TOTAL PURCHASED: " + totalPurchased);
+                console.log("FINAL TOTAL CONSUMED: " + totalConsumed);
+                console.log("FINAL TOTAL LOST: " + totalLost);
+                console.log("purchasesValues[" + i + "] = " + purchasesValues[i]);
+                console.log("consumedValues[" + i + "] = " + consumedValues[i]);
+                console.log("lostValues[" + i + "] = " + lostValues[i]);
+
+                // compute total stock
+                totalStock = totalPurchased - (totalConsumed + totalLost);
+                stockValues[i] = totalStock.toFixed(2);
+
+                console.log();
+                console.log("FINAL TOTAL STOCK: " + totalStock);
+                console.log("stockValues[" + i + "] = " + stockValues[i]);
+
+                totalPurchased = 0;
+                totalConsumed = 0;
+                totalLost = 0;
+                totalStock = 0;
+            }
+
+            res.render('postPeriodical', {reportTypeLabels, reportType, selectedDate, dateString, ingres, units, purchasesValues, consumedValues, lostValues, stockValues});
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred");
