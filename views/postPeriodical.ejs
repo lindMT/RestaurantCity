@@ -52,8 +52,9 @@
                 <% ingres.forEach(function(ingredient, index) { %>
                 <tr> 
                     <!-- Pag may DB na, revise to calling based on id -->
-                    <td name="ingredient-name">
-                        <a href="/detailedReport/Milk"><%= ingredient.name %></a>
+                    <td name="ingredient-name"  style="text-transform: capitalize;">
+                        <!-- TO-DO: pull IngreID (manageConversions) -->
+                        <a href="/detailedReport/:ingreID"><%= ingredient.name %></a>
                     </td>
                     <!-- Value from purchasedIngre -->
                     <td id="custom-purchased" name="custom-purchased"> <%= purchasesValues[index] %></td>

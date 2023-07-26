@@ -29,6 +29,8 @@ const viewReportController = {
     },
 
     postPeriodical: async function (req, res) {
+        const foundIngredients = await Ingredients.find();
+        
         // FOR DATE ARRAY //
         Date.prototype.addDays = function(days) {
             var date = new Date(this.valueOf());
@@ -143,7 +145,7 @@ const viewReportController = {
 
         try {
             var ingres = await Ingredients.find({});
-            var ingreVars;
+            var ingreVars = await ingreVariations.find({});
             var units = await Unit.find({});
             var conversions = await fixedConversion.find({});
 
@@ -1060,8 +1062,42 @@ const viewReportController = {
         }
     },
 
-    getDetailed: function(req, res) {
-        res.render('detailedReport');
+    getDetailed: async function(req, res) {
+        var purchases = await purchasedIngre.find({});
+        var units = await Unit.find({});
+        // Find ingre id       
+        var ingreID = req.params.ingreID;
+        const ingredient = await Ingredients.findById(ingreID);
+        
+        // Not sure how to implement this yet HWKJAS
+        // 1: Periodical
+        // 2: Custom
+        var reportType = req.params['reportType'];
+
+        if(reportType = 1) {
+            // Display chosen reportTypeLabel
+        } else {
+
+        }
+
+        var typePurchase = [];
+        var qtyPurchase = [];
+        var unitPurchase = [];
+        var datePurchase = [];
+        var doneByPurchase = [];
+
+        // ==== PURCHASES =====
+
+        // Check in purchases if matching ingreId
+        for(i=0; purchases.length; i++) {
+            if(ingreID = purchases.ingreID) {
+                typeArray[i] = "Purchased"
+            }
+        }
+        
+
+        
+        await res.render('detailedReport', {ingredient});
     }
 }
 

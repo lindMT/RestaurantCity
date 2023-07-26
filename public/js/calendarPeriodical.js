@@ -15,6 +15,8 @@ function reportType(value) {
 
   // Enable if value is found
   $("#calendar").change(function() {
+    var selectedid  = $(".id option:selected").val();
+    
     if ($("#calendar").val() !== "") {
       $("#submitbtn").prop("disabled", false);
   } else {
@@ -40,6 +42,7 @@ function reportType(value) {
  
 }
 
+$('a').attr('href','/detailedReport/<%= ingre._id %>/'+selectedid);
 // DAILY
 function dayRange() {
   $('#calendar').off("changeDate");

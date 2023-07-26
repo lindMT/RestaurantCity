@@ -103,8 +103,7 @@ app.get("/viewCustom", viewReportController.getCustom)
 app.post("/viewCustom", viewReportController.postCustom)
 
 // View Detailed Report
-// To revise /Milk, will be ingredient id once may db na
-app.get("/detailedReport/Milk", viewReportController.getDetailed)
+app.get("/detailedReport/:ingreID/:reportType", viewReportController.getDetailed)
 
 // Input Physical Count
 app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
