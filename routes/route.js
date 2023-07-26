@@ -70,7 +70,7 @@ app.get("/manageDishes", manageDishesController.getManageDishes);
 app.post("/manageDishes/process", manageDishesController.postManageDishes);
 
 app.get("/approveDishes", approveDishesController.getApproveDishes);
-// app.post("/approveDish/process", approveDishController.postApproveDish)
+app.post("/approveDish/process", approveDishesController.postApproveDish)
 
 // Add Dish
 app.get("/addDish", addDishController.getAddDish)

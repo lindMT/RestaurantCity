@@ -13,7 +13,7 @@ const manageDishesController = {
         try {
             // Retrieve all dishes available
             const dishes = await Dish.find({ isActive: true }).collation({ locale: 'en' }).sort({ name: 1 });
-            
+           
             // Retrieve categories from DishCatego
             const categories = await DishCategory.find();
             
@@ -50,7 +50,7 @@ const manageDishesController = {
                     recipe: recipesWithIngredients
                 };
             }));
-
+            console.log(dishesWithCategory)
             //Pass dishes to views
             res.render('manageDishes', { dishes: dishesWithCategory });
         } catch (error) {
@@ -69,7 +69,7 @@ const manageDishesController = {
             selectedDishes = [selectedDishes];
         }
 
-        console.log(selectedDishes);
+        console.log("LOL =",selectedDishes);
         
         try {
             for (const dishRecipeID of selectedDishes) {
