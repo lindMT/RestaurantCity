@@ -107,15 +107,15 @@ app.get("/addConversion/:ingreID", manageConversionsController.addConversion)
 app.post("/addConversion/:ingreID/process", manageConversionsController.postAddConversion)
 
 // Periodical Stock Report
-app.get("/viewStockReport", viewReportController.getPeriodical)
-app.post("/viewPeriodical", viewReportController.postPeriodical)
+app.get("/viewStockReport/Periodical", viewReportController.getPeriodical)
+app.post("/viewStockReport/Periodical", viewReportController.postPeriodical)
 
 // Custom Stock Report
-app.get("/viewCustom", viewReportController.getCustom)
-app.post("/viewCustom", viewReportController.postCustom)
+app.get("/viewStockReport/Custom", viewReportController.getCustom)
+app.post("/viewStockReport/Custom", viewReportController.postCustom)
 
 // Detailed Stock Report
-app.post("/detailedReport/:reportType", viewReportController.getDetailed)
+app.post("/viewStockReport/Detailed/:reportType", viewReportController.getDetailed)
 
 // Periodical Order Report
 app.get("/viewOrderReport/Periodical", viewOrderReportController.getPeriodical);

@@ -1,12 +1,12 @@
 <%- include("partials/header") -%>
-<a href="/viewStockReport">
+<a href="/viewStockReport/Periodical">
     <button type="button" class="btn btn-submit-count" style="margin-left:1rem;">Back to Periodical Report</button>
 </a>
 
 <div class="periodical-card-holder">
     <p id="current_date" style="display: none;"></p>
     <div class="card shadow periodical-select-card">
-        <form action="/viewCustom" method="post" id="custom-dates">
+        <form action="/viewStockReport/Custom" method="post" id="custom-dates">
         <div class="periodical-header">
             <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Custom Stock Report</h1>
             <hr>

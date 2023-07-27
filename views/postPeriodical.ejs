@@ -1,11 +1,11 @@
 <%- include("partials/header") -%>
-<a href="/viewCustom">
+<a href="/viewStockReport/Custom">
     <button type="button" class="btn btn-submit-count" style="margin-left:1rem;">Make Custom Report</button>
 </a>
 
 <div class="periodical-card-holder">
     <div class="card shadow periodical-select-card">
-        <form id="report_form" action="/viewPeriodical" method="post">
+        <form id="report_form" action="/viewStockReport/Periodical" method="post">
             <div class="periodical-header">
                 <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Periodical Report</h1>
                 <hr>
@@ -53,7 +53,7 @@
                 <% ingres.forEach(function(ingredient, index) { %>
                 <tr> 
                     <td name="ingredient-name"  style="text-transform: capitalize;">
-                        <form id="detailed-report-<%= index %>" action="/detailedReport/1" method="post">                        
+                        <form id="detailed-report-<%= index %>" action="/viewStockReport/Detailed/1" method="post">                        
                             <input type="hidden" name="periodicalReportType" value="<%= reportType %>">
                             <input type="hidden" name="periodicalReportDate" value="<%= dateString %>">
                             <input type="hidden" name="ingreID" value="<%= ingredient._id %>">
