@@ -3,6 +3,7 @@ const User = require('../model/usersSchema.js');
 const Unit = require('../model/unitsSchema.js');
 const Ingredient = require('../model/ingredientsSchema.js');
 const Conversion = require('../model/ingreConversionSchema.js');
+const FixedConversion = require('../model/fixedConversionSchema.js');
 const bcrypt = require("bcrypt");
 
 const addUnitController = {
@@ -11,12 +12,16 @@ const addUnitController = {
         const ingredients = await Ingredient.find({});
         const units = await Unit.find({});
 
-        res.render('addUnit', { ingredients, units});
+        const initialUnits = await FixedConversion.distinct('initialUnitId');
+        const fixedUnits = await Unit.find({ _id: { $in: initialUnits } });
+
+        res.render('addUnit', { ingredients, units, fixedUnits });
     },
 
     postAddUnit: async(req, res) => {
         const name = req.body.unitName;
         const symbol = req.body.unitSymbol;
+        const unitType = req.body.unitType;
         const ingredient = req.body.ingreRef;
         const factor = req.body.conversionFactor;
         

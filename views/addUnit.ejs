@@ -41,30 +41,59 @@
         <br/>
 
         <div class="form-group">
-            <label>Select Reference Ingredient</label>
+            <label>Choose Unit Type</label><br>
+            <label><input type="radio" name="unitType" value="fixed"> Fixed </label>
+            <label><input type="radio" name="unitType" value="ingredient"> Ingredient </label>
+        </div>
+        <br/>
+
+        <div id="fixedUnitFields" style="display: none;">
+            <div class="form-group">
+                <label>Select Fixed Unit</label>
+                <select name="fixedUnit" class="form-select form-select-md" style="text-transform: capitalize; width: 100%; padding: 5px;">
+                    <option disabled selected value> -- Select a Unit -- </option>
+                    <% fixedUnits.forEach(function(unit) { %>
+                    <option value="<%= unit._id.toString()%>"><%= unit.unitName %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label>Conversion Factor</label>
+                <input type="number" name="fixedConversionFactor" placeholder="e.g. 0.411" min="0.00000001"
+                    step="any" class="form-control" style="text-align: left; width: 100%;">
+            </div>
+            <br />
+        </div>
+
+        <div id="ingredientFields" style="display: none;">
+            <div class="form-group">
+                <label>Select Reference Ingredient</label>
                 <select name="ingreRef" class="form-select form-select-md" style="text-transform: capitalize; width: 100%; padding: 5px;" required>
                     <option disabled selected value> -- Select an Ingredient -- </option>
-                    
                     <% ingredients.forEach(function(ingre){ %>
-                        <option value="<%=ingre._id.toString()%>"><%=ingre.name%> 
-                                                    
-                            <% units.forEach(function(unit) {%>
-                                <% if(unit._id.toString() == ingre.unitID) { %>
-                                    (<%= unit.unitName%>)
-                                <% } %>
-                            <% }) %>
-                        </option>
-                    <% }); %>   
-
+                    <option value="<%= ingre._id.toString()%>"><%= ingre.name %>
+                        <% units.forEach(function(unit) {%>
+                            <% if(unit._id.toString() == ingre.unitID) { %>
+                                (<%= unit.unitName%>)
+                            <% } %>
+                        <% }) %>
+                    </option>
+                    <% }); %>
                 </select>
-        </div>
-        <br/>
+            </div>
+            <br />
 
-        <div class="form-group">
-            <label>Conversion Factor</label>
-                <input type="number" name="conversionFactor" placeholder="e.g. 0.411" min="0.00000001" step="any" class="form-control" style="text-align: left; width: 100%;">
+            <div class="form-group">
+                <label>Conversion Factor</label>
+                <input type="number" name="ingredientConversionFactor" placeholder="e.g. 0.411" min="0.00000001"
+                    step="any" class="form-control" style="text-align: left; width: 100%;">
+            </div>
+            <br />
         </div>
-        <br/>
+
+
 
         <hr/>
         <button type="submit" class="btn btn-submit-count" style="width: 100%;">Submit</button>
@@ -84,5 +113,25 @@
 
     </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const unitTypeRadio = document.getElementsByName('unitType');
+    const fixedUnitFields = document.getElementById('fixedUnitFields');
+    const ingredientFields = document.getElementById('ingredientFields');
+
+    function toggleFields() {
+        if (unitTypeRadio[0].checked) {
+            fixedUnitFields.style.display = 'block';
+            ingredientFields.style.display = 'none';
+        } else if (unitTypeRadio[1].checked) {
+            fixedUnitFields.style.display = 'none';
+            ingredientFields.style.display = 'block';
+        }
+    }
+
+    unitTypeRadio.forEach(radio => radio.addEventListener('change', toggleFields));
+    toggleFields(); // Initial state
+});
+</script>
 
 <%- include("partials/footer") -%>
