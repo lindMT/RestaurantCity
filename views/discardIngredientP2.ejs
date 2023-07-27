@@ -20,7 +20,7 @@
         <p style="text-align: center;">Type of ingredient you will be disposing: <b style="color:rgb(0, 138, 189); text-transform: uppercase;"><u><%= ingredient.name %></u></b></p>
         <br/>
     </div>
-    <form method="post" action="/viewInventory/discard/p2/process">
+    <form method="post" action="/discard/p2/process">
         <input id="discard-select-category" name="ingreCategory" type="hidden" value="<%= ingredient.category %>" />
         <% console.log(ingredient.category) %>
 
