@@ -57,6 +57,8 @@
                             <input type="hidden" name="periodicalReportType" value="<%= reportType %>">
                             <input type="hidden" name="periodicalReportDate" value="<%= dateString %>">
                             <input type="hidden" name="ingreID" value="<%= ingredient._id %>">
+                            <input type="hidden" name="startDateObj" value="<%= startDateObject %>">
+                            <input type="hidden" name="endDateObj" value="<%= endDateObject %>">
                             <a href="javascript:{}" onclick="document.getElementById('detailed-report-<%= index %>').submit(); return false;"><%= ingredient.name %></a>
                         </form>
                     </td>
