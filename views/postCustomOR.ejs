@@ -24,7 +24,7 @@
     </div>
     <div class="card shadow periodical-report-card">
         <div class="periodical-header">
-            <h3><b> Order Report for <%= formattedStartDate %> to <%= formattedEndDate %></b></h3>
+            <h3><b> Order Report for <%= dateString %></b></h3>
             <i>Generated on <span id="current_date"></span></i>  
             <hr>
             
@@ -42,11 +42,12 @@
                 <% distinctDishes.forEach(function(dish, index){ %> 
                 <tr> 
                     <td name="dish-name"  style="text-transform: capitalize;">
-                        <form id="detailed-report-<%= %>" action="/viewOrderReport/Detailed" method="post">                        
-                            <input type="hidden" name="" value="<%= %>">
-                            <input type="hidden" name="" value="<%= %>">
-                            <input type="hidden" name="" value="<%= %>">
-                            <a href="javascript:{}" onclick="document.getElementById('detailed-report-<%= %>').submit(); return false;"><%= dish %></a>
+                        <form id="detailed-report-<%= index %>" action="/viewOrderReport/Detailed" method="post">                        
+                            <input type="hidden" name="dateString" value="<%= dateString %>">
+                            <input type="hidden" name="dishName" value="<%= dish %>">
+                            <input type="hidden" name="startDateObj" value="<%= startDateObject %>">
+                            <input type="hidden" name="endDateObj" value="<%= endDateObject %>">
+                            <a href="javascript:{}" onclick="document.getElementById('detailed-report-<%= index %>').submit(); return false;"><%= dish %></a>
                         </form>
                     </td>
                     <td id="custom-qty" name="custom-qty">      <%= qtyValues[index] %></td>

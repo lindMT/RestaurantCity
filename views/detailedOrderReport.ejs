@@ -2,13 +2,13 @@
 <div class="category-form-holder">
     <div class="card shadow detailed-report-card">
         <div class="detailed-header">
-            <h3><b> Detailed Report </b></h3>
-            <h5><b id="align-right">Report for <%= %></b></h5>
+            <h3><b> Detailed Order Report </b></h3>
+            <h5><b id="align-right">Report for <%= dateString %></b></h5>
            
             <hr>
         </div>
         <div class="detailed-header">
-            <h3 style="text-transform: capitalize;">for <%= %> Tapsilog</h3>
+            <h3 style="text-transform: capitalize;">for <%= dishName %></h3>
             <i>Generated on <span id="current_date"></span></i>  
         </div>
         <hr>
@@ -29,36 +29,33 @@
             </div>
         </div>-->
          
-        <table id="report-table" class="table table-striped" style="margin-top: 1rem;">
+        <table id="report-table" class="table table-striped" style="margin-top: 1rem;" data-order='[[ 1, "desc" ]]' data-page-length='10'>
             <thead>
-            <tr id="report-tr">
-                <!--<th id="report-type" scope="col">Type</th>-->
-                <th scope="col">Order Date</th>
-                <th scope="col">Quantity Ordered</th>
-                <th scope="col">Total Price</th>
-                <th scope="col">Taken By</th>
-            </tr>
+                <tr id="report-tr">
+                    <!--<th id="report-type" scope="col">Type</th>-->
+                    <th scope="col">Order Date</th>
+                    <th scope="col">Quantity Ordered</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Taken By</th>
+                </tr>
             </thead>
             <tbody>
-                <% %>
+                <% dateValues.forEach(function(date, index){ %> 
                 <tr>
-                    <td><%= Date() %></td>
-                    <td><%= %>100</td>
-                    <td>₱ <%= %>10000</td>
-                    <td><%= %>Lind</td>
-                </tr>   
-                <% %>
+                    <td><%= date %></td>
+                    <td><%= qtyValues[index] %></td>
+                    <td>₱ <%= priceValues[index] %></td>
+                    <td><%= userValues[index] %></td>
+                </tr> 
+                <% }) %>
             </tbody>
         </table>
-        <div class="periodical-footer">
-            <hr>
-            <h5><b>-END OF REPORT-</b></h5>
-        </div>
     </div>
 
 </div> 
 
 
 <script src="/js/calendarCustom.js"></script>
+<script src="/js/detailedDataTable.js"></script>
 <script src="/js/detailedReportFilter.js"></script>
 <%- include("partials/footer") -%>

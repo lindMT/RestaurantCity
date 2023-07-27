@@ -230,7 +230,7 @@ const viewOrderReportController = {
                 console.log("FINAL TOTAL PRICE: " + priceValues[i]);
             }
 
-            res.render('postPeriodicalOR', {reportTypeLabels, selectedDate, dateString, distinctDishes, qtyValues, priceValues});
+            res.render('postPeriodicalOR', {reportTypeLabels, selectedDate, dateString, startDateObject, endDateObject, distinctDishes, qtyValues, priceValues});
         }catch(error){
             console.error(error);
             res.status(500).send("An error occurred");
@@ -290,6 +290,7 @@ const viewOrderReportController = {
             // get formatted String for dates
             const formattedStartDate = formatDate(startDateObject);
             const formattedEndDate = formatDate(endDateObject);
+            const dateString = `${formattedStartDate} to ${formattedEndDate}`;
 
             // get dates between start and end
             var dateArray = getDates(startDateObject, endDateObject);
@@ -354,15 +355,124 @@ const viewOrderReportController = {
                 console.log("FINAL TOTAL PRICE: " + priceValues[i]);
             }
 
-            res.render('postCustomOR', {startDate, endDate, formattedStartDate, formattedEndDate, distinctDishes, qtyValues, priceValues});
+            res.render('postCustomOR', {startDate, startDateObject, endDate, endDateObject, dateString, distinctDishes, qtyValues, priceValues});
         }catch(error){
             console.error(error);
             res.status(500).send("An error occurred");
         }
     },
 
-    getDetailed: function (req, res) {
-        res.render('detailedOrderReport');
+    getDetailed: async function (req, res) {
+        // FOR DATE ARRAY //
+        Date.prototype.addDays = function(days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+        function getDates(startDate, stopDate) {
+            var dateArray = new Array();
+            var currentDate = startDate;
+            while (currentDate <= stopDate) {
+                dateArray.push(new Date (currentDate));
+                currentDate = currentDate.addDays(1);
+            }
+            return dateArray;
+        }
+
+        // FOR FORMATTING DATE //
+        function formatDateTime(date) {
+            // get date components
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, "0");
+            const minutes = String(date.getMinutes()).padStart(2, "0");
+            const seconds = String(date.getSeconds()).padStart(2, "0");
+
+            // construct the formatted string
+            const formattedDate = `${month}/${day}/${year}, ${hours}:${minutes}:${seconds}`;
+            return formattedDate;
+        }
+
+        try{
+            console.log("---------- DETAILED ORDER REPORT ----------");
+
+            const dateString = req.body.dateString;
+            const dishName = req.body.dishName;
+            const startDateObject = new Date(req.body.startDateObj);
+            const endDateObject = new Date(req.body.endDateObj);
+            var dateArray = [];
+
+            // get dates between start and end
+            if (startDateObject != endDateObject){ // check if not daily report
+                dateArray = getDates(startDateObject, endDateObject);
+            }else{
+                dateArray.push(startDateObject);
+            }
+            
+            // instantiate columns
+            var index = 0;
+            var dateValues = [];
+            var qtyValues = [];
+            var priceValues = [];
+            var userValues = [];
+
+            // loop through all dates
+            for (var d = 0; d < dateArray.length; d++){
+                // get orders that fall within the specified time frame
+                var orders = await Order.find({
+                    date: {
+                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                    }
+                }); // orders stores date as a String
+                // loop through all orders
+                for (var o = 0; o < orders.length; o++){
+                    // get all order items associated with that order
+                    var orderItems = await OrderItem.find({orderID: orders[o]._id});
+                    for (var p = 0; p < orderItems.length; p++){
+                        // get all dishes listed as an order item
+                        var dishes = await Dish.find({_id: orderItems[p].dishID});
+                        // check if the dish in the order matches the current dish
+                        for (var q = 0; q < dishes.length; q++){
+                            if(dishName == dishes[q].name){
+                                console.log("----- Order Found (Index " + index + ")");
+                                // add date (formatted)
+                                var tempDate = new Date(orders[o].date);
+                                dateValues[index] = formatDateTime(tempDate);
+                                // console.log(tempDate.toString());
+
+                                // add quantity
+                                qtyValues[index] = +(orderItems[p].qty);
+                                // console.log("Qty: " + orderItems[p].qty);
+
+                                // add total price
+                                priceValues[index] = +(dishes[q].price*orderItems[p].qty);
+                                // console.log("Price Each: " + dishes[q].price);
+                                // console.log("Price*Qty: " + (dishes[q].price*orderItems[p].qty));
+
+                                // add user (username)
+                                userValues[index] = orders[o].takenBy; // orders uses username by default
+                                // console.log(orders[o].takenBy);
+                                
+                                console.log("dateValues["+index+"]: "+ dateValues[index]);
+                                console.log("qtyValues[" + index + "]: " + qtyValues[index]);
+                                console.log("priceValues[" + index + "]: " + priceValues[index]);
+                                console.log("userValues["+index+"]: " + userValues[index]);
+
+                                //increment index
+                                index++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            res.render('detailedOrderReport', {dateString, dishName, dateValues, qtyValues, priceValues, userValues});
+        }catch(error){
+            console.error(error);
+            res.status(500).send("An error occurred");
+        }
     }
 }
 
