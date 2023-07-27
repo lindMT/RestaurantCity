@@ -12,10 +12,7 @@ const revertDishesController = {
     getRevertDishes: async function(req, res) {
         try {
             // Retrieve all dishes that are for approval
-            const dishesForApproval = await Dish.find({
-                isActive: false,
-                isApproved: 'approved'
-              });
+            
           
               // Retrieve approved dish recipes that have 'for approval' status
               const approvedDishRecipes = await DishRecipe.find({
@@ -24,13 +21,13 @@ const revertDishesController = {
               });
           
               // Find the corresponding approved dishes using the dishID field from approvedDishRecipes
-              const approvedDishes = await Dish.find({
+              const dishes = await Dish.find({
                 _id: { $in: approvedDishRecipes.map(recipe => recipe.dishID) },
                 isActive: false,
                 isApproved: 'approved'
               });
 
-              const dishes = [...dishesForApproval, ...approvedDishes];
+            
             
             // Retrieve categories from DishCatego
             const categories = await DishCategory.find();
@@ -68,7 +65,7 @@ const revertDishesController = {
             }));
 
             //Pass dishes to views
-            res.render('approveDishes', { dishes: dishesWithCategory });
+            res.render('revertDishes', { dishes: dishesWithCategory });
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the dishes.");
