@@ -18,11 +18,15 @@ const revertDishesController = {
                 isActive: false,
                 isApproved: 'approved'
               });
-          
+              
+              const approvedDishIds = approvedDishRecipes.map(recipe => recipe.dishID);
+              
               // Find the corresponding approved dishes using the dishID field from approvedDishRecipes
               const dishes = await Dish.find({
-                _id: { $in: approvedDishRecipes.map(recipe => recipe.dishID) },
-                isActive: false,
+                $or: [
+                    { _id: { $in: approvedDishIds }, isActive: true },
+                    { _id: { $in: approvedDishIds }, isActive: false }
+                ],
                 isApproved: 'approved'
               });
 
