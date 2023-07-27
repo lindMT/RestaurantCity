@@ -659,6 +659,7 @@ const viewReportController = {
             // get formatted String for dates
             const formattedStartDate = formatDate(startDateObject);
             const formattedEndDate = formatDate(endDateObject);
+            const dateString = `${formattedStartDate} to ${formattedEndDate}`;
 
             // get dates between start and end
             var dateArray = getDates(startDateObject, endDateObject);
@@ -1060,7 +1061,7 @@ const viewReportController = {
                 totalStock = 0;
             }
             
-            res.render('postCustom', {ingres, units, purchasesValues, consumedValues, lostValues, stockValues, startDate, endDate, formattedStartDate, formattedEndDate});
+            res.render('postCustom', {ingres, units, purchasesValues, consumedValues, lostValues, stockValues, startDate, endDate, startDateObject, endDateObject, dateString});
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred");
@@ -1104,294 +1105,261 @@ const viewReportController = {
         }
 
         try {
-            var conversions = await fixedConversion.find({});
-            var units = await Unit.find({});
-            var purchaseIndex = 0;
 
             // Find ingre id       
             var ingreID = req.body.ingreID;
             const ingredient = await Ingredients.findById(ingreID);
             console.log("INGRE ID: " + ingreID);
+
+            var startDate = req.body.startDateObj;
+            var endDate = req.body.endDateObj;
+            var startDateObject = new Date(startDate);
+            var endDateObject = new Date(endDate);
+            var dateString = req.body.dateString;
+
+            // Display chosen reportTypeLabel
+            var variantPurchase = [];
+            var qtyPurchase = [];
+            var unitPurchase = [];
+            var datePurchase = [];
+            var doneByPurchase = [];
+
+            var variantDiscard = [];
+            var qtyDiscard = [];
+            var unitDiscard = [];
+            var dateDiscard = [];
+            var doneByDiscard = [];
+
+            var qtyMismatch = [];
+            var unitMismatch = [];
+            var dateMismatch = [];
+            var doneByMismatch = [];
+
+            var qtyConsumed = [];
+            var unitConsumed = [];
+            var dateConsumed = [];
+            var doneByConsumed = [];
+            var indexConsumed = 0;
+
+            // var purchaseIndex = 0; // should add sa dulo (done)
+
+            // get dates between start and end
+            var dateArray = getDates(startDateObject, endDateObject);
+
+            console.log("dateArray:" + dateArray);
             
-            // 1: Periodical
-            // 2: Custom
-            var reportType = req.params['reportType'];
-            console.log("REPORT TYPE: " + reportType);
-
-            
-            if(reportType == 1) {
-                console.log("FROM PERIODICAL");
-
-                var periodicalType = req.body.periodicalReportType;
-                var periodicalDate = req.body.periodicalReportDate;
-                var startDate = req.body.startDateObj;
-                var endDate = req.body.endDateObj;
-                var startDateObject = new Date(startDate);
-                var endDateObject = new Date(endDate);
-                var formattedStartDate = "";
-                var formattedEndDate = "";
-    
-                console.log("PERIODICAL TYPE: " + periodicalType);
-                console.log("PERIODICAL DATE: " + periodicalDate);
-                console.log("sDateObj: " + startDateObject);
-                console.log("eDateObj: " + endDateObject);
-
-
-                // Display chosen reportTypeLabel
-                var variantPurchase = [];
-                var qtyPurchase = [];
-                var unitPurchase = [];
-                var datePurchase = [];
-                var doneByPurchase = [];
-
-                var variantDiscard = [];
-                var qtyDiscard = [];
-                var unitDiscard = [];
-                var dateDiscard = [];
-                var doneByDiscard = [];
-
-                var qtyMismatch = [];
-                var unitMismatch = [];
-                var dateMismatch = [];
-                var doneByMismatch = [];
-
-                var qtyConsumed = [];
-                var unitConsumed = [];
-                var dateConsumed = [];
-                var doneByConsumed = [];
-                var indexConsumed = 0;
-
-                // var purchaseIndex = 0; // should add sa dulo (done)
-
-                // get dates between start and end
-                var dateArray = getDates(startDateObject, endDateObject);
-
-                console.log("dateArray:" + dateArray);
+            // loop through all dates
+            for (var d = 0; d < dateArray.length; d++){
+                console.log();
+                console.log(dateArray[d]);
+                console.log(dateArray[d].toString());
                 
-                // loop through all dates
-                for (var d = 0; d < dateArray.length; d++){
-                    console.log();
-                    console.log(dateArray[d]);
-                    console.log(dateArray[d].toString());
-                    
-                    // ======= PURCHASES =======
-                    // loop through all purchases
-                    var purchases = await purchasedIngre.find({
-                        ingreID: ingreID, 
-                        date: {
-                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
-                        }
-                    }); // purchases stores date as a String
-                    console.log();
-                    console.log("!!! CHECKING PURCHASES...");
-                    console.log("There are " + purchases.length + " purchases");
-                    for (var j = 0; j < purchases.length; j++){
-                        console.log("----- Purchase Found #"+j);
-                        // check if has variation or not
-                        if (ingredient.hasVariant == true){
-                            console.log("hasVariant is TRUE");
-                            // get variant
-                            ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
-                            variantPurchase[j] = ingreVars.name;
-                            
-                            qtyPurchase[j] = ingreVars.netWeight*purchases[j].qty;
-
-                            var tempUnit = await Unit.findOne({_id:ingreVars.unitID});
-                            unitPurchase[j] = tempUnit.unitSymbol;
-
-                            var tempDate = new Date(purchases[j].date)
-                            datePurchase[j] = formatDateTime(tempDate);
-
-                            var doneBy = await User.findOne({_id:purchases[j].doneBy});
-                            doneByPurchase[j] = doneBy.userName;
-                        }else{ //hasVariant == false
-                            console.log("hasVariant is FALSE");
-
-                            variantPurchase[j] = "N/A";
-                            
-                            qtyPurchase[j] = purchases[j].netWeight;
-
-                            var tempUnit = await Unit.findOne({_id:purchases[j].unitID});
-                            unitPurchase[j] = tempUnit.unitSymbol;
-
-                            var tempDate = new Date(purchases[j].date)
-                            datePurchase[j] = formatDateTime(tempDate);
-
-                            var doneBy = await User.findOne({_id:purchases[j].doneBy});
-                            doneByPurchase[j] = doneBy.userName;
-                        }
-                        console.log("qtyPurchase[ind]: "+ qtyPurchase[j]);
-                        console.log("unitPurchase[j]: "+  unitPurchase[j]);
-                        console.log("datePurchase[j]: "+  datePurchase[j]);
-                        console.log("doneByPurchase[j]: "+   doneByPurchase[j]);
+                // ======= PURCHASES =======
+                // loop through all purchases
+                var purchases = await purchasedIngre.find({
+                    ingreID: ingreID, 
+                    date: {
+                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
                     }
-                    
-                    // ======= CONSUMED =======
-                    // loop through all orders
-                    var orders = await Order.find({
-                        date: {
-                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
-                        }
-                    }); // orders stores date as a String
-                    console.log();
-                    console.log("!!! CHECKING ORDERS...");
-                    for (var o = 0; o < orders.length; o++){
-                        // get all order items associated with that order
-                        var orderItems = await OrderItem.find({orderID: orders[o]._id});
-                        for (var p = 0; p < orderItems.length; p++){
-                            // get all dishes listed as an order item
-                            var dishes = await Dish.find({_id: orderItems[p].dishID});
-                            for (var q = 0; q < dishes.length; q++){
-                                // get the recipe that was used at the date/time the dish was ordered (CODE FROM BEST FRIEND)
-                                var result = await DishRecipe.aggregate([
-                                    { $match: {
-                                        dishID: dishes[q]._id,
-                                        approvedOn: { $lte: dateArray[d] } // get dates on or before chosen date
-                                      }, },
-                                    { $addFields: {
-                                        dateDifference: {
-                                          $abs: { $subtract: ["$approvedOn", dateArray[d]] } // get difference of dates
-                                        },
-                                      }, },
-                                    { $sort: {
-                                        dateDifference: 1, // sort in ascending order of dateDifference to get the closest date
-                                        approvedOn: -1, // if there are multiple records with the same dateDifference, sort by date in descending order to get the most recent one
-                                      }, },
-                                    {
-                                      $limit: 1, // get only the first record with the closest date
+                }); // purchases stores date as a String
+                console.log();
+                console.log("!!! CHECKING PURCHASES...");
+                console.log("There are " + purchases.length + " purchases");
+                for (var j = 0; j < purchases.length; j++){
+                    console.log("----- Purchase Found #"+j);
+                    // check if has variation or not
+                    if (ingredient.hasVariant == true){
+                        console.log("hasVariant is TRUE");
+                        // get variant
+                        ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
+                        variantPurchase[j] = ingreVars.name;
+                        
+                        qtyPurchase[j] = ingreVars.netWeight*purchases[j].qty;
+
+                        var tempUnit = await Unit.findOne({_id:ingreVars.unitID});
+                        unitPurchase[j] = tempUnit.unitSymbol;
+
+                        var tempDate = new Date(purchases[j].date)
+                        datePurchase[j] = formatDateTime(tempDate);
+
+                        var doneBy = await User.findOne({_id:purchases[j].doneBy});
+                        doneByPurchase[j] = doneBy.userName;
+                    }else{ //hasVariant == false
+                        console.log("hasVariant is FALSE");
+
+                        variantPurchase[j] = "N/A";
+                        
+                        qtyPurchase[j] = purchases[j].netWeight;
+
+                        var tempUnit = await Unit.findOne({_id:purchases[j].unitID});
+                        unitPurchase[j] = tempUnit.unitSymbol;
+
+                        var tempDate = new Date(purchases[j].date)
+                        datePurchase[j] = formatDateTime(tempDate);
+
+                        var doneBy = await User.findOne({_id:purchases[j].doneBy});
+                        doneByPurchase[j] = doneBy.userName;
+                    }
+                    console.log("qtyPurchase["+j+"]: "+ qtyPurchase[j]);
+                    console.log("unitPurchase["+j+"]: "+  unitPurchase[j]);
+                    console.log("datePurchase["+j+"]: "+  datePurchase[j]);
+                    console.log("doneByPurchase["+j+"]: "+   doneByPurchase[j]);
+                }
+                
+                // ======= CONSUMED =======
+                // loop through all orders
+                var orders = await Order.find({
+                    date: {
+                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                    }
+                }); // orders stores date as a String
+                console.log();
+                console.log("!!! CHECKING ORDERS...");
+                for (var o = 0; o < orders.length; o++){
+                    // get all order items associated with that order
+                    var orderItems = await OrderItem.find({orderID: orders[o]._id});
+                    for (var p = 0; p < orderItems.length; p++){
+                        // get all dishes listed as an order item
+                        var dishes = await Dish.find({_id: orderItems[p].dishID});
+                        for (var q = 0; q < dishes.length; q++){
+                            // get the recipe that was used at the date/time the dish was ordered (CODE FROM BEST FRIEND)
+                            var result = await DishRecipe.aggregate([
+                                { $match: {
+                                    dishID: dishes[q]._id,
+                                    approvedOn: { $lte: dateArray[d] } // get dates on or before chosen date
+                                    }, },
+                                { $addFields: {
+                                    dateDifference: {
+                                        $abs: { $subtract: ["$approvedOn", dateArray[d]] } // get difference of dates
                                     },
-                                ]);
-                                //console.log(result);
-                                var recipe = result[0];
+                                    }, },
+                                { $sort: {
+                                    dateDifference: 1, // sort in ascending order of dateDifference to get the closest date
+                                    approvedOn: -1, // if there are multiple records with the same dateDifference, sort by date in descending order to get the most recent one
+                                    }, },
+                                {
+                                    $limit: 1, // get only the first record with the closest date
+                                },
+                            ]);
+                            //console.log(result);
+                            var recipe = result[0];
 
-                                for (var r = 0; r < recipe.ingredients.length; r++){
-                                    // check if the current ingredient is used in the recipe
-                                    if (recipe.ingredients[r].ingredient.toString() == ingreID){
-                                        console.log("----- Order Found");
-                                        console.log("Dish: " + dishes[q].name);
-                                        console.log("Ingredient Used in Dish");   
-                            
-                                        qtyConsumed[indexConsumed] = +(recipe.ingredients[r].chefWeight*orderItems[p].qty);
+                            for (var r = 0; r < recipe.ingredients.length; r++){
+                                // check if the current ingredient is used in the recipe
+                                if (recipe.ingredients[r].ingredient.toString() == ingreID){
+                                    console.log("----- Order Found");
+                                    console.log("Dish: " + dishes[q].name);
+                                    console.log("Ingredient Used in Dish");   
+                        
+                                    qtyConsumed[indexConsumed] = +(recipe.ingredients[r].chefWeight*orderItems[p].qty);
 
-                                        var tempUnit = await Unit.findOne({_id:recipe.ingredients[r].chefUnitID});
-                                        unitConsumed[indexConsumed] = tempUnit.unitSymbol;
+                                    var tempUnit = await Unit.findOne({_id:recipe.ingredients[r].chefUnitID});
+                                    unitConsumed[indexConsumed] = tempUnit.unitSymbol;
 
-                                        var tempDate = new Date(orders[o].date)
-                                        dateConsumed[indexConsumed] = formatDateTime(tempDate);
+                                    var tempDate = new Date(orders[o].date)
+                                    dateConsumed[indexConsumed] = formatDateTime(tempDate);
 
-                                        doneByConsumed[indexConsumed] = orders[o].takenBy;
+                                    doneByConsumed[indexConsumed] = orders[o].takenBy;
 
-                                        indexConsumed++;
-                                    }
+                                    indexConsumed++;
                                 }
                             }
                         }
                     }
+                }
 
-                    // ======= DISCARDED =======
-                    var discardeds = await discardedIngre.find({
-                        ingreID: ingreID, 
-                        date: {
-                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
-                        }
-                    }); // discarded stores date as a String
-                    console.log();
-                    console.log("!!! CHECKING DISCARDEDS...");
-                    console.log("There are " + discardeds.length + " discardeds");
-                    for (var k = 0; k < discardeds.length; k++){
-                        console.log("----- Discarded Found #"+k);
-                        if (discardeds[k].varID !== undefined){
-                            // with variant
-                            console.log("Using Variant");
-                            // get variant
-                            ingreVars = await ingreVariations.findOne({_id: discardeds[k].varID});
-                            variantDiscard[k] = ingreVars.name;
-                            
-                            qtyDiscard[k] = ingreVars.netWeight*discardeds[k].qty;
-
-                            var tempUnit = await Unit.findOne({_id:ingreVars.unitID});
-                            unitDiscard[k] = tempUnit.unitSymbol;
-
-                            var tempDate = new Date(discardeds[k].date)
-                            dateDiscard[k] = formatDateTime(tempDate);
-
-                            var doneBy = await User.findOne({_id:discardeds[k].doneBy});         
-                            doneByDiscard[k] = doneBy.userName;                   
-                        } else {
-                            console.log("NOT Using Variant");
-
-                            variantDiscard[k] = "N/A";
-
-                            qtyDiscard[k] = discardeds[k].netWeight;
-
-                            var tempUnit = await Unit.findOne({_id:discardeds[k].unitID});
-                            unitDiscard[k] = tempUnit.unitSymbol;
-
-                            var tempDate = new Date(discardeds[k].date)
-                            dateDiscard[k] = formatDateTime(tempDate);
-
-                            var doneBy = await User.findOne({_id:discardeds[k].doneBy});  
-                            doneByDiscard[k] = doneBy.userName;
-                        }
+                // ======= DISCARDED =======
+                var discardeds = await discardedIngre.find({
+                    ingreID: ingreID, 
+                    date: {
+                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
                     }
+                }); // discarded stores date as a String
+                console.log();
+                console.log("!!! CHECKING DISCARDEDS...");
+                console.log("There are " + discardeds.length + " discardeds");
+                for (var k = 0; k < discardeds.length; k++){
+                    console.log("----- Discarded Found #"+k);
+                    if (discardeds[k].varID !== undefined){
+                        // with variant
+                        console.log("Using Variant");
+                        // get variant
+                        ingreVars = await ingreVariations.findOne({_id: discardeds[k].varID});
+                        variantDiscard[k] = ingreVars.name;
+                        
+                        qtyDiscard[k] = ingreVars.netWeight*discardeds[k].qty;
 
-                    // ======= MISMATCHES =======
-                    var mismatches = await mismatch.find({
-                        ingreID: ingreID, 
-                        date: {
-                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
-                        }
-                    }); // mismatches stores date as a String
-                    // NOTE: ASSUMING THAT THE UNIT FOR DIFFERENCE WILL ALWAYS MATCH INGREDIENT BASE UNIT
-                    console.log();
-                    console.log("!!! CHECKING MISMATCHES...");
-                    console.log("There are " + mismatches.length + " mismatches");
-                    for (var b = 0; b < mismatches.length; b++){
-                        console.log("----- Mismatch Found");
-                        // check if the difference is negative or positive
-                        if (mismatches[b].difference < 0){ 
-                            // if negative
-                            console.log("Negative mismatch");
-                            qtyMismatch.push(+(mismatches[b].difference));
+                        var tempUnit = await Unit.findOne({_id:ingreVars.unitID});
+                        unitDiscard[k] = tempUnit.unitSymbol;
 
-                            var tempUnit = await Unit.findOne({_id:mismatches[b].unitID});
-                            unitMismatch[b] = tempUnit.unitSymbol;
+                        var tempDate = new Date(discardeds[k].date)
+                        dateDiscard[k] = formatDateTime(tempDate);
 
-                            var tempDate = new Date(mismatches[b].date)
-                            dateMismatch[b] = formatDateTime(tempDate);
+                        var doneBy = await User.findOne({_id:discardeds[k].doneBy});         
+                        doneByDiscard[k] = doneBy.userName;                   
+                    } else {
+                        console.log("NOT Using Variant");
 
-                            var doneBy = await User.findOne({_id:mismatches[b].doneBy});  
-                            doneByMismatch[b] = doneBy.userName;
-                        }else if (mismatches[b].difference > 0){ 
-                            // if positive
-                            console.log("Positive mismatch");
-                            qtyMismatch.push("+" + +(mismatches[b].difference));
+                        variantDiscard[k] = "N/A";
 
-                            var tempUnit = await Unit.findOne({_id:mismatches[b].unitID});
-                            unitMismatch[b] = tempUnit.unitSymbol;
+                        qtyDiscard[k] = discardeds[k].netWeight;
 
-                            var tempDate = new Date(mismatches[b].date)
-                            dateMismatch[b] = formatDateTime(tempDate);
+                        var tempUnit = await Unit.findOne({_id:discardeds[k].unitID});
+                        unitDiscard[k] = tempUnit.unitSymbol;
 
-                            var doneBy = await User.findOne({_id:mismatches[b].doneBy});  
-                            doneByMismatch[b] = doneBy.userName;
-                        }
+                        var tempDate = new Date(discardeds[k].date)
+                        dateDiscard[k] = formatDateTime(tempDate);
+
+                        var doneBy = await User.findOne({_id:discardeds[k].doneBy});  
+                        doneByDiscard[k] = doneBy.userName;
                     }
                 }
 
-                await res.render('detailedReport', {ingredient, periodicalType, periodicalDate, formattedStartDate, formattedEndDate, variantPurchase, qtyPurchase, unitPurchase, datePurchase, doneByPurchase, variantDiscard, qtyDiscard, unitDiscard, dateDiscard, doneByDiscard, qtyMismatch, unitMismatch, dateMismatch, doneByMismatch, qtyConsumed, unitConsumed, dateConsumed, doneByConsumed});
-            } else{
-                console.log("FROM CUSTOM");
+                // ======= MISMATCHES =======
+                var mismatches = await mismatch.find({
+                    ingreID: ingreID, 
+                    date: {
+                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                    }
+                }); // mismatches stores date as a String
+                // NOTE: ASSUMING THAT THE UNIT FOR DIFFERENCE WILL ALWAYS MATCH INGREDIENT BASE UNIT
+                console.log();
+                console.log("!!! CHECKING MISMATCHES...");
+                console.log("There are " + mismatches.length + " mismatches");
+                for (var b = 0; b < mismatches.length; b++){
+                    console.log("----- Mismatch Found");
+                    // check if the difference is negative or positive
+                    if (mismatches[b].difference < 0){ 
+                        // if negative
+                        console.log("Negative mismatch");
+                        qtyMismatch.push(+(mismatches[b].difference));
 
-                var formattedStartDate = req.body.customStartDate;
-                var formattedEndDate = req.body.customEndDate;
-                var periodicalDate = "";
-    
-                await res.render('detailedReport', {ingredient, formattedStartDate, formattedEndDate, periodicalDate});
+                        var tempUnit = await Unit.findOne({_id:mismatches[b].unitID});
+                        unitMismatch[b] = tempUnit.unitSymbol;
 
+                        var tempDate = new Date(mismatches[b].date)
+                        dateMismatch[b] = formatDateTime(tempDate);
+
+                        var doneBy = await User.findOne({_id:mismatches[b].doneBy});  
+                        doneByMismatch[b] = doneBy.userName;
+                    }else if (mismatches[b].difference > 0){ 
+                        // if positive
+                        console.log("Positive mismatch");
+                        qtyMismatch.push("+" + +(mismatches[b].difference));
+
+                        var tempUnit = await Unit.findOne({_id:mismatches[b].unitID});
+                        unitMismatch[b] = tempUnit.unitSymbol;
+
+                        var tempDate = new Date(mismatches[b].date)
+                        dateMismatch[b] = formatDateTime(tempDate);
+
+                        var doneBy = await User.findOne({_id:mismatches[b].doneBy});  
+                        doneByMismatch[b] = doneBy.userName;
+                    }
+                }
             }
 
-            
+            await res.render('detailedReport', {ingredient, dateString, variantPurchase, qtyPurchase, unitPurchase, datePurchase, doneByPurchase, variantDiscard, qtyDiscard, unitDiscard, dateDiscard, doneByDiscard, qtyMismatch, unitMismatch, dateMismatch, doneByMismatch, qtyConsumed, unitConsumed, dateConsumed, doneByConsumed});
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred");

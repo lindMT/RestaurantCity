@@ -7,7 +7,7 @@
     <div class="card shadow periodical-select-card">
         <form action="/viewStockReport/Custom" method="post" id="custom-dates">
         <div class="periodical-header">
-            <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Custom Report</h1>
+            <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Custom Stock Report</h1>
             <hr>
         </div>
         <div class="stock-header2 ">
@@ -24,7 +24,7 @@
     </div>
     <div class="card shadow periodical-report-card">
         <div class="periodical-header">
-            <h3><b> Stock Report for <%= formattedStartDate %> to <%= formattedEndDate %></b></h3>
+            <h3><b> Stock Report for <%= dateString %></b></h3>
             <i>Generated on <span id="current_date"></span></i>  
             <hr>
             
@@ -45,10 +45,11 @@
             <% ingres.forEach(function(ingredient, index) { %>
             <tr> 
                 <td name="ingredient-name"  style="text-transform: capitalize;">
-                    <form id="detailed-report-<%= index %>" action="/viewStockReport/Detailed/2" method="post">                        
-                        <input type="hidden" name="customStartDate" value="<%= formattedStartDate %>">
-                        <input type="hidden" name="customEndDate" value="<%= formattedEndDate %>">
+                    <form id="detailed-report-<%= index %>" action="/viewStockReport/Detailed" method="post">                        
+                        <input type="hidden" name="dateString" value="<%= dateString %>">
                         <input type="hidden" name="ingreID" value="<%= ingredient._id %>">
+                        <input type="hidden" name="startDateObj" value="<%= startDateObject %>">
+                        <input type="hidden" name="endDateObj" value="<%= endDateObject %>">
                         <a href="javascript:{}" onclick="document.getElementById('detailed-report-<%= index %>').submit(); return false;"><%= ingredient.name %></a>
                     </form>
                 </td>

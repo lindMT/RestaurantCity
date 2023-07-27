@@ -115,7 +115,7 @@ app.get("/viewStockReport/Custom", viewReportController.getCustom)
 app.post("/viewStockReport/Custom", viewReportController.postCustom)
 
 // Detailed Stock Report
-app.post("/viewStockReport/Detailed/:reportType", viewReportController.getDetailed)
+app.post("/viewStockReport/Detailed", viewReportController.getDetailed)
 
 // Periodical Order Report
 app.get("/viewOrderReport/Periodical", viewOrderReportController.getPeriodical);

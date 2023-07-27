@@ -7,7 +7,7 @@
     <div class="card shadow periodical-select-card">
         <form id="report_form" action="/viewStockReport/Periodical" method="post">
             <div class="periodical-header">
-                <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Periodical Report</h1>
+                <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Periodical Stock Report</h1>
                 <hr>
             </div>
             <div class="stock-header2">
@@ -53,9 +53,8 @@
                 <% ingres.forEach(function(ingredient, index) { %>
                 <tr> 
                     <td name="ingredient-name"  style="text-transform: capitalize;">
-                        <form id="detailed-report-<%= index %>" action="/viewStockReport/Detailed/1" method="post">                        
-                            <input type="hidden" name="periodicalReportType" value="<%= reportType %>">
-                            <input type="hidden" name="periodicalReportDate" value="<%= dateString %>">
+                        <form id="detailed-report-<%= index %>" action="/viewStockReport/Detailed" method="post">                        
+                            <input type="hidden" name="dateString" value="<%= dateString %>">
                             <input type="hidden" name="ingreID" value="<%= ingredient._id %>">
                             <input type="hidden" name="startDateObj" value="<%= startDateObject %>">
                             <input type="hidden" name="endDateObj" value="<%= endDateObject %>">
