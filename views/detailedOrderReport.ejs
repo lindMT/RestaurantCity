@@ -12,31 +12,15 @@
             <i>Generated on <span id="current_date"></span></i>  
         </div>
         <hr>
-        <!--<div class="detailed-header2">
-            <i class="fa-solid fa-filter fa-xl" style="margin-bottom:1rem; margin-right:0.5rem;"></i>
-
-            <div class="form-group">
-                <div class="col-15">
-                    <select id="filterType" class="form-select form-select-sm" 
-                            aria-label="Filter selection" name="filterType"
-                            onchange="filterReport()">
-                            <option value="All" selected>All</option>
-                            <option value="Purchased">Purchased</option>
-                            <option value="Consumed">Consumed</option>
-                            <option value="Discarded">Discarded</option>
-                    </select>
-                </div>
-            </div>
-        </div>-->
          
-        <table id="report-table" class="table table-striped" style="margin-top: 1rem;" data-order='[[ 1, "desc" ]]' data-page-length='10'>
+        <table id="report-table" class="table table-striped" style="margin-top: 1rem;" data-order='[[ 0, "desc" ]]' data-page-length='10'>
             <thead>
-                <tr id="report-tr">
+                <tr id="report-tr" style="text-align:center">
                     <!--<th id="report-type" scope="col">Type</th>-->
-                    <th scope="col">Order Date</th>
-                    <th scope="col">Quantity Ordered</th>
-                    <th scope="col">Total Price</th>
-                    <th scope="col">Taken By</th>
+                    <th scope="col" style="text-align:center">Order Date</th>
+                    <th scope="col" style="text-align:center">Quantity Ordered</th>
+                    <th scope="col" style="text-align:center">Total Price</th>
+                    <th scope="col" style="text-align:center">Taken By</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,5 +41,4 @@
 
 <script src="/js/calendarCustom.js"></script>
 <script src="/js/detailedDataTable.js"></script>
-<script src="/js/detailedReportFilter.js"></script>
 <%- include("partials/footer") -%>

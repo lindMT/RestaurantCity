@@ -2,7 +2,7 @@
 <div class="category-form-holder">
     <div class="card shadow detailed-report-card">
         <div class="detailed-header">
-            <h3><b> Detailed Report </b></h3>
+            <h3><b> Detailed Stock Report </b></h3>
             <h5><b id="align-right">Report for <%= periodicalDate %> <%= formattedStartDate %> <%= formattedEndDate %></b></h5>
            
             <hr>
@@ -11,28 +11,12 @@
             <h3 style="text-transform: capitalize;">for <%= ingredient.name %></h3>
             <i>Generated on <span id="current_date"></span></i>  
         </div>
-        <hr>
-        <div class="detailed-header2">
-            <i class="fa-solid fa-filter fa-xl" style="margin-bottom:1rem; margin-right:0.5rem;"></i>
-
-            <div class="form-group">
-                <div class="col-15">
-                    <select id="filterType" class="form-select form-select-sm" 
-                            aria-label="Filter selection" name="filterType"
-                            onchange="filterReport()">
-                            <option value="All" selected>All</option>
-                            <option value="Purchased">Purchased</option>
-                            <option value="Consumed">Consumed</option>
-                            <option value="Discarded">Discarded</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-         
-        <table id="report-table" class="table table-striped" style="margin-top: 1rem;">
+        <hr>         
+        <table id="report-table" class="table table-striped" style="margin-top: 1rem;" data-order='[[ 4, "desc" ]]' data-page-length='10'>
             <thead>
             <tr id="report-tr">
                 <th id="report-type" scope="col">Type</th>
+                <th scope="col">Variant</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Unit</th>
                 <th scope="col">Date</th>
@@ -40,59 +24,35 @@
             </tr>
             </thead>
             <tbody>
+            <% for (var i = 0; i < qtyPurchase.length;  i++ ) { %>
                 <tr>
-                    <td>Purchased</td>
-                    <td>20</td>
-                    <td>L</td>
-                    <td>07/04/23</td>
-                    <td>Lind</td>
-                </tr>   
-                <tr>
-                    <td>Purchased</td>
-                    <td>10</td>
-                    <td>L</td>
-                    <td>04/04/23</td>
-                    <td>Lind</td>
-                </tr>   
-                <tr>
-                    <td>Consumed</td>
-                    <td>5</td>
-                    <td>L</td>
-                    <td>01/04/23</td>
-                    <td>Lind</td>
-                </tr>   
-                <tr>
-                    <td>Consumed</td>
-                    <td>20</td>
-                    <td>L</td>
-                    <td>07/04/22</td>
-                    <td>Lind</td>
-                </tr>   
-                <tr>
-                    <td>Discarded</td>
-                    <td>533</td>
-                    <td>L</td>
-                    <td>01/04/19</td>
-                    <td>Lind</td>
-                </tr>   
-                <tr>
-                    <td>Discarded</td>
-                    <td>20</td>
-                    <td>L</td>
-                    <td>07/04/10</td>
-                    <td>Lind</td>
-                </tr>   
+                    <td>
+                        Purchased
+                    </td>
+                    <td>
+                        <%= variantPurchase[i] %>
+                    </td>
+                    <td>
+                        <%= qtyPurchase[i] %>
+                    </td>
+                    <td>
+                        <%= unitPurchase[i] %>
+                    </td>
+                    <td>
+                        <%= datePurchase[i] %>
+                    </td>
+                    <td>
+                        <%= doneByPurchase[i] %>
+                    </td>
+                </tr>
+                <% } %>
             </tbody>
         </table>
-        <div class="periodical-footer">
-            <hr>
-            <h5><b>-END OF REPORT-</b></h5>
-        </div>
     </div>
 
 </div> 
 
 
 <script src="/js/calendarCustom.js"></script>
-<script src="/js/detailedReportFilter.js"></script>
+<script src="/js/detailedDataTable.js"></script>
 <%- include("partials/footer") -%>
