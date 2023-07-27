@@ -22,8 +22,6 @@ const mismatch = require("../model/mismatchSchema.js");
 
 const bcrypt = require("bcrypt");
 
-
-
 const viewReportController = {  
     getPeriodical: function(req, res) {
         const reportTypeLabels = ["Daily", "Weekly", "Monthly", "Yearly"];
@@ -1090,6 +1088,21 @@ const viewReportController = {
             return dateArray;
         }
         
+        // FOR FORMATTING DATE //
+        function formatDateTime(date) {
+            // get date components
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, "0");
+            const minutes = String(date.getMinutes()).padStart(2, "0");
+            const seconds = String(date.getSeconds()).padStart(2, "0");
+
+            // construct the formatted string
+            const formattedDate = `${month}/${day}/${year}, ${hours}:${minutes}:${seconds}`;
+            return formattedDate;
+        }
+
         try {
             var conversions = await fixedConversion.find({});
             var units = await Unit.find({});
@@ -1125,6 +1138,7 @@ const viewReportController = {
 
 
                 // Display chosen reportTypeLabel
+                var variantPurchase = [];
                 var qtyPurchase = [];
                 var unitPurchase = [];
                 var datePurchase = [];
@@ -1160,120 +1174,145 @@ const viewReportController = {
                             console.log("hasVariant is TRUE");
                             // get variant
                             ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
-                            // check if the variant's unit matches the ingredient's unit
-                            if(ingredient.unitID.toString() == ingreVars.unitID.toString()){
-                                // if yes, add value as is
-                                console.log("Unit Match for hasVariant is TRUE (did not convert)");
-                                console.log("NetWeight: " + ingreVars.netWeight);
-                                console.log("Qty: " + purchases[j].qty);
+                            variantPurchase[j] = ingreVars.name;
+                            
+                            qtyPurchase[j] = ingreVars.netWeight*purchases[j].qty;
 
-                                // replace with array of qtyPurchase
-                                qtyPurchase[j] = ingreVars.netWeight*purchases[j].qty;
-                                units = Unit.findById({_id:ingredient.unitID});
-                                unitPurchase[j] = units.unitSymbol;
-                                datePurchase[j] = purchases[j].date;
-                                doneByPurchase[j] = purchases[j].doneBy;
-                                // totalPurchased += +(ingreVars.netWeight*purchases[j].qty);
-                                // console.log("purchaseIndex: " + purchaseIndex);
-                                console.log("qtyPurchase: "+ qtyPurchase[j]);
-                            }else{
-                                // if no, convert
-                                console.log("Unit NOT Match for hasVariant is TRUE (need to convert)");
-                                var fromID = ingreVars.unitID.toString();
-                                var toID = ingredient.unitID.toString();
-                                var multiplier = 0;
-                                var convertedVal = 0;
+                            var tempUnit = await Unit.findOne({_id:ingreVars.unitID});
+                            unitPurchase[j] = tempUnit.unitSymbol;
+
+                            var tempDate = new Date(purchases[j].date)
+                            datePurchase[j] = formatDateTime(tempDate);
+
+                            var doneBy = await User.findOne({_id:purchases[j].doneBy});
+                            doneByPurchase[j] = doneBy.userName;
+
+
+
+
+                            // // check if the variant's unit matches the ingredient's unit
+                            // if(ingredient.unitID.toString() == ingreVars.unitID.toString()){
+                            //     // if yes, add value as is
+                            //     console.log("Unit Match for hasVariant is TRUE (did not convert)");
+                            //     console.log("NetWeight: " + ingreVars.netWeight);
+                            //     console.log("Qty: " + purchases[j].qty);
+
+                            //     // replace with array of qtyPurchase
                                 
-                                for (var l = 0; l < conversions.length; l++){
-                                    // get conversion factor
-                                    if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
-                                        console.log("Conversion Factor Found (FIXED)");
-                                        multiplier = conversions[l].conversionFactor;
-                                        console.log("Multiplier: " + multiplier);
-                                    }
-                                }
+                            //     // totalPurchased += +(ingreVars.netWeight*purchases[j].qty);
+                            //     // console.log("purchaseIndex: " + purchaseIndex);
+                            //     console.log("qtyPurchase: "+ qtyPurchase[j]);
+                            // }else{
+                            //     // if no, convert
+                            //     console.log("Unit NOT Match for hasVariant is TRUE (need to convert)");
+                            //     var fromID = ingreVars.unitID.toString();
+                            //     var toID = ingredient.unitID.toString();
+                            //     var multiplier = 0;
+                            //     var convertedVal = 0;
+                                
+                            //     for (var l = 0; l < conversions.length; l++){
+                            //         // get conversion factor
+                            //         if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
+                            //             console.log("Conversion Factor Found (FIXED)");
+                            //             multiplier = conversions[l].conversionFactor;
+                            //             console.log("Multiplier: " + multiplier);
+                            //         }
+                            //     }
 
-                                // check if conversion factor not found
-                                if (multiplier == 0){
-                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingredient._id});
-                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
-                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
-                                            console.log("Conversion Factor Found (UNIQUE)");
-                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
-                                            console.log("Multiplier: " + multiplier);
-                                        }
-                                    }
-                                }
+                            //     // check if conversion factor not found
+                            //     if (multiplier == 0){
+                            //         var ingreConversions = await ingreConversion.findOne({ingredientId: ingredient._id});
+                            //         for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                            //             if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                            //                 console.log("Conversion Factor Found (UNIQUE)");
+                            //                 multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                            //                 console.log("Multiplier: " + multiplier);
+                            //             }
+                            //         }
+                            //     }
 
-                                // convert netWeight
-                                convertedVal = +(ingreVars.netWeight*multiplier);
-                                console.log("Converted NetWeight: " + convertedVal);
-                                console.log("Qty: " + purchases[j].qty);
+                            //     // convert netWeight
+                            //     convertedVal = +(ingreVars.netWeight*multiplier);
+                            //     console.log("Converted NetWeight: " + convertedVal);
+                            //     console.log("Qty: " + purchases[j].qty);
 
-                                // add to qtyPurchase
-                                qtyPurchase[j] = convertedVal*purchases[j].qty;
-                                units = Unit.findById({_id:ingreVars.unitID});
-                                unitPurchase[j] = units.unitSymbol;
-                                datePurchase[j] = purchases[j].date;
-                                doneByPurchase[j] = purchases[j].doneBy;
-                                // console.log("purchaseIndex: " + purchaseIndex);
-                                console.log("qtyPurchase: "+ qtyPurchase[j]);
-                            }
+                            //     // add to qtyPurchase
+                            //     qtyPurchase[j] = convertedVal*purchases[j].qty;
+                            //     units = Unit.findById({_id:ingreVars.unitID});
+                            //     unitPurchase[j] = units.unitSymbol;
+                            //     datePurchase[j] = purchases[j].date;
+                            //     doneByPurchase[j] = purchases[j].doneBy;
+                            //     // console.log("purchaseIndex: " + purchaseIndex);
+                            //     console.log("qtyPurchase: "+ qtyPurchase[j]);
+                            // }
                         }else{ //hasVariant == false
                             console.log("hasVariant is FALSE");
+
+                            variantPurchase[j] = "Not Applicable";
+                            
+                            qtyPurchase[j] = purchases[j].netWeight;
+
+                            var tempUnit = await Unit.findOne({_id:purchases[j].unitID});
+                            unitPurchase[j] = tempUnit.unitSymbol;
+
+                            var tempDate = new Date(purchases[j].date)
+                            datePurchase[j] = formatDateTime(tempDate);
+
+                            var doneBy = await User.findOne({_id:purchases[j].doneBy});
+                            doneByPurchase[j] = doneBy.userName;
                             // check if the unit indicated matches the ingredient's unit
-                            if(purchases[j].unitID.toString() == ingredient.unitID.toString()){
-                                // if yes, add value as is
-                                console.log("Unit Match for hasVariant is FALSE (did not convert)");
-                                console.log("NetWeight: " + purchases[j].netWeight);
+                            // if(purchases[j].unitID.toString() == ingredient.unitID.toString()){
+                            //     // if yes, add value as is
+                            //     console.log("Unit Match for hasVariant is FALSE (did not convert)");
+                            //     console.log("NetWeight: " + purchases[j].netWeight);
 
-                                qtyPurchase[j] = purchases[j].netWeight;
-                                units = Unit.findById({_id:ingredient.unitID});
-                                unitPurchase[j] = units.unitSymbol;
-                                datePurchase[j] = purchases[j].date;
-                                doneByPurchase[j] = purchases[j].doneBy;
-                                // console.log("purchaseIndex: " + purchaseIndex);
-                                console.log("qtyPurchase: "+ qtyPurchase[j]);
-                            }else{
-                                // if no, convert
-                                console.log("Unit NOT Match for hasVariant is FALSE (need to convert)");
-                                var fromID = purchases[j].unitID.toString();
-                                var toID = ingredient.unitID.toString();
-                                var multiplier = 0;
-                                var convertedVal = 0;
+                            //     qtyPurchase[j] = purchases[j].netWeight;
+                            //     units = Unit.findById({_id:ingredient.unitID});
+                            //     unitPurchase[j] = units.unitSymbol;
+                            //     datePurchase[j] = purchases[j].date;
+                            //     doneByPurchase[j] = purchases[j].doneBy;
+                            //     // console.log("purchaseIndex: " + purchaseIndex);
+                            //     console.log("qtyPurchase: "+ qtyPurchase[j]);
+                            // }else{
+                            //     // if no, convert
+                            //     console.log("Unit NOT Match for hasVariant is FALSE (need to convert)");
+                            //     var fromID = purchases[j].unitID.toString();
+                            //     var toID = ingredient.unitID.toString();
+                            //     var multiplier = 0;
+                            //     var convertedVal = 0;
 
-                                for (var l = 0; l < conversions.length; l++){
-                                    // get conversion factor
-                                    if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
-                                        console.log("Conversion Factor Found (FIXED)");
-                                        multiplier = conversions[l].conversionFactor;
-                                        console.log("Multiplier: " + multiplier);
-                                    }
-                                }
+                            //     for (var l = 0; l < conversions.length; l++){
+                            //         // get conversion factor
+                            //         if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
+                            //             console.log("Conversion Factor Found (FIXED)");
+                            //             multiplier = conversions[l].conversionFactor;
+                            //             console.log("Multiplier: " + multiplier);
+                            //         }
+                            //     }
 
-                                // check if conversion factor not found
-                                if (multiplier == 0){
-                                    var ingreConversions = await ingreConversion.findOne({ingredientId: ingredient._id});
-                                    for (var k = 0; k < ingreConversions.subUnit.length; k++){
-                                        if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
-                                            console.log("Conversion Factor Found (UNIQUE)");
-                                            multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
-                                            console.log("Multiplier: " + multiplier);
-                                        }
-                                    }
-                                }
+                            //     // check if conversion factor not found
+                            //     if (multiplier == 0){
+                            //         var ingreConversions = await ingreConversion.findOne({ingredientId: ingredient._id});
+                            //         for (var k = 0; k < ingreConversions.subUnit.length; k++){
+                            //             if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
+                            //                 console.log("Conversion Factor Found (UNIQUE)");
+                            //                 multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
+                            //                 console.log("Multiplier: " + multiplier);
+                            //             }
+                            //         }
+                            //     }
 
-                                // convert netWeight
-                                convertedVal = purchases[j].netWeight*multiplier;
-                                console.log("Converted NetWeight: " + convertedVal);
+                            //     // convert netWeight
+                            //     convertedVal = purchases[j].netWeight*multiplier;
+                            //     console.log("Converted NetWeight: " + convertedVal);
 
-                                // add to qtyPurchased
-                                qtyPurchase[j] = convertedVal;
-                                units = Unit.findById({_id:purchases[j].unitID});
-                                unitPurchase[j] = units.unitSymbol;
-                                datePurchase[j] = purchases[j].date;
-                                doneByPurchase[j] = purchases[j].doneBy;
-                            }
+                            //     // add to qtyPurchased
+                            //     qtyPurchase[j] = convertedVal;
+                            //     units = Unit.findById({_id:purchases[j].unitID});
+                            //     unitPurchase[j] = units.unitSymbol;
+                            //     datePurchase[j] = purchases[j].date;
+                            //     doneByPurchase[j] = purchases[j].doneBy;
+                            // }
                         }
                         console.log("qtyPurchase[ind]: "+ qtyPurchase[j]);
                         console.log("unitPurchase[j]: "+  unitPurchase[j]);
@@ -1287,7 +1326,12 @@ const viewReportController = {
                     // ======= DISCARDED =======
                  }
 
-                await res.render('detailedReport', {ingredient, periodicalType, periodicalDate, formattedStartDate, formattedEndDate, qtyPurchase, unitPurchase, datePurchase, doneByPurchase});
+                console.log(variantPurchase);
+                console.log(qtyPurchase);
+                console.log(unitPurchase);
+                console.log(datePurchase);
+                console.log(doneByPurchase);
+                await res.render('detailedReport', {ingredient, periodicalType, periodicalDate, formattedStartDate, formattedEndDate, variantPurchase, qtyPurchase, unitPurchase, datePurchase, doneByPurchase});
             } else{
                 console.log("FROM CUSTOM");
 
