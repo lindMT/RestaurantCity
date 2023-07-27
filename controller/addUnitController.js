@@ -3,6 +3,7 @@ const User = require('../model/usersSchema.js');
 const Unit = require('../model/unitsSchema.js');
 const Ingredient = require('../model/ingredientsSchema.js');
 const Conversion = require('../model/ingreConversionSchema.js');
+const FixedConversion = require('../model/fixedConversionSchema.js');
 const bcrypt = require("bcrypt");
 
 const addUnitController = {
@@ -11,14 +12,16 @@ const addUnitController = {
         const ingredients = await Ingredient.find({});
         const units = await Unit.find({});
 
-        res.render('addUnit', { ingredients, units});
+        const initialUnits = await FixedConversion.distinct('initialUnitId');
+        const fixedUnits = await Unit.find({ _id: { $in: initialUnits } });
+
+        res.render('addUnit', { ingredients, units, fixedUnits });
     },
 
     postAddUnit: async(req, res) => {
         const name = req.body.unitName;
         const symbol = req.body.unitSymbol;
-        const ingredient = req.body.ingreRef;
-        const factor = req.body.conversionFactor;
+        const unitType = req.body.unitType;
         
         // Checks if unit already exists
         var unitSymbolExists = await Unit.findOne({unitSymbol : {'$regex': symbol,$options:'i'}});
@@ -36,6 +39,8 @@ const addUnitController = {
             console.log("Duplicate unit name entry")
             return res.redirect('/addUnit');
         } else {
+            let factor, unitUsed, ingreUsed;
+
             const newUnit = new Unit({
                 unitName: name,
                 unitSymbol: symbol
@@ -43,35 +48,52 @@ const addUnitController = {
 
             await newUnit.save();
 
-            const unitUsed = await Unit.findOne({ unitSymbol: symbol });
-            const ingreUsed = await Ingredient.findById(ingredient);
-            const existsConversion = await Conversion.findOne({
-                ingredientId: ingreUsed._id
-            });
+            // const unitUsed = await Unit.findOne({ unitSymbol: symbol });
+            // const ingreUsed = await Ingredient.findById(ingredient);
 
-            if(existsConversion){ // If ingredient exists in conversion table, add sub-unit only
-                const newSubUnit = {
-                    convertedUnitId: unitUsed._id,
-                    conversionFactor: factor,
-                };
-                existsConversion.subUnit.push(newSubUnit);
-                await existsConversion.save();
-            } else {
-                const newSubUnit = [
-                    {
-                        convertedUnitId: unitUsed._id,
-                        conversionFactor: factor
-                    }
-                ]
-                const newConversion = new Conversion({
-                    ingredientId: ingreUsed._id,
-                    initialUnitId: ingreUsed.unitID,
-                    subUnit: newSubUnit
+            if (unitType === "fixed") {
+                const fixedUnit = req.body.fixedUnit;
+                factor = req.body.fixedConversionFactor;
+                unitUsed = await Unit.findById(fixedUnit);
+                
+            } else if (unitType === "ingredient") {
+                const ingredient = req.body.ingreRef;
+                factor = req.body.ingredientConversionFactor
+                ingreUsed = await Ingredient.findById(ingredient);
+                unitUsed = await Unit.findById(ingreUsed.unitID);
+
+                const existsConversion = await Conversion.findOne({
+                    ingredientId: ingreUsed._id
                 });
     
-                await newConversion.save();
+                if(existsConversion){ // If ingredient exists in conversion table, add sub-unit only
+                    const newSubUnit = {
+                        convertedUnitId: unitUsed._id,
+                        conversionFactor: factor,
+                    };
+                    existsConversion.subUnit.push(newSubUnit);
+                    await existsConversion.save();
+                } else {
+                    const newSubUnit = [
+                        {
+                            convertedUnitId: unitUsed._id,
+                            conversionFactor: factor
+                        }
+                    ]
+                    const newConversion = new Conversion({
+                        ingredientId: ingreUsed._id,
+                        initialUnitId: ingreUsed.unitID,
+                        subUnit: newSubUnit
+                    });
+        
+                    await newConversion.save();
+                }
+            } else {
+                req.flash('error_msg', 'Invalid unit type selection');
+                console.log("Invalid unit type selection");
+                return res.redirect('/addUnit');
             }
-            
+
             req.flash('success_msg', 'Unit Added Successfully.')
             console.log("New unit entry")
             return res.redirect('/addUnit'); // To be changed as page with "successfully added unit!" message
