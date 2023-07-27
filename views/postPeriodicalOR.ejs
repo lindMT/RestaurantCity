@@ -38,7 +38,7 @@
             <i>Generated on <span id="current_date"></span></i>  
             <hr>
         </div>
-        <table id="custom-report" class="table table-striped" style="margin-top: 1rem;">
+        <table id="report-table" class="table table-striped" style="margin-top: 1rem;" data-order='[[ 0, "asc" ]]' data-page-length='10'>
             <thead>
             <tr>
                 <th scope="col">Dish Name</th>
@@ -65,13 +65,10 @@
                 <% }) %>
             </tbody>
         </table>
-        <div class="periodical-footer">
-            <hr>
-            <h5><b>-END OF REPORT-</b></h5>
-        </div>
     </div>
 
 </div>
 
 <script src="/js/calendarPeriodical.js"></script>
+<script src="/js/reportDataTable.js"></script>
 <%- include("partials/footer") -%>
