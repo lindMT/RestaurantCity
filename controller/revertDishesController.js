@@ -13,7 +13,6 @@ const revertDishesController = {
         try {
             // Retrieve all dishes that are for approval
             
-          
               // Retrieve approved dish recipes that have 'for approval' status
               const approvedDishRecipes = await DishRecipe.find({
                 isActive: false,
@@ -39,21 +38,26 @@ const revertDishesController = {
                 // Fetch the recipe for the dish
                 const recipe = await DishRecipe.findOne({ dishID: dish._id }).lean();
 
-                // Retrieve ingredient names for the recipe
-                const ingredientIds = recipe ? recipe.ingredients.map(item => item.ingredient) : [];
-                const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
 
                 // Map ingredient names to the recipe items
                 const recipeWithIngredientNames = recipe ? await Promise.all(recipe.ingredients.map(async item => {
-                    const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
+                    
+                    const ingredientIds = recipe.ingredients.map(item => item.ingredient);
+                    const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
 
                     // Fetch the chefUnit with unitSymbol
-                    const chefUnit = await Units.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
-
+                    const recipeWithIngredientNames = await Promise.all(recipe.ingredients.map(async item => {
+                        const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
+                        const chefUnit = await Units.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
+                        return {
+                            ...item,
+                            ingredientName: ingredient ? ingredient.name : '',
+                            chefUnitSymbol: chefUnit ? chefUnit.unitSymbol : ''
+                        };
+                    }));
                     return {
-                        ...item,
-                        ingredientName: ingredient ? ingredient.name : '',
-                        chefUnitSymbol: chefUnit ? chefUnit.unitSymbol : ''
+                        ...recipe,
+                        ingredients: recipeWithIngredientNames,
                     };
                 })) : [];
 
