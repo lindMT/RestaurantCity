@@ -40,7 +40,7 @@ const orderController = {
 
         // ASSIGN DISH COUNT
         if (Array.isArray(dishIdArray)) {
-          var dishCount = dishIdArray[i];
+          var dishCount = dishIdArray.length;
         } else {
           var dishCount = 1;
         }
@@ -100,24 +100,26 @@ const orderController = {
 
             console.log("HERE IS THE CONVERSION FACTOR: " + conversionFactor);
             
-            if (ingredientsToUse.length != 0) { // if ingre to use is not empty (not the first run)
-              console.log("not empty")
-              for (var j = 0; j < ingredientsToUse.length; j++) {
-                if (ingredientInRecipe.ingredient.toString() == ingredientsToUse[j]) {
-                  ingredientUnitTotal[j] += ingredientInRecipe.chefWeight * quantity * (1 / conversionFactor );
-                  // console.log(ingredientInRecipe.chefWeight + " x " + quantity  + " x " +  (1 / conversionFactor));
-                } else {
-                  ingredientsToUse.push(ingredientInRecipe.ingredient.toString())
-                  ingredientUnitTotal.push(ingredientInRecipe.chefWeight * quantity * (1 / conversionFactor ));
-                  // console.log(ingredientInRecipe.chefWeight + " x " + quantity  + " x " +  (1 / conversionFactor));
-                }
+            var found = false;
+            for (var j = 0; j < ingredientsToUse.length; j++) {
+              if (ingredientInRecipe.ingredient.toString() == ingredientsToUse[j]) {
+                ingredientUnitTotal[j] += ingredientInRecipe.chefWeight * quantity * (1 / conversionFactor);
+                found = true;
+                break;
               }
-            } else { // else add to it
-              console.log("empty")
-              ingredientsToUse.push(ingredientInRecipe.ingredient.toString())
-              ingredientUnitTotal.push(ingredientInRecipe.chefWeight * quantity * (1 / conversionFactor ));
-              // console.log(ingredientInRecipe.chefWeight + " x " + quantity  + " x " +  (1 / conversionFactor));
             }
+          
+            if (!found) {
+              ingredientsToUse.push(ingredientInRecipe.ingredient.toString());
+              ingredientUnitTotal.push(ingredientInRecipe.chefWeight * quantity * (1 / conversionFactor));
+            }
+
+
+
+
+
+
+            
         
             // if ((ingredientInRecipe.chefWeight * quantity * conversionFactor) < (ingredientUnitTotal[j])) {
             //   orderIsViable.push(true);
@@ -140,43 +142,12 @@ const orderController = {
           var ingreToUse = await Ingredient.findById(ingredientsToUse[k]);
           if(ingreToUse.totalNetWeight < ingredientUnitTotal[k]){ // if not enough ingre
             orderIsViable = false;
-            lackingIngredientsID.push(ingredientsToUse[k])
+            
+              lackingIngredientsID.push(ingredientsToUse[k]);
+            
           }
         }
 
-        ///////////////////////////////////
-      //Putting this here for sample code to insert data to db
-      // var proceedWithOrder = true; // based on orderIsViable (do a loop maybe)
-      // for (var i = 0; i < orderIsViable.length; i++){
-      //   if (!orderIsViable[i])
-      //     proceedWithOrder = false;
-      //   }
-        
-      //   if (!proceedWithOrder){ //Provides Information for what is Lacking in the Ingredients for all orders
-      //     for (let i = 0; i < lackingIngredients.length; i++){
-      //       const ingredientId = lackingIngredients[i];
-      //       const ingredientInRecipe = dishRecipe.ingredients.find((ingredient) => ingredient.ingredient.toString() === ingredientId);
-
-      //       if(ingredientInRecipe){
-      //         const ingredientInInventory = await Ingredient.findById(ingredientId);
-      //         const ingredientName = ingredientInInventory.name;
-      //         const availableStock = ingredientInInventory.totalNetWeight;
-      //         const requiredForDish = ingredientInRecipe.chefWeight * quantity * conversionFactor;
-      //         const neededAmount = ingredientUnitTotal[i] - requiredForDish;
-      //       }
-
-      //       lackingIngredientsDetails.push({
-      //         name: ingredientName,
-      //         availableIngre: availableStock,
-      //         neededIngre: requiredForDish,
-      //         neededForOtherDishes: neededAmount
-      //       });
-      //     }
-      //         res.render('orderProcessingLanding', {  orderPrompt: orderFailMessage,
-      //         lackingIngredients: lackingIngredientsDetails});
-      //   }
-        
-      //   else{ ///////////// start of else
           // Calculate Total Price
           if(orderIsViable){ // viable
             var totalPrice = 0; 
@@ -232,7 +203,7 @@ const orderController = {
               console.log("ingreToSubtractnetWeight " + ingreToSubtract.totalNetWeight);
               console.log("ingredientUnitTotal " + ingredientUnitTotal[i]);
               var newNetWeight = ingreToSubtract.totalNetWeight - ingredientUnitTotal[i];
-              console.log("CHECK ME OUTTTTTTTTTTTTTTTTTT " + newNetWeight);
+              console.log("newNetWeight " + newNetWeight);
 
               await Ingredient.updateOne( { _id: ingredientsToUse[i] },
                                           { $set: { totalNetWeight: newNetWeight } }
@@ -256,12 +227,70 @@ const orderController = {
               lackingString += " " + unit.unitName + " in stock";
               // TODO get ingre reqs
     
-              for (var j = 0; j < ingredientsToUse.length; j++){
-                if (ingredientsToUse[j] == lackingIngredientsID[i]){
-                  lackingString += ", " + ingredientUnitTotal[j].toFixed(4) + " " + unit.unitName + " needed";
+              // for (var j = 0; j < ingredientsToUse.length; j++){
+              //   if (ingredientsToUse[j] == lackingIngredientsID[i]){
+              //     lackingString += ", " + ingredientUnitTotal[j].toFixed(4) + " " + unit.unitName + " needed";
+              //   }
+              // }
+              // START OF LOOP ////////////////////////////////////////////////////////////////////////////////////
+              
+              for(var k = 0; k < dishCount; k++){
+                console.log("=======================================================");
+                if (Array.isArray(dishIdArray)) {
+                  var quantity = quantityArray[k];
+                  var dishId = dishIdArray[k];
+                } else {
+                  var quantity = quantityArray;
+                  var dishId = dishIdArray;
+                }
+              
+                var dishFromMainLoop = await Dish.findById(dishId);
+                var dishRecipe = await DishRecipe.findOne({ dishID: dishId });
+              
+                for (var ingredientInRecipe of dishRecipe.ingredients) {
+                  console.log("Check Ingredient in Recipe loop")
+                  var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
+              
+                  var fixedUnitConversion = await FixedConversion.findOne({
+                    initialUnitId: ingredientInRecipe.chefUnitID,
+                    convertedUnitId: ingredientInInventory.unitID
+                  });
+              
+                  var ingreUnitConversions = await IngreConversion.find();
+                  
+                  if(ingredientInRecipe.chefUnitID.toString() != ingredientInInventory.unitID.toString()){
+                    for(var iuc of ingreUnitConversions){
+                      // find ingredient in ingreConv
+                      if(iuc.ingredientId.toString() == ingredientInRecipe.ingredient.toString()){
+                        for (var z=0; z < iuc.subUnit.length; z++){
+                          if(iuc.subUnit[z].convertedUnitId.toString() == ingredientInRecipe.chefUnitID.toString()){
+                              var iuConversionFactor = iuc.subUnit[z].conversionFactor;
+                          }
+                        }
+                      }
+                    }
+                  } else{
+                    var iuConversionFactor = 1; // converting same units
+                  }
+                  
+              
+                  // Set according to which is found
+                  if (iuConversionFactor == null || iuConversionFactor == undefined) {
+                    var conversionFactor = fixedUnitConversion.conversionFactor;
+                  } else {
+                    var conversionFactor = iuConversionFactor;
+                  }
+              
+                  console.log("HERE IS THE CONVERSION FACTOR: " + conversionFactor);
+                  if(ingredientInRecipe.ingredient.toString() == lackingIngredientsID[i]){
+                    lackingString += ", " + (ingredientInRecipe.chefWeight * quantity * (1 / conversionFactor )) + " " 
+                        + unit.unitName + " needed for " + quantity + " x " + dishFromMainLoop.name ; // add dish name after demo  
+                  }
+              
                 }
               }
-    
+              
+              // END OF LOOP //////////////////////////////////////////////////////////////////////////////////
               lackingString += ")";
               lackingIngredientsDetails.push(lackingString);
             }
@@ -277,7 +306,7 @@ const orderController = {
       } // end of try
 
       
-        catch(error){
+        catch(rror){
           console.error(error);
       }
     },
