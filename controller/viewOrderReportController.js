@@ -170,7 +170,67 @@ const viewOrderReportController = {
             // get dates between start and end
             var dateArray = getDates(startDateObject, endDateObject);
 
-            res.render('postPeriodicalOR', {reportTypeLabels, selectedDate, dateString});
+            // qty ordered
+            var totalQty = 0;
+            var qtyValues = [];
+
+            // total price
+            var totalPrice = 0;
+            var priceValues = [];
+
+            // START //
+            // get unique dish names
+            var distinctDishes = await Dish.distinct('name').exec();
+            // loop through all dishes
+            for (var i = 0; i < distinctDishes.length; i++){
+                console.log("CURRENT DISH: " + distinctDishes[i]);
+                // loop through all dates
+                for (var d = 0; d < dateArray.length; d++){
+                    // get orders that fall within the specified time frame
+                    var orders = await Order.find({
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // orders stores date as a String
+                    // loop through all orders
+                    for (var o = 0; o < orders.length; o++){
+                        // get all order items associated with that order
+                        var orderItems = await OrderItem.find({orderID: orders[o]._id});
+                        for (var p = 0; p < orderItems.length; p++){
+                            // get all dishes listed as an order item
+                            var dishes = await Dish.find({_id: orderItems[p].dishID});
+                            // check if the dish in the order matches the current dish
+                            for (var q = 0; q < dishes.length; q++){
+                                if(distinctDishes[i] == dishes[q].name){
+                                    console.log("----- Order Found");
+                                    // add quantity
+                                    totalQty += +(orderItems[p].qty);
+                                    console.log("Qty: " + orderItems[p].qty);
+                                    console.log("totalQty: " + totalQty);
+                                    // add total price
+                                    totalPrice += +(dishes[q].price*orderItems[p].qty);
+                                    console.log("Price Each: " + dishes[q].price);
+                                    console.log("Price*Qty: " + (dishes[q].price*orderItems[p].qty));
+                                    console.log("totalPrice: " + totalPrice);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // populate array
+                qtyValues[i] = totalQty;
+                priceValues[i] = totalPrice.toFixed(2);
+
+                // reset values
+                totalQty = 0;
+                totalPrice = 0;
+
+                console.log("FINAL QTY: " + qtyValues[i]);
+                console.log("FINAL TOTAL PRICE: " + priceValues[i]);
+            }
+
+            res.render('postPeriodicalOR', {reportTypeLabels, selectedDate, dateString, distinctDishes, qtyValues, priceValues});
         }catch(error){
             console.error(error);
             res.status(500).send("An error occurred");
@@ -234,7 +294,67 @@ const viewOrderReportController = {
             // get dates between start and end
             var dateArray = getDates(startDateObject, endDateObject);
 
-            res.render('postCustomOR', {startDate, endDate, formattedStartDate, formattedEndDate});
+            // qty ordered
+            var totalQty = 0;
+            var qtyValues = [];
+
+            // total price
+            var totalPrice = 0;
+            var priceValues = [];
+
+            // START //
+            // get unique dish names
+            var distinctDishes = await Dish.distinct('name').exec();
+            // loop through all dishes
+            for (var i = 0; i < distinctDishes.length; i++){
+                console.log("CURRENT DISH: " + distinctDishes[i]);
+                // loop through all dates
+                for (var d = 0; d < dateArray.length; d++){
+                    // get orders that fall within the specified time frame
+                    var orders = await Order.find({
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // orders stores date as a String
+                    // loop through all orders
+                    for (var o = 0; o < orders.length; o++){
+                        // get all order items associated with that order
+                        var orderItems = await OrderItem.find({orderID: orders[o]._id});
+                        for (var p = 0; p < orderItems.length; p++){
+                            // get all dishes listed as an order item
+                            var dishes = await Dish.find({_id: orderItems[p].dishID});
+                            // check if the dish in the order matches the current dish
+                            for (var q = 0; q < dishes.length; q++){
+                                if(distinctDishes[i] == dishes[q].name){
+                                    console.log("----- Order Found");
+                                    // add quantity
+                                    totalQty += +(orderItems[p].qty);
+                                    console.log("Qty: " + orderItems[p].qty);
+                                    console.log("totalQty: " + totalQty);
+                                    // add total price
+                                    totalPrice += +(dishes[q].price*orderItems[p].qty);
+                                    console.log("Price Each: " + dishes[q].price);
+                                    console.log("Price*Qty: " + (dishes[q].price*orderItems[p].qty));
+                                    console.log("totalPrice: " + totalPrice);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // populate array
+                qtyValues[i] = totalQty;
+                priceValues[i] = totalPrice.toFixed(2);
+
+                // reset values
+                totalQty = 0;
+                totalPrice = 0;
+
+                console.log("FINAL QTY: " + qtyValues[i]);
+                console.log("FINAL TOTAL PRICE: " + priceValues[i]);
+            }
+
+            res.render('postCustomOR', {startDate, endDate, formattedStartDate, formattedEndDate, distinctDishes, qtyValues, priceValues});
         }catch(error){
             console.error(error);
             res.status(500).send("An error occurred");

@@ -39,20 +39,20 @@
             </tr>
             </thead>
             <tbody>
-                <% %> 
+                <% distinctDishes.forEach(function(dish, index){ %> 
                 <tr> 
                     <td name="dish-name"  style="text-transform: capitalize;">
                         <form id="detailed-report-<%= %>" action="/viewOrderReport/Detailed" method="post">                        
                             <input type="hidden" name="" value="<%= %>">
                             <input type="hidden" name="" value="<%= %>">
                             <input type="hidden" name="" value="<%= %>">
-                            <a href="javascript:{}" onclick="document.getElementById('detailed-report-<%= %>').submit(); return false;"><%= %>Tapsilog</a>
+                            <a href="javascript:{}" onclick="document.getElementById('detailed-report-<%= %>').submit(); return false;"><%= dish %></a>
                         </form>
                     </td>
-                    <td id="custom-qty" name="custom-qty">      <%= %>100</td>
-                    <td id="custom-price" name="custom-price">  ₱ <%= %>10000</td>
+                    <td id="custom-qty" name="custom-qty">      <%= qtyValues[index] %></td>
+                    <td id="custom-price" name="custom-price">  ₱ <%= priceValues[index] %></td>
                 </tr>
-                <% %>
+                <% }) %>
             </tbody>
         </table>
         <div class="periodical-footer">
