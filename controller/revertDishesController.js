@@ -18,15 +18,18 @@ const revertDishesController = {
                 isActive: false,
                 isApproved: 'approved'
               });
-          
+              
+              const approvedDishIds = approvedDishRecipes.map(recipe => recipe.dishID);
+              
               // Find the corresponding approved dishes using the dishID field from approvedDishRecipes
               const dishes = await Dish.find({
-                _id: { $in: approvedDishRecipes.map(recipe => recipe.dishID) },
-                isActive: false,
+                $or: [
+                    { _id: { $in: approvedDishIds }, isActive: true },
+                    { _id: { $in: approvedDishIds }, isActive: false }
+                ],
                 isApproved: 'approved'
               });
 
-            
             
             // Retrieve categories from DishCatego
             const categories = await DishCategory.find();
@@ -36,12 +39,12 @@ const revertDishesController = {
                 const category = categories.find(category => category._id.equals(dish.categoryID));
                 
                 // Fetch the recipe for the dish
-                const recipe = await DishRecipe.findOne({ dishID: dish._id }).lean();
+                const recipes = approvedDishRecipes.filter(recipe => recipe.dishID.equals(dish._id));
 
 
                 // Map ingredient names to the recipe items
-                const recipeWithIngredientNames = recipe ? await Promise.all(recipe.ingredients.map(async item => {
-                    
+                const recipeWithIngredientNames = await Promise.all(recipes.map(async recipe => {
+
                     const ingredientIds = recipe.ingredients.map(item => item.ingredient);
                     const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
 
@@ -59,7 +62,7 @@ const revertDishesController = {
                         ...recipe,
                         ingredients: recipeWithIngredientNames,
                     };
-                })) : [];
+                }));
 
                 return {
                     ...dish.toObject(),

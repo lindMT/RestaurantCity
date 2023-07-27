@@ -15,12 +15,12 @@
         <table id="report-table" class="table table-striped" style="margin-top: 1rem;" data-order='[[ 4, "desc" ]]' data-page-length='10'>
             <thead>
             <tr id="report-tr">
-                <th id="report-type" scope="col">Type</th>
-                <th scope="col">Variant</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Unit</th>
-                <th scope="col">Date</th>
-                <th scope="col">Done By</th>
+                <th scope="col" style="text-align:center">Type</th>
+                <th scope="col" style="text-align:center">Variant</th>
+                <th scope="col" style="text-align:center">Quantity</th>
+                <th scope="col" style="text-align:center">Unit</th>
+                <th scope="col" style="text-align:center">Date</th>
+                <th scope="col" style="text-align:center">Done By</th>
             </tr>
             </thead>
             <tbody>
@@ -45,7 +45,73 @@
                         <%= doneByPurchase[i] %>
                     </td>
                 </tr>
-                <% } %>
+            <% } %>
+            <% for (var i = 0; i < qtyDiscard.length;  i++ ) { %>
+                <tr>
+                    <td>
+                        Discard
+                    </td>
+                    <td>
+                        <%= variantDiscard[i] %>
+                    </td>
+                    <td>
+                        <%= qtyDiscard[i] %>
+                    </td>
+                    <td>
+                        <%= unitDiscard[i] %>
+                    </td>
+                    <td>
+                        <%= dateDiscard[i] %>
+                    </td>
+                    <td>
+                        <%= doneByDiscard[i] %>
+                    </td>
+                </tr>
+            <% } %>
+            <% for (var i = 0; i < qtyMismatch.length;  i++ ) { %>
+                <tr>
+                    <td>
+                        Mismatch
+                    </td>
+                    <td>
+                        N/A
+                    </td>
+                    <td>
+                        <%= qtyMismatch[i] %>
+                    </td>
+                    <td>
+                        <%= unitMismatch[i] %>
+                    </td>
+                    <td>
+                        <%= dateMismatch[i] %>
+                    </td>
+                    <td>
+                        <%= doneByMismatch[i] %>
+                    </td>
+                </tr>
+            <% } %>
+            <% for (var i = 0; i < qtyConsumed.length;  i++ ) { %>
+                <tr>
+                    <td>
+                        Consumed
+                    </td>
+                    <td>
+                        N/A
+                    </td>
+                    <td>
+                        <%= qtyConsumed[i] %>
+                    </td>
+                    <td>
+                        <%= unitConsumed[i] %>
+                    </td>
+                    <td>
+                        <%= dateConsumed[i] %>
+                    </td>
+                    <td>
+                        <%= doneByConsumed[i] %>
+                    </td>
+                </tr>
+            <% } %>
             </tbody>
         </table>
     </div>
