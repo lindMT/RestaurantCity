@@ -26,9 +26,15 @@ function duplicateForm() {
 }
 
 function removeForm(button) {
-    // Find the parent form row element
-    const formRow = button.closest('.form-row');
-  
-    // Remove the form row element
+  // Find the parent form row element
+  const formRow = button.closest('.form-row');
+
+  // If the formRow exists, remove it
+  if (formRow) {
     formRow.remove();
+  } else {
+    // If formRow does not exist, it might be a dynamically added row
+    // So, remove the parent of the button, which should be the dynamically added row
+    button.parentElement.parentElement.remove();
   }
+}
