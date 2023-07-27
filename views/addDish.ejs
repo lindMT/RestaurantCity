@@ -29,7 +29,13 @@
           <div class="form-group col-md-10">
             <label for="inputDishName">Dish Name</label>
             <input type="text" class="form-control" name="inputDishName" id="inputDishName"
-              placeholder="e.g. Shawarma Rice" required>
+              placeholder="e.g. Shawarma Rice"
+              
+              <% if (typeof dishNameInput !== 'undefined' && dishNameInput !== null) { %>
+                value="<%= dishNameInput %>"
+              <% } %>
+
+              required>
           </div>
           <br>
           <!-- Category -->
@@ -40,7 +46,21 @@
               <!-- TODO: Backend -->
               <% if(categories.length > 0) {%>
                 <% categories.forEach(categories => { %> 
-                    <option style=text-transform:capitalize value="<%= categories.category %>"><%= categories.category %></option>
+                    <option style=text-transform:capitalize 
+                            value="<%= categories.category %>"
+                            
+                            
+                            <% if (typeof categoryInput !== 'undefined' && categoryInput !== null) { %>
+
+                              <% if(categories.category == categoryInput ) { %> 
+                                  selected
+                              <% } %>
+
+                            <% } %>
+
+                            >
+                                  <%= categories.category %>
+                    </option>
                 <% }) %> 
             <% } %>
             </select>
@@ -56,7 +76,13 @@
             <div class="input-group">
               <span class="input-group-text">Php</span>
               <input type="number" class="form-control" name="Amount" id="inputPrice" min="1"
-                placeholder="e.g. 150.00" style="text-align: left;" required>
+                placeholder="e.g. 150.00" style="text-align: left;" 
+                
+                <% if (typeof priceInput !== 'undefined' && priceInput !== null) { %>
+                  value="<%= priceInput %>"
+                <% } %>
+                
+                required>
             </div>
           </div>
 
@@ -64,57 +90,154 @@
 
         <div style="width: 60%;">
 
-          <div id="form-row">
-            <div id="form-row-content" style="display: flex;">
-              <div class="form-ingredients">
-                <label for="ingredient">Ingredients</label>
-                <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example"
-                  required>
-                  <option disabled selected value>Select Ingredient</option>
-                  <!-- TODO: Backend -->
-                  <% if(ingredients.length > 0) {%>
-                    <% ingredients.forEach(ingredients => { %> 
-                        <option style=text-transform:capitalize value="<%= ingredients.name %>"><%= ingredients.name %></option>
-                    <% }) %> 
-                <% } %>
-                </select>
-              </div>
+          <% if (typeof ingredientList !== 'undefined' && ingredientList !== null) { %>
+                  <% if (Array.isArray(ingredientList)) { %>
+                  
+                    <% ingredientList.forEach(function(ingre, index) { %>
+
+                          <div id="form-row">
+                            <div id="form-row-content" style="display: flex;">
+                              <div class="form-ingredients">
+                                <label for="ingredient">
+                                  <% if(index == 0 ){ %>
+                                    Ingredients
+                                  <% } %>
+                                </label>
+                                <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example"
+                                  required>
+                                  <option disabled selected value>Select Ingredient</option>
+                                  <!-- TODO: Backend -->
+                                  <% if(ingredients.length > 0) {%>
+                                    <% ingredients.forEach(ingredients => { %> 
+                                          <option style=text-transform:capitalize value="<%= ingredients.name %>"
+                                            <% if(ingredientList[index] == ingredients.name) { %>
+                                              selected
+                                            <% } %>
+                                          ><%= ingredients.name %></option>
+                                    <% }) %> 
+                                <% } %>
+                                </select>
+                              </div>
 
 
 
-              <div class="form-group" style="margin-left: 13px;">
-                <label for="inputAmt">Amount</label>
-                <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1"
-                  required>
-              </div>
+                              <div class="form-group" style="margin-left: 13px;">  
+                                <label for="inputAmt">
+                                  <% if(index == 0 ){ %> 
+                                    Amount
+                                  <% } %>
+                                </label>
+                                <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1"
+                                value="<%=inputAmountList[index]%>"  
+                                required>
+                              </div>
 
 
 
-              <div class="form-unit" style="margin-left: 10px;">
-                <label for="ingreUnits">Unit</label>
-                <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example"
-                  required>
-                  <option disabled selected value>Select Unit</option>
-                  <% if(units.length > 0) {%>
-                    <% units.forEach(units => { %> 
-                        <option style=text-transform:capitalize value="<%= units.unitName %>"><%= units.unitName %></option>
-                    <% }) %> 
-                <% } %>
-                  <!-- TODO: Backend -->
-                </select>
-              </div>
-              <!-- Div Button -->
-              <div class="form-row-buttons" style="align-items: last baseline;">
-                <!-- Remove Ingredient Button -->
-                <button class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
-                <!-- Add Ingredient Button -->
-                <button class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
+                              <div class="form-unit" style="margin-left: 10px;">   
+                                <label for="ingreUnits">
+                                  <% if(index == 0 ){ %>
+                                    Unit
+                                  <% } %>
+                                </label>
+                                <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example"
+                                  required>
+                                  <option disabled selected value>Select Unit</option>
+                                  <% if(units.length > 0) {%>
+                                    <% units.forEach(units => { %> 
+                                        <option style=text-transform:capitalize value="<%= units.unitName %>"
+                                          <% if(selectUnitList[index] == units.unitName){ %>  
+                                            selected
+                                          <% } %>  
+                                        >
+                                          <%= units.unitName %>
+                                        </option>
+                                    <% }) %> 
+                                <% } %>
+                                  <!-- TODO: Backend -->
+                                </select>
+                              </div>
+                              <!-- Div Button -->
+                              <div class="form-row-buttons" style="align-items: last baseline;">
+                                <!-- Remove Ingredient Button -->
+                                <button type="button" class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+                                <!-- Add Ingredient Button -->
+                                <button type="button" class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
 
-              </div>
+                              </div>
 
-            </div>
-          </div> <!--ending tag for form row  -->
+                            </div>
+                          </div> <!--ending tag for form row  -->
 
+                  <% }) %>
+                  <% } else { %>
+
+                      <div id="form-row">
+                        <div id="form-row-content" style="display: flex;">
+                          <div class="form-ingredients">
+                            <label for="ingredient">Ingredients</label>
+                            <select class="form-select" id="ingredient" name="ingredient" aria-label="Default select example"
+                              required>
+                              <option disabled selected value>Select Ingredient</option>
+                              <!-- TODO: Backend -->
+                              <% if(ingredients.length > 0) {%>
+                                <% ingredients.forEach(ingredients => { %> 
+                                      <option style=text-transform:capitalize value="<%= ingredients.name %>"
+                                        <% if(ingredientList == ingredients.name) { %>
+                                          selected
+                                        <% } %>
+                                      ><%= ingredients.name %></option>
+                                <% }) %> 
+                            <% } %>
+                            </select>
+                          </div>
+
+
+
+                          <div class="form-group" style="margin-left: 13px;">
+                            <label for="inputAmt">Amount</label>
+                            <input type="number" class="form-control" name="inputAmount" id="inputAmt" placeholder="1" min="1"
+                            value="<%=inputAmountList%>"  
+                            required>
+                          </div>
+
+
+
+                          <div class="form-unit" style="margin-left: 10px;">
+                            <label for="ingreUnits">Unit</label>
+                            <select class="form-select" name="selectUnit" id="ingreUnits" aria-label="Default select example"
+                              required>
+                              <option disabled selected value>Select Unit</option>
+                              <% if(units.length > 0) {%>
+                                <% units.forEach(units => { %> 
+                                    <option style=text-transform:capitalize value="<%= units.unitName %>"
+                                      <% if(selectUnitList == units.unitName){ %>  
+                                        selected
+                                      <% } %>  
+                                    >
+                                      <%= units.unitName %>
+                                    </option>
+                                <% }) %> 
+                            <% } %>
+                              <!-- TODO: Backend -->
+                            </select>
+                          </div>
+                          <!-- Div Button -->
+                          <div class="form-row-buttons" style="align-items: last baseline;">
+                            <!-- Remove Ingredient Button -->
+                            <button type="button" class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+                            <!-- Add Ingredient Button -->
+                            <button type="button" class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
+
+                          </div>
+
+                        </div>
+                      </div> 
+
+                    <% } %>
+            <% } else{ %> 
+                <%- include("partials/ingreForm") -%>
+            <% } %>
         </div>
       </form>
       </div>
@@ -125,63 +248,5 @@
   </div>
   </div>
   <script src="/js/addDish.js"></script>
-  <script>
-    const inputElements = document.querySelectorAll('.form-control');
-    const selectElements = document.querySelectorAll('select.form-select');
-  
-    inputElements.forEach((inputElement) => {
-      inputElement.addEventListener('input', () => {
-        const inputValue = inputElement.value;
-        const inputName = inputElement.name;
-        localStorage.setItem(inputName, inputValue);
-      });
-    });
-  
-    selectElements.forEach((selectElement) => {
-      selectElement.addEventListener('change', () => {
-        const selectedValue = selectElement.value;
-        const selectName = selectElement.name;
-        localStorage.setItem(selectName, selectedValue);
-      });
-    });
-  
-    // Load the form data from localStorage when the page loads
-    window.addEventListener('load', () => {
-      // Check if the form has been submitted
-      const isFormSubmitted = localStorage.getItem('formSubmitted');
-  
-      inputElements.forEach((inputElement) => {
-        const inputName = inputElement.name;
-        const storedValue = localStorage.getItem(inputName);
-  
-        if (isFormSubmitted === 'true') {
-          // Clear the localStorage data after form submission
-          localStorage.removeItem(inputName);
-        } else if (storedValue !== null) {
-          // Restore form data from localStorage
-          inputElement.value = storedValue;
-        }
-      });
-  
-      selectElements.forEach((selectElement) => {
-        const selectName = selectElement.name;
-        const storedValue = localStorage.getItem(selectName);
-  
-        if (isFormSubmitted === 'true') {
-          // Clear the localStorage data after form submission
-          localStorage.removeItem(selectName);
-        } else if (storedValue !== null) {
-          // Restore form data from localStorage
-          selectElement.value = storedValue;
-        }
-      });
-    });
-  
-    // Set formSubmitted flag to true upon form submission
-    const form = document.querySelector('.user-form');
-    form.addEventListener('submit', () => {
-      localStorage.setItem('formSubmitted', 'true');
-    });
-  </script>
   
   <%- include("partials/footer") -%>
