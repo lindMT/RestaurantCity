@@ -126,11 +126,11 @@ const recordFirstController = {
 
         res.render('recordFirstSuccess', {
             title: "Record First Purchase",
-            message: 'New variant added to inventory',
+            message: 'New variant added to inventory!',
             ingredient: foundIngredient,
             variant: newVariant,
             totalNetWt: addedMsg,
-            ingredientUnit: foundIngredientUnit.unitSymbol
+            ingredientUnit: foundUnit.unitSymbol
         });
     },
 

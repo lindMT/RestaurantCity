@@ -34,11 +34,11 @@
         </thead>
         <tbody>
             <!-- TODO: For-Loop with Ingredients -->
-            <% ingredients.forEach(function(ingredient) { %>
+            <% for(let i = 0; i < ingredients.length; i++){ %>
                 <tr>
-                    <td style="text-transform: capitalize;"><%= ingredient.name %></td>
+                    <td style="text-transform: capitalize;"><%= ingredients[i].name %></td>
                     <!-- TODO: To be replaced with actual data -->
-                    <% if(ingredient.totalNetWeight > 0){ %>
+                    <% if(netWeights[i].totalNetWeight > 0){ %>
                         <td class="table-success">  
                             In stock
                         </td>
@@ -49,17 +49,18 @@
                     <% } %>
                     <td>
                         <!-- Rounded to 2 decimal places -->
-                        <%= ingredient.totalNetWeight %> 
+                        <%= netWeights[i].totalNetWeight %> 
                         <!-- Math.round(ingredient.totalNetWeight * 100) / 100 -->
                     </td>
                     <td>
-                        <%= ingredient.unitSymbol %>
+                        <%= ingredients[i].unitSymbol %>
                     </td>
                     <td>
-                        <%= ingredient.reorderPoint %>
+                        <%= ingredients[i].reorderPoint %>
                     </td>
                 </tr>
-                <% }) %>
+            <% } %>
+
         </tbody>
     </table>
 </div>

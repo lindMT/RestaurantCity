@@ -33,6 +33,13 @@ const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
     }
 };
 
+const formatNetWeight = async(ingredients) => {
+    return ingredients.map((ingredient) => ({
+        ...ingredient,
+        totalNetWeight: Number(ingredient.totalNetWeight).toFixed(2),
+    }));
+}
+
 const viewInvController = {
     getViewInventory: async function(req, res) {
         try {
@@ -53,8 +60,15 @@ const viewInvController = {
 
             console.log(ingredientsWithUnitSymbols)
 
+            const ingredientsFormatted = await formatNetWeight(ingredientsWithUnitSymbols);
+
+            console.log(ingredientsFormatted)
+
             // Pass the ingredients data to the view
-            res.render('viewInventory', { ingredients: ingredientsWithUnitSymbols });
+            res.render('viewInventory', { 
+                ingredients: ingredientsWithUnitSymbols,
+                netWeights: ingredientsFormatted
+            });
         } catch (error) {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the ingredients.");
