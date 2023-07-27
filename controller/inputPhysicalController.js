@@ -24,6 +24,10 @@ const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
         }
 
         const conversionFactor = fixedConversion.conversionFactor;
+        if (isNaN(conversionFactor)) {
+            throw new Error('Invalid conversion factor.');
+        }
+
         const convertedNetWeight = netWeight * conversionFactor; // Apply the correct conversion factor here
         return convertedNetWeight;
     } catch (error) {
@@ -99,7 +103,11 @@ const inputPhysicalController = {
                         const ingredient = await Ingredient.findById(ingredientId);
 
                         // Convert the net weight based on partials' unit asynchronously
-                        const convertedNetWeight = await convertNetWeight(Number(inputs[key]), partialsUnitID, ingredient.unitID.toString()); // Pass ingredientId as the third parameter
+                        const convertedNetWeight = await convertNetWeight(
+                            Number(inputs[key]),
+                            partialsUnitID,
+                            ingredient.unitID.toString()
+                        ); // Pass ingredientId as the third parameter
 
                         if (!variationSum[ingredientId]) {
                             variationSum[ingredientId] = {
@@ -129,7 +137,7 @@ const inputPhysicalController = {
                         const convertedTotalNetWeight = await convertNetWeight(
                             variationTotalNetWeight,
                             variationSum[ingredientId].unitID,
-                            ingredient.unitID.toString() // Convert the unit ID to string for comparison
+                            ingredient.unitID.toString()
                         );
 
                         const difference = convertedTotalNetWeight - mainIngredientTotalNetWeight;
@@ -164,10 +172,6 @@ const inputPhysicalController = {
                         });
 
                         await mismatch.save();
-
-                        console.log(`Ingredient: ${ingredient.name}`);
-                        console.log(`Total Net Weight of Ingredient: ${mainIngredientTotalNetWeight}`);
-                        console.log(`Total Variant Net Weight (Converted to Main Ingredient's Unit): ${convertedTotalNetWeight}`);
                     }
                 }
             }
