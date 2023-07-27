@@ -1,21 +1,18 @@
 <%- include("partials/header") -%>
     <div class="viewdish-card-holder">
-        <div class="card shadow viewdish-form" style="width: 80vw;">
-            <form method="post" action="/manageDishes/process">
+        <div class="card shadow viewdish-form" style="width: 57%;">
+            <form method="post" action="">
                 <div class="viewdish-header">
-                    <h1>Manage Dishes</h1>
+                    <h1>Revert Dishes</h1>
 
                     <div style="text-align: center; margin-left: auto">
-
-                        <button id="removeDishBtn" type="submit" class="btn btn-secondary"
-                            style="margin-left: 10px; color: white;" disabled>
-                            Remove Dish</button>
                     </div>
                 </div>
                 <hr>
+                
+                <p>Owner can <b><u>REVERT</u></b> the dish that was deleted</p>
                 <!-- TODO: For Loop with modal -->
                 <!-- TODO: Change Value, id, and name for each dishes -->
-
                 <% if (dishes.length > 0) { %>
                 <table class="table table-striped" id="dishTable"
                     style=" width: 100%; margin-left: auto; margin-right: auto;">
@@ -25,15 +22,14 @@
                             <th scope="col" style="text-align: center;">Category</th>
                             <th scope="col" style="text-align: center;">Price</th>
                             <th scope="col" style="text-align: center;">Recipe</th>
-                            <th scope="col" style="text-align: center;">Status</th>
-                            <th scope="col" style="text-align: center;">Edit Dish</th>
+                            <th scope="col" style="text-align: center;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% dishes.forEach(function(dish) { %>
                         <% dish.recipe.forEach(function(recipe) { %>
                         <tr>
-                            <td style="text-align: left;">
+                            <td style="text-align: left;">   
                                 <div class="form-check">
                                     <input class="form-check-input select" type="checkbox" value="<%= recipe._id %>" name="selectedDishes" id="<%= recipe.dishID %>">
                                     <!-- <input type="hidden" name="selectedDishes[][dishRecipeID]" value="<%= recipe._id %>"> -->
@@ -45,47 +41,23 @@
                             <td>₱ <%= dish.price %></td>
                             <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal<%= dish._id %>" type ="button">
                                     View Recipe</button></td>
-                                
-                                    <%  if ( dish.isApproved == 'for approval' ||recipe.isApproved == 'for approval') { %>
-                                        <td style=text-transform:capitalize><%= recipe.isApproved %></td>
-                                        <td>-</td>
-
-                                        <% } else if ( dish.isApproved == 'for approval' && recipe.isApproved == 'for approval') { %>
-                                            <td style=text-transform:capitalize><%= recipe.isApproved %></td>
-                                            <td>-</td>
-                                
-                            <% } else if (dish.isApproved == 'approved') { %>
-                                <td style=text-transform:capitalize><%= dish.isApproved %></td>
-                            <td><a href="/editDish?id=<%= dish._id %>" style="color: black; text-decoration: none;">
-                                    Edit</a></td>
-                                    <% } %> 
+                            <!-- Revert Button -->
+                            <td style="display: flex;">
+                                <button id="revertDishBtn" type='submit' class="btn btn-success" name="revert" value="dishid"
+                                style="margin-left: 35px; color: white;">
+                                Revert</button> 
+                            </td>
                         </tr>
                         <% }); %>
                         <% }); %>
+                       
+                      
+                    <!-- <tr>  <td colspan="5" ><p style="font-weight:bold; margin-top: 15px; vertical-align: center; "> No Pending Dishes For Approval </p></td></tr> -->
+                           
                         
                     </tbody>
                 </table>
-  
-
-                <% } %>
-
-                <div class="form-align-left" style="color: #41A162; margin-top: 10px;">
-                    <a href="/addDish" style="color: #41A162;">
-                        <i class="fa-solid fa-bowl-food fa-xl" style="color: #41A162;"></i>
-                        Add Dishes
-                    </a>
-                    <a href="/approveDishes" style="color: #f59f54;" >
-                        <i class="fa-solid fa-circle-check fa-xl" style="color: #f59f54; margin-left: 280px;"></i>
-                        Approve Dishes
-                    </a>
-                    <a href="/revertDishes" style="color: #0091cf;">
-                        <i class="fa-solid fa-backward fa-xl" style="color: #0091cf; margin-left: 10px;"></i>
-                        Revert Dishes
-                    </a>
-                
                 </div>
-
-
             </form>
         </div>
     </div>
@@ -98,7 +70,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="dishCategory" style="padding: auto;" name="dishCategory"><%= dish.category %></h4>
+                    <h4 class="modal-title" id="dishCategory" style="padding: auto;" name="dishCategory"></h4>
 
                     <div data-dismiss="modal">
                         <i class="fa-solid fa-x" style="color: #000000;"></i>
@@ -123,16 +95,6 @@
                                 <td><%= item.chefUnitSymbol %></td>
                             </tr>
                             <% }); %>
-                            <!-- <tr>
-                                <td>Lettuce</td>
-                                <td>1</td>
-                                <td>350g</td>
-                            </tr>
-                            <tr>
-                                <td>Garlic Sauce</td>
-                                <td>1</td>
-                                <td>200g</td>
-                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -141,7 +103,5 @@
             </div>
         </div>
     </div>
-    <% }); %>
-    <% }); %>
-    <script src="js/manageDishes.js"></script>
+    <script src="js/approveDishes.js"></script>
     <%- include("partials/footer") -%>
