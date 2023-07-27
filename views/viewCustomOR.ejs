@@ -1,0 +1,29 @@
+<%- include("partials/header") -%>
+<a href="/viewOrderReport/Periodical">
+    <button type="button" class="btn btn-submit-count" style="margin-left:1rem;">Back to Periodical Report</button>
+</a>
+
+<div class="periodical-card-holder">
+    <p id="current_date" style="display: none;"></p>
+    <div class="card shadow periodical-select-card">
+        <form action="/viewOrderReport/Custom" method="post" id="custom-dates">
+        <div class="periodical-header">
+            <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Custom Order Report</h1>
+            <hr>
+        </div>
+        <div class="stock-header2 ">
+            <h5>From:</h5>
+            <input type="date" id="start_date" name="startDate"></input>
+        </div>
+        <div class="stock-header2">
+            <h5>To:</h5>
+            <input type="date" id="end_date" name="endDate"></input>
+        </div>
+        <hr>
+        <button type="submit" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/calendarCustom.js"></script>
+<%- include("partials/footer") -%>

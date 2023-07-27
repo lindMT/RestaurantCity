@@ -1,0 +1,38 @@
+<%- include("partials/header") -%>
+<a href="/viewOrderReport/Custom">
+    <button type="button" class="btn btn-submit-count" style="margin-left:1rem;">Make Custom Report</button>
+</a>
+
+<div class="periodical-card-holder">
+    <div class="card shadow periodical-select-card">
+        <form id="report_form" action="/viewOrderReport/Periodical" method="post">
+            <div class="periodical-header">
+                <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Periodical Order Report</h1>
+                <hr>
+            </div>
+            <div class="stock-header2">
+                <h5>Report Type:</h5>
+                <div class="form-group col-md-8">
+                    <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required onchange="reportType(this.value)">
+                        <option disabled selected>-Choose One-</option>
+                        <% for (var i = 0; i < reportTypeLabels.length; i++) { %>
+                            <option value="<%= i+1 %>"><%= reportTypeLabels[i] %></option>
+                        <% } %>
+                    </select>        
+                </div>
+            </div>
+            <div class="stock-header2">
+                <h5>Calendar:</h5>
+                <div class="col-md-8" id="calendar-div">
+                    <input type="text" class="form-control" id="calendar" data-date-end-date="0d" required readonly name="selectedDate">
+                </div>
+            </div>
+            <hr>
+            <button type="submit" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
+        </form>
+    </div>
+
+</div>
+
+<script src="/js/calendarPeriodical.js"></script>
+<%- include("partials/footer") -%>

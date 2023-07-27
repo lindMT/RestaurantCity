@@ -1,0 +1,76 @@
+<%- include("partials/header") -%>
+<a href="/viewCustom">
+    <button type="button" class="btn btn-submit-count" style="margin-left:1rem;">Make Custom Report</button>
+</a>
+
+<div class="periodical-card-holder">
+    <div class="card shadow periodical-select-card">
+        <form id="report_form" action="/viewPeriodical" method="post">
+            <div class="periodical-header">
+                <h1 style="margin-top: 1.2rem; margin-bottom: 1.5rem;">Periodical Order Report</h1>
+                <hr>
+            </div>
+            <div class="stock-header2">
+                <h5>Report Type:</h5>
+                <div class="form-group col-md-8">
+                    <select id="filterTypeId" class="form-select form-select-md" aria-label="Filter selection" name="filterType" required onchange="reportType(this.value)">
+                        <option disabled selected>-Choose One-</option>
+                        <% for (var i = 0; i < reportTypeLabels.length; i++) { %>
+                            <option value="<%= i+1 %>"><%= reportTypeLabels[i] %></option>
+                        <% } %>
+                    </select>        
+                </div>
+            </div>
+         
+            <div class="stock-header2">
+                <h5>Calendar:</h5>
+                <div class="col-md-8" id="calendar-div">
+                    <input type="text" class="form-control" id="calendar" data-date-end-date="0d" required readonly name="selectedDate" value="<%= selectedDate %>">
+                </div>
+            </div>
+            <hr>
+            <button type="submit" id="submitbtn" class="btn btn-submit-count w-100">Submit</button>
+        </form>
+    </div>
+    <div class="card shadow periodical-report-card">
+        <div class="periodical-header">
+            <h3><b> Order Report for <%= dateString %> </b></h3>
+            <i>Generated on <span id="current_date"></span></i>  
+            <hr>
+        </div>
+        <table id="custom-report" class="table table-striped" style="margin-top: 1rem;">
+            <thead>
+            <tr>
+                <th scope="col">Dish Name</th>
+                <th scope="col">Quantity Ordered</th>
+                <th scope="col">Total Price</th>
+                <!-- No date here since it will be shown thru detailed -->
+            </tr>
+            </thead>
+            <tbody>
+                <% %> 
+                <tr> 
+                    <td name="dish-name"  style="text-transform: capitalize;">
+                        <form id="detailed-report-<%= %>" action="/viewOrderReport/Detailed" method="post">                        
+                            <input type="hidden" name="" value="<%= %>">
+                            <input type="hidden" name="" value="<%= %>">
+                            <input type="hidden" name="" value="<%= %>">
+                            <a href="javascript:{}" onclick="document.getElementById('detailed-report-<%= %>').submit(); return false;"><%= %>Tapsilog</a>
+                        </form>
+                    </td>
+                    <td id="custom-qty" name="custom-qty">      <%= %>100</td>
+                    <td id="custom-price" name="custom-price">  ₱ <%= %>10000</td>
+                </tr>
+                <% %>
+            </tbody>
+        </table>
+        <div class="periodical-footer">
+            <hr>
+            <h5><b>-END OF REPORT-</b></h5>
+        </div>
+    </div>
+
+</div>
+
+<script src="/js/calendarPeriodical.js"></script>
+<%- include("partials/footer") -%>

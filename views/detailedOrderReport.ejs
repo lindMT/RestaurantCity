@@ -1,0 +1,64 @@
+<%- include("partials/header") -%>
+<div class="category-form-holder">
+    <div class="card shadow detailed-report-card">
+        <div class="detailed-header">
+            <h3><b> Detailed Report </b></h3>
+            <h5><b id="align-right">Report for <%= %></b></h5>
+           
+            <hr>
+        </div>
+        <div class="detailed-header">
+            <h3 style="text-transform: capitalize;">for <%= %> Tapsilog</h3>
+            <i>Generated on <span id="current_date"></span></i>  
+        </div>
+        <hr>
+        <!--<div class="detailed-header2">
+            <i class="fa-solid fa-filter fa-xl" style="margin-bottom:1rem; margin-right:0.5rem;"></i>
+
+            <div class="form-group">
+                <div class="col-15">
+                    <select id="filterType" class="form-select form-select-sm" 
+                            aria-label="Filter selection" name="filterType"
+                            onchange="filterReport()">
+                            <option value="All" selected>All</option>
+                            <option value="Purchased">Purchased</option>
+                            <option value="Consumed">Consumed</option>
+                            <option value="Discarded">Discarded</option>
+                    </select>
+                </div>
+            </div>
+        </div>-->
+         
+        <table id="report-table" class="table table-striped" style="margin-top: 1rem;">
+            <thead>
+            <tr id="report-tr">
+                <!--<th id="report-type" scope="col">Type</th>-->
+                <th scope="col">Order Date</th>
+                <th scope="col">Quantity Ordered</th>
+                <th scope="col">Total Price</th>
+                <th scope="col">Taken By</th>
+            </tr>
+            </thead>
+            <tbody>
+                <% %>
+                <tr>
+                    <td><%= Date() %></td>
+                    <td><%= %>100</td>
+                    <td>₱ <%= %>10000</td>
+                    <td><%= %>Lind</td>
+                </tr>   
+                <% %>
+            </tbody>
+        </table>
+        <div class="periodical-footer">
+            <hr>
+            <h5><b>-END OF REPORT-</b></h5>
+        </div>
+    </div>
+
+</div> 
+
+
+<script src="/js/calendarCustom.js"></script>
+<script src="/js/detailedReportFilter.js"></script>
+<%- include("partials/footer") -%>

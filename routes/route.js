@@ -12,6 +12,7 @@ const manageDishesController = require('../controller/manageDishesController.js'
 const approveDishesController = require('../controller/approveDishesController.js');
 const editDishController = require('../controller/editDishController.js');
 const viewReportController = require('../controller/viewReportController.js');
+const viewOrderReportController = require("../controller/viewOrderReportController.js");
 const addDishController = require('../controller/addDishController.js');
 const addCategoryController = require('../controller/addCategoryController.js');
 const inputPhysicalController = require('../controller/inputPhysicalController.js');
@@ -94,16 +95,27 @@ app.get("/viewConversions/:ingreID", manageConversionsController.viewConversions
 app.get("/addConversion/:ingreID", manageConversionsController.addConversion)
 app.post("/addConversion/:ingreID/process", manageConversionsController.postAddConversion)
 
-// View Stock Report
+// Periodical Stock Report
 app.get("/viewStockReport", viewReportController.getPeriodical)
 app.post("/viewPeriodical", viewReportController.postPeriodical)
 
-// View Custom Report   
+// Custom Stock Report
 app.get("/viewCustom", viewReportController.getCustom)
 app.post("/viewCustom", viewReportController.postCustom)
 
-// View Detailed Report
+// Detailed Stock Report
 app.post("/detailedReport/:reportType", viewReportController.getDetailed)
+
+// Periodical Order Report
+app.get("/viewOrderReport/Periodical", viewOrderReportController.getPeriodical);
+app.post("/viewOrderReport/Periodical", viewOrderReportController.postPeriodical);
+
+// Stock Order Report
+app.get("/viewOrderReport/Custom", viewOrderReportController.getCustom);
+app.post("/viewOrderReport/Custom", viewOrderReportController.postCustom);
+
+// Detailed Order Report
+app.post("/viewOrderReport/Detailed", viewOrderReportController.getDetailed);
 
 // Input Physical Count
 app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)
