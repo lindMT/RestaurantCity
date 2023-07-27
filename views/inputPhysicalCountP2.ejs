@@ -47,11 +47,11 @@
                                         <tbody id="physical-tbl-body">
                                             <tr>
                                                 <td>
-                                                    <%= mismatch.mainIngredientTotalNetWeight %>
+                                                    <%= mismatch.mainIngredientTotalNetWeight.toFixed(2) %>
                                                         <%= mismatch.unitSymbol %>
                                                 </td>
                                                 <td>
-                                                    <%= mismatch.difference %>
+                                                    <%= mismatch.difference.toFixed(2) %>
                                                         <%= mismatch.unitSymbol %>
                                                 </td>
                                             </tr>
@@ -76,7 +76,6 @@
                                                             <button class="btn btn-submit-count btn-view-inventory" style="width: 100%;">View Dashboard</button>
                                                         </a>
                                                     </div>
-
         </div>
     </div>
     <%- include("partials/footer") -%>
