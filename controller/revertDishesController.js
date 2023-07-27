@@ -36,12 +36,16 @@ const revertDishesController = {
                 const category = categories.find(category => category._id.equals(dish.categoryID));
                 
                 // Fetch the recipe for the dish
-                const recipe = await DishRecipe.findOne({ dishID: dish._id }).lean();
+                const recipes = await DishRecipe.find({
+                    dishID: dish._id,
+                    isActive: false,
+                    isApproved: 'approved'
+                }).lean();
 
 
                 // Map ingredient names to the recipe items
-                const recipeWithIngredientNames = recipe ? await Promise.all(recipe.ingredients.map(async item => {
-                    
+                const recipeWithIngredientNames = recipes ? await Promise.all(recipes.map(async recipe => {
+
                     const ingredientIds = recipe.ingredients.map(item => item.ingredient);
                     const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
 
