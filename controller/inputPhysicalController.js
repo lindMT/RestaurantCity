@@ -29,6 +29,12 @@ const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
         }
 
         const convertedNetWeight = netWeight * conversionFactor; // Apply the correct conversion factor here
+        console.log('Net weight:', netWeight);
+        console.log('Initial unit ID:', initialUnitId);
+        console.log('Converted unit ID:', convertedUnitId);
+        console.log('Conversion factor:', conversionFactor);
+        console.log('Converted net weight:', convertedNetWeight);
+
         return convertedNetWeight;
     } catch (error) {
         console.error('Error converting net weight:', error);
@@ -75,12 +81,41 @@ const inputPhysicalController = {
     postInputPhysCount: async(req, res) => {
         try {
             const inputs = req.body;
+            const netWeightSum = {}; // To store the net weight sum for each main ingredient
 
-            // Calculate the sum of net weight for each ingredient variation
-            const variationSum = {};
+            // Handle ingredients with no packaging options (e.g., Beef)
             for (const key in inputs) {
                 if (inputs.hasOwnProperty(key)) {
-                    // Split the key into type, prefix, and id
+                    const [type, prefix, id] = key.split('_');
+
+                    if (type === 'others' && prefix === 'netwt') {
+                        // Handling ingredients with no packaging option (partials)
+                        const ingredientId = id;
+                        const partialsNetWeight = Number(inputs[key]) || 0; // Use the actual net weight of the partials in grams (default to 0 if null)
+                        const partialsUnitID = inputs[`others_unit_${ingredientId}`]; // Get the unit ID for partials from corresponding input
+                        const ingredient = await Ingredient.findById(ingredientId);
+
+                        // Convert the net weight based on partials' unit asynchronously
+                        const convertedNetWeight = await convertNetWeight(
+                            partialsNetWeight,
+                            partialsUnitID,
+                            ingredient.unitID.toString()
+                        );
+
+                        if (!netWeightSum[ingredientId]) {
+                            netWeightSum[ingredientId] = {
+                                totalNetWeight: convertedNetWeight,
+                                unitID: partialsUnitID, // Use the correct unit ID for partials fetched from the database
+                            };
+                        } else {
+                            netWeightSum[ingredientId].totalNetWeight += convertedNetWeight; // Convert the net weight based on partials' unit
+                        }
+                    }
+                }
+            }
+
+            for (const key in inputs) {
+                if (inputs.hasOwnProperty(key)) {
                     const [type, prefix, id] = key.split('_');
 
                     if (type === 'variant' && prefix === 'qty') {
@@ -88,34 +123,24 @@ const inputPhysicalController = {
                         const variation = await IngreVariation.findById(id);
                         const ingredientId = variation.ingreID.toString();
 
-                        if (!variationSum[ingredientId]) {
-                            variationSum[ingredientId] = {
-                                totalNetWeight: Number(variation.netWeight) * Number(inputs[key]),
-                                unitID: variation.unitID,
-                            };
-                        } else {
-                            variationSum[ingredientId].totalNetWeight += Number(variation.netWeight) * Number(inputs[key]);
-                        }
-                    } else if (type === 'others' && prefix === 'netwt') {
-                        // Handling ingredients with no packaging option (partials)
-                        const ingredientId = id;
-                        const partialsUnitID = inputs[`others_unit_${ingredientId}`]; // Get the unit ID for partials from corresponding input
+
+                        // Find the main ingredient related to this variation
                         const ingredient = await Ingredient.findById(ingredientId);
 
-                        // Convert the net weight based on partials' unit asynchronously
+                        // Call convertNetWeight to convert the net weight of the variation
                         const convertedNetWeight = await convertNetWeight(
-                            Number(inputs[key]),
-                            partialsUnitID,
-                            ingredient.unitID.toString()
-                        ); // Pass ingredientId as the third parameter
+                            Number(variation.netWeight) * Number(inputs[key]), // Net weight of the variation * Quantity Left
+                            variation.unitID.toString(), // Initial unit ID of the variation
+                            ingredient.unitID.toString() // Converted unit ID of the main ingredient
+                        );
 
-                        if (!variationSum[ingredientId]) {
-                            variationSum[ingredientId] = {
+                        if (!netWeightSum[ingredientId]) {
+                            netWeightSum[ingredientId] = {
                                 totalNetWeight: convertedNetWeight,
-                                unitID: partialsUnitID, // Use the correct unit ID for partials fetched from the database
+                                unitID: variation.unitID, // Use the correct unit ID for the variation
                             };
                         } else {
-                            variationSum[ingredientId].totalNetWeight += convertedNetWeight; // Convert the net weight based on partials' unit
+                            netWeightSum[ingredientId].totalNetWeight += convertedNetWeight; // Convert the net weight based on variation's unit
                         }
                     }
                 }
@@ -125,22 +150,15 @@ const inputPhysicalController = {
             const mismatches = [];
 
             // Compare the variation sum with the main ingredient's total net weight
-            for (const ingredientId in variationSum) {
-                if (variationSum.hasOwnProperty(ingredientId)) {
-                    const variationTotalNetWeight = variationSum[ingredientId].totalNetWeight;
+            for (const ingredientId in netWeightSum) {
+                if (netWeightSum.hasOwnProperty(ingredientId)) {
+                    const variationTotalNetWeight = netWeightSum[ingredientId].totalNetWeight;
                     const ingredient = await Ingredient.findById(ingredientId);
 
                     if (ingredient) {
                         const mainIngredientTotalNetWeight = Number(ingredient.totalNetWeight);
 
-                        // Convert the variation's total net weight to the main ingredient's unit of measurement
-                        const convertedTotalNetWeight = await convertNetWeight(
-                            variationTotalNetWeight,
-                            variationSum[ingredientId].unitID,
-                            ingredient.unitID.toString()
-                        );
-
-                        const difference = convertedTotalNetWeight - mainIngredientTotalNetWeight;
+                        const difference = variationTotalNetWeight - mainIngredientTotalNetWeight;
 
                         // Get the unit symbol of the main ingredient
                         const mainIngredientUnit = await Unit.findById(ingredient.unitID);

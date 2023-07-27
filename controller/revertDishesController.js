@@ -13,21 +13,23 @@ const revertDishesController = {
         try {
             // Retrieve all dishes that are for approval
             
-          
               // Retrieve approved dish recipes that have 'for approval' status
               const approvedDishRecipes = await DishRecipe.find({
                 isActive: false,
                 isApproved: 'approved'
               });
-          
+              
+              const approvedDishIds = approvedDishRecipes.map(recipe => recipe.dishID);
+              
               // Find the corresponding approved dishes using the dishID field from approvedDishRecipes
               const dishes = await Dish.find({
-                _id: { $in: approvedDishRecipes.map(recipe => recipe.dishID) },
-                isActive: false,
+                $or: [
+                    { _id: { $in: approvedDishIds }, isActive: true },
+                    { _id: { $in: approvedDishIds }, isActive: false }
+                ],
                 isApproved: 'approved'
               });
 
-            
             
             // Retrieve categories from DishCatego
             const categories = await DishCategory.find();
@@ -37,25 +39,30 @@ const revertDishesController = {
                 const category = categories.find(category => category._id.equals(dish.categoryID));
                 
                 // Fetch the recipe for the dish
-                const recipe = await DishRecipe.findOne({ dishID: dish._id }).lean();
+                const recipes = approvedDishRecipes.filter(recipe => recipe.dishID.equals(dish._id));
 
-                // Retrieve ingredient names for the recipe
-                const ingredientIds = recipe ? recipe.ingredients.map(item => item.ingredient) : [];
-                const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
 
                 // Map ingredient names to the recipe items
-                const recipeWithIngredientNames = recipe ? await Promise.all(recipe.ingredients.map(async item => {
-                    const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
+                const recipeWithIngredientNames = await Promise.all(recipes.map(async recipe => {
+
+                    const ingredientIds = recipe.ingredients.map(item => item.ingredient);
+                    const ingredients = await Ingredients.find({ _id: { $in: ingredientIds } }, 'name').lean();
 
                     // Fetch the chefUnit with unitSymbol
-                    const chefUnit = await Units.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
-
+                    const recipeWithIngredientNames = await Promise.all(recipe.ingredients.map(async item => {
+                        const ingredient = ingredients.find(ingredient => ingredient._id.equals(item.ingredient));
+                        const chefUnit = await Units.findOne({ _id: item.chefUnitID }, 'unitSymbol').lean();
+                        return {
+                            ...item,
+                            ingredientName: ingredient ? ingredient.name : '',
+                            chefUnitSymbol: chefUnit ? chefUnit.unitSymbol : ''
+                        };
+                    }));
                     return {
-                        ...item,
-                        ingredientName: ingredient ? ingredient.name : '',
-                        chefUnitSymbol: chefUnit ? chefUnit.unitSymbol : ''
+                        ...recipe,
+                        ingredients: recipeWithIngredientNames,
                     };
-                })) : [];
+                }));
 
                 return {
                     ...dish.toObject(),
