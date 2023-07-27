@@ -21,6 +21,7 @@
                     </select>        
                 </div>
             </div>
+         
             <div class="stock-header2">
                 <h5>Calendar:</h5>
                 <div class="col-md-8" id="calendar-div">
@@ -51,10 +52,13 @@
             <tbody>
                 <% ingres.forEach(function(ingredient, index) { %>
                 <tr> 
-                    <!-- Pag may DB na, revise to calling based on id -->
                     <td name="ingredient-name"  style="text-transform: capitalize;">
-                        <!-- TO-DO: pull IngreID (manageConversions) -->
-                        <a href="/detailedReport/:ingreID"><%= ingredient.name %></a>
+                        <form id="detailed-report-<%= index %>" action="/detailedReport/1" method="post">                        
+                            <input type="hidden" name="periodicalReportType" value="<%= reportType %>">
+                            <input type="hidden" name="periodicalReportDate" value="<%= dateString %>">
+                            <input type="hidden" name="ingreID" value="<%= ingredient._id %>">
+                            <a href="javascript:{}" onclick="document.getElementById('detailed-report-<%= index %>').submit(); return false;"><%= ingredient.name %></a>
+                        </form>
                     </td>
                     <!-- Value from purchasedIngre -->
                     <td id="custom-purchased" name="custom-purchased"> <%= purchasesValues[index] %></td>

@@ -44,9 +44,13 @@
             <tbody>
             <% ingres.forEach(function(ingredient, index) { %>
             <tr> 
-                <!-- Pag may DB na, revise to calling based on id -->
-                <td name="ingredient-name">
-                    <a href="/detailedReport/Milk"><%= ingredient.name %></a>
+                <td name="ingredient-name"  style="text-transform: capitalize;">
+                    <form id="detailed-report-<%= index %>" action="/detailedReport/2" method="post">                        
+                        <input type="hidden" name="customStartDate" value="<%= formattedStartDate %>">
+                        <input type="hidden" name="customEndDate" value="<%= formattedEndDate %>">
+                        <input type="hidden" name="ingreID" value="<%= ingredient._id %>">
+                        <a href="javascript:{}" onclick="document.getElementById('detailed-report-<%= index %>').submit(); return false;"><%= ingredient.name %></a>
+                    </form>
                 </td>
                 <!-- Value from purchasedIngre -->
                 <td id="custom-purchased" name="custom-purchased"> <%= purchasesValues[index] %></td>

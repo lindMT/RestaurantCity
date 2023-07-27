@@ -103,7 +103,7 @@ app.get("/viewCustom", viewReportController.getCustom)
 app.post("/viewCustom", viewReportController.postCustom)
 
 // View Detailed Report
-app.get("/detailedReport/:ingreID/:reportType", viewReportController.getDetailed)
+app.post("/detailedReport/:reportType", viewReportController.getDetailed)
 
 // Input Physical Count
 app.get("/inputPhysicalCount", inputPhysicalController.getInputPhysCount)

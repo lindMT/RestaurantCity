@@ -22,7 +22,7 @@ const mismatch = require("../model/mismatchSchema.js");
 
 const bcrypt = require("bcrypt");
 
-const viewReportController = {
+const viewReportController = {  
     getPeriodical: function(req, res) {
         const reportTypeLabels = ["Daily", "Weekly", "Monthly", "Yearly"];
         res.render('viewPeriodical', {reportTypeLabels});
@@ -422,6 +422,8 @@ const viewReportController = {
                                 // check if conversion factor not found
                                 if (multiplier == 0){
                                     var ingreConversions = await ingreConversion.findOne({ingredientId: ingres[i]._id});
+                                    console.log("ingres[i]._id: " + ingres[i]._id);
+                                    console.log("425: " + ingreConversions);
                                     for (var k = 0; k < ingreConversions.subUnit.length; k++){
                                         if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
                                             console.log("Conversion Factor Found (UNIQUE)");
@@ -1063,41 +1065,69 @@ const viewReportController = {
     },
 
     getDetailed: async function(req, res) {
-        var purchases = await purchasedIngre.find({});
-        var units = await Unit.find({});
-        // Find ingre id       
-        var ingreID = req.params.ingreID;
-        const ingredient = await Ingredients.findById(ingreID);
-        
-        // Not sure how to implement this yet HWKJAS
-        // 1: Periodical
-        // 2: Custom
-        var reportType = req.params['reportType'];
+        try {
+          
 
-        if(reportType = 1) {
-            // Display chosen reportTypeLabel
-        } else {
+            var purchases = await purchasedIngre.find({});
 
-        }
+            // Find ingre id       
+            var ingreID = req.body.ingreID;
+            const ingredient = await Ingredients.findById(ingreID);
+            console.log("INGRE ID: " + ingreID);
+            
+            // 1: Periodical
+            // 2: Custom
+            var reportType = req.params['reportType'];
+            console.log("REPORT TYPE: " + reportType);
 
-        var typePurchase = [];
-        var qtyPurchase = [];
-        var unitPurchase = [];
-        var datePurchase = [];
-        var doneByPurchase = [];
+            
+            if(reportType == 1) {
+                console.log("FROM PERIODICAL");
 
-        // ==== PURCHASES =====
+                var periodicalType = req.body.periodicalReportType;
+                var periodicalDate = req.body.periodicalReportDate;
+                var startDate = "";
+                var endDate = "";
+    
+                console.log("PERIODICAL TYPE: " + periodicalType);
+                console.log("PERIODICAL DATE: " + periodicalDate);
 
-        // Check in purchases if matching ingreId
-        for(i=0; purchases.length; i++) {
-            if(ingreID = purchases.ingreID) {
-                typeArray[i] = "Purchased"
+
+                // Display chosen reportTypeLabel
+                var typePurchase = [];
+                var qtyPurchase = [];
+                var unitPurchase = [];
+                var datePurchase = [];
+                var doneByPurchase = [];
+
+                // ==== PURCHASES =====
+
+                // Check in purchases if matching ingreId
+                // for(i=0; purchases.length; i++) {
+                //     if(ingreID = purchases.ingreID) {
+                //         typeArray[i] = "Purchased"
+                //     }
+                // }
+
+                // schemas needed for ingredient
+
+                await res.render('detailedReport', {ingredient, periodicalType, periodicalDate, startDate, endDate});
+            } else{
+                console.log("FROM CUSTOM");
+
+                var formattedStartDate = req.body.customStartDate;
+                var formattedEndDate = req.body.customEndDate;
+                var periodicalDate = "";
+    
+                await res.render('detailedReport', {ingredient, formattedStartDate, formattedEndDate, periodicalDate});
+
             }
-        }
-        
 
-        
-        await res.render('detailedReport', {ingredient});
+            
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("An error occurred");
+        }
     }
 }
 
