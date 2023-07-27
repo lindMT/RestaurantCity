@@ -53,22 +53,50 @@ const addDishController = {
         // ingreTable = req.body.ingredient
         
         //Create Dish Instance
-   
+        
         if (inputDish){
             if (inputDish.isApproved == 'for approval'){
-                req.flash('error_msg', 'Dish already added for approval, Please input a different one')
+                // req.flash('error_msg', 'Dish already added for approval, Please input a different one')
                 console.log("Dish already exists")
                 console.log(user._id);
                 console.log(admin._id);
                 
-                return res.redirect('/addDish');
+                // return res.redirect('/addDish', {dishName: req.body.inputDishName});
+                
+                var categories = await DishCategory.find({});
+                var ingredients = await Ingredients.find({});
+                var units = await Units.find({});
+
+                return res.render('addDish', {  categories, ingredients, units,
+                                                error_msg: "Dish already added for approval, Please input a different one",
+                                                dishNameInput: req.body.inputDishName,
+                                                categoryInput: req.body.category,
+                                                priceInput: req.body.Amount,
+                                                ingredientList: req.body.ingredient,
+                                                inputAmountList: req.body.inputAmount,
+                                                selectUnitList: req.body.selectUnit
+                                             });
+                
             }else{
-                req.flash('error_msg', 'Dish already added, Please input a different one')
-                console.log("Dish already exists")
+                // req.flash('error_msg', 'Dish already added, Please input a different one')
+                console.log("Dish already existsAAAAAAAAAAAAAAAAAAAAA")
                 console.log(user._id);
                 console.log(admin._id);
+                console.log(inputDish);
                 
-                return res.redirect('/addDish');
+                var categories = await DishCategory.find({});
+                var ingredients = await Ingredients.find({});
+                var units = await Units.find({});
+
+                return res.render('addDish', {  categories, ingredients, units,
+                                                error_msg: "Dish already added, Please input a different one",
+                                                dishNameInput: req.body.inputDishName,
+                                                categoryInput: req.body.category,
+                                                priceInput: req.body.Amount,
+                                                ingredientList: req.body.ingredient,
+                                                inputAmountList: req.body.inputAmount,
+                                                selectUnitList: req.body.selectUnit
+                                             });
             }
             
         }else {
@@ -112,9 +140,23 @@ const addDishController = {
                 let unit = await Units.findOne({ unitName: req.body.selectUnit[i]});
                 for (let j = 0; j < i; j++) {
                     if (req.body.ingredient[i] == req.body.ingredient[j]) {
-                        req.flash('error_msg', 'Duplicate Ingredient Entry, Please input a different one')
+                        // req.flash('error_msg', 'Duplicate Ingredient Entry, Please input a different one')
                         console.log("Duplicate Entry")
-                        return res.redirect('/addDish');
+                        // return res.redirect('/addDish');
+                        
+                        var categories = await DishCategory.find({});
+                        var ingredients = await Ingredients.find({});
+                        var units = await Units.find({});
+
+                        return res.render('addDish', {  categories, ingredients, units,
+                                                        error_msg: "Duplicate Ingredient Entry, Please input a different one",
+                                                        dishNameInput: req.body.inputDishName,
+                                                        categoryInput: req.body.category,
+                                                        priceInput: req.body.Amount,
+                                                        ingredientList: req.body.ingredient,
+                                                        inputAmountList: req.body.inputAmount,
+                                                        selectUnitList: req.body.selectUnit
+                                                    });
                     }
                   }
                 if(ingre && unit){
