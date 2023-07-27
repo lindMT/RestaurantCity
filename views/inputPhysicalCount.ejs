@@ -17,11 +17,11 @@
                 <!-- TODO: FOR LOOP FOR EACH INGREDIENT -->
                 <% for(let i = 0; i < ingredients.length; i++) {%>
 
-                    <h4 style="text-transform: uppercase;"><b><%= ingredients[i].name %></b></h4>
                     <div id="physical-whole-div" class="center-table" style="margin-top: 10px;">
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th scope="col">Ingredient</th>
                                     <th scope="col">Sizing Option</th>
                                     <th scope="col">Net Weight</th>
                                     <th scope="col">Unit</th>
@@ -33,6 +33,9 @@
                                 <% for (let j = 0; j < ingredientVariations.length; j++) { %>
                                     <% if(ingredients[i].hasVariant && ingredientVariations[j].ingreID.equals(ingredients[i]._id)){ %>
                                         <tr>
+                                            <td>
+                                                <%= ingredients[i].name %>
+                                            </td>
                                             <td>
                                                 <%= ingredientVariations[j].name %>
                                             </td>
@@ -51,6 +54,9 @@
 
                                                 <tr>
                                                     <% if (!ingredients[i].hasVariant) { %>
+                                                        <td>
+                                                            <%= ingredients[i].name %>
+                                                        </td>
                                                         <td>No Packaging Option</td>
                                                         <td>
                                                             <input type="number" name="others_netwt_<%= ingredients[i]._id %>" placeholder="" min="0" class="form-control" style="text-align: left; width: 100%;" required>
