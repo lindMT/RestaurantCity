@@ -559,6 +559,14 @@ td i {
 
 /***************** INPUT PHYSICAL COUNT CSS *****************/
 
+.center-td {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    /* text-align: left; width: 30%; */
+}
+
 .physical-card-holder {
     width: 900px;
     margin: auto;
