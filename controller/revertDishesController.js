@@ -14,21 +14,30 @@ const revertDishesController = {
             // Retrieve all dishes that are for approval
             
               // Retrieve approved dish recipes that have 'for approval' status
-              const approvedDishRecipes = await DishRecipe.find({
+            const approvedDishRecipes = await DishRecipe.find({
                 isActive: false,
                 isApproved: 'approved'
-              });
+            });
+
+            const recipeMap = new Map();
+            approvedDishRecipes.forEach((recipe) => {
+                const dishID = recipe.dishID.toString();
+                if (!recipeMap.has(dishID)) {
+                    recipeMap.set(dishID, []);
+                }
+                recipeMap.get(dishID).push(recipe);
+            });
+
+            const approvedDishIds = approvedDishRecipes.map((recipe) => recipe.dishID);
               
-              const approvedDishIds = approvedDishRecipes.map(recipe => recipe.dishID);
-              
-              // Find the corresponding approved dishes using the dishID field from approvedDishRecipes
-              const dishes = await Dish.find({
+            // Find the corresponding approved dishes using the dishID field from approvedDishRecipes
+            const dishes = await Dish.find({
                 $or: [
                     { _id: { $in: approvedDishIds }, isActive: true },
                     { _id: { $in: approvedDishIds }, isActive: false }
                 ],
                 isApproved: 'approved'
-              });
+            });
 
             
             // Retrieve categories from DishCatego
@@ -39,8 +48,7 @@ const revertDishesController = {
                 const category = categories.find(category => category._id.equals(dish.categoryID));
                 
                 // Fetch the recipe for the dish
-                const recipes = await DishRecipe.find({ dishID: dish._id, isActive: true }).lean();
-
+                const recipes = recipeMap.get(dish._id.toString()) || [];
 
                 // Map ingredient names to the recipe items
                 const recipeWithIngredients = await Promise.all(recipes.map(async recipe => {
