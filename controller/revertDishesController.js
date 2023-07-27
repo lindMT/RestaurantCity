@@ -2,6 +2,9 @@ const { default: mongoose } = require('mongoose');
 const User = require('../model/usersSchema.js');
 const Dish = require('../model/dishSchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
+const DishCategory = require('../model/dishCategorySchema.js');
+const Ingredients = require('../model/ingredientsSchema.js');
+const Units = require('../model/unitsSchema.js');
 
 
 const revertDishesController = {
@@ -70,7 +73,48 @@ const revertDishesController = {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the dishes.");
         }
-    }
+    },
+    postRevertDishes: async function(req, res) {
+        const revert = req.body.revert;
+        //const reject = req.body.reject;
+        const currentDate = Date();
+
+        if (revert){
+
+            console.log(revert)
+            const recipe = await DishRecipe.findOne({_id:revert})
+            console.log(recipe)
+            const dish = await Dish.findOne({_id:recipe.dishID})
+
+             const currentDish = await Dish.findOne({name:dish.name, isActive:true, isApproved:'approved'})
+             
+            
+            
+            console.log(dish)
+            console.log(currentDish)
+            // console.log(currentRecipe)
+
+            if(currentDish){
+                const currentRecipe = await DishRecipe.findOne({dishID:currentDish._id, isActive:true, isApproved:'approved'})
+                await Dish.updateOne({_id:currentDish},{$set: {lastModified:currentDate, isActive:false}})
+                    
+                await DishRecipe.updateOne({_id:currentRecipe},{$set: {lastModified:currentDate, isActive:false}})
+                await Dish.updateOne({_id:dish},{$set: {lastModified:currentDate, isActive:true}})
+                await DishRecipe.updateOne({_id:recipe},{$set: {lastModified:currentDate, isActive:true}})
+                req.flash('success_msg', 'Version of Dish ' + dish.name + ' Successfully Reverted')
+                
+    
+                return res.redirect('/revertDishes');
+            } else{
+                await Dish.updateOne({_id:dish},{$set: {lastModified:currentDate, isActive:true}})
+                await DishRecipe.updateOne({_id:recipe},{$set: {lastModified:currentDate, isActive:true}})
+                req.flash('success_msg', 'Version of Dish ' + dish.name + ' Successfully Reverted')
+                return res.redirect('/revertDishes');
+            }
+
+        }
+        
+    },
 
 }
 module.exports = revertDishesController;
