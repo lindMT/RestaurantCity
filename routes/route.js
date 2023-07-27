@@ -45,9 +45,11 @@ app.post("/removeUser/:userName", userController.removeUser);
 
 // View Inventory
 app.get("/viewInventory", viewInvController.getViewInventory);
-app.get("/viewInventory/discard/p1", viewInvController.getDiscard);
-app.post("/viewInventory/discard/p2", viewInvController.postDiscard1);
-app.post("/viewInventory/discard/p2/process", viewInvController.postDiscard2);
+
+// Discard
+app.get("/discard/p1", viewInvController.getDiscard);
+app.post("/discard/p2", viewInvController.postDiscard1);
+app.post("/discard/p2/process", viewInvController.postDiscard2);
 
 // Add New Ingredients
 app.get("/addNewIngredient", addIngreController.getAddIngre);
