@@ -65,12 +65,12 @@ const recordFirstController = {
         // Check if there is quantity later
         var inputQty = req.body.ingreQty;
         var newVariant;
-        var addedMsg = 0;
 
         // For updating ingredient
         var foundIngredient = await Ingredient.findById(inputId)
         var foundIngredientUnit = await Unit.findById(foundIngredient.unitID)
 
+        var foundOldIngredientNet = foundIngredient.totalNetWeight;
         var foundUnit = await Unit.findOne({ unitSymbol: inputUnit });
 
         if (inputVariantName === "") {
@@ -84,12 +84,10 @@ const recordFirstController = {
 
             // Update inventory
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(await convertNetWeight(totalNetWt, foundUnit._id, foundIngredientUnit._id));
-            addedMsg = Number(totalNetWt);
         } else {
             inputQty = 1;
 
             foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(await convertNetWeight(inputNetWt, foundUnit._id, foundIngredientUnit._id));
-            addedMsg = Number(inputNetWt);
         }
 
         await foundIngredient.save();
@@ -126,10 +124,10 @@ const recordFirstController = {
 
         res.render('recordFirstSuccess', {
             title: "Record First Purchase",
-            message: 'New variant added to inventory',
+            message: 'New variant added to inventory!',
             ingredient: foundIngredient,
             variant: newVariant,
-            totalNetWt: addedMsg,
+            totalNetWt: foundIngredient.totalNetWeight - foundOldIngredientNet,
             ingredientUnit: foundIngredientUnit.unitSymbol
         });
     },

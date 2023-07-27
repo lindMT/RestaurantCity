@@ -1,0 +1,98 @@
+<%- include("partials/header") -%>
+    <div class="viewdish-card-holder">
+        <div class="card shadow viewdish-form" style="width: 57%;">
+            <form method="post" action="">
+                <div class="viewdish-header">
+                    <h1>Revert Dishes</h1>
+
+                    <div style="text-align: center; margin-left: auto">
+                    </div>
+                </div>
+                <hr>
+                
+                <p>Owner can <b><u>REVERT</u></b> the dish that was deleted</p>
+                <!-- TODO: For Loop with modal -->
+                <!-- TODO: Change Value, id, and name for each dishes -->
+                <table class="table table-striped" id="dishTable"
+                    style=" width: 100%; margin-left: auto; margin-right: auto;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: left;">Dish Name</th>
+                            <th scope="col" style="text-align: center;">Category</th>
+                            <th scope="col" style="text-align: center;">Price</th>
+                            <th scope="col" style="text-align: center;">Recipe</th>
+                            <th scope="col" style="text-align: center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        <tr>
+                            
+                            
+                            <td style="text-align: left;">
+                                       
+                            </td>
+                            
+                            <td></td>
+                            <td>₱ </td>
+                            <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal" type ="button">
+                                    View Recipe</button></td>
+                            <!-- Revert Button -->
+                            <td style="display: flex;">
+                                <button id="revertDishBtn" type='submit' class="btn btn-success" name="revert" value="dishid"
+                                style="margin-left: 35px; color: white;">
+                                Revert</button> 
+                            </td>
+                        </tr>
+                       
+                      
+                    <!-- <tr>  <td colspan="5" ><p style="font-weight:bold; margin-top: 15px; vertical-align: center; "> No Pending Dishes For Approval </p></td></tr> -->
+                           
+                        
+                    </tbody>
+                </table>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--MODAL MAKER -->
+    <div class="modal fade" id="dishDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="dishCategory" style="padding: auto;" name="dishCategory"></h4>
+
+                    <div data-dismiss="modal">
+                        <i class="fa-solid fa-x" style="color: #000000;"></i>
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <h2 class="modal-body" id="dishName" style="text-align: center;"></h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredients</th>
+                                <th scope="col">Weight</th>
+                                <th scope="col">Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/approveDishes.js"></script>
+    <%- include("partials/footer") -%>
