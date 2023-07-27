@@ -82,7 +82,7 @@ app.post("/approveDish/process", approveDishesController.postApproveDish)
 
 // Revert Dishes
 app.get("/revertDishes", revertDishesController.getRevertDishes);
-// app.post("/revertDish/process", revertDishesController.postRevertDishes)
+app.post("/revertDish/process", revertDishesController.postRevertDishes)
 
 // Add Dish
 app.get("/addDish", addDishController.getAddDish)
