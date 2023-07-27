@@ -13,7 +13,6 @@
                 <p>Owner can <b><u>REVERT</u></b> the dish that was deleted</p>
                 <!-- TODO: For Loop with modal -->
                 <!-- TODO: Change Value, id, and name for each dishes -->
-                <% if (dishes.length > 0) { %>
                 <table class="table table-striped" id="dishTable"
                     style=" width: 100%; margin-left: auto; margin-right: auto;">
                     <thead>
@@ -26,13 +25,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <% if (dishes. length > 0){ %>
                         <% dishes.forEach(function(dish) { %>
-                        <% dish.recipe.forEach(function(recipe) { %>
                         <tr>
                             <td style="text-align: left;">   
                                 <div class="form-check">
-                                    <input class="form-check-input select" type="checkbox" value="<%= recipe._id %>" name="selectedDishes" id="<%= recipe.dishID %>">
-                                    <!-- <input type="hidden" name="selectedDishes[][dishRecipeID]" value="<%= recipe._id %>"> -->
                                     <label>
                                         <%= dish.name %>
                                     </label>
@@ -43,13 +40,13 @@
                                     View Recipe</button></td>
                             <!-- Revert Button -->
                             <td style="display: flex;">
-                                <button id="revertDishBtn" type='submit' class="btn btn-success" name="revert" value="dishid"
+                                <button id="revertDishBtn" type='submit' class="btn btn-success" name="revert" value="<%= dish._id %>"
                                 style="margin-left: 35px; color: white;">
                                 Revert</button> 
                             </td>
                         </tr>
                         <% }); %>
-                        <% }); %>
+                        <% }; %>
                        
                       
                     <!-- <tr>  <td colspan="5" ><p style="font-weight:bold; margin-top: 15px; vertical-align: center; "> No Pending Dishes For Approval </p></td></tr> -->
@@ -64,13 +61,12 @@
 
     <!--MODAL MAKER -->
     <% dishes.forEach(function(dish) { %>
-        <% dish.recipe.forEach(function(recipe) { %>
     <div class="modal fade" id="dishDetailsModal<%= dish._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="dishCategory" style="padding: auto;" name="dishCategory"></h4>
+                    <h4 class="modal-title" id="dishCategory" style="padding: auto;" name="dishCategory"><%= dish.category %></h4>
 
                     <div data-dismiss="modal">
                         <i class="fa-solid fa-x" style="color: #000000;"></i>
@@ -88,7 +84,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% recipe.ingredients.forEach(function(item) { %>
+                            <% dish.recipe.forEach(function(item) { %>
                             <tr>
                                 <td><%= item.ingredientName %></td>
                                 <td><%= item.chefWeight %></td>
@@ -103,5 +99,6 @@
             </div>
         </div>
     </div>
+    <% }); %>
     <script src="js/approveDishes.js"></script>
     <%- include("partials/footer") -%>
