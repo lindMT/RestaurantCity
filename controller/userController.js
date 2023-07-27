@@ -30,45 +30,41 @@ const userController = {
         res.render('userLanding');
     },
 
-    getChangePassword: function(req, res) {
-        res.render('changePassword', {changePrompt: ""});
+
+    getChangeOwnPassword: function(req, res) {
+        res.render('changeOwnPassword');
     },
 
-    changePassword: function(req, res) {
-        if(req.session.isAuth) {
+    changeOwnPassword: function(req, res) {
+        var userName = req.session.userName;
+        var unhashedPassword = req.body.password1;
+        var hashedPassword = bcrypt.hashSync(unhashedPassword, 10);
+        var oldPassword = req.body.oldPass;
 
-            const oldPass = req.body.oldPass;
-            const newPass1 = req.body.newPass1;
-            const newPass2 = req.body.newPass2;
-            User.findOne({ userName: req.session.userName }).then( docs => {
-                    if(!bcrypt.compareSync( oldPass, docs.password)){
-                        res.render('changePassword', {changePrompt: "Wrong Password."});
-                    } 
-                    else{
-                        if (newPass1 != newPass2){
-                            res.render('changePassword', { changePrompt: "Please match the passwords." });
-                        } else{
-                            var hashedPw = bcrypt.hashSync(newPass1, 10);
-                            console.log("newPass1: "+ newPass1);
-                            console.log("hashedPw: "+ hashedPw);
-                            
-                            User.updateOne({ userName: req.session.userName }, { password: hashedPw })
-                            .then(() => {
-                                res.render('changePassword', { changePrompt: "Password changed successfully." });
-                            })
-                            .catch((err) => {
-                                console.log(err);
-                            });
-                        
-                        }
+        User.findOne({ userName: userName }).then( docs => {
+                if (docs != null) { 
+                    if(bcrypt.compareSync( oldPassword, docs.password)) {
+                        User.updateOne(
+                            { userName: userName },
+                            { $set: { password: hashedPassword } }
+                        )
+                        .catch(err => {
+                            console.log(err);
+                        });
+                    
+                        req.flash('success_msg', 'Successfully changed password');
+                        return res.redirect('/changeOwnPassword');
+                    } else {
+                        req.flash('success_msg', null);
+                        req.flash('error_msg', 'Wrong password. Please contact the admin if needed.')
+                        console.log("Wrong PW")
+                        return res.redirect('/changeOwnPassword');
                     }
-                }       
-            )
-            
-        } else {
-            res.render('login');
-        }
+                }
+            }
+        );
     },
+
 
     getCreateUser: function(req, res) {
         res.render('createUser', {  createUserPrompt: "",
