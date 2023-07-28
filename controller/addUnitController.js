@@ -55,6 +55,45 @@ const addUnitController = {
                 const fixedUnit = req.body.fixedUnit;
                 factor = req.body.fixedConversionFactor;
                 unitUsed = await Unit.findById(fixedUnit);
+
+                newUnit = await Unit.findBy({unitSymbol: symbol});
+
+                // Insert to fixedIngredients
+                const newFixed = new FixedConversion ({
+                    initialUnitId: newUnit._id,
+                    convertedUnitId: unitUsed._id,
+                    conversionFactor: factor
+                });
+
+                // Reverse conversion
+                const reverseNewFixed = new FixedConversion ({
+                    initialUnitId: unitUsed._id,
+                    convertedUnitId: newUnit._id,
+                    conversionFactor: 1 / factor
+                });
+
+                await newFixed.save();
+                await reverseNewFixed.save();
+
+
+                // Finds all conversion with 
+                const findConversion = FixedConversion.find({ 
+                    initialUnitId: unitUsed._id 
+                });
+
+                // Creates extra conversion
+                for (const found of findConversion) {
+                    if (findConversion.convertedUnitId.toString() !== newUnit._id.toString()){
+                        const moreNewFixed = new FixedConversion ({
+                            initialUnitId: newUnit._id,
+                            convertedUnitId: found.convertedUnitId,
+                            conversionFactor: found.conversionFactor * factor
+                        })
+
+                        await moreNewFixed.save();
+                    }
+                }
+
                 
             } else if (unitType === "ingredient") {
                 const ingredient = req.body.ingreRef;
