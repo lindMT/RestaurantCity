@@ -9,7 +9,7 @@
           <!-- TODO: Backend -->
           <% if(ingredients.length > 0) {%>
             <% ingredients.forEach(ingredients => { %> 
-                  <option style=text-transform:capitalize value="<%= ingredients.name %>"><%= ingredients.name %></option>
+                  <option style=text-transform:capitalize value="<%= ingredients._id %>"><%= ingredients.name %></option>
             <% }) %> 
         <% } %>
         </select>

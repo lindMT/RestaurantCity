@@ -79,10 +79,10 @@ const addDishController = {
                 
             }else{
                 // req.flash('error_msg', 'Dish already added, Please input a different one')
-                console.log("Dish already existsAAAAAAAAAAAAAAAAAAAAA")
+                console.log("Dish already exists")
                 console.log(user._id);
                 console.log(admin._id);
-                console.log(inputDish);
+                console.log(req.body.ingredient);
                 
                 var categories = await DishCategory.find({});
                 var ingredients = await Ingredients.find({});
@@ -125,7 +125,7 @@ const addDishController = {
         console.log(temp[0].length)
 
         if(temp[0].length == 1){
-            let ingre = await Ingredients.findOne({ name: req.body.ingredient});
+            let ingre = await Ingredients.findOne({ _id: req.body.ingredient});
             let unit = await Units.findOne({ unitName: req.body.selectUnit});
             if(ingre && unit){
                 ingreTable.push([ingre._id,req.body.inputAmount,unit._id]);
@@ -136,7 +136,7 @@ const addDishController = {
                 //     let ingre = await Ingredients.findOne({ name: req.body.ingredient});
 
                 // }
-                let ingre = await Ingredients.findOne({ name: req.body.ingredient[i]});
+                let ingre = await Ingredients.findOne({ _id: req.body.ingredient[i]});
                 let unit = await Units.findOne({ unitName: req.body.selectUnit[i]});
                 for (let j = 0; j < i; j++) {
                     if (req.body.ingredient[i] == req.body.ingredient[j]) {

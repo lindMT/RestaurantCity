@@ -109,7 +109,7 @@
                                   <!-- TODO: Backend -->
                                   <% if(ingredients.length > 0) {%>
                                     <% ingredients.forEach(ingredients => { %> 
-                                          <option style=text-transform:capitalize value="<%= ingredients.name %>"
+                                          <option style=text-transform:capitalize value="<%= ingredients._id %>" 
                                             <% if(ingredientList[index] == ingredients.name) { %>
                                               selected
                                             <% } %>
@@ -182,7 +182,7 @@
                               <!-- TODO: Backend -->
                               <% if(ingredients.length > 0) {%>
                                 <% ingredients.forEach(ingredients => { %> 
-                                      <option style=text-transform:capitalize value="<%= ingredients.name %>"
+                                      <option style=text-transform:capitalize value="<%= ingredients._id  %>"
                                         <% if(ingredientList == ingredients.name) { %>
                                           selected
                                         <% } %>
