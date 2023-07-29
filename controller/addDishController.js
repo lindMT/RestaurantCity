@@ -173,7 +173,7 @@ const addDishController = {
                 var baseUnit = await Units.findById(ingreInRow.unitID);
                 var convertedUnit = await Units.findById(selectUnitIdList);
 
-                if(ingreInRow.baseUnit.toString() == convertedUnit._id.toString()){
+                if(ingreInRow.unitID.toString() != convertedUnit._id.toString()){
                     // FixedConversion / check if not null
                     var fixedConversionFound = await FixedConversion.findOne({  initialUnitId: baseUnit._id, 
                                                                                 convertedUnitId: convertedUnit._id });
