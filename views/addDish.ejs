@@ -226,10 +226,8 @@
                           </div>
                           <!-- Div Button -->
                           <div class="form-row-buttons" style="align-items: last baseline;">
-                            <% if(index != 0){ %>
                             <!-- Remove Ingredient Button -->
-                            <button type="button" class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
-                            <% } %>
+                            <button type="button" style="display: none;"  class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
                             <!-- Add Ingredient Button -->
                             <button type="button" class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
 

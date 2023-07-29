@@ -108,12 +108,72 @@ const addDishController = {
             var lackingString = "Invalid unit chosen for: ";
             if(Array.isArray(ingredientIdList)){
                 var ingreLength = ingredientIdList.length;
+                var isValid = [];
                 for(var i=0; i<ingreLength; i++){
                     /// START OF INNER ARRAY LOOP
                     var ingreInRow = await Ingredients.findById(ingredientIdList[i]);
                     var baseUnit = await Units.findById(ingreInRow.unitID);
                     var convertedUnit = await Units.findById(selectUnitIdList[i]);
+                    if(ingreInRow.unitID.toString() != convertedUnit._id.toString()){
 
+                        // FixedConversion / check if not null
+                        var fixedConversionFound = await FixedConversion.findOne({  initialUnitId: baseUnit._id, 
+                                                                                    convertedUnitId: convertedUnit._id });
+
+                        var ingreUnitConvFound = false;
+
+                        // Get conversions
+                        var ingreUnitConversions = await IngreConversion.findOne({ ingredientId: ingredientIdList[i] });
+                        console.log("infreUnitConversions == = = = = = =")
+                        console.log(ingreUnitConversions)
+                        // find sub conversion in ingreConv
+                        for (var z=0; z < ingreUnitConversions.subUnit.length; z++){
+                            if(ingreUnitConversions.subUnit[z].convertedUnitId.toString() == convertedUnit._id.toString()){
+                                ingreUnitConvFound = true; // check if true
+                            }
+                        }
+                        
+                        if(!ingreUnitConvFound){
+                            isValid.push(false);
+                            var ingreUnitMismatch = await Ingredients.findById(ingredientIdList[i]);
+                            if(lackingString != "Invalid unit chosen for: "){
+                                lackingString += ", ";
+                            }
+                            lackingString += ingreUnitMismatch.name + " (no "+ convertedUnit.unitName + " conversion)";
+                        } else{
+                            isValid.push(true);
+                        }
+                        /// END OF INNER ARRAY LOOP 
+                    } else{
+                        isValid.push(true);
+                    }
+
+
+                }
+
+                if(isValid.includes(false)){ 
+                
+                    var categories = await DishCategory.find({});
+                    var ingredients = await Ingredients.find({});
+                    var units = await Units.find({});
+    
+                    return res.render('addDish', {  categories, ingredients, units,
+                                                    error_msg: lackingString,
+                                                    dishNameInput: req.body.inputDishName,
+                                                    categoryInput: req.body.category,
+                                                    priceInput: req.body.Amount,
+                                                    ingredientList: req.body.ingredient,
+                                                    inputAmountList: req.body.inputAmount,
+                                                    selectUnitList: req.body.selectUnit
+                                                 });
+                }
+
+            } else{
+                var ingreInRow = await Ingredients.findById(ingredientIdList);
+                var baseUnit = await Units.findById(ingreInRow.unitID);
+                var convertedUnit = await Units.findById(selectUnitIdList);
+
+                if(ingreInRow.unitID.toString() != convertedUnit._id.toString()){
                     // FixedConversion / check if not null
                     var fixedConversionFound = await FixedConversion.findOne({  initialUnitId: baseUnit._id, 
                                                                                 convertedUnitId: convertedUnit._id });
@@ -121,7 +181,7 @@ const addDishController = {
                     var ingreUnitConvFound = false;
 
                     // Get conversions
-                    var ingreUnitConversions = await IngreConversion.findOne({ ingredientId: ingredientIdList[i] });
+                    var ingreUnitConversions = await IngreConversion.findOne({ ingredientId: ingredientIdList });
                     console.log("infreUnitConversions == = = = = = =")
                     console.log(ingreUnitConversions)
                     // find sub conversion in ingreConv
@@ -132,60 +192,34 @@ const addDishController = {
                     }
                     
                     if(!ingreUnitConvFound){
-                        var ingreUnitMismatch = await Ingredients.findById(ingredientIdList[i]);
-                        if(lackingString != "Invalid unit chosen for: "){
-                            lackingString += ", ";
-                        }
-                        lackingString += ingreUnitMismatch.name + " (no "+ convertedUnit.unitName + " conversion)";
-                    } 
-                    /// END OF INNER ARRAY LOOP 
-                }
-
-            } else{
-                var ingreInRow = await Ingredients.findById(ingredientIdList);
-                var baseUnit = await Units.findById(ingreInRow.unitID);
-                var convertedUnit = await Units.findById(selectUnitIdList);
-
-                // FixedConversion / check if not null
-                var fixedConversionFound = await FixedConversion.findOne({  initialUnitId: baseUnit._id, 
-                                                                            convertedUnitId: convertedUnit._id });
-
-                var ingreUnitConvFound = false;
-
-                // Get conversions
-                var ingreUnitConversions = await IngreConversion.findOne({ ingredientId: ingredientIdList });
-                console.log("infreUnitConversions == = = = = = =")
-                console.log(ingreUnitConversions)
-                // find sub conversion in ingreConv
-                for (var z=0; z < ingreUnitConversions.subUnit.length; z++){
-                    if(ingreUnitConversions.subUnit[z].convertedUnitId.toString() == convertedUnit._id.toString()){
-                        ingreUnitConvFound = true; // check if true
+                        var ingreUnitMismatch = await Ingredients.findById(ingredientIdList);
+                        lackingString += ingreUnitMismatch.name;
                     }
+                } else{
+                    fixedConversionFound = true;
+                    ingreUnitConvFound = true; 
                 }
+
+
+
+                if((fixedConversionFound == null || fixedConversionFound == undefined) && !ingreUnitConvFound){ 
                 
-                if(!ingreUnitConvFound){
-                    var ingreUnitMismatch = await Ingredients.findById(ingredientIdList);
-                    lackingString += ingreUnitMismatch.name;
+                    var categories = await DishCategory.find({});
+                    var ingredients = await Ingredients.find({});
+                    var units = await Units.find({});
+    
+                    return res.render('addDish', {  categories, ingredients, units,
+                                                    error_msg: lackingString,
+                                                    dishNameInput: req.body.inputDishName,
+                                                    categoryInput: req.body.category,
+                                                    priceInput: req.body.Amount,
+                                                    ingredientList: req.body.ingredient,
+                                                    inputAmountList: req.body.inputAmount,
+                                                    selectUnitList: req.body.selectUnit
+                                                 });
                 }
             }
-
-            // invalid
-            if((fixedConversionFound == null || fixedConversionFound == undefined) && !ingreUnitConvFound){ 
-                
-                var categories = await DishCategory.find({});
-                var ingredients = await Ingredients.find({});
-                var units = await Units.find({});
-
-                return res.render('addDish', {  categories, ingredients, units,
-                                                error_msg: lackingString,
-                                                dishNameInput: req.body.inputDishName,
-                                                categoryInput: req.body.category,
-                                                priceInput: req.body.Amount,
-                                                ingredientList: req.body.ingredient,
-                                                inputAmountList: req.body.inputAmount,
-                                                selectUnitList: req.body.selectUnit
-                                             });
-            }
+            
 
             // end /////////////////////////////////////////////////////////////////////////////////
             
