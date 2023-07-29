@@ -2,6 +2,7 @@ const { default: mongoose } = require('mongoose');
 const User = require('../model/usersSchema.js');
 const Units = require('../model/unitsSchema.js');
 const Conversion = require('../model/ingreConversionSchema.js');
+const FixedConversion = require('../model/fixedConversionSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js')
 const bcrypt = require("bcrypt");
 
@@ -52,11 +53,24 @@ const manageConversionsController = {
                     };
                 }
             }));
+
+            // Get the fixed conversions where initialUnitId matches the baseUnit of the ingredient
+            const fixedConversions = await FixedConversion.find({ initialUnitId: ingredients.unitID });
+            const fixedConversionsWithUnits = await Promise.all(fixedConversions.map(async fixedConversion => {
+                const initialUnit = await Units.findById(fixedConversion.initialUnitId);
+                const convertedUnit = await Units.findById(fixedConversion.convertedUnitId);
+                return {
+                    initialUnitName: initialUnit.unitName,
+                    convertedUnitName: convertedUnit.unitName,
+                    conversionFactor: fixedConversion.conversionFactor
+                };
+            }));
     
             console.log("ingredient JSON to pass: ", ingreWithConversion);
             res.render('viewConversions', { 
                 ingredients: ingreWithConversion,
-                ingre: ingredients
+                ingre: ingredients,
+                fixed: fixedConversionsWithUnits
             });
         } catch (err) {
             console.error("Error in viewConversions: ", err);
