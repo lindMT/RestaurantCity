@@ -9,23 +9,60 @@
             <img src="/images/restaurantCityLogo.png">
             <h1>Welcome, <%- session.firstName %>!</h1>
             <hr>
+            <% if (session.position == 'admin') {%> 
+                <!-- Admin -->
+                <a href="/home">View Dashboard</a> <!-- Also for Stock Controllers -->
+                <a href="/viewOrderReport/Periodical">View Order Report</a>
+                <a href="/adminConfirmation">Manage Users</a>
+                <hr>
+                
+                <!-- Stock Controller -->
+                <a href="/viewInventory">View Inventory</a>
+                <a href="/inputPhysicalCount">Input Physical Count</a>
+                <a href="/recordAddtl/p1">Record Purchase</a>
+                <a href="/recordFirst/p1">Record First Purchase</a>
+                <a href="/discard/p1">Discard Ingredient</a>
+                <hr>
 
-            <a href="/home">View Dashboard</a>
-            <a href="/viewInventory">View Inventory</a>
-            <a href="/addNewIngredient">Add New Ingredient</a>
-            <a href="/recordFirst/p1">Record First Purchase</a>
-            <a href="/recordAddtl/p1">Record Purchase</a>
-            <a href="/discard/p1">Discard Ingredient</a>
-            <a href="/manageDishes">Manage Dishes</a>
-            <a href="/addCategory">Add Category</a>
-            <a href="/addUnit">Add Unit</a>
-            <a href="/changeOwnPassword">Change Password</a>
-            <a href="/manageConversions">Manage Conversions</a>
-            <a href="/viewOrderReport/Periodical">View Order Report</a>
-            <a href="/inputPhysicalCount">Input Physical Count</a>
-            <a href="/viewOrderTerminal">Place Order</a>
-            <a href="/adminConfirmation">Manage Users</a>
+                <!-- Chef -->
+                <a href="/manageDishes">Manage Dishes</a>
+                <a href="/manageConversions">Manage Conversions</a>
+                <a href="/addNewIngredient">Add New Ingredient</a>
+                <a href="/addUnit">Add Unit</a>
+                <a href="/addCategory">Add Category</a>
+                <hr>
+
+                <!-- Cashier  -->
+                <a href="/viewOrderTerminal">Place Order</a>
+                <hr>
+
+                
+            <% } else if(session.position == 'stockController'){ %> 
+                <!-- Stock Controller -->
+                <a href="/viewInventory">View Inventory</a>
+                <a href="/inputPhysicalCount">Input Physical Count</a>
+                <a href="/recordAddtl/p1">Record Purchase</a>
+                <a href="/recordFirst/p1">Record First Purchase</a>
+                <a href="/discard/p1">Discard Ingredient</a>
+                <hr>
+            <% } else if(session.position == 'chef'){ %> 
+                <!-- Chef -->
+                <a href="/manageDishes">Manage Dishes</a>
+                <a href="/manageConversions">Manage Conversions</a>
+                <a href="/addNewIngredient">Add New Ingredient</a>
+                <a href="/addUnit">Add Unit</a>
+                <a href="/addCategory">Add Category</a>
+                <hr>
+            <% } else if(session.position == 'cashier'){ %> 
+                <!-- Cashier  -->
+                <a href="/viewOrderTerminal">Place Order</a>
+                <hr>
+            <% }  %> 
+
             
+            <!-- Common User Features -->
+            <a href="/changeOwnPassword">Change Password</a>
+            <hr>
             <a href="/logout" class="logout-button">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 Logout

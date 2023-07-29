@@ -109,6 +109,10 @@ body {
     margin-top: auto; /* Added */
 }
 
+.logout-button{
+    margin-top: 5vh;
+}
+
 .sidenav hr{
     color: #FFFFFF; 
     margin-left: 0.9vw;
