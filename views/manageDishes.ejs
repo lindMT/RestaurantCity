@@ -74,7 +74,9 @@
                         <i class="fa-solid fa-bowl-food fa-xl" style="color: #41A162;"></i>
                         Add Dishes
                     </a>
+                    <%  if (session.position == 'admin') { %>
                     <div>
+                        
                         <a href="/approveDishes" style="color: #f59f54; margin-right: 10px;">
                             <i class="fa-solid fa-circle-check fa-xl" style="color: #f59f54;"></i>
                             Approve Dishes
@@ -84,6 +86,7 @@
                             Revert Dishes
                         </a>
                     </div>
+                    <% } %> 
                 </div>
 
             </form>

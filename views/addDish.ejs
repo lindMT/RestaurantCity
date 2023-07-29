@@ -92,11 +92,11 @@
 
           <% if (typeof ingredientList !== 'undefined' && ingredientList !== null) { %>
                   <% if (Array.isArray(ingredientList)) { %>
-                  
+                    <div id="form-row">
                     <% ingredientList.forEach(function(ingre, index) { %>
 
-                          <div id="form-row">
-                            <div id="form-row-content" style="display: flex;">
+                          
+                            <div id="form-row-content" style="display: flex; margin-top: 10px;">
                               <div class="form-ingredients">
                                 <label for="ingredient">
                                   <% if(index == 0 ){ %>
@@ -159,9 +159,11 @@
                               </div>
                               <!-- Div Button -->
                               <div class="form-row-buttons" style="align-items: last baseline;">
-                                <% if(index != 0){ %>
+                                <% if(index == 0){ %>
                                 <!-- Remove Ingredient Button -->
-                                <button type="button" class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+                                  <button type="button" style="display: none;" class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
+                                <% } else { %>
+                                  <button type="button" class="btn btn-danger" onclick="removeForm(this)" id="removeIngredientBtn"> x </button>
                                 <% } %>
                                 <!-- Add Ingredient Button -->
                                 <button type="button" class="btn btn-light" id="addIngredientBtn" onclick="duplicateForm();"> + </button>
@@ -169,9 +171,10 @@
                               </div>
 
                             </div>
-                          </div> <!--ending tag for form row  -->
+                          
 
                   <% }) %>
+                </div> <!--ending tag for form row  -->
                   <% } else { %>
 
                       <div id="form-row">
