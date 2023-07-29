@@ -26,13 +26,13 @@
             <tbody>
             <% for (var i = 0; i < qtyPurchase.length;  i++ ) { %>
                 <tr>
-                    <td>
+                    <td style="padding-left: 2em;" class="left-td">
                         Purchased
                     </td>
-                    <td>
+                    <td style="padding-left: 2em;" class="left-td">
                         <%= variantPurchase[i] %>
                     </td>
-                    <td>
+                    <td class="right-td" style="padding-right: 3em;">
                         <%= qtyPurchase[i] %>
                     </td>
                     <td>
@@ -48,13 +48,13 @@
             <% } %>
             <% for (var i = 0; i < qtyDiscard.length;  i++ ) { %>
                 <tr>
-                    <td>
-                        Discard
+                    <td style="padding-left: 2em;" class="left-td">
+                        Discarded
                     </td>
-                    <td>
+                    <td style="padding-left: 2em;" class="left-td">
                         <%= variantDiscard[i] %>
                     </td>
-                    <td>
+                    <td class="right-td" style="padding-right: 3em;">
                         <%= qtyDiscard[i] %>
                     </td>
                     <td>
@@ -70,13 +70,13 @@
             <% } %>
             <% for (var i = 0; i < qtyMismatch.length;  i++ ) { %>
                 <tr>
-                    <td>
+                    <td style="padding-left: 2em;" class="left-td">
                         Mismatch
                     </td>
-                    <td>
+                    <td style="padding-left: 2em;" class="left-td">
                         N/A
                     </td>
-                    <td>
+                    <td class="right-td" style="padding-right: 3em;">
                         <%= qtyMismatch[i] %>
                     </td>
                     <td>
@@ -92,13 +92,13 @@
             <% } %>
             <% for (var i = 0; i < qtyConsumed.length;  i++ ) { %>
                 <tr>
-                    <td>
+                    <td style="padding-left: 2em;" class="left-td">
                         Consumed
                     </td>
-                    <td>
+                    <td style="padding-left: 2em;" class="left-td">
                         N/A
                     </td>
-                    <td>
+                    <td class="right-td" style="padding-right: 3em;">
                         <%= qtyConsumed[i] %>
                     </td>
                     <td>

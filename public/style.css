@@ -564,7 +564,6 @@ td i {
     justify-content: center;
     align-items: center;
     margin: auto;
-    /* text-align: left; width: 30%; */
 }
 
 .physical-card-holder {
@@ -649,4 +648,13 @@ td i {
     width: 70%;
     height: fit-content;
     overflow:auto;
+}
+
+/***************** TEXT TABLE ALIGNMENT CSS *****************/
+.left-td {
+    text-align: left;
+}
+
+.right-td {
+    text-align: right;
 }

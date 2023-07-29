@@ -44,7 +44,7 @@
             <tbody>
             <% ingres.forEach(function(ingredient, index) { %>
             <tr> 
-                <td name="ingredient-name"  style="text-transform: capitalize;">
+                <td name="ingredient-name"  style="text-transform: capitalize; padding-left: 2em;" class="left-td">
                     <form id="detailed-report-<%= index %>" action="/viewStockReport/Detailed" method="post">                        
                         <input type="hidden" name="dateString" value="<%= dateString %>">
                         <input type="hidden" name="ingreID" value="<%= ingredient._id %>">
@@ -54,13 +54,13 @@
                     </form>
                 </td>
                 <!-- Value from purchasedIngre -->
-                <td id="custom-purchased" name="custom-purchased"> <%= purchasesValues[index] %></td>
+                <td id="custom-purchased" name="custom-purchased" class="right-td" style="padding-right: 6em;"> <%= purchasesValues[index] %></td>
                 <!-- Value from dishRecipe (orderItem) -->
-                <td id="custom-consumed" name="custom-consumed">   <%= consumedValues[index] %></td>
+                <td id="custom-consumed" name="custom-consumed" class="right-td" style="padding-right: 6em;">   <%= consumedValues[index] %></td>
                 <!-- Value from discardedIngre + mismatch -->
-                <td id="custom-lost" name="custom-lost">           <%= lostValues[index] %></td>
+                <td id="custom-lost" name="custom-lost" class="right-td" style="padding-right: 6em;">           <%= lostValues[index] %></td>
                 <!-- Value = purchased - (consumed + lost) -->
-                <td id="custom-remaining" name="custom-remaining"> <%= stockValues[index] %></td>
+                <td id="custom-remaining" name="custom-remaining" class="right-td" style="padding-right: 6em;"> <%= stockValues[index] %></td>
                 <% 
                 units.forEach(function(unit){
                     if(ingredient.unitID.toString() == unit._id.toString()){
