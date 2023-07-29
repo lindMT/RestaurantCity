@@ -463,7 +463,7 @@ async function generateReport(ingres, dateArray, purchasesValues, consumedValues
                                 if(recipe.ingredients[r].chefUnitID.toString() == ingres[i].unitID.toString()){
                                     // if yes, add value as is
                                     console.log("Unit Match for Recipe (did not convert)");
-                                    console.log("NetWeight: " + discardeds[a].netWeight);
+                                    console.log("NetWeight: " + recipe.ingredients[r].chefWeight);
                                     totalConsumed += +(recipe.ingredients[r].chefWeight*orderItems[p].qty);
                                     console.log("totalConsumed: " + totalConsumed);
                                 }else{
