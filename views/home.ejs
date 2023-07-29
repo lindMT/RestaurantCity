@@ -3,14 +3,13 @@
 <% if (session.position == 'admin') {%> 
     <div class="card shadow">
         <div class="card-body d-flex flex-column">
-            <h1>Notifications</h1> 
+            <h1>🍽️Dish Alerts</h1> 
             <hr>
             
             <table class="table table-striped" style="width: 100%; margin: 0 auto;">
                 <thead>
                     <tr>
                         <th scope="col" style="width: 40%;">Report</th>
-                        <th scope="col" style="width: 30%;">Status</th>
                         <th scope="col" style="width: 20%;">Action</th>
                     </tr>
                 </thead>
@@ -18,12 +17,9 @@
                     <%if (counter > 0){ %>
                      <tr>
                         <td style="text-transform: capitalize;">You have <%= counter %> dishes for approval</td>
-                            <td class="table-warning">  
-                                Immediate Action
-                            </td>
                         <td>
-                            <button class="viewReportBtn" type ="button" style="background:none; border:none;">
-                                <a href="/approveDishes %>" style="color: black; text-decoration: none;">
+                            <button id="viewReportBtn" class="btn btn-success" type ="button">
+                                <a href="/approveDishes %>" style="color: white; text-decoration: none;">
                                     Approve Dishes</a>
                             </button></td>
                         </td>
@@ -43,42 +39,27 @@
     <div class="card shadow">
         <div class="d-flex flex-column text-left" style="min-width: 75vw; min-height: 20vw;">
             <div class="card-body d-flex flex-column">
-                <h1>Alerts</h1> 
+                <h1>🥗Ingredient Alerts</h1> 
 
                 <hr>
                 <table class="table table-striped" style="width: 100%; margin: 0 auto;">
                     <thead>
                         <tr>
-                            <th scope="col" style="width: 40%;">Report</th>
-                            <th scope="col" style="width: 30%;">Status</th>
-                            <th scope="col" style="width: 20%;">Action</th>
+                            <th scope="col">Report</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="text-transform: capitalize;">Ingredient Name has 0 stock</td>
-                                <td class="table-danger">  
-                                    Critical
-                                </td>
-                            <td>
-                                
-                                <button class="viewReportBtn" type ="button" style="background:none; border:none;">
-                                    <a href="/recordAddtl/p1 %>" style="color: black; text-decoration: none;">
-                                        Add Stock</a>
-                                </button></td>
+                            <td style="text-transform: capitalize;">Ingredient Name has 0 stock </td>
+                            <td><button id="viewRecipeBtn" class="btn btn-primary"data-toggle="modal" data-target="#ingreModal" type ="button" style="color: white;">
+                                View Ingredients</button>
                             </td>
                          </tr>
                          <tr>
                             <td style="text-transform: capitalize;">Ingredient Name is low on stock (count)</td>
-                                <td class="table-warning">  
-                                    Immediate Action
-                                </td>
-                            <td>
-                                
-                                <button class="viewReportBtn" type ="button" style="background:none; border:none;">
-                                    <a href="/recordAddtl/p1 %>" style="color: black; text-decoration: none;">
-                                        Add Stock</a>
-                                </button></td>
+                            <td><button id="viewRecipeBtn" class="btn btn-primary"data-toggle="modal" data-target="#ingreModal" type ="button" style="color: white;">
+                                View Ingredients</button>
                             </td>
                          </tr>
                          
@@ -88,5 +69,41 @@
         </div>        
     </div>
  
+    <!-- MODAL MAKER FOR INGRE -->
+    <div class="modal fade" id="ingreModal" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="ingreTitle" style="padding: auto;" name="ingreTitle">Current low stocks</h4>
+                    <div data-dismiss="modal">
+                        <i class="fa-solid fa-x" style="color: #000000;"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Stock Count</th>
+                                <th scope="col">Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         
+                            <tr>
+                                <td>Ingre1</td>
+                                <td>0</td>
+                                <td>kg</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>  
+<!--  -->
 <script src="js/home.js"></script>
 <%- include("partials/footer") -%>

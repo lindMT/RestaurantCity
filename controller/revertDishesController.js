@@ -85,18 +85,10 @@ const revertDishesController = {
 
         if (revert){
 
-            console.log(revert)
             const recipe = await DishRecipe.findOne({_id:revert})
-            console.log(recipe)
             const dish = await Dish.findOne({_id:recipe.dishID})
 
-             const currentDish = await Dish.findOne({name:dish.name, isActive:true, isApproved:'approved'})
-             
-            
-            
-            console.log(dish)
-            console.log(currentDish)
-            // console.log(currentRecipe)
+            const currentDish = await Dish.findOne({name:dish.name, isActive:true, isApproved:'approved'})
 
             if(currentDish){
                 const currentRecipe = await DishRecipe.findOne({dishID:currentDish._id, isActive:true, isApproved:'approved'})
@@ -106,13 +98,13 @@ const revertDishesController = {
                 await Dish.updateOne({_id:dish},{$set: {lastModified:currentDate, isActive:true}})
                 await DishRecipe.updateOne({_id:recipe},{$set: {lastModified:currentDate, isActive:true}})
                 req.flash('success_msg', 'Version of Dish ' + dish.name + ' Successfully Reverted')
-                
     
                 return res.redirect('/revertDishes');
             } else{
                 await Dish.updateOne({_id:dish},{$set: {lastModified:currentDate, isActive:true}})
                 await DishRecipe.updateOne({_id:recipe},{$set: {lastModified:currentDate, isActive:true}})
                 req.flash('success_msg', 'Version of Dish ' + dish.name + ' Successfully Reverted')
+                
                 return res.redirect('/revertDishes');
             }
 
