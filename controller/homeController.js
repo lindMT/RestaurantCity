@@ -1,6 +1,8 @@
 const User = require('../model/usersSchema.js');
 const Dish = require('../model/dishSchema.js');
 const DishRecipe = require('../model/dishRecipeSchema.js');
+const Ingredients = require('../model/ingredientsSchema.js');
+const Units = require('../model/unitsSchema.js');
 const bcrypt = require("bcrypt");
 
 const homeController = {
@@ -9,8 +11,11 @@ const homeController = {
 
         var dishes = await Dish.find({isActive:true});
         var recipe = await DishRecipe.find({isActive:true, isApproved:'for approval'});
+        var ingre = await Ingredients.find({});
+        var units = await Units.find({});
 
         var counter = 0;
+        var stock = 0;
         if (req.session.position == "admin" || req.session.position == "stockController"){
             for(var i=0; i<dishes.length;i++){
                 for(var j=0; j<recipe.length; j++){
@@ -20,9 +25,13 @@ const homeController = {
                     }
                 }
             }
-
-            console.log(counter);
-            return res.render('home', {dishes, counter});
+            for(var i=0; i<ingre.length;i++){
+                if(ingre[i].totalNetWeight <= ingre[i].reorderPoint){
+                    stock++;
+                }
+            }
+            console.log(stock);
+            return res.render('home', {dishes, counter, ingre, stock, units});
         } else if (req.session.position == "chef" ){
             return res.redirect('/manageDishes');
         } else if (req.session.position == "cashier" ){
