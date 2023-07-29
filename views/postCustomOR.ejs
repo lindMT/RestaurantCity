@@ -41,7 +41,7 @@
             <tbody>
                 <% distinctDishes.forEach(function(dish, index){ %> 
                 <tr> 
-                    <td name="dish-name"  style="text-transform: capitalize;">
+                    <td name="dish-name"  style="text-transform: capitalize;padding-left: 2em;" class="left-td">
                         <form id="detailed-report-<%= index %>" action="/viewOrderReport/Detailed" method="post">                        
                             <input type="hidden" name="dateString" value="<%= dateString %>">
                             <input type="hidden" name="dishName" value="<%= dish %>">
@@ -51,7 +51,7 @@
                         </form>
                     </td>
                     <td id="custom-qty" name="custom-qty">      <%= qtyValues[index] %></td>
-                    <td id="custom-price" name="custom-price">  ₱ <%= priceValues[index] %></td>
+                    <td id="custom-price" name="custom-price" class="right-td" style="padding-right: 10em; margin-left:-5em;" >  ₱ <%= priceValues[index] %></td>
                 </tr>
                 <% }) %>
             </tbody>
