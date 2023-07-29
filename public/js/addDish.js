@@ -7,6 +7,7 @@ const parentDiv = document.getElementById('form-row');
 function duplicateForm() {
   let formRow = document.createElement('div');
   formRow.className = 'form-row';
+  formRow.style.display = "flex";
 
   let formRowContent = document.getElementById('form-row-content').cloneNode(true);
 
@@ -14,6 +15,11 @@ function duplicateForm() {
   const labels = formRowContent.querySelectorAll('label');
   labels.forEach((label) => {
     label.remove();
+  });
+
+  const btns = formRowContent.querySelectorAll('button');
+  btns.forEach((btn) => {
+    btn.style.display = "block";
   });
 
   formRow.appendChild(formRowContent);
