@@ -42,31 +42,6 @@ const addIngreController = {
 
         await newIngredient.save();
 
-
-        const fixedConversions = await FixedConversion.find({ initialUnitId: foundUnit._id });
-        console.log("Fixed Conversions:", fixedConversions);
-
-
-        const subUnits = [];
-
-
-        for (const fixedConversion of fixedConversions) {
-            subUnits.push({
-                convertedUnitId: fixedConversion.convertedUnitId,
-                conversionFactor: fixedConversion.conversionFactor
-            });
-        }
-
-        console.log('Sub Units:', subUnits);
-
-        const newIngreConverstion = new IngreConversion({
-            ingredientId: newIngredient._id,
-            initialUnitId: foundUnit._id,
-            subUnit: subUnits,
-        });
-
-        await newIngreConverstion.save();
-
         // TODO: To be changed into a page
         return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: newIngredient, unit: foundUnit });
     }
