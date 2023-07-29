@@ -37,11 +37,11 @@
                                 <div class="form-check">
                                     <input class="form-check-input select" type="checkbox" value="<%= recipe._id %>" name="selectedDishes" id="<%= recipe.dishID %>">
                                     <!-- <input type="hidden" name="selectedDishes[][dishRecipeID]" value="<%= recipe._id %>"> -->
-                                    <label>
+                                    <label style="text-transform: capitalize;">
                                         <%= dish.name %>
                                     </label>
                             </td>
-                            <td><%= dish.category %></td>
+                            <td style="text-transform: capitalize;"><%= dish.category %></td>
                             <td>₱ <%= dish.price %></td>
                             <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal<%= dish._id %>" type ="button" style="color: #0091cf;">
                                     View Recipe</button></td>
@@ -121,9 +121,9 @@
                         <tbody>
                             <% recipe.ingredients.forEach(function(item) { %>
                             <tr>
-                                <td><%= item.ingredientName %></td>
+                                <td style="text-transform: capitalize;"><%= item.ingredientName %></td>
                                 <td><%= item.chefWeight %></td>
-                                <td><%= item.chefUnitSymbol %></td>
+                                <td style="text-transform: capitalize;"><%= item.chefUnitSymbol %></td>
                             </tr>
                             <% }); %>
                             <!-- <tr>

@@ -42,11 +42,11 @@
                         <tr>
                             
                             
-                            <td style="text-align: left;">
+                            <td style="text-align: left; text-transform: capitalize;">
                                         <%= dish.name %>
                             </td>
                             
-                            <td><%= dish.category %></td>
+                            <td style="text-transform: capitalize;"><%= dish.category %></td>
                             <td>₱ <%= dish.price %></td>
                             <td><button class="viewRecipeBtn" data-toggle="modal" data-target="#dishDetailsModal<%= dish._id %>" type ="button" style="color: #0091cf;">
                                     View Recipe</button></td>
@@ -100,9 +100,9 @@
                         <tbody>
                             <% dish.recipe.forEach(function(item) { %>
                             <tr>
-                                <td><%= item.ingredientName %></td>
+                                <td style="text-transform: capitalize;"><%= item.ingredientName %></td>
                                 <td><%= item.chefWeight %></td>
-                                <td><%= item.chefUnitSymbol %></td>
+                                <td style="text-transform: capitalize;"><%= item.chefUnitSymbol %></td>
                             </tr>
                             <% }); %>
                         </tbody>
