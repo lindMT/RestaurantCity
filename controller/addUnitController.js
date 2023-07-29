@@ -109,7 +109,7 @@ const addUnitController = {
                 const ingredient = req.body.ingreRef;
                 factor = req.body.ingredientConversionFactor
                 ingreUsed = await Ingredient.findById(ingredient);
-                converUnit = await Unit.find({ unitSymbol: symbol });
+                converUnit = await Unit.findOne({ unitSymbol: symbol });
 
                 const existsConversion = await Conversion.findOne({
                     ingredientId: ingreUsed._id
