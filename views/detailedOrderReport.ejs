@@ -28,7 +28,7 @@
                 <tr>
                     <td><%= date %></td>
                     <td class="right-td" style="padding-right: 7em;"><%= qtyValues[index] %></td>
-                    <td class="right-td" style="padding-right: 3em;">₱ <%= priceValues[index] %></td>
+                    <td class="right-td" style="padding-right: 3em;">₱ <%= priceValues[index].toFixed(2) %></td>
                     <td><%= userValues[index] %></td>
                 </tr> 
                 <% }) %>
