@@ -145,8 +145,8 @@
                                   <option disabled selected value>Select Unit</option>
                                   <% if(units.length > 0) {%>
                                     <% units.forEach(units => { %> 
-                                        <option style=text-transform:capitalize value="<%= units.unitName %>"
-                                          <% if(selectUnitList[index] == units.unitName){ %>  
+                                        <option style=text-transform:capitalize value="<%= units._id %>"
+                                          <% if(selectUnitList[index] == units._id.toString()){ %>  
                                             selected
                                           <% } %>  
                                         >
@@ -210,8 +210,8 @@
                               <option disabled selected value>Select Unit</option>
                               <% if(units.length > 0) {%>
                                 <% units.forEach(units => { %> 
-                                    <option style=text-transform:capitalize value="<%= units.unitName %>"
-                                      <% if(selectUnitList == units.unitName){ %>  
+                                    <option style=text-transform:capitalize value="<%= units._id %>"
+                                      <% if(selectUnitList == units._id.toString()){ %>  
                                         selected
                                       <% } %>  
                                     >

@@ -6,6 +6,8 @@ const DishRecipe = require('../model/dishRecipeSchema.js');
 const Ingredients = require('../model/ingredientsSchema.js');
 const bcrypt = require("bcrypt");
 const Units = require('../model/unitsSchema.js');
+const FixedConversion = require('../model/fixedConversionSchema.js');
+const IngreConversion = require('../model/ingreConversionSchema.js');
 const ObjectId = mongoose.Types.ObjectId;
 
 const addDishController = {
@@ -100,6 +102,64 @@ const addDishController = {
             }
             
         }else {
+            // start /////////////////////////////////////////////////////////////////////////////////
+            var ingredientIdList = req.body.ingredient;
+            var selectUnitIdList = req.body.selectUnit;
+            var lackingString = "Invalid unit chosen for: ";
+            if(Array.isArray(ingredientIdList)){
+                var ingreLength = ingredientIdList.length;
+                for(var i=0; i<ingreLength; i++){
+                    console.log("sorry pi")
+                }
+
+            } else{
+                var ingreInRow = await Ingredients.findById(ingredientIdList);
+                var baseUnit = await Units.findById(ingreInRow.unitID);
+                var convertedUnit = await Units.findById(selectUnitIdList);
+
+                // FixedConversion / check if not null
+                var fixedConversionFound = await FixedConversion.findOne({  initialUnitId: baseUnit._id, 
+                                                                            convertedUnitId: convertedUnit._id });
+
+                var ingreUnitConvFound = false;
+
+                // Get conversions
+                var ingreUnitConversions = await IngreConversion.findOne({ ingredientId: ingredientIdList });
+                console.log("infreUnitConversions == = = = = = =")
+                console.log(ingreUnitConversions)
+                // find sub conversion in ingreConv
+                for (var z=0; z < ingreUnitConversions.subUnit.length; z++){
+                    if(ingreUnitConversions.subUnit[z].convertedUnitId.toString() == convertedUnit._id.toString()){
+                        ingreUnitConvFound = true; // check if true
+                    }
+                }
+                
+                if(!ingreUnitConvFound){
+                    var ingreUnitMismatch = await Ingredients.findById(ingredientIdList);
+                    lackingString += ingreUnitMismatch.name;
+                }
+            }
+
+            // invalid
+            if((fixedConversionFound == null || fixedConversionFound == undefined) && !ingreUnitConvFound){ 
+                
+                var categories = await DishCategory.find({});
+                var ingredients = await Ingredients.find({});
+                var units = await Units.find({});
+
+                return res.render('addDish', {  categories, ingredients, units,
+                                                error_msg: lackingString,
+                                                dishNameInput: req.body.inputDishName,
+                                                categoryInput: req.body.category,
+                                                priceInput: req.body.Amount,
+                                                ingredientList: req.body.ingredient,
+                                                inputAmountList: req.body.inputAmount,
+                                                selectUnitList: req.body.selectUnit
+                                             });
+            }
+
+            // end /////////////////////////////////////////////////////////////////////////////////
+            
             if(user._id.equals(admin._id)){
                 approval = "approved"
                 approvedDate = currentDate
@@ -126,7 +186,7 @@ const addDishController = {
 
         if(temp[0].length == 1){
             let ingre = await Ingredients.findOne({ _id: req.body.ingredient});
-            let unit = await Units.findOne({ unitName: req.body.selectUnit});
+            let unit = await Units.findOne({ _id: req.body.selectUnit});
             if(ingre && unit){
                 ingreTable.push([ingre._id,req.body.inputAmount,unit._id]);
             }
@@ -137,7 +197,7 @@ const addDishController = {
 
                 // }
                 let ingre = await Ingredients.findOne({ _id: req.body.ingredient[i]});
-                let unit = await Units.findOne({ unitName: req.body.selectUnit[i]});
+                let unit = await Units.findOne({ _id: req.body.selectUnit[i]});
                 for (let j = 0; j < i; j++) {
                     if (req.body.ingredient[i] == req.body.ingredient[j]) {
                         // req.flash('error_msg', 'Duplicate Ingredient Entry, Please input a different one')

@@ -32,7 +32,7 @@
           <option disabled selected value>Select Unit</option>
           <% if(units.length > 0) {%>
             <% units.forEach(units => { %> 
-                <option style=text-transform:capitalize value="<%= units.unitName %>"><%= units.unitName %></option>
+                <option style=text-transform:capitalize value="<%= units._id %>"><%= units.unitName %></option>
             <% }) %> 
         <% } %>
           <!-- TODO: Backend -->
