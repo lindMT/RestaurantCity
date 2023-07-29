@@ -64,8 +64,8 @@ const orderController = {
             var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
         
             var fixedUnitConversion = await FixedConversion.findOne({
-              initialUnitId: ingredientInRecipe.chefUnitID,
-              convertedUnitId: ingredientInInventory.unitID
+              initialUnitId: ingredientInInventory.unitID,
+              convertedUnitId: ingredientInRecipe.chefUnitID
             });
         
             // var ingreUnitConversion = await IngreConversion.findOne({
@@ -252,8 +252,8 @@ const orderController = {
                   var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
               
                   var fixedUnitConversion = await FixedConversion.findOne({
-                    initialUnitId: ingredientInRecipe.chefUnitID,
-                    convertedUnitId: ingredientInInventory.unitID
+                    initialUnitId: ingredientInInventory.unitID,
+                    convertedUnitId: ingredientInRecipe.chefUnitID
                   });
               
                   var ingreUnitConversions = await IngreConversion.find();
