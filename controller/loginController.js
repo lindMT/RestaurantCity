@@ -1,5 +1,9 @@
 const User = require('../model/usersSchema.js');
 const bcrypt = require("bcrypt");
+const sampleData = require("../sampleData/sampleData.js");
+
+// UNCOMMENT TO LOAD DATA
+// sampleData.addSamples();
 
 const loginController = {
     // for redirecting login and signup
