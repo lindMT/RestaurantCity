@@ -115,23 +115,44 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const unitTypeRadio = document.getElementsByName('unitType');
-    const fixedUnitFields = document.getElementById('fixedUnitFields');
-    const ingredientFields = document.getElementById('ingredientFields');
+        const unitTypeRadio = document.getElementsByName('unitType');
+        const fixedUnitFields = document.getElementById('fixedUnitFields');
+        const ingredientFields = document.getElementById('ingredientFields');
+        const unitForm = document.getElementById('unitForm');
 
-    function toggleFields() {
-        if (unitTypeRadio[0].checked) {
-            fixedUnitFields.style.display = 'block';
-            ingredientFields.style.display = 'none';
-        } else if (unitTypeRadio[1].checked) {
-            fixedUnitFields.style.display = 'none';
-            ingredientFields.style.display = 'block';
+        function toggleFields() {
+            if (unitTypeRadio[0].checked) {
+                fixedUnitFields.style.display = 'block';
+                ingredientFields.style.display = 'none';
+
+                // Enable fixed unit fields
+                Array.from(fixedUnitFields.querySelectorAll('input, select')).forEach(element => {
+                    element.disabled = false;
+                });
+
+                // Disable ingredient fields
+                Array.from(ingredientFields.querySelectorAll('input, select')).forEach(element => {
+                    element.disabled = true;
+                });
+            } else if (unitTypeRadio[1].checked) {
+                fixedUnitFields.style.display = 'none';
+                ingredientFields.style.display = 'block';
+
+                // Disable fixed unit fields
+                Array.from(fixedUnitFields.querySelectorAll('input, select')).forEach(element => {
+                    element.disabled = true;
+                });
+
+                // Enable ingredient fields
+                Array.from(ingredientFields.querySelectorAll('input, select')).forEach(element => {
+                    element.disabled = false;
+                });
+            }
         }
-    }
 
-    unitTypeRadio.forEach(radio => radio.addEventListener('change', toggleFields));
-    toggleFields(); // Initial state
-});
+        unitTypeRadio.forEach(radio => radio.addEventListener('change', toggleFields));
+        toggleFields(); // Initial state
+    });
 </script>
 
 <%- include("partials/footer") -%>

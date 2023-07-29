@@ -14,7 +14,6 @@ const fixedConversionSchema = new Schema({
     },
     conversionFactor: {
         type: mongoose.Types.Decimal128,
-        type: Number, //can store Double also
         required: true,
     }
 });

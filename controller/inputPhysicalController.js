@@ -112,6 +112,17 @@ const inputPhysicalController = {
                             } else {
                                 netWeightSum[ingredientId].totalNetWeight += convertedNetWeight; // Convert the net weight based on partials' unit
                             }
+                        } else {
+                            // If net weight and unit are not provided, set net weight to 0 and the unit to the main ingredient unit
+                            const ingredient = await Ingredient.findById(ingredientId);
+
+                            if (ingredient) {
+                                netWeightSum[ingredientId] = netWeightSum[ingredientId] || {
+                                    totalNetWeight: 0,
+                                    unitID: ingredient.unitID,
+
+                                }
+                            }
                         }
                     }
                 }
