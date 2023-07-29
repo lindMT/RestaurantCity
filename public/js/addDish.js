@@ -26,9 +26,6 @@ function duplicateForm() {
 
   parentDiv.appendChild(formRow);
 
-  // To have a margin when adding new Ingredient form
-  formRow.style.marginTop = '10px';
-
 }
 
 function removeForm(button) {
