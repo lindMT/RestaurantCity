@@ -22,9 +22,9 @@ const addIngreController = {
                 units: foundUnits
             });
         } else {
-            req.flash('error_msg', 'Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in.');
             console.log("Unauthorized access.");
-            return res.redirect('/login')
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
         }
         
     },
@@ -57,9 +57,9 @@ const addIngreController = {
             // TODO: To be changed into a page
             return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: newIngredient, unit: foundUnit });
         } else {
-            req.flash('error_msg', 'Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in.');
             console.log("Unauthorized access.");
-            return res.redirect('/login')
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
         }
     }
 };
