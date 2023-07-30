@@ -7,7 +7,13 @@ const { default: mongoose } = require('mongoose');
 const addCategoryController = {
     // for redirecting login and signup
     getAddCategory: async function(req, res) {
-        res.render('addCategory');
+        if(req.session.isAuth && (req.session.position == 'admin' || req.session.position == 'chef') ){
+            res.render('addCategory');
+        } else{
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        }
     },
 
     postAddCategory: async function(req, res){
