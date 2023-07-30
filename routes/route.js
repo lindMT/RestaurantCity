@@ -118,7 +118,7 @@ app.post("/viewStockReport/Detailed", viewReportController.getDetailed)
 app.get("/viewOrderReport/Periodical", viewOrderReportController.getPeriodical);
 app.post("/viewOrderReport/Periodical", viewOrderReportController.postPeriodical);
 
-// Stock Order Report
+// Custom Order Report
 app.get("/viewOrderReport/Custom", viewOrderReportController.getCustom);
 app.post("/viewOrderReport/Custom", viewOrderReportController.postCustom);
 
