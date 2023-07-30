@@ -12,7 +12,9 @@ const IngreConversion = require('../model/ingreConversionSchema.js');
 var Convert = require('convert-units')
 
 const orderController = {
+    //For Security Login and Signup
     getOrder: async function(req, res) {
+      if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "cashier")){
         try {
             const dishes = await Dish.find({isApproved: "approved", isActive: true});
             const categories = await Category.find({});
@@ -22,9 +24,15 @@ const orderController = {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the dishes and categories.");
         }
+      } else {
+          console.log("Unauthorized access.");
+          req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+      }
     },
     
     processOrder: async function(req, res){
+      if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "cashier")){
       try{
         // toggle this to true/false to test
         let orderIsViable = true;
@@ -204,7 +212,8 @@ const orderController = {
               lackingString += lackingIngre.name + " (" + lackingIngre.totalNetWeight;
               var unit = await Unit.findById(lackingIngre.unitID);
               lackingString += " " + unit.unitName + " in stock";
-              // START OF LOOP ////////////////////////////////////////////////////////////////////////////////////
+              
+              // START OF LOOP 
               
               for(var k = 0; k < dishCount; k++){
                 console.log("=======================================================");
@@ -262,7 +271,7 @@ const orderController = {
                 }
               }
               
-              // END OF LOOP //////////////////////////////////////////////////////////////////////////////////
+              // END OF LOOP
               lackingString += ")";
               lackingIngredientsDetails.push(lackingString);
             }
@@ -270,17 +279,15 @@ const orderController = {
             res.render('orderProcessingLanding', {  orderPrompt: orderFailMessage,
                                                     lackingIngredients: lackingIngredientsDetails });
           }
-
-        // }///////// end of else
-
-
-              
-      } // end of try
-
-      
-        catch(rror){
+      } 
+        catch(error){
           console.error(error);
       }
-    },
+    }else {
+      console.log("Unauthorized access.");
+      req.session.destroy();
+        return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+    }
+  }
 };
 module.exports = orderController;

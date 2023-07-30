@@ -10,6 +10,8 @@ const bcrypt = require("bcrypt");
 const manageDishesController = {
     // for redirecting login and signup
     getManageDishes: async function(req, res) {
+    // Session position
+    if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "chef")){
         try {
             // Retrieve all dishes available
             const dishes = await Dish.find({ isActive: true }).collation({ locale: 'en' }).sort({ name: 1 });
@@ -57,6 +59,11 @@ const manageDishesController = {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the dishes.");
         }
+    }   else{
+        console.log("Unauthorized access.");
+        req.session.destroy();
+        return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        } // end of session position security
     },
 
     postManageDishes: async(req, res) => {

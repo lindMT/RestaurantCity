@@ -34,8 +34,8 @@ async function triggerFunction() {
     var end = new Date();
     var start = new Date(end);
     start.setDate(end.getDate() - 14);
-    console.log(end);
-    console.log(start);
+    //console.log(end);
+    //console.log(start);
 
     // initialize sum
     var totalConsumed = 0;
@@ -45,7 +45,7 @@ async function triggerFunction() {
 
     // loop through all ingredients
     for (var i = 0; i < ingres.length; i++){
-        console.log("CURRENT INGREDIENT: " + ingres[i].name);
+        //console.log("CURRENT INGREDIENT: " + ingres[i].name);
         // loop through all dates
         for (var d = 0; d < dateArray.length; d++){
             var orders = await Order.find({
@@ -85,18 +85,18 @@ async function triggerFunction() {
                         for (var r = 0; r < recipe.ingredients.length; r++){
                             // check if the current ingredient is used in the recipe
                             if (recipe.ingredients[r].ingredient.toString() == ingres[i]._id.toString()){
-                                console.log("Ingredient Used in Dish");
-                                console.log("Dish: " + dishes[q].name);
+                                //console.log("Ingredient Used in Dish");
+                                //console.log("Dish: " + dishes[q].name);
                                 //check if unit matches
                                 if(recipe.ingredients[r].chefUnitID.toString() == ingres[i].unitID.toString()){
                                     // if yes, add value as is
-                                    console.log("Unit Match for Recipe (did not convert)");
-                                    console.log("NetWeight: " + recipe.ingredients[r].chefWeight);
+                                    //console.log("Unit Match for Recipe (did not convert)");
+                                    //console.log("NetWeight: " + recipe.ingredients[r].chefWeight);
                                     totalConsumed += +(recipe.ingredients[r].chefWeight*orderItems[p].qty);
-                                    console.log("totalConsumed: " + totalConsumed);
+                                    //console.log("totalConsumed: " + totalConsumed);
                                 }else{
                                     // if no, convert
-                                    console.log("Unit NOT Match for Recipe (need to convert)");
+                                    //console.log("Unit NOT Match for Recipe (need to convert)");
                                     var fromID = recipe.ingredients[r].chefUnitID.toString();
                                     var toID = ingres[i].unitID.toString();
                                     var multiplier = 0;
@@ -105,9 +105,9 @@ async function triggerFunction() {
                                     for (var l = 0; l < conversions.length; l++){
                                         if (fromID == conversions[l].initialUnitId.toString()){
                                             if (toID == conversions[l].convertedUnitId.toString()){
-                                                console.log("Conversion Factor Found (FIXED)");
+                                                //console.log("Conversion Factor Found (FIXED)");
                                                 multiplier = conversions[l].conversionFactor;
-                                                console.log("Multiplier: " + multiplier);
+                                                //console.log("Multiplier: " + multiplier);
                                             }
                                         }
                                     } 
@@ -117,20 +117,20 @@ async function triggerFunction() {
                                         var ingreConversions = await IngreConversion.findOne({ingredientId: ingres[i]._id});
                                         for (var k = 0; k < ingreConversions.subUnit.length; k++){
                                             if(fromID == ingreConversions.subUnit[k].convertedUnitId.toString()){
-                                                console.log("Conversion Factor Found (UNIQUE)");
+                                                //console.log("Conversion Factor Found (UNIQUE)");
                                                 multiplier = 1/(ingreConversions.subUnit[k].conversionFactor);
-                                                console.log("Multiplier: " + multiplier);
+                                                //console.log("Multiplier: " + multiplier);
                                             }
                                         }
                                     }
     
                                     // convert netWeight
                                     convertedVal = +(recipe.ingredients[r].chefWeight*multiplier);
-                                    console.log("Converted NetWeight: " + convertedVal);
+                                    //console.log("Converted NetWeight: " + convertedVal);
     
                                     // add to totalConsumed
                                     totalConsumed += +convertedVal*orderItems[p].qty;
-                                    console.log("totalConsumed: "+ totalConsumed);
+                                    //console.log("totalConsumed: "+ totalConsumed);
                                 }
                             }
                         }
@@ -139,10 +139,10 @@ async function triggerFunction() {
             }
         }
 
-        console.log("Sum of Ingre Use in Ordered Dishes: " + totalConsumed);
-        console.log("Number of Days: 14");
+        //console.log("Sum of Ingre Use in Ordered Dishes: " + totalConsumed);
+        //console.log("Number of Days: 14");
         var demand = totalConsumed / 14;
-        console.log(demand);
+        //console.log(demand);
 
         totalConsumed = 0;
 
