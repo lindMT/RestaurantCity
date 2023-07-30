@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="centered">
-                        <% if(error_msg) { %>    
+                        <% if(error_msg != null || error_msg != undefined) { %>    
                             <p style="color:red; font-weight:bold; margin-top: 15px; text-align: center;"> <%= error_msg %> </p>
                         <% } %>
                     </div>

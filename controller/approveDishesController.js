@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 const approveDishesController = {
     // for redirecting login and signup
     getApproveDishes: async function(req, res) {
+        if(req.session.isAuth && req.session.position == 'admin'){
         try {
             // Retrieve all dishes that are for approval
             const dishesForApproval = await Dish.find({
@@ -74,6 +75,11 @@ const approveDishesController = {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the dishes.");
         }
+    } else{
+        console.log("Unauthorized access.");
+        req.session.destroy();
+        return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+    }
     },
 
     postApproveDish: async function(req, res) {

@@ -13,10 +13,17 @@ const ObjectId = mongoose.Types.ObjectId;
 const addDishController = {
     // for redirecting login and signup
     getAddDish: async function(req, res) {
+        // Session position
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "chef")){
         var categories = await DishCategory.find({});
         var ingredients = await Ingredients.find({});
         var units = await Units.find({});
         res.render('addDish', {categories, ingredients, units});
+    }   else{
+        console.log("Unauthorized access.");
+        req.session.destroy();
+        return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        } // end of session position
     },
 
     postAddDish: async(req, res) => {
@@ -317,7 +324,7 @@ const addDishController = {
                 return res.redirect('/manageDishes');
             }
         }
-    }
+      }
     }
 
 }

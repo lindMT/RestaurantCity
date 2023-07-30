@@ -8,6 +8,8 @@ const bcrypt = require("bcrypt");
 
 const manageConversionsController = {
     getManageConversions: async(req, res) => {
+    // Session position
+    if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "chef")){
         // const foundUnits = await Unit.find();
         const foundIngredients = await Ingredients.find();
         const foundUnits = await Units.find();
@@ -16,10 +18,17 @@ const manageConversionsController = {
             ingredients: foundIngredients,
             units: foundUnits
         });
+    }   else{
+        console.log("Unauthorized access.");
+        req.session.destroy();
+        return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        } // end of session position
     },
     
 
     viewConversions: async function(req, res) {
+    // Session position
+    if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "chef")){
         var ingreID = req.params.ingreID;
         console.log("IngreID in view conversions: " + ingreID);
 
@@ -77,13 +86,18 @@ const manageConversionsController = {
             // Handle the error and send an appropriate response.
             res.status(500).send("Internal Server Error");
         }
-
+    }   else{
+        console.log("Unauthorized access.");
+        req.session.destroy();
+        return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        } // end of session position
     },
 
     addConversion: async(req, res) => {
+     // Session position
+     if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "chef")){
         var ingreID = req.params.ingreID;
         console.log("IngreID in add conversions: " + ingreID);
-
         const ingredient = await Ingredients.findById(ingreID);
         const ingreConversion = await Conversion.find({ ingredientId: ingreID });
         const unit = await Units.find();
@@ -103,7 +117,11 @@ const manageConversionsController = {
             baseUnit: baseUnitNames,
             units: unit
         })
-
+    }   else{
+        console.log("Unauthorized access.");
+        req.session.destroy();
+        return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        } // end of session position
     },
 
     

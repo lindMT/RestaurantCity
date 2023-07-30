@@ -8,14 +8,19 @@ const bcrypt = require("bcrypt");
 
 const addUnitController = {
     getAddUnit: async(req, res) => {
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "chef")){
+            const ingredients = await Ingredient.find({});
+            const units = await Unit.find({});
 
-        const ingredients = await Ingredient.find({});
-        const units = await Unit.find({});
+            const initialUnits = await FixedConversion.distinct('initialUnitId');
+            const fixedUnits = await Unit.find({ _id: { $in: initialUnits } });
 
-        const initialUnits = await FixedConversion.distinct('initialUnitId');
-        const fixedUnits = await Unit.find({ _id: { $in: initialUnits } });
-
-        res.render('addUnit', { ingredients, units, fixedUnits });
+            res.render('addUnit', { ingredients, units, fixedUnits });
+        } else{
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        }
     },
 
     postAddUnit: async(req, res) => {

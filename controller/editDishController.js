@@ -12,8 +12,9 @@ const ObjectId = mongoose.Types.ObjectId;
 const editDishController = {
     // for redirecting login and signup
     getEditDish: async function(req, res) {
+        if(req.session.isAuth && (req.session.position == 'admin' || req.session.position == 'chef') ){
         const dishID = req.query.id;
-1
+
         try {
             // Find dish in database
 
@@ -35,6 +36,11 @@ const editDishController = {
             console.error(error);
             res.status(500).send("An error occurred while retrieving the dishes.");
         }
+    } else{
+        console.log("Unauthorized access.");
+        req.session.destroy();
+        return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+    }
     },
 
     postEditDish: async(req, res) => {
