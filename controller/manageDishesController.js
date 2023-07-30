@@ -75,8 +75,6 @@ const manageDishesController = {
             // If only one dish is selected, convert it to an array
             selectedDishes = [selectedDishes];
         }
-
-        console.log("LOL =",selectedDishes);
         
         try {
             for (const dishRecipeID of selectedDishes) {
