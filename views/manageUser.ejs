@@ -11,6 +11,7 @@
                     <thead>
                         <tr>
                             <th scope="col" class="col-md-3" style="text-align: left;">Employee</th>
+                            <th scope="col" class="col-md-3" style="text-align: left;">Username</th>
                             <th scope="col" class="col-md-3">Position</th>
                             <th scope="col" class="col-md-5">Actions</th>
                         </tr>
@@ -21,6 +22,7 @@
                             <% if(user.status == "active") { %>
                                 <tr>
                                     <td style="text-align: left;"><%= user.firstName%> <%= user.lastName%></td>
+                                    <td style="text-align: left;"><%= user.userName%></td>
                                     <td><%= user.position%></td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="First group">

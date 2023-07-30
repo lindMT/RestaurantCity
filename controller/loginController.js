@@ -11,7 +11,11 @@ const sampleData = require("../sampleData/sampleData.js");
 const loginController = {
     // for redirecting login and signup
     getLogin: function(req, res) {
-        res.render('login');
+        if(!req.session.isAuth){
+            res.render('login');
+        } else{
+            res.redirect('/home');
+        }
     },
 
     // for redirecting to home page
