@@ -97,13 +97,13 @@ const addUnitController = {
                             initialUnitId: findUnit._id,
                             convertedUnitId: found.convertedUnitId,
                             conversionFactor: found.conversionFactor * factor
-                        })
+                        });
 
                         const reverseMoreFixed = new FixedConversion({
                             initialUnitId: found.convertedUnitId,
                             convertedUnitId: findUnit._id,
                             conversionFactor: 1 / (found.conversionFactor * factor)
-                        })
+                        });
                         await moreNewFixed.save();
                         await reverseMoreFixed.save();
                     }
