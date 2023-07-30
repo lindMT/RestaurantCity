@@ -11,7 +11,7 @@ const homeController = {
         if(req.session.isAuth){
             var dishes = await Dish.find({isActive:true});
             var recipe = await DishRecipe.find({isActive:true, isApproved:'for approval'});
-            var ingre = await Ingredients.find({});
+            var ingre = await Ingredients.find({}).sort({ reorderPoint: -1 });
             var units = await Units.find({});
 
             var counter = 0;
@@ -30,6 +30,7 @@ const homeController = {
                         stock++;
                     }
                 }
+
                 console.log(stock);
                 return res.render('home', {dishes, counter, ingre, stock, units});
             } else if (req.session.position == "chef" ){
