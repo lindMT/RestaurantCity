@@ -14,7 +14,7 @@ const editDishController = {
     getEditDish: async function(req, res) {
         if(req.session.isAuth && (req.session.position == 'admin' || req.session.position == 'chef') ){
         const dishID = req.query.id;
-1
+
         try {
             // Find dish in database
 
