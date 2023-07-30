@@ -197,16 +197,19 @@ const addDishController = {
                     console.log("infreUnitConversions == = = = = = =")
                     console.log(ingreUnitConversions)
                     // find sub conversion in ingreConv
-                    for (var z=0; z < ingreUnitConversions.subUnit.length; z++){
-                        if(ingreUnitConversions.subUnit[z].convertedUnitId.toString() == convertedUnit._id.toString()){
-                            ingreUnitConvFound = true; // check if true
+                    if(ingreUnitConversions != null || ingreUnitConversions != undefined){
+                        for (var z=0; z < ingreUnitConversions.subUnit.length; z++){
+                            if(ingreUnitConversions.subUnit[z].convertedUnitId.toString() == convertedUnit._id.toString()){
+                                ingreUnitConvFound = true; // check if true
+                            }
                         }
-                    }
                     
+                                          
+                    } 
                     if(!ingreUnitConvFound){
                         var ingreUnitMismatch = await Ingredients.findById(ingredientIdList);
                         lackingString += ingreUnitMismatch.name;
-                    }
+                    }     
                 } else{
                     fixedConversionFound = true;
                     ingreUnitConvFound = true; 

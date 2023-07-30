@@ -65,48 +65,48 @@ const orderController = {
             var dishId = dishIdArray;
           }
 
-          var dishRecipe = await DishRecipe.findOne({ dishID: dishId });
+          var dishRecipe = await DishRecipe.findOne({ dishID: dishId, isActive: true, isApproved: "approved"});
 
           for (var ingredientInRecipe of dishRecipe.ingredients) {
             console.log("Check Ingredient in Recipe loop")
             var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
         
             var fixedUnitConversion = await FixedConversion.findOne({
-              initialUnitId: ingredientInInventory.unitID,
-              convertedUnitId: ingredientInRecipe.chefUnitID
+              initialUnitId: ingredientInRecipe.chefUnitID,
+              convertedUnitId: ingredientInInventory.unitID
             });
-                    
-            var ingreUnitConversions = await IngreConversion.find();
             
+            var ingreUnitConversions = await IngreConversion.findOne({ ingredientId: ingredientInRecipe.ingredient });
+            console.log("eto error" + ingreUnitConversions)
             if(ingredientInRecipe.chefUnitID.toString() != ingredientInInventory.unitID.toString()){
-              for(var iuc of ingreUnitConversions){
                 // find ingredient in ingreConv
-                if(iuc.ingredientId.toString() == ingredientInRecipe.ingredient.toString()){
-                  for (var z=0; z < iuc.subUnit.length; z++){
-                    if(iuc.subUnit[z].convertedUnitId.toString() == ingredientInRecipe.chefUnitID.toString()){
-                        var iuConversionFactor = iuc.subUnit[z].conversionFactor;
+                if(ingreUnitConversions != null){
+                  for (var z=0; z < ingreUnitConversions.subUnit.length; z++){
+                    if(ingreUnitConversions.subUnit[z].convertedUnitId.toString() == ingredientInRecipe.chefUnitID.toString()){
+                        var iuConversionFactor = ingreUnitConversions.subUnit[z].conversionFactor;
                     }
                   }
                 }
-              }
-            } else{
+            } else if(ingredientInRecipe.chefUnitID.toString() == ingredientInInventory.unitID.toString()){
               var iuConversionFactor = 1; // converting same units
             }
             
 
             // Set according to which is found
-            if (iuConversionFactor == null || iuConversionFactor == undefined) {
-              var conversionFactor = fixedUnitConversion.conversionFactor;
-            } else {
+            if (iuConversionFactor) {
               var conversionFactor = iuConversionFactor;
+              iuConversionFactor = null;
+            } else {
+              var conversionFactor = fixedUnitConversion.conversionFactor;
+              console.log("FIXED: "+ 1/conversionFactor)
             }
-
+            
             console.log("HERE IS THE CONVERSION FACTOR: " + conversionFactor);
             
             var found = false;
             for (var j = 0; j < ingredientsToUse.length; j++) {
               if (ingredientInRecipe.ingredient.toString() == ingredientsToUse[j]) {
-                ingredientUnitTotal[j] += ingredientInRecipe.chefWeight * quantity * (1/conversionFactor);
+                ingredientUnitTotal[j] += ingredientInRecipe.chefWeight * quantity * (conversionFactor);
                 found = true;
                 break;
               }
@@ -114,7 +114,7 @@ const orderController = {
           
             if (!found) {
               ingredientsToUse.push(ingredientInRecipe.ingredient.toString());
-              ingredientUnitTotal.push(ingredientInRecipe.chefWeight * quantity * (1/conversionFactor));
+              ingredientUnitTotal.push(ingredientInRecipe.chefWeight * quantity * (conversionFactor));
             }
 
           }
@@ -226,45 +226,46 @@ const orderController = {
                 }
               
                 var dishFromMainLoop = await Dish.findById(dishId);
-                var dishRecipe = await DishRecipe.findOne({ dishID: dishId });
+                var dishRecipe = await DishRecipe.findOne({ dishID: dishId, isActive: true, isApproved: "approved" });
               
                 for (var ingredientInRecipe of dishRecipe.ingredients) {
                   console.log("Check Ingredient in Recipe loop")
                   var ingredientInInventory = await Ingredient.findById(ingredientInRecipe.ingredient);
               
                   var fixedUnitConversion = await FixedConversion.findOne({
-                    initialUnitId: ingredientInInventory.unitID,
-                    convertedUnitId: ingredientInRecipe.chefUnitID
+                    initialUnitId: ingredientInRecipe.chefUnitID,
+                    convertedUnitId: ingredientInInventory.unitID
                   });
               
-                  var ingreUnitConversions = await IngreConversion.find();
+                  var ingreUnitConversions = await IngreConversion.findOne({ ingredientId: ingredientInRecipe.ingredient });
                   
                   if(ingredientInRecipe.chefUnitID.toString() != ingredientInInventory.unitID.toString()){
-                    for(var iuc of ingreUnitConversions){
                       // find ingredient in ingreConv
-                      if(iuc.ingredientId.toString() == ingredientInRecipe.ingredient.toString()){
-                        for (var z=0; z < iuc.subUnit.length; z++){
-                          if(iuc.subUnit[z].convertedUnitId.toString() == ingredientInRecipe.chefUnitID.toString()){
-                              var iuConversionFactor = iuc.subUnit[z].conversionFactor;
+                      if(ingreUnitConversions != null){
+                        for (var z=0; z < ingreUnitConversions.subUnit.length; z++){
+                          if(ingreUnitConversions.subUnit[z].convertedUnitId.toString() == ingredientInRecipe.chefUnitID.toString()){
+                              var iuConversionFactor = ingreUnitConversions.subUnit[z].conversionFactor;
                           }
                         }
                       }
-                    }
-                  } else{
+                  } else if(ingredientInRecipe.chefUnitID.toString() == ingredientInInventory.unitID.toString()){
                     var iuConversionFactor = 1; // converting same units
                   }
                   
+                  
               
                   // Set according to which is found
-                  if (iuConversionFactor == null || iuConversionFactor == undefined) {
-                    var conversionFactor = fixedUnitConversion.conversionFactor;
-                  } else {
+                  if (iuConversionFactor) {
                     var conversionFactor = iuConversionFactor;
+                    iuConversionFactor = null;
+                  } else {
+                    var conversionFactor = fixedUnitConversion.conversionFactor;
+                    console.log("FIXED: "+ 1/conversionFactor)
                   }
               
-                  console.log("HERE IS THE CONVERSION FACTOR: " + conversionFactor);
+                  console.log("HERE IS THE CONVERSION FACTOR(populate string only)):  " + conversionFactor);
                   if(ingredientInRecipe.ingredient.toString() == lackingIngredientsID[i]){
-                    lackingString += ", " + (ingredientInRecipe.chefWeight * quantity * (1/conversionFactor )) + " " 
+                    lackingString += ", " + (ingredientInRecipe.chefWeight * quantity * (conversionFactor )) + " " 
                         + unit.unitName + " needed for " + quantity + " x " + dishFromMainLoop.name ; // add dish name after demo  
                   }
               
