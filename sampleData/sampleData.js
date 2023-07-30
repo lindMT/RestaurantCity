@@ -473,7 +473,37 @@ const addSamples = async(req, res)=>{
               "$numberDecimal": "1"
             },
             "__v": 0
-        }
+        },
+        {
+          "_id": "64c669510b699d8b87f71e7c",
+          "name": "Sakto",
+          "ingreID": "64c6253f5b17fbe5b90a48a3",
+          "unitID": "64a5804ea792248175d204ea",
+          "netWeight": {
+            "$numberDecimal": "1"
+          },
+          "__v": 0
+        },
+        {
+          "_id": "64c669620b699d8b87f71e7d",
+          "name": "Small",
+          "ingreID": "64c625465b17fbe5b90a48a7",
+          "unitID": "64a5804ea792248175d204e7",
+          "netWeight": {
+            "$numberDecimal": "125"
+          },
+          "__v": 0
+        },    
+        {
+          "_id": "64c6696b0b699d8b87f71e7e",
+          "name": "Regular",
+          "ingreID": "64c6254f5b17fbe5b90a48ab",
+          "unitID": "64a5804ea792248175d204e7",
+          "netWeight": {
+            "$numberDecimal": "225"
+          },
+          "__v": 0
+        }  
     ]);
 
     await Purchased.insertMany([
