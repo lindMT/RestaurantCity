@@ -24,8 +24,8 @@ function getDates(startDate, stopDate) {
     return dateArray;
 }
 
-// TRIGGER FUNCTION //
-async function triggerFunction() {
+// REORDER POINT FUNCTION //
+async function computeReorder() {
     console.log('Trigger executed');    
     var ingres = await Ingredient.find();
     var conversions = await FixedConversion.find();
@@ -154,20 +154,23 @@ async function triggerFunction() {
 function loadTrigger() {
     console.log("Trigger set");
 
+    // Initial call (FOR NEW SYSTEM)
+    computeReorder();
+
+    /* 
     // Trigger every 1 minute (FOR TESTING PURPOSES)
     setInterval(() => {
-        console.log("Trigger loaded (every 1 minute)");
-        triggerFunction();
+        console.log("Executing trigger every 1 minute");
+        computeReorder();
     }, 60000); // 60000 milliseconds = 1 minute
+    */
 
-    /*
     // Trigger every two weeks (14 days) (FOR IMPLEMENTATION PURPOSES)
     const twoWeeksInMilliseconds = 14 * 24 * 60 * 60 * 1000;
     setInterval(() => {
-        console.log("Trigger loaded (every 14 days)");
-        triggerFunction();
+        console.log("Executing trigger every 14 days");
+        computeReorder();
     }, twoWeeksInMilliseconds);
-    */
 }
 
 module.exports = loadTrigger();
