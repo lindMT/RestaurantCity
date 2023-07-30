@@ -131,6 +131,12 @@ const addSamples = async(req, res)=>{
             "_id": "64a5804ea792248175d204ed",
             "unitName": "Fluid Ounce",
             "unitSymbol": "fl oz"
+        },
+        {
+          "_id": "64c1488e85ed9a2c45c4d200",
+          "unitName": "Pinch",
+          "unitSymbol": "pinch",
+          "__v": 0
         }
     ]);
  
@@ -343,81 +349,10 @@ const addSamples = async(req, res)=>{
 
     await IngreConversion.insertMany([
         {
-            "_id": "64c140ce85ed9a2c45c4d0dc",
-            "ingredientId": "64c140ce85ed9a2c45c4d0d9",
-            "initialUnitId": "64a5804ea792248175d204ea",
-            "subUnit": [
-              {
-                "convertedUnitId": "64a4520d9a494ecb0fd7216c",
-                "conversionFactor": 67.628,
-                "_id": "64c140ce85ed9a2c45c4d0dd"
-              },
-              {
-                "convertedUnitId": "64a4526d9a494ecb0fd7216d",
-                "conversionFactor": 202.884,
-                "_id": "64c140ce85ed9a2c45c4d0de"
-              },
-              {
-                "convertedUnitId": "64a451bb9a494ecb0fd7216b",
-                "conversionFactor": 4.22675,
-                "_id": "64c140ce85ed9a2c45c4d0df"
-              },
-              {
-                "convertedUnitId": "64a5804ea792248175d204e9",
-                "conversionFactor": 1000,
-                "_id": "64c140ce85ed9a2c45c4d0e0"
-              },
-              {
-                "convertedUnitId": "64a5804ea792248175d204ed",
-                "conversionFactor": 33.814,
-                "_id": "64c140ce85ed9a2c45c4d0e1"
-              }
-            ],
-            "__v": 0
-        },
-        {
-            "_id": "64c140dd85ed9a2c45c4d0e8",
-            "ingredientId": "64c140dd85ed9a2c45c4d0e5",
-            "initialUnitId": "64a5804ea792248175d204e8",
-            "subUnit": [
-              {
-                "convertedUnitId": "64a5804ea792248175d204eb",
-                "conversionFactor": 35.274,
-                "_id": "64c140dd85ed9a2c45c4d0e9"
-              },
-              {
-                "convertedUnitId": "64a5804ea792248175d204ec",
-                "conversionFactor": 2.20462,
-                "_id": "64c140dd85ed9a2c45c4d0ea"
-              },
-              {
-                "convertedUnitId": "64a5804ea792248175d204e7",
-                "conversionFactor": 1000,
-                "_id": "64c140dd85ed9a2c45c4d0eb"
-              }
-            ],
-            "__v": 0
-        },
-        {
             "_id":"64c147d485ed9a2c45c4d1cc",
             "ingredientId": "64c147d485ed9a2c45c4d1c9",
             "initialUnitId": "64a5804ea792248175d204e7",
             "subUnit": [
-              {
-                "convertedUnitId": "64a5804ea792248175d204eb",
-                "conversionFactor": 0.035,
-                "_id": "64c147d485ed9a2c45c4d1cd"
-              },
-              {
-                "convertedUnitId": "64a5804ea792248175d204ec",
-                "conversionFactor": 0.0022,
-                "_id": "64c147d485ed9a2c45c4d1ce"
-              },
-              {
-                "convertedUnitId": "64a5804ea792248175d204e8",
-                "conversionFactor": 0.001,
-                "_id": "64c147d485ed9a2c45c4d1cf"
-              },
               {
                 "convertedUnitId": "64c1488e85ed9a2c45c4d200",
                 "conversionFactor": 0.3,
@@ -429,40 +364,83 @@ const addSamples = async(req, res)=>{
     ]);
 
     await Ingredient.insertMany([
-        {
-            "_id": "64c140ce85ed9a2c45c4d0d9",
-            "name": "Milk",
-            "unitID": "64a5804ea792248175d204ea",
-            "totalNetWeight": {
-              "$numberDecimal": "4.25"
-            },
-            "reorderPoint": 0,
-            "hasVariant": true,
-            "__v": 0
+      {
+          "_id": "64c140ce85ed9a2c45c4d0d9",
+          "name": "Milk",
+          "unitID": "64a5804ea792248175d204ea",
+          "totalNetWeight": {
+            "$numberDecimal": "4.25"
+          },
+          "reorderPoint": 0,
+          "hasVariant": true,
+          "__v": 0
+      },
+      {
+          "_id": "64c140dd85ed9a2c45c4d0e5",
+          "name": "Beef",
+          "unitID": "64a5804ea792248175d204e8",
+          "totalNetWeight": {
+            "$numberDecimal": "1.2"
+          },
+          "reorderPoint": 0,
+          "hasVariant": false,
+          "__v": 0
+      },
+      {
+          "_id": "64c147d485ed9a2c45c4d1c9",
+          "name": "Salt",
+          "unitID": "64a5804ea792248175d204e7",
+          "totalNetWeight": {
+            "$numberDecimal": "933.3333333333334"
+          },
+          "reorderPoint": 0,
+          "hasVariant": true,
+          "__v": 0
+      },
+      {
+        "_id": "64c625365b17fbe5b90a489f",
+        "name": "Lettuce",
+        "unitID": "64a5804ea792248175d204e8",
+        "totalNetWeight": {
+          "$numberDecimal": "14"
         },
-        {
-            "_id": "64c140dd85ed9a2c45c4d0e5",
-            "name": "Beef",
-            "unitID": "64a5804ea792248175d204e8",
-            "totalNetWeight": {
-              "$numberDecimal": "1.2"
-            },
-            "reorderPoint": 0,
-            "hasVariant": false,
-            "__v": 0
+        "reorderPoint": 0,
+        "hasVariant": false,
+        "__v": 0
+      },
+      {
+        "_id":"64c6253f5b17fbe5b90a48a3",
+        "name": "Olive oil",
+        "unitID": "64a5804ea792248175d204ea",
+        "totalNetWeight": {
+          "$numberDecimal": "1"
         },
-        {
-            "_id": "64c147d485ed9a2c45c4d1c9",
-            "name": "Salt",
-            "unitID": "64a5804ea792248175d204e7",
-            "totalNetWeight": {
-              "$numberDecimal": "933.3333333333334"
-            },
-            "reorderPoint": 0,
-            "hasVariant": true,
-            "__v": 0
+        "reorderPoint": 0,
+        "hasVariant": true,
+        "__v": 0
+      },
+      {
+        "_id": "64c625465b17fbe5b90a48a7",
+        "name": "Cheese",
+        "unitID": "64a5804ea792248175d204e7",
+        "totalNetWeight": {
+          "$numberDecimal": "125"
         },
-
+        "reorderPoint": 0,
+        "hasVariant": true,
+        "__v": 0
+      },
+      {
+        "_id": "64c6254f5b17fbe5b90a48ab",
+        "name": "Graham crackers",
+        "unitID": "64a5804ea792248175d204e7",
+        "totalNetWeight": {
+          "$numberDecimal": "225"
+        },
+        "reorderPoint": 0,
+        "hasVariant": true,
+        "__v": 0
+      }
     ]);
 
     await IngreVariation.insertMany([
@@ -547,6 +525,44 @@ const addSamples = async(req, res)=>{
             "varID": "64c147e485ed9a2c45c4d1d9",
             "qty": 1,
             "__v": 0
+        },
+        {
+          "_id": "64c625645b17fbe5b90a48b7",
+          "ingreID": "64c6253f5b17fbe5b90a48a3",
+          "date": "Sun Jul 30 2023 16:55:00 GMT+0800 (Singapore Standard Time)",
+          "doneBy": "64a3fc38e916ed6021b6a5f6",
+          "varID": "64c625645b17fbe5b90a48b4",
+          "qty": 1,
+          "__v": 0
+        },
+        {
+          "_id": "64c625795b17fbe5b90a48c3",
+          "ingreID": "64c625465b17fbe5b90a48a7",
+          "date": "Thu Jun 01 2023 16:55:21 GMT+0800 (Singapore Standard Time)",
+          "doneBy": "64a3fc38e916ed6021b6a5f6",
+          "varID": "64c625795b17fbe5b90a48c0",
+          "qty": 1,
+          "__v": 0
+        },
+        {
+          "_id": "64c6259c5b17fbe5b90a48cf",
+          "ingreID": "64c6254f5b17fbe5b90a48ab",
+          "date": "Sat Jul 01 2023 16:55:56 GMT+0800 (Singapore Standard Time)",
+          "doneBy": "64a3fc38e916ed6021b6a5f6",
+          "varID": "64c6259c5b17fbe5b90a48cc",
+          "qty": 1,
+          "__v": 0
+        },
+        {
+          "_id": "64c625b25b17fbe5b90a48d9",
+          "ingreID": "64c625365b17fbe5b90a489f",
+          "date": "Sun Jul 23 2023 16:56:18 GMT+0800 (Singapore Standard Time)",
+          "doneBy": "64a3fc38e916ed6021b6a5f6",
+          "netWeight": {
+            "$numberDecimal": "15"
+          },
+          "unitID": "64a5804ea792248175d204e8",
+          "__v": 0
         }
     ]);
  
@@ -592,6 +608,34 @@ const addSamples = async(req, res)=>{
             "isApproved": "approved",
             "approvedOn": "2023-07-26T16:25:27.000Z",
             "__v": 0
+        },
+        {
+          "_id": "64c62bc137b9a4c332047102",
+          "name": "Caesar Salad",
+          "price": {
+            "$numberDecimal": "139"
+          },
+          "categoryID":  "64a825e585ad11ed4b260cda",
+          "isActive": true,
+          "lastModified": "2023-07-30T09:22:09.000Z",
+          "addedBy": "64c53da201ae199e43fb8b1e",
+          "isApproved": "for approval",
+          "approvedOn": null,
+          "__v": 0
+        },
+        {
+          "_id": "64c62bde37b9a4c33204712b",
+          "name": "Cheesecake",
+          "price": {
+            "$numberDecimal": "99"
+          },
+          "categoryID": "64a825e585ad11ed4b260cdb",
+          "isActive": true,
+          "lastModified": "2023-07-30T09:22:38.000Z",
+          "addedBy":"64c53da201ae199e43fb8b1e",
+          "isApproved": "for approval",
+          "approvedOn": null,
+          "__v": 0
         }
 
     ]);
@@ -683,6 +727,62 @@ const addSamples = async(req, res)=>{
             "isApproved": "approved",
             "approvedOn": "2023-06-01T16:25:27.000Z",
             "__v": 0
+        },
+        {
+          "_id": "64c62bc137b9a4c332047109",
+          "dishID": "64c62bc137b9a4c332047102",
+          "ingredients": [
+            {
+              "ingredient": "64c625365b17fbe5b90a489f",
+              "chefWeight": {
+                "$numberDecimal": "250"
+              },
+              "chefUnitID": "64a5804ea792248175d204e7",
+              "_id": "64c62bc137b9a4c33204710a"
+            },
+            {
+              "ingredient": "64c6253f5b17fbe5b90a48a3",
+              "chefWeight": {
+                "$numberDecimal": "10"
+              },
+              "chefUnitID": "64a5804ea792248175d204ed",
+              "_id": "64c62bc137b9a4c33204710b"
+            }
+          ],
+          "isActive": true,
+          "lastModified": "2023-07-30T09:22:09.000Z",
+          "addedBy": "64c53da201ae199e43fb8b1e",
+          "isApproved": "for approval",
+          "approvedOn": null,
+          "__v": 0
+        },
+        {
+          "_id": "64c62bde37b9a4c332047132",
+          "dishID": "64c62bde37b9a4c33204712b",
+          "ingredients": [
+            {
+              "ingredient": "64c625465b17fbe5b90a48a7",
+              "chefWeight": {
+                "$numberDecimal": "100"
+              },
+              "chefUnitID":"64a5804ea792248175d204e7",
+              "_id": "64c62bde37b9a4c332047133"
+            },
+            {
+              "ingredient": "64c6254f5b17fbe5b90a48ab",
+              "chefWeight": {
+                "$numberDecimal": "100"
+              },
+              "chefUnitID": "64a5804ea792248175d204e7",
+              "_id": "64c62bde37b9a4c332047134"
+            }
+          ],
+          "isActive": true,
+          "lastModified": "2023-07-30T09:22:38.000Z",
+          "addedBy": "64c53da201ae199e43fb8b1e",
+          "isApproved": "for approval",
+          "approvedOn": null,
+          "__v": 0
         }
     ]);
 
@@ -693,7 +793,7 @@ const addSamples = async(req, res)=>{
               "$numberDecimal": "150"
             },
             "date": "Thu Jul 27 2023 00:25:41 GMT+0800 (Philippine Standard Time)",
-            "takenBy": "alain",
+            "takenBy": "jose",
             "__v": 0
         },
         {
@@ -702,8 +802,35 @@ const addSamples = async(req, res)=>{
               "$numberDecimal": "220"
             },
             "date": "Thu Jul 27 2023 00:25:48 GMT+0800 (Philippine Standard Time)",
-            "takenBy": "alain",
+            "takenBy": "jose",
             "__v": 0
+        },
+        {
+          "_id": "64c630f637b9a4c332047196",
+          "totalPrice": {
+            "$numberDecimal": "100"
+          },
+          "date": "Thu Jun 01 2023 17:44:22 GMT+0800 (Singapore Standard Time)",
+          "takenBy": "jose",
+          "__v": 0
+        },
+        {
+          "_id": "64c631182f9b888e078cfc78",
+          "totalPrice": {
+            "$numberDecimal": "100"
+          },
+          "date": "Sat Jul 01 2023 17:44:56 GMT+0800 (Singapore Standard Time)",
+          "takenBy": "jose",
+          "__v": 0
+        },
+        {
+          "_id": "64c6311d2f9b888e078cfca4",
+          "totalPrice": {
+            "$numberDecimal": "330"
+          },
+          "date": "Sun Jul 23 2023 17:45:01 GMT+0800 (Singapore Standard Time)",
+          "takenBy": "jose",
+          "__v": 0
         }
     ]);
 
@@ -728,6 +855,27 @@ const addSamples = async(req, res)=>{
             "dishID": "64c148f785ed9a2c45c4d231",
             "qty": 2,
             "__v": 0
+        },
+        {
+          "_id":"64c630f637b9a4c332047199",
+          "orderID":"64c630f637b9a4c332047196",
+          "dishID": "64c1470685ed9a2c45c4d16e",
+          "qty": 1,
+          "__v": 0
+        },
+        {
+          "_id": "64c631182f9b888e078cfc7b",
+          "orderID": "64c631182f9b888e078cfc78",
+          "dishID": "64c1474a85ed9a2c45c4d1b7",
+          "qty": 2,
+          "__v": 0
+        },
+        {
+          "_id": "64c6311d2f9b888e078cfca7",
+          "orderID": "64c6311d2f9b888e078cfca4",
+          "dishID": "64c148f785ed9a2c45c4d231",
+          "qty": 3,
+          "__v": 0
         }
     ]);
 
@@ -753,6 +901,39 @@ const addSamples = async(req, res)=>{
             },
             "unitID": "64a5804ea792248175d204e9",
             "__v": 0
+        },
+        {
+          "_id": "64c626325b17fbe5b90a48ee",
+          "ingreID": "64c140dd85ed9a2c45c4d0e5",
+          "date": "Sun Jul 23 2023 16:58:26 GMT+0800 (Singapore Standard Time)",
+          "doneBy": "64a3fc38e916ed6021b6a5f6",
+          "netWeight": {
+            "$numberDecimal": "250"
+          },
+          "unitID": "64a5804ea792248175d204e7",
+          "__v": 0
+        },
+        {
+          "_id": "64c626645b17fbe5b90a48ff",
+          "ingreID": "64c147d485ed9a2c45c4d1c9",
+          "date": "Sat Jul 01 2023 16:59:16 GMT+0800 (Singapore Standard Time)",
+          "doneBy": "64a3fc38e916ed6021b6a5f6",
+          "netWeight": {
+            "$numberDecimal": "33"
+          },
+          "unitID": "64a5804ea792248175d204e7",
+          "__v": 0
+        },
+        {
+          "_id": "64c6267d5b17fbe5b90a490d",
+          "ingreID": "64c625365b17fbe5b90a489f",
+          "date": "Thu Jun 01 2023 16:59:41 GMT+0800 (Singapore Standard Time)",
+          "doneBy":"64a3fc38e916ed6021b6a5f6",
+          "netWeight": {
+            "$numberDecimal": "1"
+          },
+          "unitID": "64a5804ea792248175d204e8",
+          "__v": 0
         }
     ]);
 
