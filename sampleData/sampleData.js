@@ -617,9 +617,7 @@ const addSamples = async(req, res)=>{
           },
           "categoryID":  "64a825e585ad11ed4b260cda",
           "isActive": true,
-          "lastModified": {
-            "$date": "2023-07-30T09:22:09.000Z"
-          },
+          "lastModified": "2023-07-30T09:22:09.000Z",
           "addedBy": "64c53da201ae199e43fb8b1e",
           "isApproved": "for approval",
           "approvedOn": null,
@@ -633,9 +631,7 @@ const addSamples = async(req, res)=>{
           },
           "categoryID": "64a825e585ad11ed4b260cdb",
           "isActive": true,
-          "lastModified": {
-            "$date": "2023-07-30T09:22:38.000Z"
-          },
+          "lastModified": "2023-07-30T09:22:38.000Z",
           "addedBy":"64c53da201ae199e43fb8b1e",
           "isApproved": "for approval",
           "approvedOn": null,
@@ -754,9 +750,7 @@ const addSamples = async(req, res)=>{
             }
           ],
           "isActive": true,
-          "lastModified": {
-            "$date": "2023-07-30T09:22:09.000Z"
-          },
+          "lastModified": "2023-07-30T09:22:09.000Z",
           "addedBy": "64c53da201ae199e43fb8b1e",
           "isApproved": "for approval",
           "approvedOn": null,
@@ -784,9 +778,7 @@ const addSamples = async(req, res)=>{
             }
           ],
           "isActive": true,
-          "lastModified": {
-            "$date": "2023-07-30T09:22:38.000Z"
-          },
+          "lastModified": "2023-07-30T09:22:38.000Z",
           "addedBy": "64c53da201ae199e43fb8b1e",
           "isApproved": "for approval",
           "approvedOn": null,
