@@ -444,313 +444,343 @@ async function generateReport(ingres, dateArray, purchasesValues, consumedValues
 // CONTROLLER //
 const viewReportController = {  
     getPeriodical: function(req, res) {
-        const reportTypeLabels = ["Daily", "Weekly", "Monthly", "Yearly"];
-        res.render('viewPeriodical', {reportTypeLabels});
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+            const reportTypeLabels = ["Daily", "Weekly", "Monthly", "Yearly"];
+            res.render('viewPeriodical', {reportTypeLabels});
+        }else{
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        }
     },
 
     postPeriodical: async function (req, res) {
-        try {
-            var ingres = await Ingredients.find({});
-            var units = await Unit.find({});
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+            try {
+                var ingres = await Ingredients.find({});
+                var units = await Unit.find({});
 
-            // get date inputs
-            var reportType = req.body.filterType;
-            var selectedDate = req.body.selectedDate;
-            var dateString = "Sample";
-            const reportTypeLabels = ["Daily", "Weekly", "Monthly", "Yearly"];
+                // get date inputs
+                var reportType = req.body.filterType;
+                var selectedDate = req.body.selectedDate;
+                var dateString = "Sample";
+                const reportTypeLabels = ["Daily", "Weekly", "Monthly", "Yearly"];
 
-            switch(reportType){
-                case '1':
-                    var startDateObject = getDay(selectedDate);
-                    var endDateObject = getDay(selectedDate);
-                    dateString = formatDayDate(startDateObject);
-                    break;
-                case '2':
-                    var { startDateObject, endDateObject } = getWeek(selectedDate);
-                    var startDateString = formatDayDate(startDateObject);
-                    var endDateString = formatDayDate(endDateObject);
-                    dateString = `${startDateString} to ${endDateString}`
-                    break;
-                case '3':
-                    var { startDateObject, endDateObject } = getMonth(selectedDate);
-                    dateString = formatMonthDate(startDateObject);
-                    break;
-                case '4':
-                    var { startDateObject, endDateObject } = getYear(selectedDate);
-                    dateString = startDateObject.getFullYear();
-                    break;
+                switch(reportType){
+                    case '1':
+                        var startDateObject = getDay(selectedDate);
+                        var endDateObject = getDay(selectedDate);
+                        dateString = formatDayDate(startDateObject);
+                        break;
+                    case '2':
+                        var { startDateObject, endDateObject } = getWeek(selectedDate);
+                        var startDateString = formatDayDate(startDateObject);
+                        var endDateString = formatDayDate(endDateObject);
+                        dateString = `${startDateString} to ${endDateString}`
+                        break;
+                    case '3':
+                        var { startDateObject, endDateObject } = getMonth(selectedDate);
+                        dateString = formatMonthDate(startDateObject);
+                        break;
+                    case '4':
+                        var { startDateObject, endDateObject } = getYear(selectedDate);
+                        dateString = startDateObject.getFullYear();
+                        break;
+                }
+                
+                // get dates between start and end
+                var dateArray = getDates(startDateObject, endDateObject);
+
+                // instantiate array of values
+                var purchasesValues = [];
+                var consumedValues = [];
+                var lostValues = [];
+
+                await generateReport(ingres, dateArray, purchasesValues, consumedValues, lostValues);
+
+                res.render('postPeriodical', {reportTypeLabels, reportType, selectedDate, dateString, ingres, units, purchasesValues, consumedValues, lostValues, startDateObject, endDateObject});
+            } catch (error) {
+                console.error(error);
+                res.status(500).send("An error occurred");
             }
-            
-            // get dates between start and end
-            var dateArray = getDates(startDateObject, endDateObject);
-
-            // instantiate array of values
-            var purchasesValues = [];
-            var consumedValues = [];
-            var lostValues = [];
-
-            await generateReport(ingres, dateArray, purchasesValues, consumedValues, lostValues);
-
-            res.render('postPeriodical', {reportTypeLabels, reportType, selectedDate, dateString, ingres, units, purchasesValues, consumedValues, lostValues, startDateObject, endDateObject});
-        } catch (error) {
-            console.error(error);
-            res.status(500).send("An error occurred");
+        }else{
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
         }
     },
 
     getCustom: function(req, res) {
-        res.render('viewCustom');
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+            res.render('viewCustom');
+        }else{
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        }
     },
 
     postCustom: async function(req, res) {
-        try {
-            var ingres = await Ingredients.find({});
-            var units = await Unit.find({});
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+            try {
+                var ingres = await Ingredients.find({});
+                var units = await Unit.find({});
 
-            // get date inputs
-            var startDate = req.body.startDate;
-            var endDate = req.body.endDate;
+                // get date inputs
+                var startDate = req.body.startDate;
+                var endDate = req.body.endDate;
 
-            // set string to Date type
-            const startDateObject = new Date(startDate);
-            const endDateObject = new Date(endDate);
+                // set string to Date type
+                const startDateObject = new Date(startDate);
+                const endDateObject = new Date(endDate);
 
-            // get formatted String for dates
-            const formattedStartDate = formatDayDate(startDateObject);
-            const formattedEndDate = formatDayDate(endDateObject);
-            const dateString = `${formattedStartDate} to ${formattedEndDate}`;
+                // get formatted String for dates
+                const formattedStartDate = formatDayDate(startDateObject);
+                const formattedEndDate = formatDayDate(endDateObject);
+                const dateString = `${formattedStartDate} to ${formattedEndDate}`;
 
-            // get dates between start and end
-            var dateArray = getDates(startDateObject, endDateObject);
+                // get dates between start and end
+                var dateArray = getDates(startDateObject, endDateObject);
 
-            // instantiate array of values
-            var purchasesValues = [];
-            var consumedValues = [];
-            var lostValues = [];
+                // instantiate array of values
+                var purchasesValues = [];
+                var consumedValues = [];
+                var lostValues = [];
 
-            await generateReport(ingres, dateArray, purchasesValues, consumedValues, lostValues);
+                await generateReport(ingres, dateArray, purchasesValues, consumedValues, lostValues);
 
-            res.render('postCustom', {ingres, units, purchasesValues, consumedValues, lostValues, startDate, endDate, startDateObject, endDateObject, dateString});
-        } catch (error) {
-            console.error(error);
-            res.status(500).send("An error occurred");
+                res.render('postCustom', {ingres, units, purchasesValues, consumedValues, lostValues, startDate, endDate, startDateObject, endDateObject, dateString});
+            } catch (error) {
+                console.error(error);
+                res.status(500).send("An error occurred");
+            }
+        }else{
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
         }
     },
 
     getDetailed: async function(req, res) {
-        try {
-            // Find ingre id       
-            var ingreID = req.body.ingreID;
-            const ingredient = await Ingredients.findById(ingreID);
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+            try {
+                // Find ingre id       
+                var ingreID = req.body.ingreID;
+                const ingredient = await Ingredients.findById(ingreID);
 
-            var startDate = req.body.startDateObj;
-            var endDate = req.body.endDateObj;
-            var startDateObject = new Date(startDate);
-            var endDateObject = new Date(endDate);
-            var dateString = req.body.dateString;
+                var startDate = req.body.startDateObj;
+                var endDate = req.body.endDateObj;
+                var startDateObject = new Date(startDate);
+                var endDateObject = new Date(endDate);
+                var dateString = req.body.dateString;
 
-            // Display chosen reportTypeLabel
-            var variantPurchase = [];
-            var qtyPurchase = [];
-            var unitPurchase = [];
-            var datePurchase = [];
-            var doneByPurchase = [];
+                // Display chosen reportTypeLabel
+                var variantPurchase = [];
+                var qtyPurchase = [];
+                var unitPurchase = [];
+                var datePurchase = [];
+                var doneByPurchase = [];
 
-            var variantDiscard = [];
-            var qtyDiscard = [];
-            var unitDiscard = [];
-            var dateDiscard = [];
-            var doneByDiscard = [];
+                var variantDiscard = [];
+                var qtyDiscard = [];
+                var unitDiscard = [];
+                var dateDiscard = [];
+                var doneByDiscard = [];
 
-            var qtyMismatch = [];
-            var unitMismatch = [];
-            var dateMismatch = [];
-            var doneByMismatch = [];
+                var qtyMismatch = [];
+                var unitMismatch = [];
+                var dateMismatch = [];
+                var doneByMismatch = [];
 
-            var qtyConsumed = [];
-            var unitConsumed = [];
-            var dateConsumed = [];
-            var doneByConsumed = [];
-            var indexConsumed = 0;
+                var qtyConsumed = [];
+                var unitConsumed = [];
+                var dateConsumed = [];
+                var doneByConsumed = [];
+                var indexConsumed = 0;
 
-            // get dates between start and end
-            var dateArray = getDates(startDateObject, endDateObject);
-            
-            // loop through all dates
-            for (var d = 0; d < dateArray.length; d++){
+                // get dates between start and end
+                var dateArray = getDates(startDateObject, endDateObject);
                 
-                // ======= PURCHASES =======
-                // loop through all purchases
-                var purchases = await purchasedIngre.find({
-                    ingreID: ingreID, 
-                    date: {
-                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
-                    }
-                }); // purchases stores date as a String
-                for (var j = 0; j < purchases.length; j++){
-                    // check if has variation or not
-                    if (ingredient.hasVariant == true){
-                        // get variant
-                        ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
-                        variantPurchase[j] = ingreVars.name;
-                        
-                        qtyPurchase[j] = ingreVars.netWeight*purchases[j].qty;
+                // loop through all dates
+                for (var d = 0; d < dateArray.length; d++){
+                    
+                    // ======= PURCHASES =======
+                    // loop through all purchases
+                    var purchases = await purchasedIngre.find({
+                        ingreID: ingreID, 
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // purchases stores date as a String
+                    for (var j = 0; j < purchases.length; j++){
+                        // check if has variation or not
+                        if (ingredient.hasVariant == true){
+                            // get variant
+                            ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
+                            variantPurchase[j] = ingreVars.name;
+                            
+                            qtyPurchase[j] = ingreVars.netWeight*purchases[j].qty;
 
-                        var tempUnit = await Unit.findOne({_id:ingreVars.unitID});
-                        unitPurchase[j] = tempUnit.unitSymbol;
+                            var tempUnit = await Unit.findOne({_id:ingreVars.unitID});
+                            unitPurchase[j] = tempUnit.unitSymbol;
 
-                        var tempDate = new Date(purchases[j].date)
-                        datePurchase[j] = formatDateTime(tempDate);
+                            var tempDate = new Date(purchases[j].date)
+                            datePurchase[j] = formatDateTime(tempDate);
 
-                        var doneBy = await User.findOne({_id:purchases[j].doneBy});
-                        doneByPurchase[j] = doneBy.userName;
-                    }else{ //hasVariant == false
-                        variantPurchase[j] = "N/A";
-                        qtyPurchase[j] = purchases[j].netWeight;
-                        var tempUnit = await Unit.findOne({_id:purchases[j].unitID});
-                        unitPurchase[j] = tempUnit.unitSymbol;
-                        var tempDate = new Date(purchases[j].date)
-                        datePurchase[j] = formatDateTime(tempDate);
-                        var doneBy = await User.findOne({_id:purchases[j].doneBy});
-                        doneByPurchase[j] = doneBy.userName;
+                            var doneBy = await User.findOne({_id:purchases[j].doneBy});
+                            doneByPurchase[j] = doneBy.userName;
+                        }else{ //hasVariant == false
+                            variantPurchase[j] = "N/A";
+                            qtyPurchase[j] = purchases[j].netWeight;
+                            var tempUnit = await Unit.findOne({_id:purchases[j].unitID});
+                            unitPurchase[j] = tempUnit.unitSymbol;
+                            var tempDate = new Date(purchases[j].date)
+                            datePurchase[j] = formatDateTime(tempDate);
+                            var doneBy = await User.findOne({_id:purchases[j].doneBy});
+                            doneByPurchase[j] = doneBy.userName;
+                        }
                     }
-                }
-                
-                // ======= CONSUMED =======
-                // loop through all orders
-                var orders = await Order.find({
-                    date: {
-                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
-                    }
-                }); // orders stores date as a String
-                for (var o = 0; o < orders.length; o++){
-                    // get all order items associated with that order
-                    var orderItems = await OrderItem.find({orderID: orders[o]._id});
-                    for (var p = 0; p < orderItems.length; p++){
-                        // get all dishes listed as an order item
-                        var dishes = await Dish.find({_id: orderItems[p].dishID});
-                        for (var q = 0; q < dishes.length; q++){
-                            // get the recipe that was used at the date/time the dish was ordered (CODE FROM BEST FRIEND)
-                            var result = await DishRecipe.aggregate([
-                                { $match: {
-                                    dishID: dishes[q]._id,
-                                    approvedOn: { $lte: dateArray[d] } // get dates on or before chosen date
-                                    }, },
-                                { $addFields: {
-                                    dateDifference: {
-                                        $abs: { $subtract: ["$approvedOn", dateArray[d]] } // get difference of dates
+                    
+                    // ======= CONSUMED =======
+                    // loop through all orders
+                    var orders = await Order.find({
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // orders stores date as a String
+                    for (var o = 0; o < orders.length; o++){
+                        // get all order items associated with that order
+                        var orderItems = await OrderItem.find({orderID: orders[o]._id});
+                        for (var p = 0; p < orderItems.length; p++){
+                            // get all dishes listed as an order item
+                            var dishes = await Dish.find({_id: orderItems[p].dishID});
+                            for (var q = 0; q < dishes.length; q++){
+                                // get the recipe that was used at the date/time the dish was ordered (CODE FROM BEST FRIEND)
+                                var result = await DishRecipe.aggregate([
+                                    { $match: {
+                                        dishID: dishes[q]._id,
+                                        approvedOn: { $lte: dateArray[d] } // get dates on or before chosen date
+                                        }, },
+                                    { $addFields: {
+                                        dateDifference: {
+                                            $abs: { $subtract: ["$approvedOn", dateArray[d]] } // get difference of dates
+                                        },
+                                        }, },
+                                    { $sort: {
+                                        dateDifference: 1, // sort in ascending order of dateDifference to get the closest date
+                                        approvedOn: -1, // if there are multiple records with the same dateDifference, sort by date in descending order to get the most recent one
+                                        }, },
+                                    {
+                                        $limit: 1, // get only the first record with the closest date
                                     },
-                                    }, },
-                                { $sort: {
-                                    dateDifference: 1, // sort in ascending order of dateDifference to get the closest date
-                                    approvedOn: -1, // if there are multiple records with the same dateDifference, sort by date in descending order to get the most recent one
-                                    }, },
-                                {
-                                    $limit: 1, // get only the first record with the closest date
-                                },
-                            ]);
-                            var recipe = result[0];
+                                ]);
+                                var recipe = result[0];
 
-                            for (var r = 0; r < recipe.ingredients.length; r++){
-                                // check if the current ingredient is used in the recipe
-                                if (recipe.ingredients[r].ingredient.toString() == ingreID){                        
-                                    qtyConsumed[indexConsumed] = +(recipe.ingredients[r].chefWeight*orderItems[p].qty);
-                                    
-                                    var tempUnit = await Unit.findOne({_id:recipe.ingredients[r].chefUnitID});
-                                    unitConsumed[indexConsumed] = tempUnit.unitSymbol;
-                                    
-                                    var tempDate = new Date(orders[o].date)
-                                    dateConsumed[indexConsumed] = formatDateTime(tempDate);
-                                    doneByConsumed[indexConsumed] = orders[o].takenBy;
-                                    
-                                    indexConsumed++;
+                                for (var r = 0; r < recipe.ingredients.length; r++){
+                                    // check if the current ingredient is used in the recipe
+                                    if (recipe.ingredients[r].ingredient.toString() == ingreID){                        
+                                        qtyConsumed[indexConsumed] = +(recipe.ingredients[r].chefWeight*orderItems[p].qty);
+                                        
+                                        var tempUnit = await Unit.findOne({_id:recipe.ingredients[r].chefUnitID});
+                                        unitConsumed[indexConsumed] = tempUnit.unitSymbol;
+                                        
+                                        var tempDate = new Date(orders[o].date)
+                                        dateConsumed[indexConsumed] = formatDateTime(tempDate);
+                                        doneByConsumed[indexConsumed] = orders[o].takenBy;
+                                        
+                                        indexConsumed++;
+                                    }
                                 }
                             }
                         }
                     }
+
+                    // ======= DISCARDED =======
+                    var discardeds = await discardedIngre.find({
+                        ingreID: ingreID, 
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // discarded stores date as a String
+                    for (var k = 0; k < discardeds.length; k++){
+                        if (discardeds[k].varID !== undefined){
+                            // with variant
+                            // get variant
+                            ingreVars = await ingreVariations.findOne({_id: discardeds[k].varID});
+                            variantDiscard[k] = ingreVars.name;
+                            
+                            qtyDiscard[k] = ingreVars.netWeight*discardeds[k].qty;
+
+                            var tempUnit = await Unit.findOne({_id:ingreVars.unitID});
+                            unitDiscard[k] = tempUnit.unitSymbol;
+
+                            var tempDate = new Date(discardeds[k].date)
+                            dateDiscard[k] = formatDateTime(tempDate);
+
+                            var doneBy = await User.findOne({_id:discardeds[k].doneBy});         
+                            doneByDiscard[k] = doneBy.userName;                   
+                        } else {
+                            variantDiscard[k] = "N/A";
+                            qtyDiscard[k] = discardeds[k].netWeight;
+
+                            var tempUnit = await Unit.findOne({_id:discardeds[k].unitID});
+                            unitDiscard[k] = tempUnit.unitSymbol;
+
+                            var tempDate = new Date(discardeds[k].date)
+                            dateDiscard[k] = formatDateTime(tempDate);
+
+                            var doneBy = await User.findOne({_id:discardeds[k].doneBy});  
+                            doneByDiscard[k] = doneBy.userName;
+                        }
+                    }
+
+                    // ======= MISMATCHES =======
+                    var mismatches = await mismatch.find({
+                        ingreID: ingreID, 
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // mismatches stores date as a String
+                    // NOTE: ASSUMING THAT THE UNIT FOR DIFFERENCE WILL ALWAYS MATCH INGREDIENT BASE UNIT
+                    for (var b = 0; b < mismatches.length; b++){
+                        // check if the difference is negative or positive
+                        if (mismatches[b].difference < 0){ 
+                            // if negative
+                            qtyMismatch.push(+(mismatches[b].difference));
+
+                            var tempUnit = await Unit.findOne({_id:mismatches[b].unitID});
+                            unitMismatch[b] = tempUnit.unitSymbol;
+
+                            var tempDate = new Date(mismatches[b].date)
+                            dateMismatch[b] = formatDateTime(tempDate);
+
+                            var doneBy = await User.findOne({_id:mismatches[b].doneBy});  
+                            doneByMismatch[b] = doneBy.userName;
+                        }else if (mismatches[b].difference > 0){ 
+                            // if positive
+                            qtyMismatch.push("+" + +(mismatches[b].difference));
+
+                            var tempUnit = await Unit.findOne({_id:mismatches[b].unitID});
+                            unitMismatch[b] = tempUnit.unitSymbol;
+
+                            var tempDate = new Date(mismatches[b].date)
+                            dateMismatch[b] = formatDateTime(tempDate);
+
+                            var doneBy = await User.findOne({_id:mismatches[b].doneBy});  
+                            doneByMismatch[b] = doneBy.userName;
+                        }
+                    }
                 }
 
-                // ======= DISCARDED =======
-                var discardeds = await discardedIngre.find({
-                    ingreID: ingreID, 
-                    date: {
-                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
-                    }
-                }); // discarded stores date as a String
-                for (var k = 0; k < discardeds.length; k++){
-                    if (discardeds[k].varID !== undefined){
-                        // with variant
-                        // get variant
-                        ingreVars = await ingreVariations.findOne({_id: discardeds[k].varID});
-                        variantDiscard[k] = ingreVars.name;
-                        
-                        qtyDiscard[k] = ingreVars.netWeight*discardeds[k].qty;
-
-                        var tempUnit = await Unit.findOne({_id:ingreVars.unitID});
-                        unitDiscard[k] = tempUnit.unitSymbol;
-
-                        var tempDate = new Date(discardeds[k].date)
-                        dateDiscard[k] = formatDateTime(tempDate);
-
-                        var doneBy = await User.findOne({_id:discardeds[k].doneBy});         
-                        doneByDiscard[k] = doneBy.userName;                   
-                    } else {
-                        variantDiscard[k] = "N/A";
-                        qtyDiscard[k] = discardeds[k].netWeight;
-
-                        var tempUnit = await Unit.findOne({_id:discardeds[k].unitID});
-                        unitDiscard[k] = tempUnit.unitSymbol;
-
-                        var tempDate = new Date(discardeds[k].date)
-                        dateDiscard[k] = formatDateTime(tempDate);
-
-                        var doneBy = await User.findOne({_id:discardeds[k].doneBy});  
-                        doneByDiscard[k] = doneBy.userName;
-                    }
-                }
-
-                // ======= MISMATCHES =======
-                var mismatches = await mismatch.find({
-                    ingreID: ingreID, 
-                    date: {
-                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
-                    }
-                }); // mismatches stores date as a String
-                // NOTE: ASSUMING THAT THE UNIT FOR DIFFERENCE WILL ALWAYS MATCH INGREDIENT BASE UNIT
-                for (var b = 0; b < mismatches.length; b++){
-                    // check if the difference is negative or positive
-                    if (mismatches[b].difference < 0){ 
-                        // if negative
-                        qtyMismatch.push(+(mismatches[b].difference));
-
-                        var tempUnit = await Unit.findOne({_id:mismatches[b].unitID});
-                        unitMismatch[b] = tempUnit.unitSymbol;
-
-                        var tempDate = new Date(mismatches[b].date)
-                        dateMismatch[b] = formatDateTime(tempDate);
-
-                        var doneBy = await User.findOne({_id:mismatches[b].doneBy});  
-                        doneByMismatch[b] = doneBy.userName;
-                    }else if (mismatches[b].difference > 0){ 
-                        // if positive
-                        qtyMismatch.push("+" + +(mismatches[b].difference));
-
-                        var tempUnit = await Unit.findOne({_id:mismatches[b].unitID});
-                        unitMismatch[b] = tempUnit.unitSymbol;
-
-                        var tempDate = new Date(mismatches[b].date)
-                        dateMismatch[b] = formatDateTime(tempDate);
-
-                        var doneBy = await User.findOne({_id:mismatches[b].doneBy});  
-                        doneByMismatch[b] = doneBy.userName;
-                    }
-                }
+                await res.render('detailedReport', {ingredient, dateString, variantPurchase, qtyPurchase, unitPurchase, datePurchase, doneByPurchase, variantDiscard, qtyDiscard, unitDiscard, dateDiscard, doneByDiscard, qtyMismatch, unitMismatch, dateMismatch, doneByMismatch, qtyConsumed, unitConsumed, dateConsumed, doneByConsumed});
+            } catch (error) {
+                console.error(error);
+                res.status(500).send("An error occurred");
             }
-
-            await res.render('detailedReport', {ingredient, dateString, variantPurchase, qtyPurchase, unitPurchase, datePurchase, doneByPurchase, variantDiscard, qtyDiscard, unitDiscard, dateDiscard, doneByDiscard, qtyMismatch, unitMismatch, dateMismatch, doneByMismatch, qtyConsumed, unitConsumed, dateConsumed, doneByConsumed});
-        } catch (error) {
-            console.error(error);
-            res.status(500).send("An error occurred");
+        }else{
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
         }
     }
 }
