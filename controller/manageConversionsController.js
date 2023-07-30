@@ -142,7 +142,7 @@ const manageConversionsController = {
         // Checks if it will duplicate the sub-unit
         const duplicateConversion = await Conversion.findOne({
             ingredientId: ingredient._id,
-            convertedUnitId: subUnit._id
+            'subUnit.convertedUnitId': subUnit._id
         });
         console.log("ingredient:  " + ingredient._id)
         console.log("SUBUNIT:  " + subUnit._id)
