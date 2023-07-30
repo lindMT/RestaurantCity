@@ -11,39 +11,56 @@ const bcrypt = require("bcrypt");
 
 const addIngreController = {
     getAddIngre: async(req, res) => {
-        const foundUnits = await Unit.find();
+        // req.flash('error_msg', 'Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in.');
+        //     console.log("Unauthorized access.");
+        //     return res.redirect('/login')
 
-        await res.render('addNewIngredient', {
-            units: foundUnits
-        });
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "chef")){
+            const foundUnits = await Unit.find();
+
+            await res.render('addNewIngredient', {
+                units: foundUnits
+            });
+        } else {
+            req.flash('error_msg', 'Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in.');
+            console.log("Unauthorized access.");
+            return res.redirect('/login')
+        }
+        
     },
 
     postAddIngre: async(req, res) => {
-        const inputName = req.body.ingreName;
-        const inputUnit = req.body.ingreUnit;
-        const inputHasVariant = req.body.hasVariant;
-        let hasVariant;
-
-        const foundUnit = await Unit.findOne({ unitSymbol: inputUnit });
-
-        if (inputHasVariant === "Yes") {
-            hasVariant = true;
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "chef")){
+            const inputName = req.body.ingreName;
+            const inputUnit = req.body.ingreUnit;
+            const inputHasVariant = req.body.hasVariant;
+            let hasVariant;
+            
+            const foundUnit = await Unit.findOne({ unitSymbol: inputUnit });
+            
+            if (inputHasVariant === "Yes") {
+                hasVariant = true;
+            } else {
+                hasVariant = false;
+            }
+        
+            const newIngredient = new Ingredient({
+                name: inputName,
+                unitID: foundUnit,
+                totalNetWeight: 0,
+                reorderPoint: 0,
+                hasVariant: hasVariant
+            });
+        
+            await newIngredient.save();
+        
+            // TODO: To be changed into a page
+            return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: newIngredient, unit: foundUnit });
         } else {
-            hasVariant = false;
+            req.flash('error_msg', 'Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in.');
+            console.log("Unauthorized access.");
+            return res.redirect('/login')
         }
-
-        const newIngredient = new Ingredient({
-            name: inputName,
-            unitID: foundUnit,
-            totalNetWeight: 0,
-            reorderPoint: 0,
-            hasVariant: hasVariant
-        });
-
-        await newIngredient.save();
-
-        // TODO: To be changed into a page
-        return res.render('addNewIngredientSuccess', { title: "Add New Ingredient", message: 'New ingredient added successfully!', ingredient: newIngredient, unit: foundUnit });
     }
 };
 
