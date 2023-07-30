@@ -40,6 +40,13 @@ const formatNetWeight = async(ingredients) => {
     }));
 }
 
+const formatReorder = async(ingredients) => {
+    return ingredients.map((ingredient) => ({
+        ...ingredient,
+        reorderPoint: Number(ingredient.reorderPoint).toFixed(2),
+    }));
+}
+
 const viewInvController = {
     getViewInventory: async function(req, res) {
         if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
@@ -61,14 +68,16 @@ const viewInvController = {
 
                 console.log(ingredientsWithUnitSymbols)
 
-                const ingredientsFormatted = await formatNetWeight(ingredientsWithUnitSymbols);
+                const netWeightsFormatted = await formatNetWeight(ingredientsWithUnitSymbols);
+                const reorderFormatted = await formatReorder(ingredientsWithUnitSymbols);
 
-                console.log(ingredientsFormatted)
+                console.log(netWeightsFormatted)
 
                 // Pass the ingredients data to the view
                 res.render('viewInventory', { 
                     ingredients: ingredientsWithUnitSymbols,
-                    netWeights: ingredientsFormatted
+                    netWeights: netWeightsFormatted,
+                    reorderPoints: reorderFormatted
                 });
             } catch (error) {
                 console.error(error);
