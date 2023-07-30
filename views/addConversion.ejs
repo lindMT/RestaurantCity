@@ -1,45 +1,43 @@
 <%- include("partials/header") -%>
-<style>
-    .conversion-form-holder {
-    display:flex; 
-    justify-content: center; 
-    text-align: center;
-}
-
-.conversion-form {
-    max-width: 30vw; 
-    min-height: fit-content; 
-    display:flex; 
-    justify-content: center; 
-    text-align: center;
-}
-
-/* Should be inline css so that other modules wouldn't be affected */
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none; 
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-</style>
+    <style>
+        .conversion-form-holder {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .conversion-form {
+            max-width: 30vw;
+            min-height: fit-content;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+        /* Should be inline css so that other modules wouldn't be affected */
+        /* Chrome, Safari, Edge, Opera */
+        
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+        
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
     <div class="conversion-form-holder">
         <div class="card shadow conversion-form">
-            <div class="form-align-left"  style="color: #818181;">
+            <div class="form-align-left" style="color: #818181;">
                 <a href="/viewConversions/<%= ingredient._id %>">
-                    <i class="fa-solid fa-arrow-left fa-lg" style="color: #818181;"></i>
-                    Back
+                    <i class="fa-solid fa-arrow-left fa-lg" style="color: #818181;"></i> Back
                 </a>
             </div>
-
-            <h1>Add Unit Conversion for <%= ingredient.name %></h1>
-            <hr>
-            Enter a conversion for the units.
+            <h1>Add Unit Conversion for
+                <%= ingredient.name %>
+            </h1>
+            <hr> Enter a conversion for the units.
             <form action="/addConversion/<%= ingredient._id %>/process" method="post">
                 <br>
                 <div id="form-row">
@@ -69,8 +67,7 @@ input[type=number] {
                     <!-- NEW STYLE * temporary * -->
                     <div class="form-group form-align-left">
                         <label>Convert <%= baseUnit %>(base unit) into</label>
-                        <select class="form-select" name="convertIntoUnit" id="convertIntoUnit"
-                            aria-label="Default select example" required>
+                        <select class="form-select" name="convertIntoUnit" id="convertIntoUnit" aria-label="Default select example" required>
                             <option disabled selected value>Select Unit to Convert Into</option>
                             <% units.forEach(unit => { %>
                             <option value="<%= unit.unitSymbol %>"><%= unit.unitSymbol %></option>
@@ -91,6 +88,11 @@ input[type=number] {
                 <hr style="margin-top: 2rem;">
 
                 <button type="submit" class="btn btn-submit-count w-100">Submit</button>
+                <% if(error_msg) { %>
+                    <p style="color:red; font-weight:bold; margin-top: 15px; text-align: center;">
+                        <%= error_msg %>
+                    </p>
+                    <% } %>
             </form>
         </div>
     </div>
