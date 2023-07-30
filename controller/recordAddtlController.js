@@ -36,103 +36,121 @@ const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
 const recordAddtlController = {
 
     getRecAddtl: async(req, res) => {
-        const foundIngredients = await Ingredient.find().sort({ name: 1 });
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+            const foundIngredients = await Ingredient.find().sort({ name: 1 });
 
-        await res.render('recordAddtlP1', {
-            ingredients: foundIngredients,
-        })
+            await res.render('recordAddtlP1', {
+                ingredients: foundIngredients,
+            })
+        } else {
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        }
     },
 
     postRecAddtl1: async(req, res) => {
-        const foundVariants = await IngreVariation.find({ ingreID: req.body.ingreId });
-        const foundIngredient = await Ingredient.findById(req.body.ingreId);
-        const foundUnits = await Unit.find();
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+            const foundVariants = await IngreVariation.find({ ingreID: req.body.ingreId });
+            const foundIngredient = await Ingredient.findById(req.body.ingreId);
+            const foundUnits = await Unit.find();
 
-        await res.render('recordAddtlP2', {
-            variants: foundVariants,
-            ingredient: foundIngredient,
-            units: foundUnits
-        })
+            await res.render('recordAddtlP2', {
+                variants: foundVariants,
+                ingredient: foundIngredient,
+                units: foundUnits
+            })
+        } else {
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        }
     },
 
     postRecAddtl2: async(req, res) => {
-        try {
-            // User Inputs
-            const foundIngredient = await Ingredient.findById(req.body.ingreId);
-            const foundIngredientUnit = await Unit.findById(foundIngredient.unitID)
-            var convertedNetWeight;
+        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+            try {
+                // User Inputs
+                const foundIngredient = await Ingredient.findById(req.body.ingreId);
+                const foundIngredientUnit = await Unit.findById(foundIngredient.unitID)
+                var convertedNetWeight;
 
-            // For net weight accumulation
-            let totalNetWeight = 0;
+                // For net weight accumulation
+                let totalNetWeight = 0;
 
-            // Get the current date
-            const currentDate = new Date();
+                // Get the current date
+                const currentDate = new Date();
 
-            // Find the user by their username
-            const user = await User.findOne({ userName: req.session.userName });
+                // Find the user by their username
+                const user = await User.findOne({ userName: req.session.userName });
 
-            // Get the user ID
-            const userId = user._id;
+                // Get the user ID
+                const userId = user._id;
 
-            // For saving audit
-            var auditIngredient;
+                // For saving audit
+                var auditIngredient;
 
-            if (foundIngredient.hasVariant) {
-                // Ingredient has VARIANT
-                const ingreVariation = await IngreVariation.findById(req.body.ingreVariant);
-                const inputQty = req.body.ingreQty;
-                const inputUnit = await Unit.findById(ingreVariation.unitID);
-                var inputNetWt = ingreVariation.netWeight;
-                
-                convertedNetWeight = await convertNetWeight(inputNetWt, inputUnit._id, foundIngredientUnit._id);
+                if (foundIngredient.hasVariant) {
+                    // Ingredient has VARIANT
+                    const ingreVariation = await IngreVariation.findById(req.body.ingreVariant);
+                    const inputQty = req.body.ingreQty;
+                    const inputUnit = await Unit.findById(ingreVariation.unitID);
+                    var inputNetWt = ingreVariation.netWeight;
+                    
+                    convertedNetWeight = await convertNetWeight(inputNetWt, inputUnit._id, foundIngredientUnit._id);
 
-                totalNetWeight = Number(convertedNetWeight * inputQty);
+                    totalNetWeight = Number(convertedNetWeight * inputQty);
 
-                // Add ingredient to purchased audit
-                auditIngredient = new purchasedIngre({
-                    ingreID: foundIngredient._id,
-                    date: currentDate,
-                    doneBy: userId,
-                    varID: ingreVariation._id,
-                    qty: inputQty,
+                    // Add ingredient to purchased audit
+                    auditIngredient = new purchasedIngre({
+                        ingreID: foundIngredient._id,
+                        date: currentDate,
+                        doneBy: userId,
+                        varID: ingreVariation._id,
+                        qty: inputQty,
+                    });
+
+                } else {
+                    // Ingredient has NO VARIANT
+                    var inputNetWt = req.body.ingreNetWt;
+                    const inputUnit = req.body.ingreUnit;
+                    const matchedInputUnit = await Unit.findOne({ unitSymbol: inputUnit });
+
+                    convertedNetWeight = await convertNetWeight(inputNetWt, matchedInputUnit._id, foundIngredientUnit._id);
+
+                    totalNetWeight = Number(convertedNetWeight);
+
+                    // Add ingredient to purchased audit
+                    auditIngredient = new purchasedIngre({
+                        ingreID: foundIngredient._id,
+                        date: currentDate,
+                        doneBy: userId,
+                        netWeight: inputNetWt,
+                        unitID: matchedInputUnit._id,
+                    });  
+                }
+
+                foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWeight);
+
+                await foundIngredient.save();
+                await auditIngredient.save();
+
+                return res.render('recordAddtlSuccess', {
+                    title: 'Record Purchase',
+                    message: 'Your purchase has been recorded!',
+                    ingredient: foundIngredient,
+                    unit: foundIngredientUnit,
+                    totalNet: totalNetWeight,
                 });
-
-            } else {
-                // Ingredient has NO VARIANT
-                var inputNetWt = req.body.ingreNetWt;
-                const inputUnit = req.body.ingreUnit;
-                const matchedInputUnit = await Unit.findOne({ unitSymbol: inputUnit });
-
-                convertedNetWeight = await convertNetWeight(inputNetWt, matchedInputUnit._id, foundIngredientUnit._id);
-
-                totalNetWeight = Number(convertedNetWeight);
-
-                // Add ingredient to purchased audit
-                auditIngredient = new purchasedIngre({
-                    ingreID: foundIngredient._id,
-                    date: currentDate,
-                    doneBy: userId,
-                    netWeight: inputNetWt,
-                    unitID: matchedInputUnit._id,
-                });  
+            } catch (error) {
+                console.error(error);
+                res.status(500).send("An error occurred while updating the ingredient's running total.");
             }
-
-            foundIngredient.totalNetWeight = Number(foundIngredient.totalNetWeight) + Number(totalNetWeight);
-
-            await foundIngredient.save();
-            await auditIngredient.save();
-
-            return res.render('recordAddtlSuccess', {
-                title: 'Record Purchase',
-                message: 'Your purchase has been recorded!',
-                ingredient: foundIngredient,
-                unit: foundIngredientUnit,
-                totalNet: totalNetWeight,
-            });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send("An error occurred while updating the ingredient's running total.");
-        }
+        } else {
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        } 
     }
 }
 
