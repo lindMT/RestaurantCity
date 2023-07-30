@@ -2,6 +2,9 @@ const User = require('../model/usersSchema.js');
 const bcrypt = require("bcrypt");
 const sampleData = require("../sampleData/sampleData.js");
 
+// UNCOMMENT TO LOAD REORDER POINT TRIGGER
+// const reorderTrigger = require('../public/js/reorderTrigger.js');
+
 // UNCOMMENT TO LOAD DATA
 // sampleData.addSamples();
 
