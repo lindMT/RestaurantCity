@@ -119,30 +119,36 @@ const addDishController = {
                         // FixedConversion / check if not null
                         var fixedConversionFound = await FixedConversion.findOne({  initialUnitId: baseUnit._id, 
                                                                                     convertedUnitId: convertedUnit._id });
-
                         var ingreUnitConvFound = false;
 
                         // Get conversions
                         var ingreUnitConversions = await IngreConversion.findOne({ ingredientId: ingredientIdList[i] });
-                        console.log("infreUnitConversions == = = = = = =")
+                        console.log("infreUnitConversions ???????????????????????")
                         console.log(ingreUnitConversions)
-                        // find sub conversion in ingreConv
-                        for (var z=0; z < ingreUnitConversions.subUnit.length; z++){
-                            if(ingreUnitConversions.subUnit[z].convertedUnitId.toString() == convertedUnit._id.toString()){
-                                ingreUnitConvFound = true; // check if true
+                        // If in ingreConv
+                        if(ingreUnitConversions != null || ingreUnitConversions != undefined) {
+                            // find sub conversion in ingreConv
+                            for (var z=0; z < ingreUnitConversions.subUnit.length; z++){
+                                if(ingreUnitConversions.subUnit[z].convertedUnitId.toString() == convertedUnit._id.toString()){
+                                    ingreUnitConvFound = true; // check if true
+                                }
+                            }
+                            
+                            if(!ingreUnitConvFound){
+                                isValid.push(false);
+                                var ingreUnitMismatch = await Ingredients.findById(ingredientIdList[i]);
+                                if(lackingString != "Invalid unit chosen for: "){
+                                    lackingString += ", ";
+                                }
+                                lackingString += ingreUnitMismatch.name + " (no "+ convertedUnit.unitName + " conversion)";
+                            } else{
+                                isValid.push(true);
                             }
                         }
-                        
-                        if(!ingreUnitConvFound){
-                            isValid.push(false);
-                            var ingreUnitMismatch = await Ingredients.findById(ingredientIdList[i]);
-                            if(lackingString != "Invalid unit chosen for: "){
-                                lackingString += ", ";
-                            }
-                            lackingString += ingreUnitMismatch.name + " (no "+ convertedUnit.unitName + " conversion)";
-                        } else{
+                        // If in fixedConv
+                        else if(fixedConversionFound != null || fixedConversionFound != undefined) {
                             isValid.push(true);
-                        }
+                        }    
                         /// END OF INNER ARRAY LOOP 
                     } else{
                         isValid.push(true);

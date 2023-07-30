@@ -36,7 +36,6 @@
                 <th scope="col">Purchased</th>
                 <th scope="col">Consumed</th>
                 <th scope="col">Lost</th>
-                <th scope="col">Stock Count</th>
                 <th scope="col">Unit</th>
                 <!-- No date here since it will be shown thru detailed -->
             </tr>
@@ -59,8 +58,6 @@
                 <td id="custom-consumed" name="custom-consumed" class="right-td" style="padding-right: 6em;">   <%= consumedValues[index] %></td>
                 <!-- Value from discardedIngre + mismatch -->
                 <td id="custom-lost" name="custom-lost" class="right-td" style="padding-right: 6em;">           <%= lostValues[index] %></td>
-                <!-- Value = purchased - (consumed + lost) -->
-                <td id="custom-remaining" name="custom-remaining" class="right-td" style="padding-right: 6em;"> <%= stockValues[index] %></td>
                 <% 
                 units.forEach(function(unit){
                     if(ingredient.unitID.toString() == unit._id.toString()){

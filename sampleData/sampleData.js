@@ -85,181 +85,261 @@ const addSamples = async(req, res)=>{
         {
             "_id": "64a5804ea792248175d204e7",
             "unitName": "Gram",
-            "unitSymbol": "g",
-            "category": "Dry"
+            "unitSymbol": "g"
         },
         {
             "_id": "64a5804ea792248175d204e8",
             "unitName": "Kilogram",
-            "unitSymbol": "kg",
-            "category": "Dry"
+            "unitSymbol": "kg"
+        },
+        {
+          "_id": "64a5804ea792248175d204e9",
+          "unitName": "Milliliter",
+          "unitSymbol": "ml"
         },
         {
             "_id": "64a5804ea792248175d204ea",
             "unitName": "Liter",
-            "unitSymbol": "l",
-            "category": "Wet"
+            "unitSymbol": "l"
         },
         {
             "_id": "64a451bb9a494ecb0fd7216b",
             "unitName": "Cup",
-            "unitSymbol": "cup",
-            "category": "Both"
+            "unitSymbol": "cup"
         },
         {
             "_id": "64a4520d9a494ecb0fd7216c",
             "unitName": "Tablespoon",
-            "unitSymbol": "tbsp",
-            "category": "Both"
+            "unitSymbol": "tbsp"
         },
         {
             "_id": "64a4526d9a494ecb0fd7216d",
             "unitName": "Teaspoon",
-            "unitSymbol": "tsp",
-            "category": "Both"
+            "unitSymbol": "tsp"
         },
         {
             "_id": "64a5804ea792248175d204eb",
             "unitName": "Ounce",
-            "unitSymbol": "oz",
-            "category": "Dry"
+            "unitSymbol": "oz"
         },
         {
             "_id": "64a5804ea792248175d204ec",
             "unitName": "Pound",
-            "unitSymbol": "lb",
-            "category": "Dry"
+            "unitSymbol": "lb"
         },
         {
             "_id": "64a5804ea792248175d204ed",
             "unitName": "Fluid Ounce",
-            "unitSymbol": "fl oz",
-            "category": "Wet"
+            "unitSymbol": "fl oz"
         }
     ]);
  
     await FixedConversion.insertMany([
-        {
-            "_id": "64b6a2ed99f3be091ae21012",
-            "initialUnitId": "64a5804ea792248175d204eb",
-            "convertedUnitId": "64a5804ea792248175d204e7",
-            "conversionFactor": 28.3495
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21013",
-            "initialUnitId": "64a5804ea792248175d204e7",
-            "convertedUnitId": "64a5804ea792248175d204eb",
-            "conversionFactor": 0.035
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21014",
-            "initialUnitId": "64a5804ea792248175d204e9",
-            "convertedUnitId":"64a4520d9a494ecb0fd7216c",
-            "conversionFactor": 0.067628
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21015",
-            "initialUnitId": "64a4520d9a494ecb0fd7216c",
-            "convertedUnitId": "64a5804ea792248175d204e9",
-            "conversionFactor": 14.7868
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21016",
-            "initialUnitId": "64a5804ea792248175d204e9",
-            "convertedUnitId": "64a4526d9a494ecb0fd7216d",
-            "conversionFactor": 0.202884
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21017",
-            "initialUnitId": "64a4526d9a494ecb0fd7216d",
-            "convertedUnitId": "64a5804ea792248175d204e9",
-            "conversionFactor": 4.9289
-        },
-        {
-            "_id":"64b6a2ed99f3be091ae21018",
-            "initialUnitId": "64a5804ea792248175d204ec",
-            "convertedUnitId": "64a5804ea792248175d204eb",
-            "conversionFactor": 16
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21019",
-            "initialUnitId": "64a5804ea792248175d204eb",
-            "convertedUnitId": "64a5804ea792248175d204ec",
-            "conversionFactor": 0.0625
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae2101a",
-            "initialUnitId": "64a5804ea792248175d204ec",
-            "convertedUnitId": "64a5804ea792248175d204e7",
-            "conversionFactor": 453.592
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae2101b",
-            "initialUnitId": "64a5804ea792248175d204e7",
-            "convertedUnitId": "64a5804ea792248175d204ec",
-            "conversionFactor": 0.0022
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae2101c",
-            "initialUnitId": "64a5804ea792248175d204ea",
-            "convertedUnitId": "64a4520d9a494ecb0fd7216c",
-            "conversionFactor": 67.628
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae2101d",
-            "initialUnitId": "64a4520d9a494ecb0fd7216c",
-            "convertedUnitId": "64a5804ea792248175d204ea",
-            "conversionFactor": 0.014786
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae2101e",
-            "initialUnitId": "64a5804ea792248175d204ea",
-            "convertedUnitId": "64a4526d9a494ecb0fd7216d",
-            "conversionFactor": 202.884
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae2101f",
-            "initialUnitId": "64a4526d9a494ecb0fd7216d",
-            "convertedUnitId": "64a5804ea792248175d204ea",
-            "conversionFactor": 0.0049289
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21020",
-            "initialUnitId": "64a5804ea792248175d204e8",
-            "convertedUnitId": "64a5804ea792248175d204eb",
-            "conversionFactor": 35.274
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21021",
-            "initialUnitId": "64a5804ea792248175d204eb",
-            "convertedUnitId":"64a5804ea792248175d204e8",
-            "conversionFactor": 0.0283495
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21022",
-            "initialUnitId": "64a5804ea792248175d204e8",
-            "convertedUnitId": "64a5804ea792248175d204ec",
-            "conversionFactor": 2.20462
-        },
-        {
-            "_id":"64b6a2ed99f3be091ae21023",
-            "initialUnitId": "64a5804ea792248175d204ec",
-            "convertedUnitId": "64a5804ea792248175d204e8",
-            "conversionFactor": 0.453592
-        },
-        {
-            "_id": "64b6a2ed99f3be091ae21024",
-            "initialUnitId": "64a5804ea792248175d204e7",
-            "convertedUnitId": "64a5804ea792248175d204e8",
-            "conversionFactor": 0.001
-        },
-        {
-            "_id":"64b6a2ed99f3be091ae21025",
-            "initialUnitId": "64a5804ea792248175d204e8",
-            "convertedUnitId": "64a5804ea792248175d204e7",
-            "conversionFactor": 1000
-        }
-    ]);
+      {
+        "_id": "64b6a2ed99f3be091ae21012",
+        "initialUnitId": "64a5804ea792248175d204eb",
+        "convertedUnitId": "64a5804ea792248175d204e7",
+        "conversionFactor": 28.3495
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21013",
+        "initialUnitId": "64a5804ea792248175d204e7",
+        "convertedUnitId": "64a5804ea792248175d204eb",
+        "conversionFactor": 0.035
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21014",
+        "initialUnitId": "64a5804ea792248175d204e9",
+        "convertedUnitId": "64a4520d9a494ecb0fd7216c",
+        "conversionFactor": 0.067628
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21015",
+        "initialUnitId": "64a4520d9a494ecb0fd7216c",
+        "convertedUnitId": "64a5804ea792248175d204e9",
+        "conversionFactor": 14.7868
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21016",
+        "initialUnitId": "64a5804ea792248175d204e9",
+        "convertedUnitId": "64a4526d9a494ecb0fd7216d",
+        "conversionFactor": 0.202884
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21017",
+        "initialUnitId": "64a4526d9a494ecb0fd7216d",
+        "convertedUnitId": "64a5804ea792248175d204e9",
+        "conversionFactor": 4.9289
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21018",
+        "initialUnitId": "64a5804ea792248175d204ec",
+        "convertedUnitId": "64a5804ea792248175d204eb",
+        "conversionFactor": 16
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21019",
+        "initialUnitId": "64a5804ea792248175d204eb",
+        "convertedUnitId": "64a5804ea792248175d204ec",
+        "conversionFactor": 0.0625
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae2101a",
+        "initialUnitId": "64a5804ea792248175d204ec",
+        "convertedUnitId": "64a5804ea792248175d204e7",
+        "conversionFactor": 453.592
+      },
+      {
+        "_id":"64b6a2ed99f3be091ae2101b",
+        "initialUnitId": "64a5804ea792248175d204e7",
+        "convertedUnitId": "64a5804ea792248175d204ec",
+        "conversionFactor": 0.0022
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae2101c",
+        "initialUnitId": "64a5804ea792248175d204ea",
+        "convertedUnitId": "64a4520d9a494ecb0fd7216c",
+        "conversionFactor": 67.628
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae2101d",
+        "initialUnitId": "64a4520d9a494ecb0fd7216c",
+        "convertedUnitId": "64a5804ea792248175d204ea",
+        "conversionFactor": 0.014786
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae2101e",
+        "initialUnitId": "64a5804ea792248175d204ea",
+        "convertedUnitId": "64a4526d9a494ecb0fd7216d",
+        "conversionFactor": 202.884
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae2101f",
+        "initialUnitId": "64a4526d9a494ecb0fd7216d",
+        "convertedUnitId": "64a5804ea792248175d204ea",
+        "conversionFactor": 0.0049289
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21020",
+        "initialUnitId": "64a5804ea792248175d204e8",
+        "convertedUnitId": "64a5804ea792248175d204eb",
+        "conversionFactor": 35.274
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21021",
+        "initialUnitId": "64a5804ea792248175d204eb",
+        "convertedUnitId": "64a5804ea792248175d204e8",
+        "conversionFactor": 0.0283495
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21022",
+        "initialUnitId": "64a5804ea792248175d204e8",
+        "convertedUnitId": "64a5804ea792248175d204ec",
+        "conversionFactor": 2.20462
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21023",
+        "initialUnitId": "64a5804ea792248175d204ec",
+        "convertedUnitId": "64a5804ea792248175d204e8",
+        "conversionFactor": 0.453592
+      },
+      {
+        "_id":"64b6a2ed99f3be091ae21024",
+        "initialUnitId":"64a5804ea792248175d204e7",
+        "convertedUnitId":"64a5804ea792248175d204e8",
+        "conversionFactor": 0.001
+      },
+      {
+        "_id":"64b6a2ed99f3be091ae21025",
+        "initialUnitId":"64a5804ea792248175d204e8",
+        "convertedUnitId": "64a5804ea792248175d204e7",
+        "conversionFactor": 1000
+      },
+      {
+        "_id":"64b6a2ed99f3be091ae21026",
+        "initialUnitId":"64a5804ea792248175d204ed",
+        "convertedUnitId": "64a4520d9a494ecb0fd7216c",
+        "conversionFactor": 2
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21027",
+        "initialUnitId": "64a4520d9a494ecb0fd7216c",
+        "convertedUnitId": "64a5804ea792248175d204ed",
+        "conversionFactor": 0.5
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21028",
+        "initialUnitId": "64a5804ea792248175d204ed",
+        "convertedUnitId": "64a4526d9a494ecb0fd7216d",
+        "conversionFactor": 6
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae21029",
+        "initialUnitId": "64a4526d9a494ecb0fd7216d",
+        "convertedUnitId": "64a5804ea792248175d204ed",
+        "conversionFactor": 0.166667
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae2102a",
+        "initialUnitId": "64a5804ea792248175d204e9",
+        "convertedUnitId": "64a451bb9a494ecb0fd7216b",
+        "conversionFactor": 0.00422675
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae2102b",
+        "initialUnitId": "64a451bb9a494ecb0fd7216b",
+        "convertedUnitId": "64a5804ea792248175d204e9",
+        "conversionFactor": 236.588
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae2102c",
+        "initialUnitId": "64a5804ea792248175d204ea",
+        "convertedUnitId": "64a451bb9a494ecb0fd7216b",
+        "conversionFactor": 4.22675
+      },
+      {
+        "_id": "64b6a2ed99f3be091ae2102d",
+        "initialUnitId": "64a451bb9a494ecb0fd7216b",
+        "convertedUnitId": "64a5804ea792248175d204ea",
+        "conversionFactor": 0.2366
+      },
+      {
+        "_id": "64bc018d50c8b73c24389833",
+        "initialUnitId": "64a5804ea792248175d204ea",
+        "convertedUnitId": "64a5804ea792248175d204e9",
+        "conversionFactor": 1000
+      },
+      {
+        "_id": "64bc018d50c8b73c24389834",
+        "initialUnitId": "64a5804ea792248175d204e9",
+        "convertedUnitId": "64a5804ea792248175d204ea",
+        "conversionFactor": 0.001
+      },
+      {
+        "_id": "64bd489cce9ca1547363c2ea",
+        "initialUnitId": "64a5804ea792248175d204ea",
+        "convertedUnitId": "64a5804ea792248175d204ed",
+        "conversionFactor": 33.814
+      },
+      {
+        "_id": "64bd489cce9ca1547363c2eb",
+        "initialUnitId": "64a5804ea792248175d204ed",
+        "convertedUnitId": "64a5804ea792248175d204ea",
+        "conversionFactor": 0.0295735
+      },
+      {
+        "_id": "64bd489cce9ca1547363c2ec",
+        "initialUnitId": "64a5804ea792248175d204e9",
+        "convertedUnitId": "64a5804ea792248175d204ed",
+        "conversionFactor": 0.033814
+      },
+      {
+        "_id": "64bd489cce9ca1547363c2ed",
+        "initialUnitId": "64a5804ea792248175d204ed",
+        "convertedUnitId": "64a5804ea792248175d204e9",
+        "conversionFactor": 29.5735
+      }
+  ]);
 
     await IngreConversion.insertMany([
         {
@@ -513,7 +593,27 @@ const addSamples = async(req, res)=>{
             "approvedOn": "2023-07-26T16:25:27.000Z",
             "__v": 0
         }
+
     ]);
+
+    await DishCategory.insertMany([
+      {
+        "_id": "64a825e585ad11ed4b260cd9",
+        "category": "Mains"
+      },
+      {
+        "_id": "64a825e585ad11ed4b260cda",
+        "category": "Sides"
+      },
+      {
+        "_id": "64a825e585ad11ed4b260cdb",
+        "category": "Desserts"
+      },
+      {
+        "_id": "64a825e585ad11ed4b260cdc",
+        "category": "Drinks"
+      }
+    ])
 
     await DishRecipe.insertMany([
         {
@@ -533,7 +633,7 @@ const addSamples = async(req, res)=>{
             "lastModified": "2023-07-26T16:17:10.000Z",
             "addedBy": "64a3fc38e916ed6021b6a5f6",
             "isApproved": "approved",
-            "approvedOn": "2023-07-26T16:17:10.000Z",
+            "approvedOn": "2023-06-01T16:17:10.000Z",
             "__v": 0
         },
         {
@@ -553,7 +653,7 @@ const addSamples = async(req, res)=>{
             "lastModified": "2023-07-26T16:18:18.000Z",
             "addedBy": "64a3fc38e916ed6021b6a5f6",
             "isApproved": "approved",
-            "approvedOn": "2023-07-26T16:18:18.000Z",
+            "approvedOn": "2023-06-01T16:18:18.000Z",
             "__v": 0
         },
         {
@@ -581,7 +681,7 @@ const addSamples = async(req, res)=>{
             "lastModified": "2023-07-26T16:25:27.000Z",
             "addedBy": "64a3fc38e916ed6021b6a5f6",
             "isApproved": "approved",
-            "approvedOn": "2023-07-26T16:25:27.000Z",
+            "approvedOn": "2023-06-01T16:25:27.000Z",
             "__v": 0
         }
     ]);
