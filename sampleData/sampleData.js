@@ -707,7 +707,7 @@ const addSamples = async(req, res)=>{
             "lastModified": "2023-07-26T16:17:10.000Z",
             "addedBy": "64a3fc38e916ed6021b6a5f6",
             "isApproved": "approved",
-            "approvedOn": "2023-06-01T16:17:10.000Z",
+            "approvedOn": "2023-05-31T16:17:10.000Z",
             "__v": 0
         },
         {
@@ -727,7 +727,7 @@ const addSamples = async(req, res)=>{
             "lastModified": "2023-07-26T16:18:18.000Z",
             "addedBy": "64a3fc38e916ed6021b6a5f6",
             "isApproved": "approved",
-            "approvedOn": "2023-06-01T16:18:18.000Z",
+            "approvedOn": "2023-05-31T16:18:18.000Z",
             "__v": 0
         },
         {
@@ -755,7 +755,7 @@ const addSamples = async(req, res)=>{
             "lastModified": "2023-07-26T16:25:27.000Z",
             "addedBy": "64a3fc38e916ed6021b6a5f6",
             "isApproved": "approved",
-            "approvedOn": "2023-06-01T16:25:27.000Z",
+            "approvedOn": "2023-05-31T16:25:27.000Z",
             "__v": 0
         },
         {
@@ -783,7 +783,7 @@ const addSamples = async(req, res)=>{
           "lastModified": "2023-07-30T09:22:09.000Z",
           "addedBy": "64c53da201ae199e43fb8b1e",
           "isApproved": "for approval",
-          "approvedOn": null,
+          "approvedOn": "2023-05-31T16:17:10.000Z",
           "__v": 0
         },
         {
@@ -811,7 +811,7 @@ const addSamples = async(req, res)=>{
           "lastModified": "2023-07-30T09:22:38.000Z",
           "addedBy": "64c53da201ae199e43fb8b1e",
           "isApproved": "for approval",
-          "approvedOn": null,
+          "approvedOn": "2023-05-31T16:17:10.000Z",
           "__v": 0
         }
     ]);
