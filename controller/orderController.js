@@ -67,12 +67,7 @@ const orderController = {
               initialUnitId: ingredientInInventory.unitID,
               convertedUnitId: ingredientInRecipe.chefUnitID
             });
-        
-            // var ingreUnitConversion = await IngreConversion.findOne({
-            //   initialUnitId: ingredientInInventory.unitID, // base unit of ingre
-            //   convertedUnitId: ingredientInRecipe.chefUnitID // into recipe unit
-            // });
-            
+                    
             var ingreUnitConversions = await IngreConversion.find();
             
             if(ingredientInRecipe.chefUnitID.toString() != ingredientInInventory.unitID.toString()){
@@ -114,22 +109,6 @@ const orderController = {
               ingredientUnitTotal.push(ingredientInRecipe.chefWeight * quantity * (1 / conversionFactor));
             }
 
-
-
-
-
-
-            
-        
-            // if ((ingredientInRecipe.chefWeight * quantity * conversionFactor) < (ingredientUnitTotal[j])) {
-            //   orderIsViable.push(true);
-            //   console.log("viable");
-            // } else {
-            //   orderIsViable.push(false);
-            //   // lackingIngredients.push(ingredientInInventory.name + "(for " + dish.name + ")");
-            //   lackingIngredients.push(ingredientInInventory.name);
-            //   console.log("not viable");
-            // }
           }
         } // END OF MAIN LOOP
         
@@ -225,13 +204,6 @@ const orderController = {
               lackingString += lackingIngre.name + " (" + lackingIngre.totalNetWeight;
               var unit = await Unit.findById(lackingIngre.unitID);
               lackingString += " " + unit.unitName + " in stock";
-              // TODO get ingre reqs
-    
-              // for (var j = 0; j < ingredientsToUse.length; j++){
-              //   if (ingredientsToUse[j] == lackingIngredientsID[i]){
-              //     lackingString += ", " + ingredientUnitTotal[j].toFixed(4) + " " + unit.unitName + " needed";
-              //   }
-              // }
               // START OF LOOP ////////////////////////////////////////////////////////////////////////////////////
               
               for(var k = 0; k < dishCount; k++){
