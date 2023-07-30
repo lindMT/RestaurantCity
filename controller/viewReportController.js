@@ -151,9 +151,6 @@ function formatDateTime(date) {
 
 // MAIN FUNCTION FOR SUMMARY REPORTS //
 async function generateReport(ingres, dateArray, purchasesValues, consumedValues, lostValues){
-    var ingreVars;
-    var conversions = await fixedConversion.find({});
-
     var totalPurchased = 0;
     var totalConsumed = 0;
     var totalLost = 0;
@@ -173,23 +170,22 @@ async function generateReport(ingres, dateArray, purchasesValues, consumedValues
                 // check if has variation or not
                 if (ingres[i].hasVariant == true){
                     // get variant
-                    ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
+                    var ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
                     // check if the variant's unit matches the ingredient's unit
                     if(ingres[i].unitID.toString() == ingreVars.unitID.toString()){
                         // if yes, add value as is
                         totalPurchased += +(ingreVars.netWeight*purchases[j].qty);
                     }else{
                         // if no, convert
-                        var fromID = ingreVars.unitID.toString();
-                        var toID = ingres[i].unitID.toString();
+                        var fromID = ingreVars.unitID;
+                        var toID = ingres[i].unitID;
                         var multiplier = 0;
                         var convertedVal = 0;
                         
-                        for (var l = 0; l < conversions.length; l++){
-                            // get conversion factor
-                            if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
-                                multiplier = conversions[l].conversionFactor;
-                            }
+                        // get conversion factors
+                        var conversions = await fixedConversion.findOne({initialUnitId: fromID, convertedUnitId: toID});
+                        if (conversions) {
+                            multiplier = conversions.conversionFactor;
                         }
 
                         // check if conversion factor not found
@@ -215,16 +211,15 @@ async function generateReport(ingres, dateArray, purchasesValues, consumedValues
                         totalPurchased += +purchases[j].netWeight;
                     }else{
                         // if no, convert
-                        var fromID = purchases[j].unitID.toString();
-                        var toID = ingres[i].unitID.toString();
+                        var fromID = purchases[j].unitID;
+                        var toID = ingres[i].unitID;
                         var multiplier = 0;
                         var convertedVal = 0;
 
-                        for (var l = 0; l < conversions.length; l++){
-                            // get conversion factor
-                            if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
-                                multiplier = conversions[l].conversionFactor;
-                            }
+                        // get conversion factors
+                        var conversions = await fixedConversion.findOne({initialUnitId: fromID, convertedUnitId: toID});
+                        if (conversions) {
+                            multiplier = conversions.conversionFactor;
                         }
 
                         // check if conversion factor not found
@@ -258,22 +253,22 @@ async function generateReport(ingres, dateArray, purchasesValues, consumedValues
                 if (discardeds[a].varID !== undefined){
                     // with variant
                     // get variant
-                    ingreVars = await ingreVariations.findOne({_id: discardeds[a].varID});
+                    var ingreVars = await ingreVariations.findOne({_id: discardeds[a].varID});
                     // check if unit matches
                     if(ingres[i].unitID.toString() == ingreVars.unitID.toString()){
                         // if yes, add value as is
                         totalLost += +(ingreVars.netWeight*discardeds[a].qty);
                     }else{
                         //if no, convert
-                        var fromID = ingreVars.unitID.toString();
-                        var toID = ingres[i].unitID.toString();
+                        var fromID = ingreVars.unitID;
+                        var toID = ingres[i].unitID;
                         var multiplier = 0;
                         var convertedVal = 0;
 
-                        for (var l = 0; l < conversions.length; l++){
-                            if (fromID == conversions[l].initialUnitId.toString() && toID == conversions[l].convertedUnitId.toString()){
-                                multiplier = conversions[l].conversionFactor;
-                            }
+                        // get conversion factors
+                        var conversions = await fixedConversion.findOne({initialUnitId: fromID, convertedUnitId: toID});
+                        if (conversions) {
+                            multiplier = conversions.conversionFactor;
                         }
 
                         // check if conversion factor not found
@@ -300,18 +295,16 @@ async function generateReport(ingres, dateArray, purchasesValues, consumedValues
                         totalLost += +discardeds[a].netWeight;
                     }else{
                         // if no, convert
-                        var fromID = discardeds[a].unitID.toString();
-                        var toID = ingres[i].unitID.toString();
+                        var fromID = discardeds[a].unitID;
+                        var toID = ingres[i].unitID;
                         var multiplier = 0;
                         var convertedVal = 0;
 
-                        for (var l = 0; l < conversions.length; l++){
-                            if (fromID == conversions[l].initialUnitId.toString()){
-                                if (toID == conversions[l].convertedUnitId.toString()){
-                                    multiplier = conversions[l].conversionFactor;
-                                }
-                            }
-                        } 
+                        // get conversion factors
+                        var conversions = await fixedConversion.findOne({initialUnitId: fromID, convertedUnitId: toID});
+                        if (conversions) {
+                            multiplier = conversions.conversionFactor;
+                        }
 
                         // check if conversion factor not found
                         if (multiplier == 0){
@@ -394,18 +387,16 @@ async function generateReport(ingres, dateArray, purchasesValues, consumedValues
                                     totalConsumed += +(recipe.ingredients[r].chefWeight*orderItems[p].qty);
                                 }else{
                                     // if no, convert
-                                    var fromID = recipe.ingredients[r].chefUnitID.toString();
-                                    var toID = ingres[i].unitID.toString();
+                                    var fromID = recipe.ingredients[r].chefUnitID;
+                                    var toID = ingres[i].unitID;
                                     var multiplier = 0;
                                     var convertedVal = 0;
     
-                                    for (var l = 0; l < conversions.length; l++){
-                                        if (fromID == conversions[l].initialUnitId.toString()){
-                                            if (toID == conversions[l].convertedUnitId.toString()){
-                                                multiplier = conversions[l].conversionFactor;
-                                            }
-                                        }
-                                    } 
+                                    // get conversion factors
+                                    var conversions = await fixedConversion.findOne({initialUnitId: fromID, convertedUnitId: toID});
+                                    if (conversions) {
+                                        multiplier = conversions.conversionFactor;
+                                    }
     
                                     // check if conversion factor not found
                                     if (multiplier == 0){
@@ -603,7 +594,7 @@ const viewReportController = {
                     // check if has variation or not
                     if (ingredient.hasVariant == true){
                         // get variant
-                        ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
+                        var ingreVars = await ingreVariations.findOne({_id: purchases[j].varID});
                         variantPurchase[j] = ingreVars.name;
                         
                         qtyPurchase[j] = ingreVars.netWeight*purchases[j].qty;
@@ -693,7 +684,7 @@ const viewReportController = {
                     if (discardeds[k].varID !== undefined){
                         // with variant
                         // get variant
-                        ingreVars = await ingreVariations.findOne({_id: discardeds[k].varID});
+                        var ingreVars = await ingreVariations.findOne({_id: discardeds[k].varID});
                         variantDiscard[k] = ingreVars.name;
                         
                         qtyDiscard[k] = ingreVars.netWeight*discardeds[k].qty;
