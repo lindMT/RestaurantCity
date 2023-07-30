@@ -30,7 +30,6 @@ const addDishController = {
         
         const data = req.session.userName
         let user = await User.findOne({ userName: data });
-        let chef = await User.findOne({ position: "chef" });
         let admin = await User.findOne({ position: "admin" });
 
         //TODO

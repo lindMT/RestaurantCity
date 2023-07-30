@@ -28,7 +28,6 @@ function getDates(startDate, stopDate) {
 async function computeReorder() {
     console.log('Trigger executed');    
     var ingres = await Ingredient.find();
-    var conversions = await FixedConversion.find();
 
     // get start and end date
     var end = new Date();
@@ -79,7 +78,7 @@ async function computeReorder() {
                                 $limit: 1, // get only the first record with the closest date
                             },
                         ]);
-                        //console.log(result);
+
                         var recipe = result[0];
 
                         for (var r = 0; r < recipe.ingredients.length; r++){
@@ -97,19 +96,17 @@ async function computeReorder() {
                                 }else{
                                     // if no, convert
                                     //console.log("Unit NOT Match for Recipe (need to convert)");
-                                    var fromID = recipe.ingredients[r].chefUnitID.toString();
-                                    var toID = ingres[i].unitID.toString();
+                                    var fromID = recipe.ingredients[r].chefUnitID;
+                                    var toID = ingres[i].unitID;
                                     var multiplier = 0;
                                     var convertedVal = 0;
     
-                                    for (var l = 0; l < conversions.length; l++){
-                                        if (fromID == conversions[l].initialUnitId.toString()){
-                                            if (toID == conversions[l].convertedUnitId.toString()){
-                                                //console.log("Conversion Factor Found (FIXED)");
-                                                multiplier = conversions[l].conversionFactor;
-                                                //console.log("Multiplier: " + multiplier);
-                                            }
-                                        }
+                                    // get conversion factors
+                                    var conversions = await FixedConversion.findOne({initialUnitId: fromID, convertedUnitId: toID});
+                                    if (conversions) {
+                                        //console.log("Conversion Factor Found (FIXED)");
+                                        multiplier = conversions.conversionFactor;
+                                        //console.log("Multiplier: " + multiplier);
                                     } 
     
                                     // check if conversion factor not found
@@ -139,13 +136,16 @@ async function computeReorder() {
             }
         }
 
+        // compute for reorder point using moving average formula
+        var demand = totalConsumed / 14;
         //console.log("Sum of Ingre Use in Ordered Dishes: " + totalConsumed);
         //console.log("Number of Days: 14");
-        var demand = totalConsumed / 14;
         //console.log(demand);
 
+        // reset value
         totalConsumed = 0;
 
+        // modify reorder point of ingredient record in database
         await Ingredient.updateOne({_id: ingres[i]._id}, {$set: {reorderPoint: demand}});
     }
 }
