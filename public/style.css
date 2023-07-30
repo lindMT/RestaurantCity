@@ -19,7 +19,7 @@ input[type='number']{
 .login-box {
     border-radius: 15px;
     border: 2px solid #547AA5;
-    max-width: fit-content;
+    max-width: 30vw;
     box-shadow: 10px 10px #292F36;
     background-color: #E7EEEC;
     padding: 20px;
@@ -30,7 +30,7 @@ input[type='number']{
 }
 
 .login-box form {
-    width: 50%;
+    width: 65%;
 }
 
 .user-confirm,

@@ -35,9 +35,6 @@ app.get("/home", homeController.getHome)
 // User Account Management
 app.get("/adminConfirmation", userController.getAdminConfirmation)
 app.post("/adminConfirmation", userController.adminConfirmation)
-app.get("/userLanding", userController.getUserLanding)
-// app.get("/changePassword", userController.getChangePassword)
-// app.post("/changePassword", userController.changePassword)
 // Self Account Management
 app.get("/changeOwnPassword", userController.getChangeOwnPassword)
 app.post("/changeOwnPassword", userController.changeOwnPassword)
