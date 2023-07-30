@@ -89,7 +89,7 @@ const addUnitController = {
                 // Creates extra conversion
                 for (const found of findConversion) {
                     if (found.convertedUnitId.toString() !== findUnit._id.toString()){
-                        const unitID = await Unit.findById(found.convertedUnitId)
+                        const unitID = await Unit.findById(found.convertedUnitId);
                         if (!unitID) {
                             continue;
                         }
