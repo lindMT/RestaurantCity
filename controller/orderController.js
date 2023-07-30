@@ -106,7 +106,7 @@ const orderController = {
             var found = false;
             for (var j = 0; j < ingredientsToUse.length; j++) {
               if (ingredientInRecipe.ingredient.toString() == ingredientsToUse[j]) {
-                ingredientUnitTotal[j] += ingredientInRecipe.chefWeight * quantity * (conversionFactor);
+                ingredientUnitTotal[j] += ingredientInRecipe.chefWeight * quantity * (1/conversionFactor);
                 found = true;
                 break;
               }
@@ -114,7 +114,7 @@ const orderController = {
           
             if (!found) {
               ingredientsToUse.push(ingredientInRecipe.ingredient.toString());
-              ingredientUnitTotal.push(ingredientInRecipe.chefWeight * quantity * (conversionFactor));
+              ingredientUnitTotal.push(ingredientInRecipe.chefWeight * quantity * (1/conversionFactor));
             }
 
           }
@@ -264,7 +264,7 @@ const orderController = {
               
                   console.log("HERE IS THE CONVERSION FACTOR: " + conversionFactor);
                   if(ingredientInRecipe.ingredient.toString() == lackingIngredientsID[i]){
-                    lackingString += ", " + (ingredientInRecipe.chefWeight * quantity * (conversionFactor )) + " " 
+                    lackingString += ", " + (ingredientInRecipe.chefWeight * quantity * (1/conversionFactor )) + " " 
                         + unit.unitName + " needed for " + quantity + " x " + dishFromMainLoop.name ; // add dish name after demo  
                   }
               
