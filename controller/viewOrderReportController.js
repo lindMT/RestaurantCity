@@ -188,192 +188,223 @@ async function generateReport(distinctDishes, dateArray, qtyValues, priceValues)
 
 // CONTROLLER //
 const viewOrderReportController = {
-    getPeriodical: function(req, res) {
-        const reportTypeLabels = ["Daily", "Weekly", "Monthly", "Yearly"];
-        res.render('viewPeriodicalOR', {reportTypeLabels});
-    },
-
-    postPeriodical: async function (req, res) {
-        try{
-            console.log("---------- PERIODICAL ORDER REPORT ----------");
-
-            // get date inputs
-            var reportType = req.body.filterType;
-            var selectedDate = req.body.selectedDate;
-            var dateString = "Sample";
+    getPeriodical: async function(req, res) {
+        if(req.session.isAuth && (req.session.position == 'admin')){
             const reportTypeLabels = ["Daily", "Weekly", "Monthly", "Yearly"];
-            console.log(reportType);
-            console.log(selectedDate);
-            console.log(dateString);
-
-            switch(reportType){
-                case '1':
-                    console.log("Entered 1 - Daily");
-                    var startDateObject = getDay(selectedDate);
-                    var endDateObject = getDay(selectedDate);
-                    dateString = formatDayDate(startDateObject);
-                    break;
-                case '2':
-                    console.log("Entered 2 - Weekly");
-                    var { startDateObject, endDateObject } = getWeek(selectedDate);
-                    var startDateString = formatDayDate(startDateObject);
-                    var endDateString = formatDayDate(endDateObject);
-                    dateString = `${startDateString} to ${endDateString}`
-                    break;
-                case '3':
-                    console.log("Entered 3 - Monthly");
-                    var { startDateObject, endDateObject } = getMonth(selectedDate);
-                    dateString = formatMonthDate(startDateObject);
-                    break;
-                case '4':
-                    console.log("Entered 4 - Yearly");
-                    var { startDateObject, endDateObject } = getYear(selectedDate);
-                    dateString = startDateObject.getFullYear();
-                    break;
-            }
-            console.log("DATES:");
-            console.log(startDateObject);
-            console.log(endDateObject);
-            
-            // get dates between start and end
-            var dateArray = getDates(startDateObject, endDateObject);
-
-            // instantiate array for values
-            var qtyValues = [];
-            var priceValues = [];
-
-            // get unique dish names
-            var distinctDishes = await Dish.distinct('name').exec();
-
-            await generateReport(distinctDishes, dateArray, qtyValues, priceValues);
-
-            res.render('postPeriodicalOR', {reportTypeLabels, selectedDate, dateString, startDateObject, endDateObject, distinctDishes, qtyValues, priceValues});
-        }catch(error){
-            console.error(error);
-            res.status(500).send("An error occurred");
+            res.render('viewPeriodicalOR', {reportTypeLabels});
+        } else {
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
         }
     },
 
-    getCustom: function(req, res) {
-        res.render('viewCustomOR');
+    postPeriodical: async function (req, res) {
+        if(req.session.isAuth && (req.session.position == 'admin')){
+            try{
+                console.log("---------- PERIODICAL ORDER REPORT ----------");
+
+                // get date inputs
+                var reportType = req.body.filterType;
+                var selectedDate = req.body.selectedDate;
+                var dateString = "Sample";
+                const reportTypeLabels = ["Daily", "Weekly", "Monthly", "Yearly"];
+                console.log(reportType);
+                console.log(selectedDate);
+                console.log(dateString);
+
+                switch(reportType){
+                    case '1':
+                        console.log("Entered 1 - Daily");
+                        var startDateObject = getDay(selectedDate);
+                        var endDateObject = getDay(selectedDate);
+                        dateString = formatDayDate(startDateObject);
+                        break;
+                    case '2':
+                        console.log("Entered 2 - Weekly");
+                        var { startDateObject, endDateObject } = getWeek(selectedDate);
+                        var startDateString = formatDayDate(startDateObject);
+                        var endDateString = formatDayDate(endDateObject);
+                        dateString = `${startDateString} to ${endDateString}`
+                        break;
+                    case '3':
+                        console.log("Entered 3 - Monthly");
+                        var { startDateObject, endDateObject } = getMonth(selectedDate);
+                        dateString = formatMonthDate(startDateObject);
+                        break;
+                    case '4':
+                        console.log("Entered 4 - Yearly");
+                        var { startDateObject, endDateObject } = getYear(selectedDate);
+                        dateString = startDateObject.getFullYear();
+                        break;
+                }
+                console.log("DATES:");
+                console.log(startDateObject);
+                console.log(endDateObject);
+                
+                // get dates between start and end
+                var dateArray = getDates(startDateObject, endDateObject);
+
+                // instantiate array for values
+                var qtyValues = [];
+                var priceValues = [];
+
+                // get unique dish names
+                var distinctDishes = await Dish.distinct('name').exec();
+
+                await generateReport(distinctDishes, dateArray, qtyValues, priceValues);
+
+                res.render('postPeriodicalOR', {reportTypeLabels, selectedDate, dateString, startDateObject, endDateObject, distinctDishes, qtyValues, priceValues});
+            }catch(error){
+                console.error(error);
+                res.status(500).send("An error occurred");
+            }
+        } else {
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        }
+    },
+
+    getCustom: async function(req, res) {
+        if(req.session.isAuth && (req.session.position == 'admin')){
+            res.render('viewCustomOR');
+        } else {
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+        }
     },
 
     postCustom: async function (req, res) {
-        try{
-            console.log("---------- CUSTOM ORDER REPORT ----------");
+        if(req.session.isAuth && (req.session.position == 'admin')){
+            try{
+                console.log("---------- CUSTOM ORDER REPORT ----------");
 
-            // get date inputs
-            var startDate = req.body.startDate;
-            var endDate = req.body.endDate;
-            console.log("START DATE: " + startDate);
-            console.log("END DATE: " + endDate);
+                // get date inputs
+                var startDate = req.body.startDate;
+                var endDate = req.body.endDate;
+                console.log("START DATE: " + startDate);
+                console.log("END DATE: " + endDate);
 
-            // set string to Date type
-            const startDateObject = new Date(startDate);
-            const endDateObject = new Date(endDate);
+                // set string to Date type
+                const startDateObject = new Date(startDate);
+                const endDateObject = new Date(endDate);
 
-            // get formatted String for dates
-            const formattedStartDate = formatDayDate(startDateObject);
-            const formattedEndDate = formatDayDate(endDateObject);
-            const dateString = `${formattedStartDate} to ${formattedEndDate}`;
+                // get formatted String for dates
+                const formattedStartDate = formatDayDate(startDateObject);
+                const formattedEndDate = formatDayDate(endDateObject);
+                const dateString = `${formattedStartDate} to ${formattedEndDate}`;
 
-            // get dates between start and end
-            var dateArray = getDates(startDateObject, endDateObject);
+                // get dates between start and end
+                var dateArray = getDates(startDateObject, endDateObject);
 
-            // instantiate array for values
-            var qtyValues = [];
-            var priceValues = [];
+                // instantiate array for values
+                var qtyValues = [];
+                var priceValues = [];
 
-            // get unique dish names
-            var distinctDishes = await Dish.distinct('name').exec();
+                // get unique dish names
+                var distinctDishes = await Dish.distinct('name').exec();
 
-            await generateReport(distinctDishes, dateArray, qtyValues, priceValues);
+                await generateReport(distinctDishes, dateArray, qtyValues, priceValues);
 
-            res.render('postCustomOR', {startDate, startDateObject, endDate, endDateObject, dateString, distinctDishes, qtyValues, priceValues});
-        }catch(error){
-            console.error(error);
-            res.status(500).send("An error occurred");
+                res.render('postCustomOR', {startDate, startDateObject, endDate, endDateObject, dateString, distinctDishes, qtyValues, priceValues});
+            }catch(error){
+                console.error(error);
+                res.status(500).send("An error occurred");
+            }
+        } else {
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
         }
     },
 
     getDetailed: async function (req, res) {
-        try{
-            console.log("---------- DETAILED ORDER REPORT ----------");
+        if(req.session.isAuth && (req.session.position == 'admin')){
+            try{
+                console.log("---------- DETAILED ORDER REPORT ----------");
 
-            const dateString = req.body.dateString;
-            const dishName = req.body.dishName;
-            const startDateObject = new Date(req.body.startDateObj);
-            const endDateObject = new Date(req.body.endDateObj);
-            var dateArray = [];
+                const dateString = req.body.dateString;
+                const dishName = req.body.dishName;
+                const startDateObject = new Date(req.body.startDateObj);
+                const endDateObject = new Date(req.body.endDateObj);
+                var dateArray = [];
 
-            // get dates between start and end
-            if (startDateObject != endDateObject){ // check if not daily report
-                dateArray = getDates(startDateObject, endDateObject);
-            }else{
-                dateArray.push(startDateObject);
-            }
-            
-            // instantiate columns
-            var index = 0;
-            var dateValues = [];
-            var qtyValues = [];
-            var priceValues = [];
-            var userValues = [];
+                // get dates between start and end
+                if (startDateObject != endDateObject){ // check if not daily report
+                    dateArray = getDates(startDateObject, endDateObject);
+                }else{
+                    dateArray.push(startDateObject);
+                }
+                
+                // instantiate columns
+                var index = 0;
+                var dateValues = [];
+                var qtyValues = [];
+                var priceValues = [];
+                var userValues = [];
 
-            // loop through all dates
-            for (var d = 0; d < dateArray.length; d++){
-                // get orders that fall within the specified time frame
-                var orders = await Order.find({
-                    date: {
-                        $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
-                    }
-                }); // orders stores date as a String
-                // loop through all orders
-                for (var o = 0; o < orders.length; o++){
-                    // get all order items associated with that order
-                    var orderItems = await OrderItem.find({orderID: orders[o]._id});
-                    for (var p = 0; p < orderItems.length; p++){
-                        // get all dishes listed as an order item
-                        var dishes = await Dish.find({_id: orderItems[p].dishID});
-                        // check if the dish in the order matches the current dish
-                        for (var q = 0; q < dishes.length; q++){
-                            if(dishName == dishes[q].name){
-                                console.log("----- Order Found (Index " + index + ")");
-                                // add date (formatted)
-                                var tempDate = new Date(orders[o].date);
-                                dateValues[index] = formatDateTime(tempDate);
-                                // console.log(tempDate.toString());
+                // loop through all dates
+                for (var d = 0; d < dateArray.length; d++){
+                    // get orders that fall within the specified time frame
+                    var orders = await Order.find({
+                        date: {
+                            $regex: new RegExp("^" + dateArray[d].toString().substr(0, 15))
+                        }
+                    }); // orders stores date as a String
+                    // loop through all orders
+                    for (var o = 0; o < orders.length; o++){
+                        // get all order items associated with that order
+                        var orderItems = await OrderItem.find({orderID: orders[o]._id});
+                        for (var p = 0; p < orderItems.length; p++){
+                            // get all dishes listed as an order item
+                            var dishes = await Dish.find({_id: orderItems[p].dishID});
+                            // check if the dish in the order matches the current dish
+                            for (var q = 0; q < dishes.length; q++){
+                                if(dishName == dishes[q].name){
+                                    console.log("----- Order Found (Index " + index + ")");
+                                    // add date (formatted)
+                                    var tempDate = new Date(orders[o].date);
+                                    dateValues[index] = formatDateTime(tempDate);
+                                    // console.log(tempDate.toString());
 
-                                // add quantity
-                                qtyValues[index] = +(orderItems[p].qty);
-                                // console.log("Qty: " + orderItems[p].qty);
+                                    // add quantity
+                                    qtyValues[index] = +(orderItems[p].qty);
+                                    // console.log("Qty: " + orderItems[p].qty);
 
-                                // add total price
-                                priceValues[index] = +(dishes[q].price*orderItems[p].qty);
-                                // console.log("Price Each: " + dishes[q].price);
-                                // console.log("Price*Qty: " + (dishes[q].price*orderItems[p].qty));
+                                    // add total price
+                                    priceValues[index] = +(dishes[q].price*orderItems[p].qty);
+                                    // console.log("Price Each: " + dishes[q].price);
+                                    // console.log("Price*Qty: " + (dishes[q].price*orderItems[p].qty));
 
-                                // add user (username)
-                                userValues[index] = orders[o].takenBy; // orders uses username by default
-                                // console.log(orders[o].takenBy);
-                                
-                                console.log("dateValues["+index+"]: "+ dateValues[index]);
-                                console.log("qtyValues[" + index + "]: " + qtyValues[index]);
-                                console.log("priceValues[" + index + "]: " + priceValues[index]);
-                                console.log("userValues["+index+"]: " + userValues[index]);
+                                    // add user (username)
+                                    userValues[index] = orders[o].takenBy; // orders uses username by default
+                                    // console.log(orders[o].takenBy);
+                                    
+                                    console.log("dateValues["+index+"]: "+ dateValues[index]);
+                                    console.log("qtyValues[" + index + "]: " + qtyValues[index]);
+                                    console.log("priceValues[" + index + "]: " + priceValues[index]);
+                                    console.log("userValues["+index+"]: " + userValues[index]);
 
-                                //increment index
-                                index++;
+                                    //increment index
+                                    index++;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            res.render('detailedOrderReport', {dateString, dishName, dateValues, qtyValues, priceValues, userValues});
-        }catch(error){
-            console.error(error);
-            res.status(500).send("An error occurred");
+                res.render('detailedOrderReport', {dateString, dishName, dateValues, qtyValues, priceValues, userValues});
+            }catch(error){
+                console.error(error);
+                res.status(500).send("An error occurred");
+            }
+        } 
+        else {
+            console.log("Unauthorized access.");
+            req.session.destroy();
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
         }
     }
 }
