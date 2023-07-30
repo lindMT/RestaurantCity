@@ -38,11 +38,11 @@
                 <tr>
                     <td style="text-transform: capitalize;"><%= ingredients[i].name %></td>
                     <!-- TODO: To be replaced with actual data -->
-                    <% if(netWeights[i].totalNetWeight > reorderPoints[i].reorderPoint){ %>
+                    <% if(ingredients[i].totalNetWeight > ingredients[i].reorderPoint){ %>
                         <td class="table-success">  
                             In stock
                         </td>
-                    <% } else if (netWeights[i].totalNetWeight <= reorderPoints[i].reorderPoint && netWeights[i].totalNetWeight != 0) { %>
+                    <% } else if (ingredients[i].totalNetWeight <= ingredients[i].reorderPoint && (ingredients[i].totalNetWeight != 0)) { %>
                         <td class="table-warning">  
                             Low in Stock
                         </td>

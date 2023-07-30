@@ -44,21 +44,21 @@ const convertNetWeight = async(netWeight, initialUnitId, convertedUnitId) => {
 
 const inputPhysicalController = {
     getInputPhysCount: async(req, res) => {
-        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+        if (req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")) {
             try {
                 const foundIngredients = await Ingredient.find().sort({ name: 1 });
                 const foundVariations = await IngreVariation.find();
                 const foundUnits = await Unit.find();
-    
+
                 const ingredientVariationsWithDetails = await Promise.all(
                     foundVariations.map(async(variation) => {
                         const unit = await Unit.findById(variation.unitID);
                         const ingredient = await Ingredient.findById(variation.ingreID);
-    
+
                         const unitName = unit ? unit.unitName : '';
                         const unitSymbol = unit ? unit.unitSymbol : '';
                         const ingredientName = ingredient ? ingredient.name : '';
-    
+
                         return {
                             ...variation.toObject(),
                             unitName,
@@ -67,7 +67,7 @@ const inputPhysicalController = {
                         };
                     })
                 );
-    
+
                 res.render('inputPhysicalCount', {
                     ingredients: foundIngredients,
                     ingredientVariations: ingredientVariationsWithDetails,
@@ -77,24 +77,24 @@ const inputPhysicalController = {
                 console.error(error);
                 res.status(500).send("An error occurred while fetching input physical count data.");
             }
-        }else{
+        } else {
             console.log("Unauthorized access.");
             req.session.destroy();
-            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." });
         }
     },
 
     postInputPhysCount: async(req, res) => {
-        if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")){
+        if (req.session.isAuth && (req.session.position == "admin" || req.session.position == "stockController")) {
             try {
                 const inputs = req.body;
                 const netWeightSum = {}; // To store the net weight sum for each main ingredient
-    
+
                 // Handle ingredients with no packaging options (e.g., Beef)
                 for (const key in inputs) {
                     if (inputs.hasOwnProperty(key)) {
                         const [type, prefix, id] = key.split('_');
-    
+
                         if (type === 'others' && prefix === 'netwt') {
                             // Handling ingredients with no packaging option (partials)
                             const ingredientId = id;
@@ -103,14 +103,14 @@ const inputPhysicalController = {
                                 // Only perform conversion if the net weight is provided
                                 const partialsUnitID = inputs[`others_unit_${ingredientId}`]; // Get the unit ID for partials from corresponding input
                                 const ingredient = await Ingredient.findById(ingredientId);
-    
+
                                 // Convert the net weight based on partials' unit asynchronously
                                 const convertedNetWeight = await convertNetWeight(
                                     partialsNetWeight,
                                     partialsUnitID,
                                     ingredient.unitID.toString()
                                 );
-    
+
                                 if (!netWeightSum[ingredientId]) {
                                     netWeightSum[ingredientId] = {
                                         totalNetWeight: convertedNetWeight,
@@ -122,39 +122,39 @@ const inputPhysicalController = {
                             } else {
                                 // If net weight and unit are not provided, set net weight to 0 and the unit to the main ingredient unit
                                 const ingredient = await Ingredient.findById(ingredientId);
-    
+
                                 if (ingredient) {
                                     netWeightSum[ingredientId] = netWeightSum[ingredientId] || {
                                         totalNetWeight: 0,
                                         unitID: ingredient.unitID,
-    
+
                                     }
                                 }
                             }
                         }
                     }
                 }
-    
+
                 // Loop through the input fields to handle ingredient variations and partials
                 for (const key in inputs) {
                     if (inputs.hasOwnProperty(key)) {
                         const [type, prefix, id] = key.split('_');
-    
+
                         if (type === 'variant' && prefix === 'qty') {
                             // Handling variation quantities
                             const variation = await IngreVariation.findById(id);
                             const ingredientId = variation.ingreID.toString();
-    
+
                             // Find the main ingredient related to this variation
                             const ingredient = await Ingredient.findById(ingredientId);
-    
+
                             // Call convertNetWeight to convert the net weight of the variation
                             const convertedNetWeight = await convertNetWeight(
                                 Number(variation.netWeight) * Number(inputs[key]), // Net weight of the variation * Quantity Left
                                 variation.unitID.toString(), // Initial unit ID of the variation
                                 ingredient.unitID.toString() // Converted unit ID of the main ingredient
                             );
-    
+
                             // Add the net weight of the opened/partials, if provided, to the converted net weight
                             const partialsNetWeight = Number(inputs[`partials_${id}`]) || 0; // Get the net weight of the partials (default to 0 if null)
                             const partialsUnitID = variation.unitID.toString(); // Use the same unit ID as the variation
@@ -163,68 +163,77 @@ const inputPhysicalController = {
                                 partialsUnitID,
                                 ingredient.unitID.toString()
                             );
-    
+
                             netWeightSum[ingredientId] = netWeightSum[ingredientId] || {
                                 totalNetWeight: 0,
                                 unitID: variation.unitID, // Use the correct unit ID for the variation
                             };
-    
+
                             netWeightSum[ingredientId].totalNetWeight += convertedNetWeight + convertedPartialsNetWeight;
                         }
                     }
                 }
-    
+
                 // Create an array to store mismatched data
                 const mismatches = [];
-    
-                // Compare the variation sum with the main ingredient's total net weight
+
+                // Calculate mismatches and update totalNetWeight for each main ingredient
                 for (const ingredientId in netWeightSum) {
                     if (netWeightSum.hasOwnProperty(ingredientId)) {
                         const variationTotalNetWeight = netWeightSum[ingredientId].totalNetWeight;
                         const ingredient = await Ingredient.findById(ingredientId);
-    
+
                         if (ingredient) {
-                            const mainIngredientTotalNetWeight = Number(ingredient.totalNetWeight);
-    
+                            // Get the current total net weight of the main ingredient
+                            const mainIngredient = await Ingredient.findById(ingredientId);
+                            let mainIngredientTotalNetWeight = Number(mainIngredient.totalNetWeight);
+
+                            // Calculate the difference between current totalNetWeight and the calculated variationTotalNetWeight
                             const difference = variationTotalNetWeight - mainIngredientTotalNetWeight;
-    
-                            // Get the unit symbol of the main ingredient
-                            const mainIngredientUnit = await Unit.findById(ingredient.unitID);
-                            const unitSymbol = mainIngredientUnit.unitSymbol;
-    
-                            // Get the current date
-                            const currentDate = new Date();
-    
-                            // Find the user by their username
-                            const user = await User.findOne({ userName: req.session.userName });
-                            // Get the user ID
-                            const userId = user._id;
-    
-                            // Create a mismatch record in the audit
-                            const mismatch = new Mismatch({
-                                ingreID: ingredientId, // Use ingredientId obtained from the loop
-                                date: currentDate,
-                                doneBy: userId,
-                                difference,
-                                unitID: ingredient.unitID,
-                            });
-    
-                            // Add the mismatched data to the array
-                            mismatches.push({
-                                ingredientName: ingredient.name,
-                                mainIngredientTotalNetWeight,
-                                difference,
-                                unitSymbol,
-                            });
-    
-                            await mismatch.save();
+
+                            if (difference !== 0) {
+                                // Update the main ingredient's totalNetWeight if there is a mismatch
+                                mainIngredient.totalNetWeight = variationTotalNetWeight;
+
+                                // Store the initial totalNetWeight of the main ingredient
+                                mainIngredient.initialTotalNetWeight = mainIngredientTotalNetWeight;
+
+                                // Save the updated main ingredient in the database
+                                await mainIngredient.save();
+
+                                // Add the mismatched data to the array
+                                const mainIngredientUnit = await Unit.findById(mainIngredient.unitID);
+                                const unitSymbol = mainIngredientUnit.unitSymbol;
+                                // Find the user by their username
+                                const user = await User.findOne({ userName: req.session.userName });
+                                // Get the user ID
+                                const userId = user._id;
+                                // Create a mismatch record in the audit
+                                const mismatch = new Mismatch({
+                                    ingreID: ingredientId,
+                                    date: new Date(),
+                                    doneBy: userId,
+                                    difference,
+                                    unitID: mainIngredient.unitID,
+                                });
+
+                                mismatches.push({
+                                    ingredientName: mainIngredient.name,
+                                    mainIngredientTotalNetWeight,
+                                    difference,
+                                    unitSymbol,
+                                });
+
+                                await mismatch.save();
+                            }
                         }
                     }
                 }
-    
+
                 // Check if all mismatches have difference = 0
                 const allMismatchesZero = mismatches.every((mismatch) => mismatch.difference === 0);
-    
+
+
                 // Pass the mismatches data to the template engine
                 return res.render('inputPhysicalCountP2', {
                     title: "Input Physical Count",
@@ -238,10 +247,10 @@ const inputPhysicalController = {
         } else {
             console.log("Unauthorized access.");
             req.session.destroy();
-            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+            return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." });
         }
     }
 
-        
+
 };
 module.exports = inputPhysicalController;
