@@ -4,7 +4,13 @@ const bcrypt = require("bcrypt");
 const userController = {
 
     getAdminConfirmation: function(req, res) {
-        res.render('adminConfirmation', {adminConfirmationPrompt: ""} );
+        if(req.session.isAuth && req.session.position == "admin"){
+            res.render('adminConfirmation', {adminConfirmationPrompt: ""} );
+        } else{
+            req.flash('error_msg', 'Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in.');
+            console.log("Unauthorized access.");
+            return res.redirect('/login');
+        }
     },
 
     adminConfirmation: function(req, res) {
