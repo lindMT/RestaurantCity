@@ -145,7 +145,12 @@ const manageConversionsController = {
             convertedUnitId: subUnit._id
         });
 
-        if(duplicateConversion){ 
+        const duplicateFixedConversion = await FixedConversion.findOne({
+            initialUnitId: ingredient._id,
+            convertedUnitId: subUnit._id
+        });
+
+        if(duplicateConversion || duplicateFixedConversion){ 
             req.flash('error_msg', 'Conversion already exists, Please input a different one')
             console.log("Conversion already exists")
 
