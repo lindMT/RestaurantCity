@@ -32,6 +32,7 @@ const orderController = {
     },
     
     processOrder: async function(req, res){
+      if(req.session.isAuth && (req.session.position == "admin" || req.session.position == "cashier")){
       try{
         // toggle this to true/false to test
         let orderIsViable = true;
@@ -282,6 +283,11 @@ const orderController = {
         catch(error){
           console.error(error);
       }
-    },
+    }else {
+      console.log("Unauthorized access.");
+      req.session.destroy();
+        return res.render('login', { error_msg: "Unauthorized access. Please refrain from accessing restricted modules without proper authorization or logging in." } );
+    }
+  }
 };
 module.exports = orderController;
