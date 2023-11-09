@@ -6,7 +6,7 @@ const sampleData = require("../sampleData/sampleData.js");
 const reorderTrigger = require('../public/js/reorderTrigger.js');
 
 // UNCOMMENT TO LOAD DATA
-// sampleData.addSamples();
+sampleData.addSamples();
 
 const loginController = {
     // for redirecting login and signup
